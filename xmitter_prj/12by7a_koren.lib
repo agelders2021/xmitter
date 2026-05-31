@@ -1,0 +1,42 @@
+* 12BY7A Koren-style pentode model
+* High-perveance beam pentode (RCA/GE TV video amplifier, classic HF driver tube)
+*
+* Datasheet anchor points (GE 12BY7-A class A1):
+*   Vp=250V, Vs=180V, Vg=-3.2V (100 ohm self-bias)
+*     -> Ip=26 mA, Is=5.75 mA, gm = 11 mA/V
+*   Vp=250V, Vs=180V, Vg=0V -> Ip ~ 85 mA (from average plate characteristics)
+*   Triode amplification factor = 28.5
+*   Cgp = 0.063 pF, Cin = 10.2 pF, Cout = 3.5 pF
+*
+* Pin order: A=plate, S=screen, G=grid1, K=cathode
+*
+* The high gm at modest Ip pushes the exponent toward EX=2.0 rather than the
+* Child-Langmuir 3/2.  Same anti-negative-current safety as 6146B_K.
+
+.SUBCKT 12BY7A_K A S G K
+
+.PARAM MUS = 25
+.PARAM MU  = 1000
+.PARAM EX  = 2.0
+.PARAM KG1 = 860
+.PARAM KP  = 80
+.PARAM KVB = 30
+
+* Effective grid voltage (Koren form, always >= 0)
+E1 e1 0 VALUE = { (MAX(V(A,K),0)/KP) * LN(1 + EXP(KP*(1/MU + (V(G,K) + V(S,K)/MUS)/SQRT(KVB + V(A,K)*V(A,K))))) }
+
+* Plate current: cathode-current * knee-factor
+G_a A K VALUE = { PWR(MAX(V(e1),1E-12), EX)/KG1 * (1 - EXP(-3*MAX(V(A,K),0)/KVB)) }
+
+* Screen current: high baseline interception (~22% at op point per spec)
+G_s S K VALUE = { PWR(MAX(V(e1),1E-12), EX)/KG1 * (EXP(-3*MAX(V(A,K),0)/KVB)*0.5 + (1 - EXP(-3*MAX(V(A,K),0)/KVB))*0.22) }
+
+* Grid-1 current (only when grid goes positive)
+G_g G K VALUE = { PWR(MAX(V(G,K)+1, 1E-9), 1.5) * 100E-6 }
+
+* Interelectrode capacitances
+C_GK G K 10.2P
+C_AK A K  3.5P
+C_GA G A  0.063P
+
+.ENDS 12BY7A_K

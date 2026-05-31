@@ -1,0 +1,58 @@
+<Qucs Schematic 0.0.19>
+
+<Component 6CL6>
+
+<Description>
+6CL6 RF Pentode
+</Description>
+
+<Symbol>
+
+<Line -20 -30 20 -30>
+<Line 20 -30 20 30>
+<Line 20 30 -20 30>
+<Line -20 30 -20 -30>
+
+<!-- Plate -->
+<Line 20 -20 35 -20>
+
+<!-- Screen -->
+<Line 20 0 35 0>
+
+<!-- Control grid -->
+<Line 20 20 35 20>
+
+<!-- Cathode -->
+<Line -20 20 -35 20>
+
+<!-- Internal structure -->
+<Line -10 -25 -10 25>
+<Line 0 -25 0 25>
+
+<Text 38 -24 "P">
+<Text 38 -4 "G2">
+<Text 38 16 "G1">
+<Text -55 16 "K">
+
+</Symbol>
+
+<Ports>
+
+<Port P 35 -20 1 0>
+<Port G2 35 0 2 0>
+<Port G1 35 20 3 0>
+<Port K -35 20 4 180>
+
+</Ports>
+
+<Model>
+
+<Type>SubCircuit</Type>
+
+<Name>6CL6</Name>
+
+<File>6CL6.lib</File>
+
+</Model>
+
+</Component>

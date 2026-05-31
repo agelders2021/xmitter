@@ -1,0 +1,179 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+(* CreatedBy='Mathematica' *)
+
+Notebook[{
+
+Cell["ATU Dual-Inductor Coverage Optimizer (closed-form)", "Title"],
+
+Cell["Balanced push-pull Pi-network ATU with two relay-switched inductor values L_low and L_high per leg. Goal: find the pair (L_low, L_high) that maximizes the load-impedance coverage area when R2 = 450 Ohm and caps are 25-365 pF.", "Text"],
+
+Cell["This rewrite uses a closed-form match check instead of NMinimize. The Pi conjugate-match equations reduce to a single 1D root-finding problem in C_OUT (a quadratic in u = w*C_out + B_L). Plot generation is microseconds per point instead of seconds, so coverage maps and grid searches run in real time.", "Text"],
+
+Cell["Output is Boolean: True if (C_IN, C_OUT) in their ranges that achieves a perfect match exist for the given L and load; False otherwise. The continuous |Gamma| from the old notebook is not computed here.", "Text"],
+
+Cell["Setup", "Section"],
+
+Cell["freq = 14.2*10^6;
+w = N[2 Pi freq];
+cinMin = 25; cinMax = 365;
+coutMin = 25; coutMax = 365;
+R2target = 450;
+loadRMin = 50; loadRMax = 2000;
+loadXMin = -1000; loadXMax = 1000;", "Input"],
+
+Cell["Closed-form matchability check", "Section"],
+
+Cell["For target Z_in_diff = R2 (real), per-leg Y_leg = 2/R2.
+Defining u = w*C_out + B_L (where B_L = 2 Im(1/Z_load)):
+  R_n = G_L / (G_L^2 + u^2)
+  X_n = -u / (G_L^2 + u^2)
+The match condition is (w*L + X_n)^2 = R_n*(R2/2 - R_n), a function of u (and therefore C_out).
+Once a root is found in [coutMin, coutMax], C_in is determined by C_in = 2*(w*L + X_n) / (R2 * R_n * w).
+A load is matchable iff at least one such root yields C_in inside [cinMin, cinMax].", "Text"],
+
+Cell["matchOK[LuH_?NumericQ, R2_?NumericQ, Zload_?NumericQ] := Module[
+  {L, gl, bl, coutSamples, eqVals, signs, found, i, c1, c2, fc1, fc2, croot, u, Rn, Xn, cin},
+  L = LuH * 10^-6;
+  gl = 2.0 * Re[1/Zload];
+  bl = 2.0 * Im[1/Zload];
+  coutSamples = N[Range[coutMin, coutMax, (coutMax - coutMin)/40.]];
+  eqVals = Map[Function[c, Module[{uu, RR, XX},
+       uu = w*c*10^-12 + bl;
+       RR = gl / (gl^2 + uu^2);
+       XX = -uu / (gl^2 + uu^2);
+       (w*L + XX)^2 - RR*(R2/2 - RR)
+     ]], coutSamples];
+  signs = Sign /@ eqVals;
+  found = False;
+  Do[
+    If[signs[[i]] != 0 && signs[[i+1]] != 0 && signs[[i]] != signs[[i+1]],
+      c1 = coutSamples[[i]]; c2 = coutSamples[[i+1]];
+      fc1 = eqVals[[i]];  fc2 = eqVals[[i+1]];
+      croot = c1 - fc1*(c2 - c1)/(fc2 - fc1);
+      u = w*croot*10^-12 + bl;
+      Rn = gl / (gl^2 + u^2);
+      Xn = -u / (gl^2 + u^2);
+      If[Rn > 0 && Rn < R2/2,
+        cin = (w*L + Xn) * 2 / (R2 * Rn * w) * 10^12;
+        If[cinMin <= cin <= cinMax, found = True; Break[]]
+      ]
+    ],
+    {i, 1, Length[coutSamples] - 1}
+  ];
+  found
+  ]", "Input"],
+
+Cell["bestOfTwo[Llow_, Lhigh_, Zload_] := matchOK[Llow, R2target, Zload] || matchOK[Lhigh, R2target, Zload]", "Input"],
+
+Cell["Coverage visualization (fast)", "Section"],
+
+Cell["singlePlot[L_, npts_:30] := DensityPlot[
+  Boole[matchOK[L, R2target, rl + I*xl]],
+  {rl, loadRMin, loadRMax}, {xl, loadXMin, loadXMax},
+  PlotPoints -> npts,
+  ColorFunction -> (Blend[{White, Blue}, #] &),
+  PlotLegends -> None,
+  FrameLabel -> {\"Load R (Ohm)\", \"Load X (Ohm)\"},
+  PlotLabel -> Row[{\"Matchable region: L = \", L, \" uH\"}]
+  ]", "Input"],
+
+Cell["coverPlot[Llow_, Lhigh_, npts_:30] := DensityPlot[
+  Boole[bestOfTwo[Llow, Lhigh, rl + I*xl]],
+  {rl, loadRMin, loadRMax}, {xl, loadXMin, loadXMax},
+  PlotPoints -> npts,
+  ColorFunction -> (Blend[{White, Blue}, #] &),
+  PlotLegends -> None,
+  FrameLabel -> {\"Load R (Ohm)\", \"Load X (Ohm)\"},
+  PlotLabel -> Row[{\"Matchable region. L_low = \", Llow, \" uH, L_high = \", Lhigh, \" uH\"}]
+  ]", "Input"],
+
+Cell["coveragePct[Llow_, Lhigh_, npts_:30] := Module[{rlList, xlList, count},
+  rlList = Range[loadRMin, loadRMax, (loadRMax - loadRMin)/(npts - 1)];
+  xlList = Range[loadXMin, loadXMax, (loadXMax - loadXMin)/(npts - 1)];
+  count = 0;
+  Do[
+    If[bestOfTwo[Llow, Lhigh, rl + I*xl], count = count + 1],
+    {rl, rlList}, {xl, xlList}
+    ];
+  100.0 * count / (Length[rlList] * Length[xlList])
+  ]", "Input"],
+
+Cell["Interactive explorer", "Section"],
+
+Cell["Drag the L_low and L_high sliders. Plot is now fast enough for continuous updates if your machine can keep up; ContinuousAction is left True. The blue area is the matchable region; white is unmatchable with the chosen L values.", "Text"],
+
+Cell["Manipulate[
+  Column[{
+    coverPlot[Llow, Lhigh, npts],
+    Row[{\"Coverage: \", NumberForm[coveragePct[Llow, Lhigh, npts], {5,1}], \" %\"}]
+  }],
+  {{Llow,  1.5, \"L_low (uH)\"},   0.3, 5.0,  0.05, Appearance -> \"Labeled\"},
+  {{Lhigh, 4.0, \"L_high (uH)\"},  1.0, 12.0, 0.05, Appearance -> \"Labeled\"},
+  {{npts, 25, \"Grid resolution\"}, {15, 20, 25, 30, 40}}
+  ]", "Input"],
+
+Cell["Side-by-side comparison", "Section"],
+
+Cell["GraphicsRow[
+  {singlePlot[1.5, 30], singlePlot[4.0, 30], coverPlot[1.5, 4.0, 30]},
+  ImageSize -> 1500
+  ]", "Input"],
+
+Cell["Coverage percentage for a candidate pair", "Section"],
+
+Cell["coveragePct[1.5, 4.0, 30]", "Input"],
+
+Cell["Grid search for best (L_low, L_high)", "Section"],
+
+Cell["With the closed-form check this completes in seconds rather than minutes.", "Text"],
+
+Cell["searchBestPair[gridStep_:0.25, npts_:25] := Module[{best, cov, ll, lh},
+  best = {0.0, {0, 0}};
+  Do[
+    cov = coveragePct[ll, lh, npts];
+    If[cov > best[[1]], best = {cov, {ll, lh}}],
+    {ll, 0.5, 3.5, gridStep},
+    {lh, 2.5, 9.0, gridStep}
+    ];
+  Row[{\"Best (L_low, L_high) = \", best[[2]], \"  Coverage = \", NumberForm[best[[1]], {5,1}], \" %\"}]
+  ]", "Input"],
+
+Cell["searchBestPair[0.25, 25]", "Input"],
+
+Cell["Refine the winner with a finer grid", "Section"],
+
+Cell["After the coarse search, you can search a tighter box around the best pair for a precise answer. Substitute the centers reported by searchBestPair above:", "Text"],
+
+Cell["refineSearch[llCenter_, lhCenter_, range_:0.5, gridStep_:0.05, npts_:30] := Module[{best, cov, ll, lh},
+  best = {0.0, {0, 0}};
+  Do[
+    cov = coveragePct[ll, lh, npts];
+    If[cov > best[[1]], best = {cov, {ll, lh}}],
+    {ll, Max[0.3, llCenter - range], llCenter + range, gridStep},
+    {lh, Max[1.0, lhCenter - range], lhCenter + range, gridStep}
+    ];
+  Row[{\"Refined (L_low, L_high) = \", best[[2]], \"  Coverage = \", NumberForm[best[[1]], {5,1}], \" %\"}]
+  ]", "Input"],
+
+Cell["refineSearch[1.5, 4.0, 0.5, 0.05, 30]", "Input"],
+
+Cell["Starting-point reasoning", "Section"],
+
+Cell["Pi-network natural impedance per leg: Z0 = sqrt(L / C_geo), where C_geo is the geometric mean of usable caps.
+  - C_geo = sqrt(25 * 365) pF = 95.5 pF
+  - L = 1.5 uH: Z0 = sqrt(1.5e-6 / 95.5e-12) = 125 Ohm per leg = 250 Ohm diff
+  - L = 4.0 uH: Z0 = sqrt(4.0e-6 / 95.5e-12) = 205 Ohm per leg = 410 Ohm diff
+  - L = 6.0 uH: Z0 = sqrt(6.0e-6 / 95.5e-12) = 250 Ohm per leg = 500 Ohm diff
+
+A Pi matches loads within roughly Z0/Q to Z0*Q of natural impedance. Caps 25-365 pF (14.6:1) give achievable Q per L-section of roughly 0.5 to 7, so each L value covers about a decade of load impedance.
+
+For R_target = 450 Ohm and load range ~50-2000 Ohm:
+  - L_low ~ 1.5 uH covers ~50-450 Ohm range
+  - L_high ~ 4.0 uH covers ~300-2000 Ohm range
+  - Together: full ~50-2000 Ohm coverage with overlap near 400 Ohm
+
+These are the Manipulate defaults. Refine by running searchBestPair[] and then refineSearch[].", "Text"]
+
+}]

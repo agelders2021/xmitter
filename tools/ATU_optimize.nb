@@ -1,0 +1,109 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+(* CreatedBy='Mathematica' *)
+
+Notebook[{
+
+Cell["ATU Matching Range Explorer", "Title"],
+
+Cell["Balanced push-pull Pi-network ATU. Each rail: shunt C_IN to GND, series L_LEG, shunt C_OUT to GND. The differential load Z_L = R + jX is floating across the two output rails. K_SPICE between L1 and L2 is 0, so the two legs are independent. By symmetry a virtual AC ground sits at the midpoint of Z_L, so each leg sees Z_L/2 from its output to ground, and the differential input impedance is 2x the single-leg impedance.", "Text"],
+
+Cell["Operator-tunable: C_IN (8-100 pF), C_OUT (8-140 pF). Build-time design choices: R2 (driver source impedance, 500-1500 Ohm) and L_LEG (per-leg inductance). Frequency fixed at 14.2 MHz.", "Text"],
+
+Cell["Suggested starting point: R2 = 1000 Ohm, L_LEG = 3.0 uH. With these, nominal match for R_L = 450 Ohm lands near the center of both cap ranges, leaving headroom in both directions for reactive or off-nominal loads.", "Text"],
+
+Cell["Setup", "Section"],
+
+Cell["freq = 14.2*10^6;
+w = N[2 Pi freq];", "Input"],
+
+Cell["ZinDiff[Cin_, Cout_, Lleg_, Zload_] := Module[{Yout, Zmid, Yleg},
+  Yout = I*w*Cout + 2/Zload;
+  Zmid = I*w*Lleg + 1/Yout;
+  Yleg = I*w*Cin + 1/Zmid;
+  2/Yleg
+  ]", "Input"],
+
+Cell["Interactive Explorer", "Section"],
+
+Cell["All six sliders are live. Top three correspond to operator knobs (C_IN, C_OUT) and a build choice (L_LEG). Bottom three are the design target R2 and the load you're testing against.", "Text"],
+
+Cell["Manipulate[
+  Module[{Zin, gamma, gMag, vswr, rl},
+    Zin = ZinDiff[Cin*10^-12, Cout*10^-12, Lleg*10^-6, RL + I*XL];
+    gamma = (Zin - R2)/(Zin + R2);
+    gMag = Abs[gamma];
+    vswr = If[gMag < 0.999, (1+gMag)/(1-gMag), \"open\"];
+    rl = If[gMag > 0, -20 Log10[gMag], 100];
+    Grid[{
+      {\"Re(Z_in)\",    \"=\", NumberForm[Re[Zin], {6,2}], \"Ohm\"},
+      {\"Im(Z_in)\",    \"=\", NumberForm[Im[Zin], {6,2}], \"Ohm\"},
+      {\"|Gamma|\",     \"=\", NumberForm[gMag,    {5,4}], \"\"},
+      {\"SWR\",         \"=\", If[NumberQ[vswr], NumberForm[vswr,{5,3}], vswr], \"\"},
+      {\"Return loss\", \"=\", NumberForm[rl,     {5,2}], \"dB\"}
+    }, Alignment -> Left, Spacings -> {2, 1}]
+  ],
+  {{Cin,  50,   \"C_IN (pF)\"},     8,    100,  0.1,  Appearance -> \"Labeled\"},
+  {{Cout, 70,   \"C_OUT (pF)\"},    8,    140,  0.1,  Appearance -> \"Labeled\"},
+  {{Lleg, 3.0,  \"L_LEG (uH)\"},    0.5,  6.0,  0.01, Appearance -> \"Labeled\"},
+  Delimiter,
+  {{R2,   1000, \"R2 source (Ohm)\"}, 500, 1500, 10,   Appearance -> \"Labeled\"},
+  {{RL,   450,  \"Load R (Ohm)\"},  50,   2000, 10,   Appearance -> \"Labeled\"},
+  {{XL,   0,    \"Load X (Ohm)\"}, -1000, 1000, 10,   Appearance -> \"Labeled\"}
+  ]", "Input"],
+
+Cell["Auto-tune: find best caps for a chosen load", "Section"],
+
+Cell["Numerically search C_IN in [8,100] and C_OUT in [8,140] for the minimum |Gamma| given fixed R2, L_LEG, and complex load. Tells you (a) whether the load is matchable at all with this build, and (b) what cap values to dial to.", "Text"],
+
+Cell["findMatch[Lleg_, R2_, Zload_] := Module[{sol, cin, cout},
+  sol = NMinimize[
+    {Abs[(ZinDiff[cin*10^-12, cout*10^-12, Lleg, Zload] - R2)/
+         (ZinDiff[cin*10^-12, cout*10^-12, Lleg, Zload] + R2)],
+     8 <= cin <= 100, 8 <= cout <= 140},
+    {cin, cout}
+    ];
+  {cin /. sol[[2]], cout /. sol[[2]], sol[[1]]}
+  ]", "Input"],
+
+Cell["Manipulate[
+  Module[{r, cin, cout, gMin, swr},
+    r = findMatch[Lleg*10^-6, R2, RL + I*XL];
+    cin = r[[1]]; cout = r[[2]]; gMin = r[[3]];
+    swr = If[gMin < 0.999, (1+gMin)/(1-gMin), \"open\"];
+    Grid[{
+      {\"Best C_IN\",   \"=\", NumberForm[cin,  {5,2}], \"pF\"},
+      {\"Best C_OUT\",  \"=\", NumberForm[cout, {5,2}], \"pF\"},
+      {\"Min |Gamma|\", \"=\", NumberForm[gMin, {5,4}], \"\"},
+      {\"Min SWR\",     \"=\", If[NumberQ[swr], NumberForm[swr,{5,3}], swr], \"\"}
+    }, Alignment -> Left, Spacings -> {2, 1}]
+  ],
+  {{Lleg, 3.0,  \"L_LEG (uH)\"},     0.5,  6.0,  0.01, Appearance -> \"Labeled\"},
+  {{R2,   1000, \"R2 source (Ohm)\"}, 500, 1500, 10,   Appearance -> \"Labeled\"},
+  {{RL,   450,  \"Load R (Ohm)\"},   50,   2000, 10,   Appearance -> \"Labeled\"},
+  {{XL,   0,    \"Load X (Ohm)\"},  -1000, 1000, 10,   Appearance -> \"Labeled\"},
+  ContinuousAction -> False
+  ]", "Input"],
+
+Cell["Matching range map (slow - press Shift+Enter to evaluate)", "Section"],
+
+Cell["For fixed R2 and L_LEG, sweep a grid of complex loads and color by best achievable |Gamma| (cool = good match, warm = unmatchable with the given build). Use this to compare (R2, L_LEG) build choices. PlotPoints default 12 gives a quick first look; raise it for smoother contours but expect 30s+.", "Text"],
+
+Cell["matchPlot[Lleg_, R2_, npts_:12] := DensityPlot[
+  findMatch[Lleg*10^-6, R2, rl + I*xl][[3]],
+  {rl, 50, 2000}, {xl, -1000, 1000},
+  PlotPoints -> npts,
+  ColorFunction -> \"TemperatureMap\",
+  PlotLegends -> Automatic,
+  FrameLabel -> {\"Load R (Ohm)\", \"Load X (Ohm)\"},
+  PlotLabel -> Row[{\"Min |Gamma| achievable. L_LEG=\", Lleg, \" uH, R2=\", R2, \" Ohm\"}]
+  ]", "Input"],
+
+Cell["matchPlot[3.0, 1000, 12]", "Input"],
+
+Cell["Side-by-side comparison cell - copy & edit to compare two builds", "Section"],
+
+Cell["GraphicsRow[{matchPlot[2.14, 1000, 10], matchPlot[3.0, 1000, 10]}, ImageSize -> 1000]", "Input"]
+
+}]

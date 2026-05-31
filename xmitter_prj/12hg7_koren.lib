@@ -1,0 +1,42 @@
+* 12HG7 Koren-style pentode model
+* Sharp-cutoff TV video-amplifier pentode (RCA RC-30 / JEDEC #4873 1964)
+*
+* Datasheet anchor points (RCA 12HG7 Class A1):
+*   Vp=300V, Vs=165V, self-bias via 47 ohm cathode resistor
+*     -> Ip=31 mA, gm = 32 mA/V (3x the 12BY7A!)
+*     -> est. Vg = -(Ip + Is) * 47 ~= -1.7 V
+*   Cutoff: Vg=-4.5V at Vp=Vs=100V (for Ip=100 uA)
+*   Plate resistance rp ~ 32 kOhm
+*   Plate dissipation max 10 W
+*   Cgp = 0.02 pF, Cin = 10.2 pF, Cout = 4.4 pF
+*
+* Pin order: A=plate, S=screen, G=grid1, K=cathode
+*
+* Numerical safety: same MAX(...) clamps as 6146B_K / 12BY7A_K to keep
+* PWR from seeing a negative base during DC convergence.
+
+.SUBCKT 12HG7_K A S G K
+
+.PARAM MUS = 50
+.PARAM MU  = 1000
+.PARAM EX  = 2.0
+.PARAM KG1 = 119
+.PARAM KP  = 500
+.PARAM KVB = 30
+
+E1 e1 0 VALUE = { (MAX(V(A,K),0)/KP) * LN(1 + EXP(KP*(1/MU + (V(G,K) + V(S,K)/MUS)/SQRT(KVB + V(A,K)*V(A,K))))) }
+
+G_a A K VALUE = { PWR(MAX(V(e1),1E-12), EX)/KG1 * (1 - EXP(-3*MAX(V(A,K),0)/KVB)) }
+
+* Screen current: ~20% baseline interception (high-perveance pentode)
+G_s S K VALUE = { PWR(MAX(V(e1),1E-12), EX)/KG1 * (EXP(-3*MAX(V(A,K),0)/KVB)*0.5 + (1 - EXP(-3*MAX(V(A,K),0)/KVB))*0.20) }
+
+* Grid-1 current (only when grid goes positive)
+G_g G K VALUE = { PWR(MAX(V(G,K)+1, 1E-9), 1.5) * 100E-6 }
+
+* Interelectrode capacitances
+C_GK G K 10.2P
+C_AK A K  4.4P
+C_GA G A  0.02P
+
+.ENDS 12HG7_K

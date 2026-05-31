@@ -1,0 +1,43 @@
+* 6146B Koren-style pentode model
+* Beam power tetrode, screen-controlled
+*
+* Datasheet anchor points (RCA 6146B/8298A):
+*   gm     = 7 mA/V    at Vp=200V, Vs=200V, Ip=100mA
+*   mu(g2g1) = 4.5    (screen-to-control mu)
+*   Cgp = 0.22 pF, Cgk = 13 pF, Cpk = 8.5 pF
+*
+* Pin order: A=plate, S=screen, G=grid1, K=cathode
+*
+* Unlike the antisymmetric-ATAN model in TubesExtended/tube.lib,
+* this Koren formulation naturally clamps plate current to >= 0
+* in cutoff because E1 is constructed as a non-negative log.
+
+.SUBCKT 6146B_K A S G K
+
+.PARAM MUS = 4.5
+.PARAM MU  = 1000
+.PARAM EX  = 1.4
+.PARAM KG1 = 720
+.PARAM KP  = 200
+.PARAM KVB = 200
+
+* Effective grid voltage (Koren form, always >= 0)
+* MAX(V(A,K),0) protects against negative plate-cathode voltage during DC convergence
+E1 e1 0 VALUE = { (MAX(V(A,K),0)/KP) * LN(1 + EXP(KP*(1/MU + (V(G,K) + V(S,K)/MUS)/SQRT(KVB + V(A,K)*V(A,K))))) }
+
+* Plate current: cathode-current * knee-factor
+* MAX(V(e1),1E-12) ensures PWR never sees a negative base
+G_a A K VALUE = { PWR(MAX(V(e1),1E-12), EX)/KG1 * (1 - EXP(-3*MAX(V(A,K),0)/KVB)) }
+
+* Screen current: remainder of cathode current + small fixed interception
+G_s S K VALUE = { PWR(MAX(V(e1),1E-12), EX)/KG1 * (EXP(-3*MAX(V(A,K),0)/KVB)*0.5 + (1 - EXP(-3*MAX(V(A,K),0)/KVB))*0.08) }
+
+* Grid-1 current (only when grid goes positive)
+G_g G K VALUE = { PWR(MAX(V(G,K)+1, 1E-9), 1.5) * 100E-6 }
+
+* Interelectrode capacitances
+C_GK G K 13.0P
+C_AK A K  8.5P
+C_GA G A  0.22P
+
+.ENDS 6146B_K
