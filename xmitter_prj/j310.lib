@@ -1,0 +1,6 @@
+* J310 N-channel JFET — Idss~35 mA, Vto~-3 V
+* External pins: gate drain source
+.SUBCKT J310_K gate drain source
+J1 drain gate source J310_MDL
+.MODEL J310_MDL NJF (VTO=-3 BETA=3.5E-3 LAMBDA=5E-3 CGS=15P CGD=5P IS=1E-14)
+.ENDS J310_K
