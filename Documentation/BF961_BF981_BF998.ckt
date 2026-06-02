@@ -1,0 +1,161 @@
+* ============================================================
+* BF961_BF981_BF998.ckt
+* Dual-Gate Depletion MOSFET SPICE Subcircuits
+* For use with ngspice, LTspice, and Qucs-S
+* ============================================================
+* Pin order for all subcircuits:
+*   1=Source  2=Drain  3=Gate2(AGC/mixer)  4=Gate1(RF input)
+* ============================================================
+
+* ------------------------------------------------------------
+* BF961 (Vishay/Siemens, VDS=20V, 300MHz, NF=1.8dB)
+* Derived from datasheet: IDSS~20mA, Vgs(off)~-3.5V, gm~15mS
+* ------------------------------------------------------------
+.SUBCKT BF961 1 2 3 4
+* Package parasitics - SOT-103
+L10  1  10  L=0.5N
+L20  2  20  L=0.5N
+L30  3  30  L=0.3N
+L40  4  40  L=0.3N
+* Inter-electrode capacitances
+C13  10  30  C=0.025P
+C14  10  40  C=0.025P
+C23  20  30  C=0.025P
+* Gate protection diodes (integrated in device)
+D1  40  99  DPROT961
+D2  99  40  DPROT961
+D3  30  99  DPROT961
+D4  99  30  DPROT961
+* Two-MOSFET stack: M1 controlled by Gate1, M2 by Gate2
+M1   5  40  10  10  MOS1BF961  L=1U  W=50U
+M2  20  30   5  10  MOS2BF961  L=1U  W=50U
+* Terminal resistances
+RS  10  11  2.0
+RD  20  21  2.0
+* Substrate ground reference
+V99  99  0  DC 0
+.MODEL DPROT961 D(IS=1E-14 N=1 BV=6.5 IBV=1M RS=50)
+.MODEL MOS1BF961 NMOS(LEVEL=1
++  VTO=-1.1   KP=15M    LAMBDA=3.75M
++  GAMMA=3.3U PHI=0.75
++  IS=12.5F   PB=0.8    MJ=0.46
++  CBD=3.43P  CBS=4.11P
++  CGSO=240P  CGDO=200P CGBO=20.5N)
+.MODEL MOS2BF961 NMOS(LEVEL=1
++  VTO=-0.9   KP=18M    LAMBDA=13.75M
++  GAMMA=19.08U PHI=0.75
++  IS=12.5F   PB=0.8    MJ=0.46
++  CBD=3.43P  CBS=4.11P
++  CGSO=240P  CGDO=200P CGBO=14.5N)
+.ENDS BF961
+
+* ------------------------------------------------------------
+* BF981 (Philips/NXP, VDS=20V, 500MHz)
+* Same electrical topology as BF961, slightly different caps
+* ------------------------------------------------------------
+.SUBCKT BF981 1 2 3 4
+L10  1  10  L=0.12N
+L20  2  20  L=0.12N
+L30  3  30  L=0.12N
+L40  4  40  L=0.12N
+L11  10  11  L=1.20N
+L21  20  21  L=1.20N
+L31  30  31  L=1.20N
+L41  40  41  L=1.20N
+C13  10  30  C=0.085P
+C14  10  40  C=0.085P
+C23  20  30  C=0.020P
+C24  20  40  C=0.020P
+M1   5  41  11  11  MOS1BF981  L=1U  W=50U
+M2  21  31   5  11  MOS2BF981  L=1U  W=50U
+D1  41  11  DG981
+D2  31  11  DG981
+RS  10  11  2.0
+RD  20  21  3.0
+V99  99  0  DC 0
+.MODEL DG981  D(IS=1E-14 BV=10)
+.MODEL MOS1BF981 NMOS(LEVEL=1
++  VTO=-1.1   KP=15M    LAMBDA=3.75M
++  GAMMA=3.3U PHI=0.75
++  IS=12.5F   PB=0.8    MJ=0.46
++  CBD=3.43P  CBS=4.11P
++  CGSO=240P  CGDO=200P CGBO=20.5N)
+.MODEL MOS2BF981 NMOS(LEVEL=1
++  VTO=-0.9   KP=18M    LAMBDA=13.75M
++  GAMMA=19.08U PHI=0.75
++  IS=12.5F   PB=0.8    MJ=0.46
++  CBD=3.43P  CBS=4.11P
++  CGSO=240P  CGDO=200P CGBO=14.5N)
+.ENDS BF981
+
+* ------------------------------------------------------------
+* BF998 (Philips Semiconductors, October 1993 - OFFICIAL MODEL)
+* VDS=12V, 800MHz, NF~0.6dB - most accurate model
+* 1=Source 2=Drain 3=Gate2 4=Gate1, SOT-143
+* ------------------------------------------------------------
+.SUBCKT BF998 1 2 3 4
+L10  1  10  L=0.12N
+L20  2  20  L=0.12N
+L30  3  30  L=0.12N
+L40  4  40  L=0.12N
+L11  10  11  L=1.20N
+L21  20  21  L=1.20N
+L31  30  31  L=1.20N
+L41  40  41  L=1.20N
+C13  10  30  C=0.085P
+C14  10  40  C=0.085P
+C23  20  30  C=0.020P
+C34  30  40  C=0.10P
+M1   5  41  11  11  M1BF998  L=0.5U  W=400U
+M2  21  31   5  11  M2BF998  L=0.5U  W=400U
+D1  41  11  DBF998
+D2  31  11  DBF998
+RS  10  11  0.7
+RD  20  21  0.7
+V99  99   0  DC 0
+.MODEL DBF998 D(IS=1E-14 N=1 BV=8 RS=10)
+.MODEL M1BF998 NMOS(LEVEL=3
++  VTO=-0.75  KP=0.190   GAMMA=0    PHI=0.65
++  LAMBDA=0.02 RD=0      RS=0
++  CBD=0.4P   CBS=0.4P
++  IS=1E-14   PB=0.8     MJ=0.5
++  CGSO=1.4P  CGDO=0.04P CGBO=0
++  TOX=30N    NSUB=5E15  NFS=1E11
++  XJ=0.2U   LD=0.1U    UO=400
++  UCRIT=1E4  UEXP=0     VMAX=5E4
++  NEFF=1     XQC=0.4    DELTA=0
++  THETA=0.05 ETA=0.1    KAPPA=0.2)
+.MODEL M2BF998 NMOS(LEVEL=3
++  VTO=-0.95  KP=0.190   GAMMA=0    PHI=0.65
++  LAMBDA=0.02 RD=0      RS=0
++  CBD=0.4P   CBS=0.4P
++  IS=1E-14   PB=0.8     MJ=0.5
++  CGSO=1.4P  CGDO=0.04P CGBO=0
++  TOX=30N    NSUB=5E15  NFS=1E11
++  XJ=0.2U   LD=0.1U    UO=400
++  UCRIT=1E4  UEXP=0     VMAX=5E4
++  NEFF=1     XQC=0.4    DELTA=0
++  THETA=0.05 ETA=0.1    KAPPA=0.2)
+.ENDS BF998
+
+* ------------------------------------------------------------
+* BF998R - same as BF998, reverse package orientation
+* ------------------------------------------------------------
+.SUBCKT BF998R 1 2 3 4
+X1 1 2 3 4 BF998
+.ENDS BF998R
+
+* ============================================================
+* Example test circuit (comment out for library use):
+*
+* .TITLE BF961 VHF Amplifier Test
+* VDD  vdd  0  DC 15
+* VG2  g2   0  DC 4
+* VIN  g1   0  AC 1 DC 0
+* RD   vdd  d  470
+* RS   s    0  100
+* CG2  g2   0  100P
+* X1   s    d  g2  g1  BF961
+* .AC LIN 100 1MEG 500MEG
+* .END
+* ============================================================

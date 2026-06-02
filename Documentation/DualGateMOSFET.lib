@@ -1,0 +1,277 @@
+<Qucs Library 0.0.22 "DualGateMOSFET">
+
+<Component BF961>
+  <Description>
+BF961 N-Channel Dual-Gate Depletion MOSFET (Vishay/Siemens)
+RF tetrode for VHF amplifiers and mixers to 300 MHz.
+VDS=20V ID=30mA Ptot=200mW NF=1.8dB@200MHz SOT-103
+Pins: 1=S(Source) 2=D(Drain) 3=G2(AGC/Gate2) 4=G1(RF/Gate1)
+Model: two stacked NMOS subcircuit derived from BF981/datasheet.
+  </Description>
+  <Model>
+.Def:DualGateMOSFET_BF961 _net0 _net1 _net2 _net3
+Sub:X1 _net0 _net1 _net2 _net3 gnd Type="BF961_cir"
+.Def:End
+  </Model>
+  <Spice>
+* BF961 Dual-Gate N-Channel Depletion MOSFET
+* Pins: 1=Source 2=Drain 3=Gate2 4=Gate1
+.SUBCKT BF961_cir gnd _net0 _net1 _net2 _net3
+X1 _net0 _net1 _net2 _net3 nBF961
+.ENDS
+.SUBCKT nBF961 1 2 3 4
+* Package parasitics
+L10  1  10  L=0.5N
+L20  2  20  L=0.5N
+L30  3  30  L=0.3N
+L40  4  40  L=0.3N
+* Inter-electrode capacitances
+C13  10  30  C=0.025P
+C14  10  40  C=0.025P
+C23  20  30  C=0.025P
+* Gate protection diodes
+D1  40  99  DPROT961
+D2  99  40  DPROT961
+D3  30  99  DPROT961
+D4  99  30  DPROT961
+* Two-MOSFET stack: M1=Gate1(lower), M2=Gate2(upper)
+M1   5  40  10  10  MOS1BF961  L=1U  W=50U
+M2  20  30   5  10  MOS2BF961  L=1U  W=50U
+RS  10  11  2.0
+V99  99  0  DC 0
+.MODEL DPROT961 D(IS=1E-14 N=1 BV=6.5 IBV=1M RS=50)
+.MODEL MOS1BF961 NMOS(LEVEL=1
++  VTO=-1.1   KP=15M    LAMBDA=3.75M
++  GAMMA=3.3U PHI=0.75
++  IS=12.5F   PB=0.8    MJ=0.46
++  CBD=3.43P  CBS=4.11P
++  CGSO=240P  CGDO=200P CGBO=20.5N)
+.MODEL MOS2BF961 NMOS(LEVEL=1
++  VTO=-0.9   KP=18M    LAMBDA=13.75M
++  GAMMA=19.08U PHI=0.75
++  IS=12.5F   PB=0.8    MJ=0.46
++  CBD=3.43P  CBS=4.11P
++  CGSO=240P  CGDO=200P CGBO=14.5N)
+.ENDS nBF961
+  </Spice>
+  <SpiceAttach >
+  <Symbol>
+    <.ID 8 -26 T>
+    <Line -10 -11 10 0 #000080 2 1>
+    <Line 0 -11 0 -19 #000080 2 1>
+    <Line -10 11 10 0 #000080 2 1>
+    <Line 0 11 0 19 #000080 2 1>
+    <Line -10 0 10 0 #000080 2 1>
+    <Line -10 -4 0 8 #000080 3 1>
+    <Line -10 7 0 9 #000080 3 1>
+    <Line -9 0 5 -5 #000080 2 1>
+    <Line -9 0 5 5 #000080 2 1>
+    <Line -30 10 16 0 #000080 2 1>
+    <Line -30 -10 16 0 #000080 2 1>
+    <Line -10 -16 0 9 #000080 3 1>
+    <Line -14 -15 0 5 #000080 3 1>
+    <Line -14 5 0 5 #000080 3 1>
+    <.PortSym 0 30 1 0>
+    <.PortSym 0 -30 2 0>
+    <.PortSym -30 -10 3 0>
+    <.PortSym -30 10 4 0>
+  </Symbol>
+</Component>
+
+<Component BF981>
+  <Description>
+BF981 N-Channel Dual-Gate Depletion MOSFET (Philips/NXP)
+VHF/UHF amplifier and mixer tetrode to 500 MHz. SOT-143.
+VDS=20V ID=30mA Ptot=200mW
+Pins: 1=S(Source) 2=D(Drain) 3=G2(AGC/Gate2) 4=G1(RF/Gate1)
+  </Description>
+  <Model>
+.Def:DualGateMOSFET_BF981 _net0 _net1 _net2 _net3
+Sub:X1 _net0 _net1 _net2 _net3 gnd Type="BF981_cir"
+.Def:End
+  </Model>
+  <Spice>
+* BF981 Dual-Gate N-Channel Depletion MOSFET
+* Pins: 1=Source 2=Drain 3=Gate2 4=Gate1
+.SUBCKT BF981_cir gnd _net0 _net1 _net2 _net3
+X1 _net0 _net1 _net2 _net3 nBF981
+.ENDS
+.SUBCKT nBF981 1 2 3 4
+L10  1  10  L=0.12N
+L20  2  20  L=0.12N
+L30  3  30  L=0.12N
+L40  4  40  L=0.12N
+L11  10  11  L=1.20N
+L21  20  21  L=1.20N
+L31  30  31  L=1.20N
+L41  40  41  L=1.20N
+C13  10  30  C=0.085P
+C14  10  40  C=0.085P
+C23  20  30  C=0.020P
+C24  20  40  C=0.020P
+M1   5  41  11  11  MOS1BF981  L=1U  W=50U
+M2  21  31   5  11  MOS2BF981  L=1U  W=50U
+D1  41  11  DG981
+D2  31  11  DG981
+RS  10  11  2.0
+RD  20  21  3.0
+V99  99  0  DC 0
+.MODEL DG981  D(IS=1E-14 BV=10)
+.MODEL MOS1BF981 NMOS(LEVEL=1
++  VTO=-1.1   KP=15M    LAMBDA=3.75M
++  GAMMA=3.3U PHI=0.75
++  IS=12.5F   PB=0.8    MJ=0.46
++  CBD=3.43P  CBS=4.11P
++  CGSO=240P  CGDO=200P CGBO=20.5N)
+.MODEL MOS2BF981 NMOS(LEVEL=1
++  VTO=-0.9   KP=18M    LAMBDA=13.75M
++  GAMMA=19.08U PHI=0.75
++  IS=12.5F   PB=0.8    MJ=0.46
++  CBD=3.43P  CBS=4.11P
++  CGSO=240P  CGDO=200P CGBO=14.5N)
+.ENDS nBF981
+  </Spice>
+  <SpiceAttach >
+  <Symbol>
+    <.ID 8 -26 T>
+    <Line -10 -11 10 0 #000080 2 1>
+    <Line 0 -11 0 -19 #000080 2 1>
+    <Line -10 11 10 0 #000080 2 1>
+    <Line 0 11 0 19 #000080 2 1>
+    <Line -10 0 10 0 #000080 2 1>
+    <Line -10 -4 0 8 #000080 3 1>
+    <Line -10 7 0 9 #000080 3 1>
+    <Line -9 0 5 -5 #000080 2 1>
+    <Line -9 0 5 5 #000080 2 1>
+    <Line -30 10 16 0 #000080 2 1>
+    <Line -30 -10 16 0 #000080 2 1>
+    <Line -10 -16 0 9 #000080 3 1>
+    <Line -14 -15 0 5 #000080 3 1>
+    <Line -14 5 0 5 #000080 3 1>
+    <.PortSym 0 30 1 0>
+    <.PortSym 0 -30 2 0>
+    <.PortSym -30 -10 3 0>
+    <.PortSym -30 10 4 0>
+  </Symbol>
+</Component>
+
+<Component BF998>
+  <Description>
+BF998 N-Channel Dual-Gate Depletion MOSFET (Philips Semiconductors)
+Low-noise VHF/UHF amplifier and mixer to 800 MHz. SOT-143.
+VDS=12V ID=30mA Ptot=200mW NF~0.6dB@800MHz
+Pins: 1=S(Source) 2=D(Drain) 3=G2(AGC/Gate2) 4=G1(RF/Gate1)
+Official Philips Semiconductors SPICE model, October 1993.
+  </Description>
+  <Model>
+.Def:DualGateMOSFET_BF998 _net0 _net1 _net2 _net3
+Sub:X1 _net0 _net1 _net2 _net3 gnd Type="BF998_cir"
+.Def:End
+  </Model>
+  <Spice>
+* BF998 SPICE MODEL  OCTOBER 1993  PHILIPS SEMICONDUCTORS
+* ENVELOPE SOT143(R)
+* 1=SOURCE  2=DRAIN  3=GATE2  4=GATE1
+.SUBCKT BF998_cir gnd _net0 _net1 _net2 _net3
+X1 _net0 _net1 _net2 _net3 nBF998
+.ENDS
+.SUBCKT nBF998 1 2 3 4
+L10  1  10  L=0.12N
+L20  2  20  L=0.12N
+L30  3  30  L=0.12N
+L40  4  40  L=0.12N
+L11  10  11  L=1.20N
+L21  20  21  L=1.20N
+L31  30  31  L=1.20N
+L41  40  41  L=1.20N
+C13  10  30  C=0.085P
+C14  10  40  C=0.085P
+C23  20  30  C=0.085P
+C24  20  40  C=0.005P
+D11  42  11  ZENER
+D12  42  41  ZENER
+D21  32  11  ZENER
+D22  32  31  ZENER
+RS   10  12  R=100
+MOS1  61  41  11  12  GATE1  L=1.1E-6  W=1150E-6
+MOS2  21  31  61  12  GATE2  L=2.0E-6  W=1150E-6
+.MODEL ZENER D BV=10 CJO=1.2E-12 RS=10
+.MODEL GATE1
++ NMOS LEVEL=3 UO=600 VTO=-0.250 NFS=300E9 TOX=42E-9
++ NSUB=3E15 VMAX=140E3 RS=2.0 RD=2.0 XJ=200E-9 THETA=0.11
++ ETA=0.06 KAPPA=2 LD=0.1E-6
++ CGSO=0.3E-9 CGDO=0.3E-9 CBD=0.5E-12 CBS=0.5E-12
+.MODEL GATE2
++ NMOS LEVEL=3 UO=600 VTO=-0.250 NFS=300E9 TOX=42E-9
++ NSUB=3E15 VMAX=100E3 RS=2.0 RD=2.0 XJ=200E-9 THETA=0.11
++ ETA=0.06 KAPPA=2 LD=0.1E-6
++ CGSO=0.3E-9 CGDO=0.3E-9 CBD=0.5E-12 CBS=0.5E-12
+.ENDS nBF998
+  </Spice>
+  <SpiceAttach >
+  <Symbol>
+    <.ID 8 -26 T>
+    <Line -10 -11 10 0 #000080 2 1>
+    <Line 0 -11 0 -19 #000080 2 1>
+    <Line -10 11 10 0 #000080 2 1>
+    <Line 0 11 0 19 #000080 2 1>
+    <Line -10 0 10 0 #000080 2 1>
+    <Line -10 -4 0 8 #000080 3 1>
+    <Line -10 7 0 9 #000080 3 1>
+    <Line -9 0 5 -5 #000080 2 1>
+    <Line -9 0 5 5 #000080 2 1>
+    <Line -30 10 16 0 #000080 2 1>
+    <Line -30 -10 16 0 #000080 2 1>
+    <Line -10 -16 0 9 #000080 3 1>
+    <Line -14 -15 0 5 #000080 3 1>
+    <Line -14 5 0 5 #000080 3 1>
+    <.PortSym 0 30 1 0>
+    <.PortSym 0 -30 2 0>
+    <.PortSym -30 -10 3 0>
+    <.PortSym -30 10 4 0>
+  </Symbol>
+</Component>
+
+<Component BF998R>
+  <Description>
+BF998R N-Channel Dual-Gate Depletion MOSFET (Philips/NXP)
+Reverse-pinout variant of BF998. SOT-143R package.
+VDS=12V ID=30mA Ptot=200mW NF~0.6dB@800MHz
+Same electrical model as BF998; package pin order is reversed.
+Pins: 1=S(Source) 2=D(Drain) 3=G2(AGC/Gate2) 4=G1(RF/Gate1)
+  </Description>
+  <Model>
+.Def:DualGateMOSFET_BF998R _net0 _net1 _net2 _net3
+Sub:X1 _net0 _net1 _net2 _net3 gnd Type="BF998R_cir"
+.Def:End
+  </Model>
+  <Spice>
+* BF998R - electrically identical to BF998, reversed package
+.SUBCKT BF998R_cir gnd _net0 _net1 _net2 _net3
+X1 _net0 _net1 _net2 _net3 nBF998
+.ENDS
+  </Spice>
+  <SpiceAttach >
+  <Symbol>
+    <.ID 8 -26 T>
+    <Line -10 -11 10 0 #000080 2 1>
+    <Line 0 -11 0 -19 #000080 2 1>
+    <Line -10 11 10 0 #000080 2 1>
+    <Line 0 11 0 19 #000080 2 1>
+    <Line -10 0 10 0 #000080 2 1>
+    <Line -10 -4 0 8 #000080 3 1>
+    <Line -10 7 0 9 #000080 3 1>
+    <Line -9 0 5 -5 #000080 2 1>
+    <Line -9 0 5 5 #000080 2 1>
+    <Line -30 10 16 0 #000080 2 1>
+    <Line -30 -10 16 0 #000080 2 1>
+    <Line -10 -16 0 9 #000080 3 1>
+    <Line -14 -15 0 5 #000080 3 1>
+    <Line -14 5 0 5 #000080 3 1>
+    <.PortSym 0 30 1 0>
+    <.PortSym 0 -30 2 0>
+    <.PortSym -30 -10 3 0>
+    <.PortSym -30 10 4 0>
+  </Symbol>
+</Component>
+

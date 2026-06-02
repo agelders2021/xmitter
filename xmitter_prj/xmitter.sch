@@ -42,7 +42,7 @@
   <GND * 1 780 340 0 0 0 0>
   <Sub PA 1 610 410 -27 -9 0 1 "PA_subcircuit.sch" 0>
   <Sub Driver_transformer 1 440 410 -35 -10 0 1 "Driver_output_transformer_subcircuit.sch" 0>
-  <SpicePar SpicePar1 1 600 190 -25 17 0 0 "V_IN=3V" 1>
+  <SpicePar SpicePar1 1 600 190 -25 17 0 0 "V_IN=4V" 1>
 </Components>
 <Wires>
   <1070 300 1080 300 "" 0 0 0 "">

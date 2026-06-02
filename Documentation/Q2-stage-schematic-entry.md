@@ -5,6 +5,10 @@ Use this to build the QUCS-S schematic or draw the hardware layout.
 All values are also in the BOM table of the spec; this file adds the exact
 node-by-node connections and winding instructions.
 
+**Q2 is implemented as a dual-J310 cascode.**  
+Q2a (lower) = common-source transconductance stage.  
+Q2b (upper) = common-gate isolation/AGC stage, gate driven by the leveling loop.
+
 ---
 
 ## Net names
@@ -13,24 +17,24 @@ node-by-node connections and winding instructions.
 |-----|-------------|
 | `VDD` | +12 V regulated rail |
 | `GND` | Ground |
-| `Q1S` | Q1 (J310) source — output of input stage, ~1.75 V DC + 360 mV peak AC |
-| `Q2G1` | Q2 gate-1 — AC-coupled signal input to VGA |
-| `Q2S` | Q2 source — DC bias node |
-| `Q2D` | Q2 drain — top of tank, large RF swing |
-| `Q2G2` | Q2 gate-2 — AGC control, driven by A1 |
-| `TANK` | Same as Q2D (parallel tank junction) |
+| `Q1S` | Q1 (J310) source — output of input stage, ~1.75 V DC + 378 mV peak AC |
+| `Q2G1` | Q2a gate — AC-coupled signal input (lower JFET gate) |
+| `Q2a_S` | Q2a source — DC self-bias node |
+| `Q2a_D` | Q2a drain — internal cascode junction (= Q2b source) |
+| `V_AGC` | Q2b gate — AGC control voltage from A1 output via R_VB |
+| `TANK` | Q2b drain — parallel tank junction, large RF swing |
 | `T1A` | T1 secondary end A — one push-pull grid feed |
 | `T1B` | T1 secondary end B — other push-pull grid feed |
 | `T1CT` | T1 secondary center tap — returns to bias or grid-leak |
 | `V_DET` | Detector output — DC voltage proportional to RF level at grid |
 | `V_CMD` | DAC setpoint from MCP4725 — the commanded level |
-| `A1OUT` | TL071 output — AGC actuator voltage |
+| `A1OUT` | TL071 output — AGC actuator voltage driving R_VB |
 
 ---
 
 ## Component connections
 
-### Input coupling to Q2
+### Input coupling to Q2a
 
 | Ref | Value | Pin / terminal | Net |
 |-----|-------|----------------|-----|
@@ -39,35 +43,54 @@ node-by-node connections and winding instructions.
 | RG1 | 100 kΩ | top | Q2G1 |
 | RG1 | | bottom | GND |
 
-### Q2 — BF961 (SOT-143) or 40673 / 3N211 (TO-72)
+---
 
-BF961 SOT-143 pin order (left to right, marking face up): **G1 – D – S – G2**  
-40673 / 3N211 TO-72 pins (bottom view, tab = drain on 40673): **G1 – D – S – G2**
+### Q2a — J310 N-JFET (lower, common-source)
 
 | Pin | Net | Notes |
 |-----|-----|-------|
-| G1 | Q2G1 | signal gate |
-| D | Q2D (= TANK) | drain, RF swing here |
-| S | Q2S | source, bias resistor below |
-| G2 | Q2G2 | AGC control gate |
+| G | Q2G1 | signal gate, AC-coupled from Q1S |
+| D | Q2a_D | internal node, connects to Q2b source |
+| S | Q2a_S | source, self-bias resistor below |
 
-**Q2 source bias:**
-
-| Ref | Value | Pin | Net |
-|-----|-------|-----|-----|
-| RS2 | 270 Ω | top | Q2S |
-| RS2 | | bottom | GND |
-| CS1 | 10 nF NP0 | A | Q2S |
-| CS1 | | B | GND |
-
-**Q2 G2 control filter:**
+**Q2a source bias:**
 
 | Ref | Value | Pin | Net |
 |-----|-------|-----|-----|
-| RG2 | 10 kΩ | top | A1OUT |
-| RG2 | | bottom | Q2G2 |
-| CG2 | 10 nF NP0 | A | Q2G2 |
-| CG2 | | B | GND |
+| RS2a | 270 Ω | top | Q2a_S |
+| RS2a | | bottom | GND |
+| CS2a | 10 nF NP0 | A | Q2a_S |
+| CS2a | | B | GND |
+
+---
+
+### Q2b — J310 N-JFET (upper, common-gate)
+
+| Pin | Net | Notes |
+|-----|-----|-------|
+| G | V_AGC | AGC control gate — driven by A1 via R_VB |
+| S | Q2a_D | source, connected directly to Q2a drain |
+| D | TANK | drain, RF output to tank circuit |
+
+**Q2b gate control filter:**
+
+| Ref | Value | Pin | Net |
+|-----|-------|-----|-----|
+| R_VB | 10 kΩ | top | A1OUT |
+| R_VB | | bottom | V_AGC |
+| C_VB | 10 nF NP0 | A | V_AGC |
+| C_VB | | B | Q2a_D |
+
+> C_VB bypasses the Q2b gate to the internal cascode node at RF,
+> presenting a low impedance at 14 MHz so Q2b acts as a true common-gate
+> stage without RF voltage appearing on V_AGC.
+
+**AGC bias range:**  
+With Q2a self-biased at ~270 Ω and J310 operating at ~10–20 mA,  
+Q2a_D will sit approximately 2–4 V above GND.  
+V_AGC must be above Q2a_D for Q2b to conduct fully (maximum gain).  
+Practical range: V_AGC = 3 V (min gain / near cutoff) to 8 V (max gain).  
+A1OUT from the TL071 covers 0–10.5 V on a 12 V single supply — adequate margin.
 
 ---
 
@@ -78,7 +101,7 @@ L1 is also the **primary of T1** (same physical winding on the same T50-6 core).
 | Ref | Value | Pin | Net |
 |-----|-------|-----|-----|
 | L1 | 22 t T50-6 (≈1.9 µH) | cold end | VDD |
-| L1 | | hot end | TANK (= Q2D) |
+| L1 | | hot end | TANK (= Q2b drain) |
 | C1a | 47 pF NP0 / silver mica | A | TANK |
 | C1a | | B | GND |
 | C1b | 20 pF air trimmer | A | TANK |
@@ -108,8 +131,8 @@ L1 is also the **primary of T1** (same physical winding on the same T50-6 core).
 
 | Pin / wire | Net | Goes to |
 |------------|-----|---------|
-| T1 cold (hot) end | TANK | Connects to Q2D (already joined via L1 hot end) |
-| T1 cold (cold) end | VDD | Connects to VDD (already joined via L1 cold end) |
+| T1 hot end | TANK | Connects to Q2b drain (already joined via L1 hot end) |
+| T1 cold end | VDD | Connects to VDD (already joined via L1 cold end) |
 | T1A (secondary end A) | T1A | Grid stopper RG_A, then 6146B grid 1 |
 | T1B (secondary end B) | T1B | Grid stopper RG_B, then 6146B grid 2 |
 | T1CT (center tap) | T1CT | See bias scheme below |
@@ -161,7 +184,7 @@ L1 is also the **primary of T1** (same physical winding on the same T50-6 core).
 |--------|-----|-------|
 | 2 (−) | via R_INT to V_DET | inverting |
 | 3 (+) | V_CMD | DAC setpoint from MCP4725 |
-| 6 (out) | A1OUT | drives Q2G2 via RG2 |
+| 6 (out) | A1OUT | drives Q2b gate via R_VB |
 | 7 (V+) | VDD | supply |
 | 4 (V−) | GND | single-supply; see note below |
 
@@ -175,8 +198,8 @@ L1 is also the **primary of T1** (same physical winding on the same T50-6 core).
 > integrator windup during key-up.
 
 > **Single-supply note:** the TL071 output can only reach approximately VDD−1.5 V.
-> With VDD = +12 V, A1OUT range is roughly 0–10.5 V, which covers G2's
-> operating range (2–8 V). The non-inverting input (pin 3) should have a
+> With VDD = +12 V, A1OUT range is roughly 0–10.5 V, which covers V_AGC's
+> operating range (3–8 V). The non-inverting input (pin 3) should have a
 > resistor divider setting it near mid-range if V_CMD is 0–5 V from the DAC
 > and you need the output to track correctly. Alternatively, run A1 from a
 > split ±12 V supply (the TL071 handles up to ±18 V).
@@ -196,43 +219,25 @@ a ~5 ms RC envelope on the level command. Si5351 runs continuously — no chirp.
 
 ---
 
-## Cascode J310 substitute for Q2
+## Simulation probes in QUCS-S (vfo_buffer_subcircuit.sch)
 
-If dual-gate MOSFETs are unavailable, two J310s in cascode:
+| Probe name | Tapped across | Notes |
+|------------|---------------|-------|
+| Pr_Q1S | V_IN output to GND | Represents Q1S input to buffer |
+| Pr_TANK | TANK (Q2b drain) to GND | Main RF output, expect large swing |
+| Pr_Q2aD | Q2a_D / Q2b_S junction to GND | Internal cascode node |
+| Pr_G2 | V_AGC to GND | AGC control voltage |
 
-| Device | Role | G net | D net | S net |
-|--------|------|-------|-------|-------|
-| Q2a (J310, lower) | common-source | Q2G1 | Q2a_D | Q2a_S |
-| Q2b (J310, upper) | common-gate | V_AGC | TANK | Q2a_D |
-
-Add:
-- RS2a = 270 Ω from Q2a_S to GND (self-bias Q2a)
-- CS2a = 10 nF from Q2a_S to GND
-- R_VB = 10 kΩ from A1OUT to V_AGC (Q2b gate = AGC point)
-- C_VB = 10 nF from V_AGC to Q2a_D (RF bypass of Q2b gate to its source)
-- Q2b drain = TANK; connects to tank the same way as Q2 drain above
-
-V_AGC ranges 0–8 V from A1 output; same leveling loop as with dual-gate MOSFET.
+Vary `V_AGC_SRC` from 3 V to 8 V to sweep the gain control range.
 
 ---
 
-## Simulation probes to add in QUCS-S
+## Open items
 
-| Probe name | Tapped across |
-|------------|---------------|
-| Pr_Q1S | Q1S to GND (already Pr4 in existing sim) |
-| Pr_TANK | TANK (Q2D) to GND |
-| Pr_T1A | T1A to GND |
-| Pr_T1B | T1B to GND |
-| Pr_VDET | V_DET to GND |
-| Pr_G2 | Q2G2 to GND |
-
----
-
-## Open items (from spec)
-
-- [ ] Confirm 6146B operating class → determines T1CT bias scheme (grid-leak vs fixed supply),
-      secondary turns needed, and whether the ±10 V drain swing is sufficient.
+- [ ] Confirm 6146B operating class → determines T1CT bias scheme (grid-leak vs fixed supply)
+      and secondary turns needed.
 - [ ] MCP4725 Vref and detector divider scaling for exact 0.3–5 V/grid mapping.
 - [ ] Single-supply vs split-supply for TL071; if single-supply, verify A1OUT
-      headroom covers the full G2 range.
+      headroom covers the full V_AGC range (3–8 V).
+- [ ] Measure actual J310 IDSS at operating point to confirm Q2a self-bias
+      lands in the 2–4 V drain range needed for Q2b common-gate operation.
