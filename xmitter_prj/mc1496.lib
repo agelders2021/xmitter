@@ -1,0 +1,59 @@
+* MC1496 / LM1496 Balanced Modulator — Behavioral SPICE Subcircuit
+* For ngspice / Qucs-S (ngspice backend)
+*
+* Subcircuit terminals:
+*   SIG_P   Signal port +   (control +, 0V reference for AGC null)
+*   SIG_N   Signal port -   (control -, receives scaled V_AGC)
+*   CAR_P   Carrier port +  (14 MHz RF input)
+*   CAR_N   Carrier port -  (bypass to GND via 100nF cap in application)
+*   OUT_P   Output +        (open-collector NPN, sinks to VEE)
+*   OUT_N   Output -        (open-collector NPN, sinks to VEE)
+*   VCC     Positive supply (+12V)
+*   VEE     Negative supply (-8.2V)
+*   BIAS    Bias pin        (connect 1kΩ to VEE externally)
+*   GAIN_RE Gain-set pin    (connect RE_ext to VEE; 1kΩ → Iee ≈ 1mA)
+*
+* Transfer function (Gilbert cell 4-quadrant multiply):
+*   I(OUT_P sink) = (Iee/2) * [1 + tanh(Vcar/2Vt) * tanh(Vsig/2Vt)]
+*   I(OUT_N sink) = (Iee/2) * [1 - tanh(Vcar/2Vt) * tanh(Vsig/2Vt)]
+*   where Vcar = V(CAR_P,CAR_N), Vsig = V(SIG_P,SIG_N), Vt = 26.5mV
+*
+* Carrier null condition: V(SIG_P) = V(SIG_N)  [control differential = 0]
+* Linear control range: |Vsig| < ~100mV;  saturates beyond ~500mV
+* Max Iee: set .PARAM Iee inside subcircuit; default 1mA (RE_ext = 1kΩ)
+*
+* Pin numbers for DIP-14 package (verify against ON Semi MC1496 datasheet):
+*   SIG_P → pin 1 (or 5), SIG_N → pin 4, CAR_P → pin 6, CAR_N → pin 8
+*   OUT_P → pin 10, OUT_N → pin 12, VCC → pin 13, VEE → pin 7
+*   BIAS  → pin 2,  GAIN_RE → pin 5 (or 14) — CONFIRM WITH DATASHEET
+*
+.SUBCKT MC1496 SIG_P SIG_N CAR_P CAR_N OUT_P OUT_N VCC VEE BIAS GAIN_RE
+
+.PARAM Vt=26.5m        ; thermal voltage at 27°C
+.PARAM Iee=1.0m        ; tail current; change to match actual RE_ext
+
+* Input port resistances (approximate; from ON Semi datasheet)
+RCAR   CAR_P CAR_N  2K       ; differential carrier port input impedance
+RSIG   SIG_P SIG_N  100K     ; differential signal port input impedance
+
+* Carrier input capacitance (~5 pF)
+CCAR   CAR_P CAR_N  5P
+
+* DC bias paths (prevent floating nodes in DC analysis)
+RBIAS  BIAS    VEE   200      ; internal emitter resistance, signal port
+RRE    GAIN_RE VEE   200      ; internal emitter resistance, gain set
+
+* Output collector capacitance (~2 pF at 14 MHz operating frequency)
+COUT_P OUT_P VEE  2P
+COUT_N OUT_N VEE  2P
+
+* Output impedance of NPN collector stages (~100kΩ)
+ROUT_P OUT_P VEE  100K
+ROUT_N OUT_N VEE  100K
+
+* Gilbert cell: four-quadrant analog multiplier
+* Conventional current direction: OUT_x → VEE  (NPN collectors sink current)
+BOUT_P OUT_P VEE I={(Iee/2)*(1+tanh(V(CAR_P,CAR_N)/(2*Vt))*tanh(V(SIG_P,SIG_N)/(2*Vt)))}
+BOUT_N OUT_N VEE I={(Iee/2)*(1-tanh(V(CAR_P,CAR_N)/(2*Vt))*tanh(V(SIG_P,SIG_N)/(2*Vt)))}
+
+.ENDS MC1496
