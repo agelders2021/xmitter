@@ -237,6 +237,26 @@ COMPS = [
             '5V output (right header) is only present when powered via USB-C; use VIN for external 5 V supply input.',
         ],
     ),
+    dict(
+        name='Si5351A_Breakout', desc='Adafruit Si5351A Clock Generator Breakout (Adafruit #5640)',
+        package='7-pin header + STEMMA QT', mfr='Adafruit Industries', mpn='Adafruit #5640',
+        pins=[
+            ('VIN',  'VIN',  'Power input (3.3–5 V, onboard 3.3 V LDO)'),
+            ('GND',  'GND',  'Ground'),
+            ('SCL',  'SCL',  'I²C clock, level-shifted, 10 kΩ pull-up onboard'),
+            ('SDA',  'SDA',  'I²C data, level-shifted, 10 kΩ pull-up onboard'),
+            ('CLK0', 'CLK0', 'Clock output 0 (0–3.3 V square wave)'),
+            ('CLK1', 'CLK1', 'Clock output 1 (0–3.3 V square wave)'),
+            ('CLK2', 'CLK2', 'Clock output 2 (0–3.3 V square wave)'),
+        ],
+        gotchas=[
+            'I²C address: 0x60 (fixed on this breakout — no address select jumper on #5640).',
+            'CLK0, CLK1, CLK2 are independent outputs, each configurable 8 kHz – 160 MHz.',
+            'STEMMA QT connector provides I²C (VCC 3.3 V, GND, SCL, SDA) — use a JST SH 4-pin cable.',
+            'Onboard LDO accepts 3.3–5 V; supply 3.3 V from Metro 3V3 rail for common-voltage operation.',
+            'All three outputs share two PLL sources (PLLA, PLLB) — CLK frequencies may be interdependent.',
+        ],
+    ),
 ]
 
 # ── renderer state ─────────────────────────────────────────────────────────────
