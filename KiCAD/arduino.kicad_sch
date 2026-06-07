@@ -968,6 +968,46 @@
 			(embedded_fonts no)
 		)
 	)
+	(text "I2C pull-ups provided by Si5351A breakout\n      (10 kΩ to 3.3 V). No additional pull-ups needed."
+		(exclude_from_sim no)
+		(at 123.952 107.188 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "ea69adec-6365-42f5-a951-8ec28a1b13ad")
+	)
+	(wire
+		(pts
+			(xy 222.25 48.26) (xy 231.14 48.26)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "17fb650e-3269-479f-be32-dffe3d94b67f")
+	)
+	(wire
+		(pts
+			(xy 222.25 53.34) (xy 231.14 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2c478543-7bf9-4dd7-8306-8d226b74bb44")
+	)
+	(wire
+		(pts
+			(xy 222.25 45.72) (xy 231.14 45.72)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "37d15713-bf54-4438-90d2-a9c4bf4b35f7")
+	)
 	(wire
 		(pts
 			(xy 246.38 46.99) (xy 251.46 46.99)
@@ -977,6 +1017,224 @@
 			(type default)
 		)
 		(uuid "3d6d38af-6fae-4b3d-9d8e-799c3597b3bf")
+	)
+	(wire
+		(pts
+			(xy 111.76 85.09) (xy 121.92 85.09)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4612a9a4-1714-4de1-bb77-74aa179a0c3c")
+	)
+	(wire
+		(pts
+			(xy 222.25 50.8) (xy 231.14 50.8)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "65a70ab1-2f94-4fc2-8d04-6beb8f6b9593")
+	)
+	(wire
+		(pts
+			(xy 85.09 62.23) (xy 93.98 62.23)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d7ac9ba1-636e-46ac-9815-4e1da185a1ba")
+	)
+	(wire
+		(pts
+			(xy 85.09 67.31) (xy 93.98 67.31)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "deb9ee3d-cbfd-4e7a-aa9d-02f58c643e57")
+	)
+	(wire
+		(pts
+			(xy 111.76 87.63) (xy 121.92 87.63)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e2daae06-1495-4766-9e71-02adc941545a")
+	)
+	(global_label "SCL"
+		(shape input)
+		(at 121.92 87.63 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "554e20df-8534-42e6-9ab2-bb96e69908b3")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 128.4128 87.63 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+	)
+	(global_label "SCL"
+		(shape input)
+		(at 222.25 50.8 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "619beae9-0273-40af-9b50-ced54376fb45")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 215.7572 50.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+	)
+	(global_label "GND"
+		(shape input)
+		(at 222.25 48.26 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "8190ba62-b760-4669-b2ca-6187b3ffea71")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 215.3943 48.26 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+	)
+	(global_label "GND"
+		(shape input)
+		(at 85.09 67.31 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "83fe9e16-c92f-41a0-acfb-726a1aa3f698")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 78.2343 67.31 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+	)
+	(global_label "3V3"
+		(shape input)
+		(at 222.25 45.72 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "c2ef522d-511c-4599-ae57-c6a61be02673")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 215.7572 45.72 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+	)
+	(global_label "3V3"
+		(shape input)
+		(at 85.09 62.23 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "e1fa8f91-6229-4128-8c58-6a4110bea65d")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 78.5972 62.23 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+	)
+	(global_label "SDA"
+		(shape input)
+		(at 121.92 85.09 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "e566d2c5-1e7f-4a11-9ac5-117207062314")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 128.4733 85.09 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
 	)
 	(global_label "Raw_Clock"
 		(shape input)
@@ -999,6 +1257,30 @@
 					(size 1.27 1.27)
 				)
 				(justify left)
+			)
+		)
+	)
+	(global_label "SDA"
+		(shape input)
+		(at 222.25 53.34 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "feda9b92-22f9-45bd-97ef-b920bc7df355")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 215.6967 53.34 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
 			)
 		)
 	)
