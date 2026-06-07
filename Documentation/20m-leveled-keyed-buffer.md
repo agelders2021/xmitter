@@ -244,12 +244,16 @@ V_CMD = 0, V_AGC → 0 → output is zero regardless of how far V_AGC integrated
 
 ### Digital control + keying
 
-- **DAC:** MCP4725 (I²C breakout). Full code → maximum grid drive; zero code
-  → V_CMD = 0 → MC1496 null → key-up silence.
-- **Keying:** the key gates the DAC setpoint through a 4.7 kΩ / 1 µF RC shaper
-  (~5 ms rise/fall). The loop reproduces that soft envelope on the RF. The key
-  switches only a low-voltage control line — no RF, no HV at the key, no
-  clickless transients. The Si5351/VFO runs continuously.
+- **Level DAC:** MCP4725 (I²C breakout). Full code → maximum grid drive; zero
+  code → V_CMD = 0 → MC1496 null → key-up silence.
+- **Keying:** **superseded** — the analog 4.7 kΩ / 1 µF RC shaper has been
+  replaced by a firmware envelope generator on a dedicated MCP4921 SPI DAC.
+  The MCU produces a raised-cosine envelope (predistortion-linearized) and
+  drives MC1496 pin 1 through a single-pole reconstruction LPF (R_F = 1.5 kΩ,
+  C_F = 680 nF). See `cw_envelope_keyer.md` for the full design — firmware
+  module, LPF/level-scaler values, timing, fail-safe requirements.
+- The key contact still switches only a low-voltage control line — no RF, no
+  HV at the key. The Si5351/VFO runs continuously.
 
 ## Simulation files
 
@@ -257,7 +261,7 @@ V_CMD = 0, V_AGC → 0 → output is zero regardless of how far V_AGC integrated
 |------|---------|
 | `xmitter_prj/mc1496.lib` | ngspice behavioral subcircuit for MC1496 Gilbert cell |
 | `xmitter_prj/mc1496_buffer_test.sp` | Standalone ngspice test; run with `ngspice -b mc1496_buffer_test.sp` |
-| `xmitter_prj/vfo_buffer_subcircuit.sch` | QUCS-S schematic (references mc1496.lib) |
+| `xmitter_prj/keyer.sch` | QUCS-S schematic — MC1496 with PNP digital null + envelope drive |
 
 ## Bill of materials (this stage only — LPF and Q1 included)
 

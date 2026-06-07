@@ -219,19 +219,6 @@ a ~5 ms RC envelope on the level command. Si5351 runs continuously — no chirp.
 
 ---
 
-## Simulation probes in QUCS-S (vfo_buffer_subcircuit.sch)
-
-| Probe name | Tapped across | Notes |
-|------------|---------------|-------|
-| Pr_Q1S | V_IN output to GND | Represents Q1S input to buffer |
-| Pr_TANK | TANK (Q2b drain) to GND | Main RF output, expect large swing |
-| Pr_Q2aD | Q2a_D / Q2b_S junction to GND | Internal cascode node |
-| Pr_G2 | V_AGC to GND | AGC control voltage |
-
-Vary `V_AGC_SRC` from 3 V to 8 V to sweep the gain control range.
-
----
-
 ## Open items
 
 - [ ] Confirm 6146B operating class → determines T1CT bias scheme (grid-leak vs fixed supply)

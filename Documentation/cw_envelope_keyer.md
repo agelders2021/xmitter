@@ -31,8 +31,12 @@ Signal path this module drives:
 
 ```
 WinKey layer --(key up/down edges)--> THIS MODULE
-THIS MODULE  --(SPI)--> MCP4921 DAC --> reconstruction LPF (~4-8 kHz)
-             --> level shift --> MC1496 modulating port --> RF envelope
+THIS MODULE  --(SPI)--> MCP4921 DAC --> R_F (1.5 kΩ) ──┬── MC1496 pin 1
+                                                       │   (R4 = 51 Ω to GND)
+                                                    C_F (680 nF)
+                                                       │
+                                                      GND
+             --> MC1496 modulating port --> RF envelope
 ```
 
 ---
@@ -169,16 +173,46 @@ on timeout. This is separate from, and must not depend on, the DAC value.
 - Give the DAC a dedicated SPI bus (see decision #3). Pins in the .cpp are
   placeholders — set `DAC_CS_PIN` / `DAC_SCK_PIN` / `DAC_MOSI_PIN` to match the
   board. MISO is unused for the MCP4921.
-- After the DAC: a mild 1–2 pole reconstruction low-pass (~4–8 kHz) to smooth DAC
-  steps, then level-shift/scale into the MC1496 modulating port's linear range.
+- **Reconstruction LPF + level scaler (single passive stage):**
+
+  ```
+                  R_F = 1.5 kΩ
+  MCP4921 OUT ───/\/\/\───┬─── MC1496 pin 1 (SIG_P)
+                          │
+                       C_F = 680 nF (film, MKT/MKP)
+                          │
+                         GND         (R4 = 51 Ω to GND already on pin 1)
+  ```
+
+  R_F + R4 form the divider; C_F to GND provides the single-pole rolloff.
+  Combined behavior:
+
+  | Parameter | Value | How |
+  |-----------|-------|-----|
+  | DC scale | 3.3 V DAC → 108 mV at pin 1 | R4 / (R_F + R4) = 51 / 1551 = 0.0329 |
+  | LPF −3 dB | 4.75 kHz | Thevenin R = R_F ‖ R4 = 49 Ω; τ = 34 µs |
+  | 40 kHz image (1st DAC alias) | −18.5 dB | single-pole rolloff |
+  | Settling (3τ) | ~100 µs | ≪ 2–5 ms envelope edge → no shape distortion |
+  | Pin 1 at 14 MHz | |Z_C| = 0.017 Ω | C_F also AC-grounds pin 1 → carrier isolation |
+
+  108 mV peak drives the modulator ~4× past AN531's linear boundary, into
+  saturation. That's intentional: `CODE_FULL` is calibrated to the actual
+  saturation point and the predistortion LUT linearizes the envelope.
+  For mostly-linear operation, use R_F = 3.3 kΩ → ~50 mV peak (keeps the
+  same ~4.6 kHz cutoff with the same C_F).
+
+  For steeper image rejection (−36 dB at 40 kHz): cascade an R = 1 kΩ /
+  C = 33 nF stage before R_F, or use Sallen-Key Butterworth on the spare
+  TL072. Single-pole is sufficient for CW.
 
 ---
 
 ## Open work / next steps
 
 - [ ] DAC-sweep-and-invert calibration routine to populate `s_cal[]`.
-- [ ] Qucs-S sim of the reconstruction filter + MC1496 modulating port to verify
-      the edge shape and check the transmitted spectrum before committing values.
+- [ ] Qucs-S sim of the reconstruction filter (R_F = 1.5 kΩ, C_F = 680 nF) +
+      MC1496 modulating port to verify the edge shape and check the transmitted
+      spectrum before locking values in hardware.
 - [ ] Wire `keyer_set_wpm()` to the WinKey speed source (command + speed pot).
 - [ ] Watchdog + hardware fail-safe gate (see fail-safe section).
 - [ ] Confirm `CODE_NULL` / `CODE_FULL` against the actual MC1496 bring-up.
