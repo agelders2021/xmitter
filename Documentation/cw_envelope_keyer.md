@@ -36,7 +36,9 @@ THIS MODULE  --(SPI)--> MCP4921 DAC --> R_F (1.5 kΩ) ──┬── MC1496 pin
                                                     C_F (680 nF)
                                                        │
                                                       GND
-             --> MC1496 modulating port --> RF envelope
+             --> MC1496 modulating port --> MC1496 diff output (~2.5 V p-p)
+             --> LM7171 post-keyer amp (G = 4) --> ~10 V p-p diff
+             --> 12HG7 driver --> driver-output transformer --> 6146B grids
 ```
 
 ---
@@ -204,6 +206,78 @@ on timeout. This is separate from, and must not depend on, the DAC value.
   For steeper image rejection (−36 dB at 40 kHz): cascade an R = 1 kΩ /
   C = 33 nF stage before R_F, or use Sallen-Key Butterworth on the spare
   TL072. Single-pole is sufficient for CW.
+
+- **Reduced carrier injection (for cleaner modulator output spectrum):**
+
+  The original keyer.sch had V_carrier ≈ 100 mV peak at the carrier port —
+  deep into switching mode (square-wave-like output, harmonics at 3f, 5f,
+  7f …). To push the modulator into true 4-quadrant multiplier behavior
+  (sinusoidal output, much lower harmonic content), the attenuation is
+  done **upstream in the VFO subcircuit** rather than at C1: the Pi pad
+  is uprated from 6 dB to **20 dB**, and the LPF is upgraded from 5-pole
+  to **7-pole Chebyshev** (same fc = 17.5 MHz) to push harmonic rejection
+  deeper (now critical, since carrier harmonics translate directly to
+  spurs in linear-multiplier mode).
+
+  See the VFO subcircuit section in `20m-leveled-keyed-buffer.md` for
+  the pad and LPF values. Effect on the keyer:
+
+  | Parameter | Before | After |
+  |-----------|--------|-------|
+  | V_RF_IN to keyer (post-pad) | ~380 mV peak | ~38 mV peak |
+  | V_pin10 (with C1 = 330 pF) | ~100 mV peak | ~32 mV peak |
+  | Modulator mode | hard switching | linear / soft-switching boundary |
+  | 3rd-harmonic spur at carrier port | ~−42 dBc | ~−69 dBc |
+
+  C1 stays at the original 330 pF — the cap divider with R1 = 51 Ω is no
+  longer being used as an attenuator; the upstream pad does that work.
+  After hardware bring-up, an additional discrete pad can be inserted
+  between the VFO and the keyer's RF_IN if the measured carrier amplitude
+  needs further trimming.
+
+- **Post-keyer voltage amplifier (between MC1496 outputs and 12HG7 driver):**
+
+  With V_pin10 ≈ 32 mV peak (after the 20 dB pad upstream), the MC1496's
+  output is ~1.4 V p-p differential — well short of the 8 V p-p the
+  12HG7 driver was sized for. An LM7171 op-amp per side bridges the gap
+  with gain ≈ 6:
+
+  ```
+                                    +12 V    ─8.3 V    (existing rails)
+                                       │       │
+                                     ──┴───────┴──   bypass: 10 µF + 100 nF per rail
+
+  MC1496 OUT_P ── 100 nF ──┬── (+) LM7171_A ── 100 nF ── 12HG7 driver in 1
+                           │        │
+                          100k     (−) ── 10k ── GND
+                           │        └── 47k ── op-amp output (feedback)
+                          GND
+  ```
+
+  (Mirror circuit on OUT_N → driver in 2.)
+
+  | Parameter | Value | Notes |
+  |-----------|-------|-------|
+  | Gain | 1 + R_F/R_G = 5.8 | R_F = 47 kΩ, R_G = 10 kΩ |
+  | BW at G = 5.8 | ~34 MHz | LM7171 GBW = 200 MHz |
+  | Output swing | rail-to-rail−2 V | ample for ±5 V swing on ±10 V rails |
+  | Input bias point | 0 V (via 100 kΩ to GND) | well within CM range of split supply |
+  | Drives | ~100 Ω cathode-input of grounded-grid 12HG7 stage | output impedance ≪ 100 Ω |
+
+  Drive headroom: keyer ~1.4 V p-p × 5.8 ≈ 8 V p-p at driver input —
+  matches the 8 V p-p design point of the driver/PA chain.
+
+  **Re-tuning notes:** To push modulator linearity even harder, increase
+  the Pi pad attenuation in the VFO subcircuit (e.g., from 20 dB to 26 dB)
+  rather than touching C1. Then raise R_F to compensate for the further
+  drop in modulator gain. Practical limit with LM7171 is R_F ≈ 60 kΩ
+  (gain 7); BW drops to ~28 MHz, still safely above the 14 MHz carrier.
+  Beyond that, swap to a faster op-amp (AD8055, LMH6610, AD8009 — all
+  300+ MHz GBW).
+
+  Why LM7171 (not TL072): TL072's 3 MHz GBW is well below the 14 MHz
+  carrier; LM7171's 200 MHz GBW leaves flat gain through the carrier band
+  at the chosen gain of ~6.
 
 ---
 

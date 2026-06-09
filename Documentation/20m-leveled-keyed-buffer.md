@@ -56,33 +56,50 @@ drive-strength setting, level, and frequency. A passive LC filter's ripple,
 cutoff, and stopband all depend on known terminations, so we **define both
 ends with resistors** and stop relying on the chip.
 
-**Pad — 6 dB Pi attenuator, 50 Ω** (swamps the chip impedance):
+**Pad — 20 dB Pi attenuator, 50 Ω** (swamps the chip impedance and brings
+the carrier level into the modulator's linear-mode range):
 
 | Ref | Value | Position |
 |-----|-------|----------|
-| RP1 | 150 Ω | shunt, input side |
-| RP2 | 39 Ω | series |
-| RP3 | 150 Ω | shunt, output side |
+| RP1 | 61.9 Ω (E96) or 62 Ω (E24) | shunt, input side |
+| RP2 | 249 Ω (E96) or 240 Ω (E24) | series |
+| RP3 | 61.9 Ω (E96) or 62 Ω (E24) | shunt, output side |
 
 - Set the Si5351 to **8 mA** drive strength to feed the pad.
 - Pad output impedance stays within a few ohms of 50 Ω across the chip's
   50–85 Ω range → source return loss ≥ ~23 dB at the filter input.
-- Drop to a 3 dB pad if more signal level is wanted (≈6 dB less isolation).
+- 20 dB (vs. the original 6 dB) puts V_RF_IN to the keyer at ~38 mV peak
+  instead of ~380 mV; combined with C1 = 330 pF in keyer.sch, V_pin10
+  sits at ~23 mV peak — squarely in the MC1496's linear-multiplier
+  range, where harmonic content of the carrier translates directly
+  to spurs at the modulator output (so a clean carrier matters).
+- After bring-up, an additional discrete pad can be inserted downstream
+  to fine-tune the carrier level if measured output differs from sim.
 
-**5-pole Chebyshev LPF** — 0.1 dB ripple, n = 5, doubly-terminated 50 Ω,
-shunt-input (C-L-C-L-C), ripple cutoff fc = 17.5 MHz:
+**7-pole Chebyshev LPF** — 0.1 dB ripple, n = 7, doubly-terminated 50 Ω,
+shunt-input (C-L-C-L-C-L-C), ripple cutoff fc = 17.5 MHz. (Upgraded from
+the original 5-pole specifically to push harmonic rejection deeper —
+critical now that the modulator is operating linearly.)
 
 | Element | Ideal | Practical realization |
 |---------|-------|-----------------------|
-| CF1 (shunt) | 209 pF | 200 pF C0G/silver mica (+~10 pF trim if sweeping) |
-| LF2 (series) | 624 nH | 13 t on T50-6 (~676 nH); spread turns to trim down |
-| CF3 (shunt) | 359 pF | 360 pF (or 330 + 27 pF) |
-| LF4 (series) | 624 nH | 13 t on T50-6, as LF2 |
-| CF5 (shunt) | 209 pF | 200 pF, as CF1 |
+| CF1 (shunt) | 215 pF | 220 pF C0G/silver mica |
+| LF2 (series) | 647 nH | 13 t on T50-6 (~647 nH; same as the old LF2/LF4) |
+| CF3 (shunt) | 381 pF | 390 pF (or 360 + 27 pF) |
+| LF4 (series) | 715 nH | 14 t on T50-6 |
+| CF5 (shunt) | 381 pF | 390 pF (same as CF3) |
+| LF6 (series) | 647 nH | 13 t on T50-6 (same as LF2) |
+| CF7 (shunt) | 215 pF | 220 pF (same as CF1) |
 
 - 14.35 MHz band edge sits inside the ripple band → passband flat within
   0.1 dB across 14.0–14.35 MHz.
-- Stopband: ~44 dB at 3rd harmonic (42 MHz), ~67 dB at 5th (70 MHz).
+- Stopband: **~28 dB at 2f (28 MHz), ~60 dB at 3f (42 MHz), ~88 dB at
+  5f (70 MHz)** — gains ~15 dB / ~27 dB / ~37 dB respectively vs. the
+  original 5-pole.
+- Two extra parts vs. 5-pole: one cap (CF7 vs. CF5 split) and one
+  inductor (LF6). 9-pole gives another ~15 dB at each harmonic for the
+  cost of another L+C pair, but 7-pole already pushes the worst harmonic
+  spur (3rd) well below −60 dBc when combined with the upstream pad.
 
 **Termination + tap:**
 
@@ -255,6 +272,58 @@ V_CMD = 0, V_AGC → 0 → output is zero regardless of how far V_AGC integrated
 - The key contact still switches only a low-voltage control line — no RF, no
   HV at the key. The Si5351/VFO runs continuously.
 
+### Reduced carrier injection + post-keyer voltage amplifier
+
+Carrier amplitude reduction is now done **upstream** in the VFO subcircuit
+(20 dB Pi pad + 7-pole LPF — see the VFO section above) rather than at the
+keyer's C1 coupling cap. C1 stays at the original 330 pF (its job is
+coupling, not attenuation), and the carrier arrives at pin 10 at ~32 mV
+peak — squarely in linear-multiplier territory for the MC1496.
+
+The lower carrier drops modulator gain to ~55 % of its old switching-mode
+value, so the keyer's differential output sits at ~1.4 V p-p instead of
+the previous 2.5 V p-p. An **LM7171 voltage amp (one per differential
+side, gain ≈ 5.8)** restores the 8 V p-p drive the 12HG7 driver was sized
+for.
+
+| Per-channel component | Value | Role |
+|-----------------------|-------|------|
+| LM7171AIN/AIM | — | High-speed op-amp (200 MHz GBW), DIP-8 or SOIC-8 |
+| C_IN | 100 nF X7R | AC-couple from MC1496 OUT (+10 V DC) to op-amp input |
+| C_OUT | 100 nF X7R | AC-couple to 12HG7 grounded-grid cathode input |
+| R_B | 100 kΩ 1% | Holds + input at 0 V (op-amp bias reference) |
+| R_F | 47 kΩ 1% | Feedback (gain = 1 + R_F/R_G = 5.8) |
+| R_G | 10 kΩ 1% | Inverting-input leg to GND |
+
+Shared supply bypass: 2× 10 µF aluminum electrolytic + 2× 100 nF ceramic
+(one of each across +12 V→GND and −8.3 V→GND), within ~10 mm of the IC
+supply pins.
+
+**Why LM7171:** TL072 (used elsewhere for the AGC integrator) has only
+3 MHz GBW — well below the 14 MHz carrier. LM7171 has 200 MHz GBW; at
+gain 5.8 it still has ~34 MHz BW, flat through the carrier band. Both ICs
+run from the existing +12 V / −8.3 V rails (20.3 V total, inside the
+LM7171's ±18 V abs max).
+
+**Tuning the trade-off after hardware bring-up:** if the measured carrier
+amplitude needs trimming up or down, the right knob is the **Pi pad
+attenuation** in the VFO chain (or an inserted discrete pad downstream),
+not C1. If lowering the carrier further also drops the keyer output too
+low, raise R_F to compensate. Practical limit with LM7171 is R_F ≈ 60 kΩ
+(gain ~7, BW ~28 MHz); beyond that, swap to a faster op-amp (AD8055,
+LMH6610, AD8009 — all 300+ MHz GBW).
+
+| Pad atten. | V_RF_IN to keyer | V_pin10 (C1=330pF) | Keyer out p-p | R_F for 8 V p-p drive | LM7171 BW |
+|------------|------------------|---------------------|---------------|------------------------|-----------|
+| 6 dB (original) | ~380 mV peak | ~100 mV peak | 2.5 V | 30 kΩ (G=4) | 50 MHz ✓ |
+| **20 dB** | **~38 mV peak** | **~32 mV peak** | **~1.4 V** | **47 kΩ (G=5.8)** | **34 MHz ✓ — designed** |
+| 26 dB | ~19 mV peak | ~16 mV peak | ~0.7 V | 110 kΩ (G=12) | 17 MHz — switch to AD8055 |
+| 14 dB | ~76 mV peak | ~63 mV peak | ~1.7 V | 38 kΩ (G=4.7) | 42 MHz ✓ |
+
+V_pin10 and keyer output depend on the actual J310 follower output and
+MC1496 model behavior; verify in sim by probing the keyer's Pr1
+(carrier-port differential) and Pr2 (output differential).
+
 ## Simulation files
 
 | File | Purpose |
@@ -267,11 +336,12 @@ V_CMD = 0, V_AGC → 0 → output is zero regardless of how far V_AGC integrated
 
 | Ref | Value / Part | Notes |
 |-----|--------------|-------|
-| RP1, RP3 | 150 Ω | 6 dB pad, shunt |
-| RP2 | 39 Ω | 6 dB pad, series |
-| CF1, CF5 | 200 pF C0G/silver mica | Chebyshev LPF shunt |
-| CF3 | 360 pF C0G/silver mica | Chebyshev LPF shunt (or 330 + 27 pF) |
-| LF2, LF4 | 13 t on T50-6 (~0.62 µH) | Chebyshev LPF series |
+| RP1, RP3 | 61.9 Ω 1% (or 62 Ω E24) | 20 dB pad, shunt |
+| RP2 | 249 Ω 1% (or 240 Ω E24) | 20 dB pad, series |
+| CF1, CF7 | 220 pF C0G/silver mica | 7-pole Chebyshev LPF shunt (outer) |
+| CF3, CF5 | 390 pF C0G/silver mica | 7-pole Chebyshev LPF shunt (inner, or 360 + 27 pF) |
+| LF2, LF6 | 13 t on T50-6 (~647 nH) | 7-pole Chebyshev LPF series (outer) |
+| LF4 | 14 t on T50-6 (~715 nH) | 7-pole Chebyshev LPF series (center) |
 | RT | 50 Ω | Filter load termination |
 | Q1 | J310 | JFET source follower, TO-92 |
 | DZ1 | 1N4738A | 8.2 V zener, −8.2 V supply |
@@ -299,6 +369,12 @@ V_CMD = 0, V_AGC → 0 → output is zero regardless of how far V_AGC integrated
 | C_Z2 | 100 nF ceramic | −8.2 V HF bypass |
 | — | 10 nF NP0 (×several) | VDD bypass, coupling, RF bypass |
 | — | 100 nF ceramic (×2) | MC1496 carrier port bypass, VEE bypass |
+| U2, U3 | LM7171AIN (×2) | Post-keyer voltage amp, one per differential side |
+| R_F (×2) | 47 kΩ 1% | Op-amp feedback (gain = 5.8) |
+| R_G (×2) | 10 kΩ 1% | Op-amp inverting-input leg to GND |
+| R_B (×2) | 100 kΩ 1% | Op-amp + input bias to GND |
+| C_IN, C_OUT (×4) | 100 nF X7R | LM7171 AC coupling (in and out, per channel) |
+| — | 10 µF aluminum (×2), 100 nF ceramic (×2) | LM7171 supply bypass (+12 V, −8.3 V) |
 
 ## Alignment procedure
 
@@ -333,3 +409,105 @@ V_CMD = 0, V_AGC → 0 → output is zero regardless of how far V_AGC integrated
 - [ ] Choose RE_ext (1 kΩ or 500 Ω) based on measured output level vs. grid
       drive requirement after T1 is wound.
 - [ ] MCP4725 Vref and detector divider scaling for exact 0.3–5 V/grid mapping.
+
+---
+
+## PA monitoring and control — design options (under consideration)
+
+For per-tube grid bias control and per-tube grid/plate/screen current
+monitoring on the push-pull 6146B PA. Options recorded here for future
+decision — none committed to schematic yet. Output-power adjustment uses
+the envelope DAC's `CODE_FULL` in firmware (see `cw_envelope_keyer.md`),
+not bias.
+
+### Grid current measurement (per tube)
+
+Sense resistor in series with each grid leak, between R_GL and the bias
+supply node. Voltage across R_sense × difference amp → ADC.
+
+```
+grid → R_GL (22 kΩ) → R_sense → bias supply (−V_bias)
+                      │←  ΔV  →│
+                            │
+                  high-CMR difference amp → ADC
+```
+
+| R_sense | ΔV at 2 mA grid current | Notes |
+|---------|--------------------------|-------|
+| 100 Ω | 200 mV | Diff amp on the bias rail; needs ~−70 V CM tolerance |
+| 1 kΩ | 2 V | Single-supply op-amp can sit on the bias rail directly; simpler but cable run to digital side is harder |
+
+Difference amp candidates: **INA170** (±60 V CM), **LT1991 / AD629**
+(±270 V CM, no external CM trim needed), or DIY OP07 + 1 % matched
+resistor divider.
+
+### Grid bias voltage control (per tube)
+
+Per-tube DAC → high-voltage op-amp inverter → grid (via existing R_GL).
+
+```
+DAC out (0–5 V) ─ R_in ─┬─ (−)  OPA454  output ── R_GL (22 kΩ) → grid
+                        │            │
+                        R_F          ±100 V supply
+                        │            │
+                        └── output ──┘
+
+V_out = − (R_F/R_in) × V_DAC + offset (from V_ref on + input)
+```
+
+| Stage | Part / value |
+|-------|--------------|
+| DAC (×2, one per tube) | MCP4725 I²C breakout |
+| HV op-amp (×2) | OPA454 (±100 V, ±50 mA) — primary choice |
+|  | OPA445 (±45 V) — workable if range stays > −40 V |
+|  | Discrete level-shifter w/ KSP44 PNP (400 V) — cheaper alternative |
+| HV supply | Small ±100 V dedicated, isolated DC-DC (e.g., Murata NMA0509 + voltage doubler), shared between channels |
+
+**Safe-park behavior:** MCP4725 EEPROM startup value should map to the
+*most negative* bias (deep cutoff = PA off) so the tubes are safe before
+the MCU initializes. Pull-down on the DAC output to GND reinforces this.
+
+**Range target:** −90 V (PA off / parked) to −40 V (shallow class, max
+output). Scale R_F/R_in and the (+) input offset to suit.
+
+### ADC protection (cathode current sense)
+
+10 Ω cathode resistor can see hundreds of volts if it ever opens. Three
+layers of defense:
+
+```
+cath. resistor top ── R_S (10 kΩ) ──┬── (+) opamp ── output ── ADC
+                                    │   (+5 V / GND supply)
+                              ┌─────┼─────┐
+                             D1   C(100n) D2
+                              │   │       │
+                             GND GND    +3.3 V
+
+D1, D2 = Schottky (BAT54 or 1N5817)
+```
+
+| Layer | Purpose |
+|-------|---------|
+| R_S = 10 kΩ series | Limits fault current; 600 V → 60 mA into clamp diodes (survivable briefly) |
+| D1/D2 Schottky clamps | Shunt overvoltage to ±supply rails before reaching opamp |
+| Op-amp buffer (low-V supply) | Output can only swing within its rails — ADC physically can't see > supply, no matter the input |
+
+Op-amp choice: **OPA1641** (±20 V differential input protection) or
+**LMC6041** (input protection diodes built in). Powered from the same
++5 V or +3.3 V the ADC uses.
+
+**Optional 4th layer:** Bourns MF-R010 PTC fuse (100 mA hold) in series
+ahead of R_S — opens on sustained fault, self-resets when fault clears.
+
+**RF bypass on the cathode resistor** (planned addition): 0.01 µF NP0
+ceramic directly across the 10 Ω, low-ESL, mounted right at the tube
+socket. Tap the DC sense from the resistor top *before* the bypass cap on
+the layout so RF can't reach the ADC chain.
+
+### Output-power control
+
+**No additional hardware.** The envelope MCP4921 DAC's `CODE_FULL`
+calibration constant (in firmware) is the natural power-level knob —
+12-bit DAC gives ~72 dB range, preserves envelope shape at every power
+setting, and doesn't disturb PA bias / drive / loading. See
+`cw_envelope_keyer.md` for details.
