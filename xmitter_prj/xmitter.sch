@@ -1,6 +1,6 @@
 <Qucs Schematic 26.1.1>
 <Properties>
-  <View=-487,-794,2829,1051,0.840336,254,571>
+  <View=-407,-203,2589,1019,1.48871,308,944>
   <Grid=10,10,1>
   <DataSet=xmitter.dat>
   <DataDisplay=xmitter.dpl>
@@ -38,9 +38,8 @@
   <VProbe Pr2 1 770 320 28 -31 0 0>
   <GND * 1 780 340 0 0 0 0>
   <SpicePar SpicePar1 1 600 190 -25 17 0 0 "V_IN=4V" 1>
-  <Vrect V4 1 530 780 -13 70 1 3 "3.3 V" 1 "33.275ns" 1 "33.275ns" 1 "2ns" 0 "2ns" 0 "0 ns" 0 "0 V" 1>
+  <Vrect V4 1 530 780 63 -23 1 3 "3.3 V" 1 "33.275ns" 1 "33.275ns" 1 "2ns" 0 "2ns" 0 "0 ns" 0 "0 V" 1>
   <GND * 1 170 900 0 0 0 0>
-  <Vdc V7 1 -100 880 18 -26 0 1 "3.3 V" 1>
   <Vdc V6 0 0 880 18 -26 0 1 "0V" 1>
   <GND * 1 0 910 0 0 0 0>
   <GND * 1 -100 910 0 0 0 0>
@@ -52,10 +51,11 @@
   <Sub Driver_transformer 1 440 410 -35 -10 0 1 "Driver_output_transformer_subcircuit.sch" 0>
   <Sub VFO_SUB 1 370 750 -26 21 1 2 "vfo_subcircuit.sch" 0>
   <Vdc V5 1 170 870 18 -26 0 1 "1.65V" 1>
-  <.TR TR1 1 50 150 0 54 0 0 "lin" 1 "4980us" 1 "5000us" 1 "4000" 0 "Trapezoidal" 0 "2" 0 "1 ns" 0 "1e-16" 0 "150" 0 "0.001" 0 "1 pA" 0 "1 uV" 0 "26.85" 0 "1e-3" 0 "1e-6" 0 "1" 0 "CroutLU" 0 "no" 0 "yes" 0 "0" 0>
-  <Sub PA 1 610 410 -27 -9 0 1 "PA_subcircuit.sch" 0>
   <Sub Driver 1 220 410 -14 -9 0 1 "Driver_subcircuit.sch" 0>
+  <Sub PA 1 610 410 -27 -9 0 1 "PA_subcircuit.sch" 0>
   <Sub KEYER 1 160 690 -26 -102 0 2 "keyer.sch" 0>
+  <.TR TR1 1 50 150 0 54 0 0 "lin" 1 "4980us" 1 "4985us" 1 "4000" 0 "Trapezoidal" 0 "2" 0 "1 ns" 0 "1e-16" 0 "150" 0 "0.001" 0 "1 pA" 0 "1 uV" 0 "26.85" 0 "1e-3" 0 "1e-6" 0 "1" 0 "CroutLU" 0 "no" 0 "yes" 0 "0" 0>
+  <Vdc V7 1 -100 880 18 -26 0 1 "3.3V" 1>
 </Components>
 <Wires>
   <1070 300 1080 300 "" 0 0 0 "">
@@ -119,4 +119,6 @@
   </Rect>
 </Diagrams>
 <Paintings>
+  <Text -100 960 12 #000000 0 "V6/V7 represent key input.  This is hardware DAC output.">
+  <Text 210 910 12 #000000 0 "V5 requires separate DAC input to pins 3 and 4 \nthat adjusts balanced modulator null output.">
 </Paintings>
