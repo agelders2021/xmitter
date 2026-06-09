@@ -247,7 +247,10 @@ class PlotApp(tk.Tk):
             y_cb["values"] = y_opts
             cur = y_var.get()
             if reset_selections or cur not in y_opts:
-                y_var.set(y_names[i] if i < len(y_names) else "(none)")
+                # Only the first curve gets auto-populated with a variable;
+                # additional curves default to (none) so the first plot is
+                # visible cleanly and the user opts in to overlays.
+                y_var.set(y_names[0] if i == 0 and y_names else "(none)")
 
     # ── actions ───────────────────────────────────────────────────────────────
 

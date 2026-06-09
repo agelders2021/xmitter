@@ -157,8 +157,8 @@ class GuiPlotApp(plot.PlotApp):
                         close_btn.config(state=tk.NORMAL)
                         if payload == 0 and expected_output.exists():
                             self._load_data(str(expected_output))
-                            # Auto-close the progress window shortly after success
-                            win.after(750, win.destroy)
+                            # Leave the window open so the user can scan the log
+                            # for warnings; the Close button is now enabled.
                         else:
                             messagebox.showerror(
                                 "Run failed",
