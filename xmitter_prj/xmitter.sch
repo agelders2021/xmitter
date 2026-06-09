@@ -48,13 +48,13 @@
   <VProbe Pr6 1 160 530 28 -31 0 0>
   <VProbe Pr7 1 270 600 28 -31 0 0>
   <GND * 1 280 620 0 0 0 0>
-  <Sub Driver 1 220 410 -14 -9 0 1 "Driver_subcircuit.sch" 0>
   <Sub Balun 1 730 410 -7 -7 1 3 "Balun_6to1_subcircuit.sch" 0>
   <Sub Driver_transformer 1 440 410 -35 -10 0 1 "Driver_output_transformer_subcircuit.sch" 0>
   <Sub VFO_SUB 1 370 750 -26 21 1 2 "vfo_subcircuit.sch" 0>
   <Vdc V5 1 170 870 18 -26 0 1 "1.65V" 1>
+  <.TR TR1 1 50 150 0 54 0 0 "lin" 1 "4980us" 1 "5000us" 1 "4000" 0 "Trapezoidal" 0 "2" 0 "1 ns" 0 "1e-16" 0 "150" 0 "0.001" 0 "1 pA" 0 "1 uV" 0 "26.85" 0 "1e-3" 0 "1e-6" 0 "1" 0 "CroutLU" 0 "no" 0 "yes" 0 "0" 0>
   <Sub PA 1 610 410 -27 -9 0 1 "PA_subcircuit.sch" 0>
-  <.TR TR1 1 50 150 0 54 0 0 "lin" 1 "4980us" 1 "5000us" 1 "1000" 0 "Trapezoidal" 0 "2" 0 "1 ns" 0 "1e-16" 0 "150" 0 "0.001" 0 "1 pA" 0 "1 uV" 0 "26.85" 0 "1e-3" 0 "1e-6" 0 "1" 0 "CroutLU" 0 "no" 0 "yes" 0 "0" 0>
+  <Sub Driver 1 220 410 -14 -9 0 1 "Driver_subcircuit.sch" 0>
   <Sub KEYER 1 160 690 -26 -102 0 2 "keyer.sch" 0>
 </Components>
 <Wires>
