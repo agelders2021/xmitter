@@ -11,8 +11,8 @@ learned about ngspice quirks that bit us along the way.
 |---|---|
 | Is C_TANK = 33 pF the right value? | **Yes.** Tank already accounts for ~8.5 pF 6146B output capacitance per tube → effective 41.5 pF per side → resonance lands at 14.2 MHz. Sweep showed peak power within ±1 pF. |
 | Best R17 load for the PA in standalone test? | **~320 Ω** (broad peak from 290–360 Ω, all within 2 % of max). Equivalent to the ~300 Ω the balun + 50 Ω antenna naturally present in the full chain. |
-| Max V6 drive without exceeding tube ratings? | **V6 = 220 V peak is safe** (15 W/tube dissipation, ~53 W out). V6 = 240 V is the rate-limit; above that the conduction angle widens enough that plate dissipation creeps up. |
-| Can we hit 50 W output safely? | **Yes** — V6 = 200 V on R17 ≈ 300 Ω gives 50 W out, 15 W/tube dissipation (60 % of the 25 W rating), 63 % efficiency. |
+| Max V6 drive without exceeding tube ratings? | **Dissipation alone: V6 = 240 V is safe** (14 W/tube, 55 W out). **But the grid-voltage spec (−150 V max) is the binding constraint** — at bias = −70 V, V6 = 160 V puts the peak negative grid voltage at exactly −150 V; anything above that overdrives the grid and risks the tube. See "Corrected operating point" below. |
+| Can we hit 50 W output safely (including the grid voltage limit)? | **Yes** — bias = **−60 V**, V6 = **180 V** on R17 = 300 Ω gives 50 W out, 24 W/tube dissipation (5 % margin on 25 W rating), peak grid at exactly −150 V. (The earlier "−70 V / V6 = 200 V" recommendation looked great for dissipation but was producing peak grid voltage of −170 V — over the spec by 20 V — and is no longer the design point.) |
 | Does the modulator-port linear-mode redesign work? | **Yes.** 20 dB pad + 7-pole LPF + LM7171 post-amp (gain ~5.8) restored full driver input level while moving the MC1496 into true 4-quadrant multiplier behaviour (carrier port ~30 mV peak, well below switching threshold). |
 
 ## Changes committed this session
@@ -77,7 +77,7 @@ recommended value for production is R_F = 47 kΩ giving gain 5.8 — see
 - Plate-current sense probe path restructured during diode experiments (then reverted)
 - Tran window extended to 3.5 µs (was 200 ns) so RMS/mean stats can integrate over ~50 cycles instead of ~3
 - R17 (standalone test load) = 300 Ω — represents the ~300 Ω the balun delivers in full chain
-- V6 (standalone drive) = 160 V — useful single-point baseline; 200 V is the 50 W operating point
+- V6 (standalone drive) = 160 V — useful single-point baseline; **180 V at bias = −60 V is the 50 W operating point** that honors the grid voltage spec (the earlier "200 V at bias = −70 V" recommendation violated the −150 V grid limit by 20 V — see "Grid voltage constraint" below)
 
 ### Balun subcircuit (`Balun_6to1_subcircuit.sch`)
 
@@ -128,20 +128,80 @@ Tube envelope check (6146B: 25 W plate, 270 mA peak emission steady-state):
 
 - **Dissipation peaks at V6 = 140–160 V (~15.8 W/tube)** — *60 % of rating* — well within envelope
 - Above V6 ≈ 160 V, dissipation *decreases* even as output rises (efficiency improves faster than input power grows in class C)
-- Peak plate current of 416 mA at V6 = 200 V looks scary but is fine — the 270 mA rating is steady-state, not instantaneous peak; what kills tubes is average dissipation, not peak current
+- Peak plate current of 416 mA at V6 = 200 V looks scary by itself but is acceptable — the 270 mA rating is steady-state, not instantaneous peak; what kills tubes is average dissipation, not peak current
+- **HOWEVER:** the grid-voltage spec is what binds the operating point, NOT
+  plate dissipation. See next section.
 
-### Operating point recommendation
+### Grid voltage constraint (the binding limit)
+
+The 6146B's max peak negative grid voltage is **−150 V**. With bias = −70 V
+and V6 differential drive between the two grids, each grid swings ±V6/2
+around its bias. So:
+
+- bias −70 V, V6 = 160 V → peak grid = −70 − 80 = **−150 V** (at the limit)
+- bias −70 V, V6 = 200 V → peak grid = −70 − 100 = **−170 V** (20 V over spec)
+
+The V6 = 200 V operating point that maximised the dissipation/output trade
+**violates the grid voltage spec by 20 V**. Exceeding peak grid voltage is
+one of the fastest failure modes for vacuum tubes — far quicker than slow
+plate-dissipation overload. So the design must back off from V6 = 200 V to
+honour the grid limit.
+
+A paired (bias, V6) sweep ran each operating point at the limit point where
+peak grid = exactly −150 V (V6 = 2 × (150 − |bias|)):
+
+| Bias | V6 | P_out | I_peak/tube | P_diss/tube | Eff |
+|---|---|---|---|---|---|
+| −75 V | 150 V | 22 W | 276 mA | 21 W | 35 % |
+| −70 V | 160 V | 35 W | 341 mA | 23 W | 43 % |
+| −65 V | 170 V | 44 W | 380 mA | 24 W | 48 % |
+| **−60 V** | **180 V** | **50 W** | **412 mA** | **24 W** | **51 %** ← 50 W target |
+| −55 V | 190 V | 56 W | 431 mA | 23 W | 54 % |
+| −50 V | 200 V | 60 W | 442 mA | 23 W | 56 % |
+| −45 V | 210 V | 63 W | 459 mA | 23 W | 57 % |
+
+Key observation: **plate dissipation is nearly flat at 21–24 W/tube** across
+the whole bias range. The trade-off isn't "deep C = efficient vs. shallow C
+= lossy" — it's "deep C = less output for the same heat vs. shallow C =
+more output for the same heat." Shallow bias wins on power-per-watt-of-
+dissipation; the only real cost is higher peak current (still inside the
+6146B emission envelope at all sweep points).
+
+### Corrected operating point
 
 | Metric | Value |
 |---|---|
-| V6 drive amplitude | **200 V peak** (full chain delivers ~8 V p-p at driver input → driver multiplies up → ~200 V grid-to-grid) |
+| V6 drive amplitude | **180 V peak** (≈8 V p-p × driver gain at the LM7171 output) |
 | R17 / load impedance | **300 Ω** (matches the balun's 6:1 step-down from 50 Ω antenna) |
 | Plate supply (V_supply) | 600 V DC |
 | Screen voltage | +200 V |
-| Grid bias | −70 V |
+| Grid bias | **−60 V** (operating; see below for hardware-vs-firmware strategy) |
 | Output power | **50 W** |
-| Plate dissipation | 15 W/tube (60 % of CW rating) |
-| Efficiency | 63 % |
+| Plate dissipation | 24 W/tube (5 % margin on 25 W CW rating) |
+| Peak grid voltage | **−150 V** (exactly at spec) |
+| Efficiency | 51 % |
+
+### Bias rail strategy: hardware−rail vs firmware−adjusted
+
+Set the **hardware bias supply rail to −65 to −70 V** (deeper than operating
+point), and have firmware bring the operating bias to −60 V via the per-tube
+DAC + HV op-amp (OPA454) circuit captured in `20m-leveled-keyed-buffer.md`.
+Rationale:
+
+- **Power-up safe**: hardware default is deep cutoff before firmware runs
+- **Fail-safe**: if firmware hangs, bias falls back to hardware rail (cutoff) —
+  same watchdog pattern as the keyer DAC
+- **Per-tube balance**: same DACs that bias the tubes can trim tube-to-tube
+  spread (typically ±2–3 V)
+- **Drift headroom**: dissipation is nearly flat across the −70 → −60 V
+  modulation range, so any firmware control loop has room to wander without
+  exiting the safe envelope
+
+**Practical firmware target**: operate at **bias = −63 V** instead of −60 V
+to give 3 V of cushion before grid voltage hits −150 V under any
+combination of tube spread, supply ripple, and DAC quantisation. Costs
+~1–2 W of output (49 W instead of 50 W); eliminates the "ride the spec
+continuously" anxiety.
 
 ## New tooling
 
@@ -183,6 +243,21 @@ Metrics supported: `mean`, `peak`, `peak_neg`, `peak_abs`, `peak_to_peak`, `rms`
 `p_into_r`. Mean and RMS use **trapezoidal time-weighting** (essential — see lessons
 below). The `--dry-run` flag confirms the pattern matched the intended line before
 launching a long-running sweep.
+
+### `tools/sweep_bias_drive.py` — paired (bias, V6) sweep for grid-voltage-constrained analysis
+
+Built after the grid-voltage spec issue surfaced. Sweeps tuple pairs of (GRID
+bias, V6 drive) where each pair sits exactly at the −150 V grid spec limit
+(V6 = 2 × (150 − |bias|)). Runs ngspice in parallel for each pair; reports
+combined power and dissipation table. Hardcoded R_LOAD = 300 Ω; edit the
+`PAIRS` list at the top of the script to add intermediate points.
+
+```bash
+python sweep_bias_drive.py
+# (no args — operating points are baked in)
+```
+
+This is the tool that produced the corrected operating-point table above.
 
 ### `tools/gui_plot.py` change
 
