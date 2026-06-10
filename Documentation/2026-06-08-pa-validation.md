@@ -203,6 +203,106 @@ combination of tube spread, supply ripple, and DAC quantisation. Costs
 ~1–2 W of output (49 W instead of 50 W); eliminates the "ride the spec
 continuously" anxiety.
 
+### Two-state bias operation (refinement of the strategy above)
+
+Because the per-tube grid bias is firmware-controlled via the DAC + OPA454,
+nothing forces a single fixed operating-bias value. **Use two distinct bias
+setpoints** — one for key-up (idle), one for key-down (transmit) — and the
+PA gets meaningfully safer plus cleaner.
+
+| State | Bias | Tube state | Plate current | Standby dissipation |
+|---|---|---|---|---|
+| **IDLE** (key-up) | **−90 V** | Deep cutoff, fully off | 0 mA | 0 W per tube |
+| **OPERATE** (key-down) | **−50 V** | Shallow class C | per envelope | per envelope |
+
+The IDLE state gives belt-and-braces safety: even if the MC1496's carrier
+null isn't perfect, biased-off tubes can't emit RF. Plate current is exactly
+zero in IDLE (not just "low"), so standby dissipation is exactly zero.
+
+The OPERATE state is the same −50 V shallow class C that earlier analysis
+identified as optimum for envelope linearity: conduction threshold around
+V6 = 80 V, leaving ~75 V of clean modulation range from threshold to 50 W
+output, with full envelope range available to the keyer's predistortion LUT
+without hitting the conduction-onset cliff that fixed −70 V or −60 V bias
+would create.
+
+#### Firmware sequencing
+
+The bias DAC settles in ~200 µs (R_GL = 22 kΩ × tube grid input capacitance
+~10 pF gives a 0.22 µs grid-side time constant; the OPA454 output impedance
+is negligible). The envelope DAC's raised-cosine edge is 3–5 ms. So the
+bias transition can complete well before the envelope opens up the
+modulator.
+
+**Key-down sequence:**
+1. WinKey layer signals `keyer_key_down()`
+2. Per-tube bias DACs commanded from IDLE → OPERATE
+3. Wait 200 µs for OPA454 + grid input cap to settle
+4. Kick off envelope DAC raised-cosine ramp toward `CODE_FULL`
+
+**Key-up sequence:**
+1. Envelope DAC ramps from `CODE_FULL` → 0 (raised-cosine, 3–5 ms)
+2. Wait 1 ms guard after envelope reaches null
+3. Per-tube bias DACs commanded from OPERATE → IDLE
+4. Wait 200 µs to confirm tubes are back in deep cutoff
+
+Total turn-on time: ~3.2 ms (200 µs bias + 3 ms envelope), indistinguishable
+from a fixed-bias transmitter in operator feel but spectrally cleaner because
+the envelope doesn't have to traverse a conduction-onset nonlinearity.
+
+#### Hardware change
+
+The bias circuit drawn in `Grid_Bias_Schematic.pdf` was originally sized for
+the −70 V to −50 V range. For two-state operation we need the IDLE state to
+reach −90 V. Change one resistor:
+
+| Resistor | Original (−70 V range) | Two-state (−90 V range) |
+|---|---|---|
+| R_2 | 3.57 kΩ | **2.78 kΩ** |
+| R_3 | 1.00 kΩ | unchanged |
+| R_F | 50 kΩ | unchanged |
+| R_in | 10 kΩ | unchanged |
+
+Same OPA454, same DAC, same supplies — just one resistor value. New range
+maps DAC code 0 → −90 V (IDLE) and code 4095 → −50 V (OPERATE). Per-tube
+trim around the operating point is still ~±2 V via the bottom 2-3 bits of
+the DAC near the high end.
+
+#### Future direction: dynamic bias modulation
+
+The bias DAC's update rate (~360 kHz on MCP4725 fast-mode I²C) is far faster
+than the 3-5 ms envelope. A v2 firmware could **slide bias from −80 V at
+envelope-low to −50 V at envelope-peak in sync with the envelope DAC** — the
+RF equivalent of Envelope Tracking used in modern PAs. Benefits:
+
+- Eliminate the conduction-threshold nonlinearity entirely
+- Lower peak heat (less dissipation when envelope is low)
+- Tighter spectrum (less PA-generated distortion)
+
+Costs: more firmware complexity (two DAC tracks to coordinate), calibration
+of bias-vs-envelope mapping. Hardware is already capable; this is a firmware
+extension worth keeping the door open for after first-light bring-up.
+
+### Grid-bias subcircuit implementation files
+
+| File | Purpose |
+|---|---|
+| `xmitter_prj/grid_bias.sch` | The 2-port subcircuit. External pins: `Control_In` (from DAC), `Grid_Bias_Out` (to 6146B grid). Internal: +12 V / +5 V LM4040 ref / −85 V supplies, OPA454, R_pad, R_G, R_F = 170 kΩ, R_GL = 22 kΩ. |
+| `xmitter_prj/grid_bias_check.sch` | Test wrapper instantiating `grid_bias` as a Sub component. Drives Control_In with V1, loads Grid_Bias_Out with 1 MΩ, probes via VProbe Pr1, sweeps V1 = 0–3.3 V via `.SW` + `.DC` blocks. **The canonical reference for setting up a parameter-sweep simulation in QUCS-S** — open this if you need to add a sweep to another schematic. |
+| `xmitter_prj/opa454.lib` | TI's PSpice OPA454 model, converted to ngspice (PSpice expression VCVS → Berkeley B-source). Includes 5-pin wrapper `OPA454_5PIN` that ties enable HIGH and exposes only +IN, −IN, V+, V−, OUT. |
+| `xmitter_prj/grid_bias_standalone.cir` | Hand-written ngspice netlist that replicates `grid_bias_check.sch`'s circuit without QUCS-S. Useful for rapid iteration when fighting QUCS-S sim-block configuration. Confirms V_out = V_DAC × 18 − 85 to 3 decimal places. |
+| `xmitter_prj/ngspice.py` | CLI wrapper: `python ngspice.py <stem>` runs ngspice_con on `<stem>.cir`, parses the rawfile, writes `<stem>.dat.ngspice` for `gui_plot.py` to open. Saves typing the full path to `ngspice_con.exe`. |
+| `Documentation/Grid_Bias_Schematic.pdf` | 5-page reference doc with both design variants (Design A: OPA454 HV op-amp; Design B: discrete PNP level-shifter), component tables, transfer functions, and the two-state firmware sequencing notes. |
+
+#### Important QUCS-S gotchas learned setting this up
+
+| Symptom | Cause | Fix |
+|---|---|---|
+| Custom `.sym` file fails to load ("No symbol loaded") | Non-ASCII characters in Description (em dash, ohm symbol, etc.) | Keep `.sym` files strictly ASCII. QUCS-S symbol parser is not Unicode-clean. |
+| SpLib component generates `XX1  OPA454_5PIN` with no nodes | "Port name" column in the SpLib dialog can't be edited in QUCS-S 26.1.1 Windows build (UI bug) | Use template `"auto"` instead of `"opamp5t"` — QUCS-S generates a generic box symbol from the .SUBCKT pin order, no port mapping needed. |
+| `.SW` parameter sweep produces a single `op` only | The "Simulation" field (first SW property) was empty | Set the `.SW`'s first property to the name of a `.DC` (or `.AC` / `.TR`) simulation block on the same schematic. `.SW` is a wrapper around another analysis; both must be present. |
+| `dc dac_v ...` fails with "Voltage source ... named 'dac_v' is not in the circuit" | `dc` ngspice command sweeps a SOURCE, not a `.PARAM` | Sweep the Vdc source directly (e.g., `V1`). The `.SW` "Parameter" field accepts a source name as well as a parameter name. |
+
 ## New tooling
 
 ### `tools/sweep_param.py` — generic ngspice parameter sweep
