@@ -2,8 +2,9 @@
 
 20 m CW vacuum-tube transmitter. Push-pull 6146B PA, push-pull 12HG7 driver,
 MC1496-based VCA keyer with envelope shaping, Adafruit Metro ESP32-S3 control.
-Hardware design in QUCS-S schematics + KiCad PCBs; firmware coming next via
-ESP-IDF v5.4 on an Adafruit Metro ESP32-S3.
+Hardware design in QUCS-S schematics + KiCad PCBs. ESP-IDF v5.4.4 toolchain
+installed and verified on both dev machines (2026-06-12); ready to scaffold
+`firmware/`.
 
 This file is read on every session start. Keep it focused on stable project
 facts and one-time interactive flows (like fresh-machine onboarding) that
@@ -17,40 +18,30 @@ otherwise have nowhere natural to live.
 | `KiCAD/` | KiCad PCB design files |
 | `Documentation/` | Design docs, generated PDFs, sourcing spreadsheets, datasheets |
 | `tools/` | Python scripts: sweep_param, gen_*_pdf, gen_parts_list, etc. |
-| `firmware/` | ESP-IDF firmware (not yet committed; coming next) |
+| `firmware/` | ESP-IDF firmware (not yet scaffolded — first task this phase) |
 
-## If the user opens Claude Code on the dev machine for the first time
+## If the user ever sets up another fresh machine
 
-If the user mentions any of "dev machine", "new machine", "setting up",
-"installing", "fresh install", "fresh clone", or otherwise indicates they're
-just starting to use this machine, **walk them through
-`Documentation/ESP-IDF_Setup_Windows.md` interactively** rather than dumping
-the whole thing on them.
+Both current machines (primary dev + secondary hardware-interface) have
+ESP-IDF v5.4.4 installed and verified as of 2026-06-12. If a future
+replacement or additional machine needs the toolchain, walk them through
+`Documentation/ESP-IDF_Setup_Windows.md` interactively — it's a concise
+~125-line reference covering the EIM (ESP-IDF Installation Manager) flow,
+the "Activate Anyway" / "Select current ESP-IDF version" wire-up gotchas,
+and the path layout.
 
-Specifically:
+Verify what's already installed first (`git --version`, `python --version`,
+`code --version`) and skip steps that are done. Don't dump the whole doc
+at once — one step at a time, verify before moving on.
 
-1. **Read the setup doc first** to refresh on what the steps are.
-2. **Verify what's already installed** by running `git --version`, `python --version`,
-   `code --version`, etc. in PowerShell via the Bash tool. Skip steps that are
-   already done.
-3. **Walk through ONE STEP AT A TIME**. After each step, **run the verification
-   command** for that step before moving on. Don't continue past a broken step.
-4. **Troubleshoot in real time** if a verification fails. The setup doc has a
-   troubleshooting table at the bottom — use it.
-5. After each major install (Git, Python, VS Code, ESP-IDF extension), confirm
-   the user is OK to proceed to the next.
-6. **At the end**, run through the blink-example verification (build, flash,
-   monitor) so the user knows the toolchain works end-to-end before we move
-   on to writing xmitter firmware.
+## Firmware scaffolding (current focus)
 
-The dev machine is fresh (or close to it) and may have been sitting idle for
-a while. The walkthrough assumes nothing is installed. If commands suggest
-otherwise (e.g., `git` already in PATH), adapt and skip.
-
-After setup is verified working, the user will say so. Then move to scaffolding
-out the `firmware/` directory — main.cpp, keyer_envelope.cpp/h, keyer_winkey.cpp/h,
-grid_bias_dac.cpp, cathode_monitor.cpp, fault_handler.cpp — per the architecture
-already specified in `Documentation/cw_envelope_keyer.md`.
+Next work item: scaffold `firmware/` with the architecture specified in
+`Documentation/cw_envelope_keyer.md` —
+`main.cpp`, `keyer_envelope.cpp/h`, `keyer_winkey.cpp/h`,
+`grid_bias_dac.cpp`, `cathode_monitor.cpp`, `fault_handler.cpp`, plus
+`CMakeLists.txt` and `sdkconfig.defaults`. Set `IDF_TARGET=esp32s3` per
+project (`idf.py set-target esp32s3` inside `firmware/`).
 
 ## Existing design references for the firmware work
 
@@ -69,8 +60,8 @@ When writing firmware, these design docs are the source of truth:
 - Hardware schematics: QUCS-S 26.1.1 Windows build. Symbol files (`.sym`)
   must be plain ASCII (no em dash, ohm symbol, etc.). QUCS-S symbol parser
   is not Unicode-clean.
-- Firmware: **ESP-IDF v5.4** (not Arduino-ESP32). FreeRTOS native, C++17,
-  pinned tasks, `esp_timer_get_time()` for µs timing.
+- Firmware: **ESP-IDF v5.4.4 LTS** (not Arduino-ESP32). FreeRTOS native,
+  C++17, pinned tasks, `esp_timer_get_time()` for µs timing.
 - Git: never push without explicit user request; never commit without
   explicit user request.
 - KiCad: never use PowerShell `Set-Content -Encoding UTF8` for `.kicad_sym`
