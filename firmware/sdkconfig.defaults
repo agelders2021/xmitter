@@ -1,0 +1,41 @@
+# xmitter firmware — sdkconfig defaults.
+# Pin target chip, USB-CDC console, dual-core scheduling, modest binary size.
+
+# Target = Adafruit Metro ESP32-S3 (ESP32-S3 with native USB).
+CONFIG_IDF_TARGET="esp32s3"
+
+# Console on USB-Serial-JTAG (native USB on the S3 — no UART bridge).
+CONFIG_ESP_CONSOLE_USB_SERIAL_JTAG=y
+CONFIG_ESP_CONSOLE_USB_SERIAL_JTAG_ENABLED=y
+
+# FreeRTOS dual-core.  Tick = 1 kHz so 1 ms cathode-monitor loop is clean.
+CONFIG_FREERTOS_UNICORE=n
+CONFIG_FREERTOS_HZ=1000
+
+# Main task stack — we spawn pinned tasks ourselves, app_main only orchestrates.
+CONFIG_ESP_MAIN_TASK_STACK_SIZE=4096
+CONFIG_ESP_MAIN_TASK_AFFINITY_CPU0=y
+
+# Watchdog: 2 s timeout, panic on bite (any task we register must check in).
+CONFIG_ESP_TASK_WDT_INIT=y
+CONFIG_ESP_TASK_WDT_TIMEOUT_S=2
+CONFIG_ESP_TASK_WDT_PANIC=y
+
+# Compiler — C++17 (also enforced in main/CMakeLists.txt).
+CONFIG_COMPILER_CXX_EXCEPTIONS=n
+CONFIG_COMPILER_CXX_RTTI=n
+CONFIG_COMPILER_OPTIMIZATION_PERF=y
+
+# Logging at INFO; modules can crank verbosity per-tag.
+CONFIG_LOG_DEFAULT_LEVEL_INFO=y
+CONFIG_LOG_MAXIMUM_LEVEL_DEBUG=y
+
+# NVS for fault log + calibration constants.
+CONFIG_NVS_ENCRYPTION=n
+
+# Flash size on Metro ESP32-S3 = 8 MB.
+CONFIG_ESPTOOLPY_FLASHSIZE_8MB=y
+CONFIG_ESPTOOLPY_FLASHSIZE="8MB"
+
+# Partition table — keep default single-app for now; add OTA partitions later if needed.
+CONFIG_PARTITION_TABLE_SINGLE_APP_LARGE=y
