@@ -34,6 +34,13 @@ Verify what's already installed first (`git --version`, `python --version`,
 `code --version`) and skip steps that are done. Don't dump the whole doc
 at once — one step at a time, verify before moving on.
 
+## Build checklist
+
+`Documentation/build_checklist.md` is the rolling phase-by-phase build list:
+items to verify before/after each phase, plus long-lead items to order while
+working on the current phase. Edit it as a `- [ ]` / `- [x]` checklist; keep
+finished items in place as history.
+
 ## Firmware scaffolding (current focus)
 
 Next work item: scaffold `firmware/` with the architecture specified in

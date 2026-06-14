@@ -8,6 +8,7 @@ idf_component_register(
         "cathode_monitor.cpp"
         "fault_handler.cpp"
         "front_panel.cpp"
+        "encoders.cpp"
         "power_supply.cpp"
         "console_shell.cpp"
     INCLUDE_DIRS "."
@@ -17,6 +18,7 @@ idf_component_register(
         esp_driver_i2c
         esp_driver_spi
         esp_driver_gpio
+        esp_driver_pcnt
         nvs_flash
         console
         vfs

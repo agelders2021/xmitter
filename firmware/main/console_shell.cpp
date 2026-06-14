@@ -15,6 +15,7 @@
 #include "front_panel.h"
 #include "power_supply.h"
 #include "fault_handler.h"
+#include "encoders.h"
 
 namespace shell {
 
@@ -73,6 +74,9 @@ int cmd_status(int, char **) {
     std::printf("vfo   : %lu Hz, %s\n",
                 (unsigned long)vfo::current_freq(),
                 vfo::is_on() ? "ON" : "off");
+    std::printf("step  : %lu Hz (idx %u)\n",
+                (unsigned long)encoders::step_hz(),
+                (unsigned)encoders::step_index());
     std::printf("power : %u %%\n", front_panel::power_pct());
     std::printf("psu   : ");
     switch (psu::state()) {
@@ -84,6 +88,33 @@ int cmd_status(int, char **) {
     }
     std::printf("fault : %s\n",
                 fault::is_asserted() ? "ASSERTED" : "clear");
+    return 0;
+}
+
+// ---- `step` command -------------------------------------------------------
+struct {
+    arg_int_t *idx;     // optional new index
+    arg_end_t *end;
+} step_args;
+
+int cmd_step(int argc, char **argv) {
+    int nerr = arg_parse(argc, argv, (void **)&step_args);
+    if (nerr != 0) {
+        arg_print_errors(stderr, step_args.end, argv[0]);
+        return 1;
+    }
+    if (step_args.idx->count > 0) {
+        encoders::set_step_index((size_t)step_args.idx->ival[0]);
+    }
+    std::printf("step = %lu Hz (idx %u)\n",
+                (unsigned long)encoders::step_hz(),
+                (unsigned)encoders::step_index());
+    std::printf("table: ");
+    for (size_t i = 0; i < encoders::FREQ_STEP_TABLE_LEN; ++i) {
+        std::printf("[%u]=%lu%s", (unsigned)i,
+                    (unsigned long)encoders::FREQ_STEP_HZ_TABLE[i],
+                    (i + 1 < encoders::FREQ_STEP_TABLE_LEN) ? "  " : "\n");
+    }
     return 0;
 }
 
@@ -124,6 +155,17 @@ void register_commands() {
     status_cmd.help    = "Print overall rig status";
     status_cmd.func    = &cmd_status;
     ESP_ERROR_CHECK(esp_console_cmd_register(&status_cmd));
+
+    // step
+    step_args.idx = arg_int0(nullptr, nullptr, "IDX",
+                             "step-table index (omit to query)");
+    step_args.end = arg_end(2);
+    esp_console_cmd_t step_cmd = {};
+    step_cmd.command  = "step";
+    step_cmd.help     = "Show or set the frequency-step index";
+    step_cmd.func     = &cmd_step;
+    step_cmd.argtable = &step_args;
+    ESP_ERROR_CHECK(esp_console_cmd_register(&step_cmd));
 
     // psu
     psu_args.action = arg_str1(nullptr, nullptr, "ACTION", "on|off");
