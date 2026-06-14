@@ -121,6 +121,19 @@ constexpr gpio_num_t PSU_MAIN_EN    = GPIO_NUM_17;   // Arduino A3 — TODO
 constexpr gpio_num_t PSU_READY_IN   = GPIO_NUM_40;   // Arduino TX/D1 — TODO
 
 // ---------------------------------------------------------------------------
+//  Mains interlock — heartbeat to a 74HC4538 retriggerable monostable that
+//  drives the K_MAIN relay coil.  Firmware MUST pulse this at ≥5 Hz once
+//  boot is complete; the monostable's RC time-out (~200 ms) drops the relay
+//  if heartbeat stops (firmware hang, crash, panic, brown-out).
+//
+//  Critical: this pin defaults LOW at hard reset and stays LOW until the
+//  application explicitly opts in.  External 10 kΩ pull-down to GND on the
+//  PCB makes "no MCU / no firmware" a guaranteed-off state — fail-safe by
+//  default, not by code.
+// ---------------------------------------------------------------------------
+constexpr gpio_num_t MAINS_HEARTBEAT = GPIO_NUM_4;   // Arduino D4 — TODO confirm
+
+// ---------------------------------------------------------------------------
 //  WinKey paddle inputs (DIT / DAH closures, momentary key = GND)
 // ---------------------------------------------------------------------------
 constexpr gpio_num_t PADDLE_DIT     = GPIO_NUM_18;   // Arduino A4 — TODO
@@ -135,9 +148,9 @@ constexpr gpio_num_t STATUS_LED     = GPIO_NUM_NC;   // L LED not broken out
 // ---------------------------------------------------------------------------
 //  Spares available on the Arduino headers
 // ---------------------------------------------------------------------------
-//  D4  = GPIO4   (unused — reserve for future)
 //  D0  = GPIO41  (RX, unused — UART debug runs on GPIO44 instead)
-//  Total unused: GPIO 4, 41.  All other Arduino-header pins are claimed above.
+//  Total unused: GPIO 41.  D4 (GPIO4) now reserved for MAINS_HEARTBEAT
+//  above.  All other Arduino-header pins are claimed.
 
 // ---------------------------------------------------------------------------
 //  RTOS core assignments

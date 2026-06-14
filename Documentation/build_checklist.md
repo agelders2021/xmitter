@@ -195,6 +195,9 @@ in each phase for power-supply items that gate that phase.
 - [ ] Hardware-vs-firmware SR latch decision made
       (`pa_cathode_monitor.md` Open Items §1). If hardware, 74HC74 on
       hand.
+- [ ] **Mains interlock** parts on hand: K_MAIN AC relay (sized for
+      transformer inrush — Omron G7L-2A-T or equivalent, 10 A min),
+      74HC4538 monostable, driver transistor + flyback diode.
 
 ### Verify before declaring done
 
@@ -218,6 +221,15 @@ in each phase for power-supply items that gate that phase.
 - [ ] Drive level + bias combination produces 50 W output without
       exceeding the −150 V peak grid spec (verify with envelope-peak
       capture; cross-check `2026-06-08-pa-validation.md`).
+- [ ] **Mains interlock** — K_MAIN relay does NOT pull in at MCU
+      power-up; only pulls in after firmware completes boot AND begins
+      heartbeating MAINS_HEARTBEAT. Verify with a meter on the relay
+      coil at boot.
+- [ ] **Mains interlock — failure test:** halt the firmware (e.g., kill
+      the heartbeat task via the shell, or force-reset the MCU). Relay
+      must drop within ~200 ms (audible click) and AC must drop to all
+      HV transformers. Repeat for: panic, watchdog timeout, power-loss
+      to MCU (unplug USB / LV supply). All four paths must drop AC.
 
 ### Procure now for later phases
 

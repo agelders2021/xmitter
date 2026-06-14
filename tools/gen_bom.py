@@ -500,6 +500,62 @@ BOM = [
      'cable + IDC headers if mounting LCD on a panel away from the main PCB',
      'Display', 1, '', '', ''),
 
+    # ── MAINS INTERLOCK (boot/heartbeat fail-safe) ───────────────────────────
+    # Hardware deadman switch: K_MAIN normally-open relay in series with the
+    # AC mains feeding the HV / bias / screen / filament transformers.  Coil
+    # is energised only while the MCU is actively pulsing GPIO MAINS_HEARTBEAT
+    # at ≥5 Hz.  A 74HC4538 retriggerable monostable (R/C ≈ 200 ms) extends
+    # each pulse — firmware hang / panic / brown-out → no more pulses → relay
+    # drops → AC removed.  External 10 kΩ pull-down on the GPIO line guarantees
+    # the relay is OFF before the MCU is even powered.  See pin_map.h
+    # "Mains interlock" section.
+    #
+    # NOT in series with the low-voltage MCU supply — that comes up first
+    # (USB or its own wallwart) so the firmware exists to start the heartbeat.
+    ('IC',           'U_HBEAT',     '74HC4538',
+     'Dual retriggerable monostable (DIP-16). One section used. R_RC + C_RC '
+     'sets the retrigger window — pick R = 100 kΩ, C = 2.2 µF for ~220 ms hold. '
+     'Output Q drives Q_HBEAT base. Pin 1 (A trigger) = MCU GPIO; pin 4 (Q) = relay drive',
+     'Mains Interlock', 1, '', '', ''),
+    ('Resistor',     'R_HBEAT_T',   '100kΩ',
+     'Metal film 1%; 4538 timing resistor (pin 14 to VCC). With C_HBEAT_T = 2.2 µF gives ~220 ms hold',
+     'Mains Interlock', 1, '', '', ''),
+    ('Capacitor',    'C_HBEAT_T',   '2.2µF',
+     'Film MKT 50 V; 4538 timing capacitor (pin 15 to GND). Tantalum / electrolytic OK if leakage low',
+     'Mains Interlock', 1, '', '', ''),
+    ('Resistor',     'R_HBEAT_PD',  '10kΩ',
+     'Metal film 1/4 W; external pull-down on MAINS_HEARTBEAT GPIO trace. Guarantees relay OFF '
+     'when MCU is unpowered, in reset, or removed',
+     'Mains Interlock', 1, '', '', ''),
+    ('Semiconductor','Q_HBEAT',     '2N3904',
+     'NPN small-signal switch (TO-92); 4538 Q output → K_MAIN coil low-side. '
+     'Alt: BSS138 SOT-23 if going SMT',
+     'Mains Interlock', 1, '', '', ''),
+    ('Resistor',     'R_HBEAT_B',   '4.7kΩ',
+     'Metal film 1/4 W; Q_HBEAT base-current limiter from the 4538 output',
+     'Mains Interlock', 1, '', '', ''),
+    ('Semiconductor','D_HBEAT_FW',  '1N4148',
+     'Flyback diode across K_MAIN coil — catches the kickback when Q_HBEAT switches off. '
+     'Alt: 1N4001 for higher coil current relays',
+     'Mains Interlock', 1, '', '', ''),
+    ('IC',           'K_MAIN',      'Omron G7L-2A-T (or similar)',
+     'AC mains power relay, SPST-NO (or DPST-NO for double-pole switching of L+N), '
+     '12 V DC coil, contacts rated 250 V AC / 10 A min — sized for the rig\'s peak '
+     'transformer inrush (factor ~10× steady-state). DIN-rail mount alternatives: '
+     'Schrack RT, Omron MY series. Avoid sub-1 A "signal" relays — AC inrush will pit them',
+     'Mains Interlock', 1, '', '', ''),
+    ('Capacitor',    'C_K_BYP',     '100nF X7R',
+     'K_MAIN coil supply bypass (12 V → GND), close to the relay coil',
+     'Mains Interlock', 1, '', '', ''),
+    # Notes — not parts, but record where this connects:
+    # - K_MAIN contacts: in series with the HV mains feed BEFORE the plate / screen / bias /
+    #   filament transformers.  NOT in series with the LV supply that powers the MCU.
+    # - Coil supply (12 V DC): tapped from the LV supply rail or a small 12 V DIN-rail PSU
+    #   dedicated to control circuits.
+    # - The watchdog gate (Q_SCR_GATE in the Watchdog Gate section) and this mains interlock
+    #   are independent layers: the gate is FAST (<100 µs) for cathode-current trips; the
+    #   interlock is SLOW (~200 ms) for firmware failures.  Both belt-and-braces.
+
     # ── BALUN ────────────────────────────────────────────────────────────────
     ('Transformer',  'LP / LS',     '14µH / 2.33µH',
      'FT-114-61 ferrite (AL=75); 15T primary : 6T secondary; 300Ω balanced → 50Ω unbal; 6.25:1 Z ratio; good through 10m',
