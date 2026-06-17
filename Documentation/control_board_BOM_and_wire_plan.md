@@ -10,7 +10,9 @@ Updated 2026-06-16 to reflect:
 - Removal of the driver input transformer T_in (proposed but never
   simulated; not needed with the differential LM7171 outputs driving
   the 12HG7 grids directly through coupling caps)
-- Switch to single-gauge #22 AWG enameled magnet wire throughout
+- Three-gauge wire plan: #24 AWG for the VFO LPF, #22 AWG for the
+  driver / output LPF / future ATU toroids, #18 AWG for the balun
+  and PA parasitic suppressors
 - T68-6 substitution option for the VFO LPF (user has T68-6 on hand,
   easier to wind than T50-6)
 
@@ -286,36 +288,46 @@ Documentation/LPF_stage.md.
 - Heavy bare or silver-plated copper, NOT magnet wire; sourced
   separately (Westlake Wire, McMaster-Carr, or eBay surplus)
 
-## Magnet wire plan - single gauge throughout
+## Magnet wire plan - three gauges by stage
 
-The constraint that drove the original two-gauge recommendation
-(needing to fit bifilar windings on tiny FT37-43 cores) has been
-removed. With the FT37-43 keyer T1 gone and the driver input
-transformer deferred, the tightest fit in the project is the
-driver output transformer on T68-6: 36 wire passes around a 29.5 mm
-inner circumference.
+Each gauge is matched to the current and winding constraints of
+its stage. None of the three is mandatory in isolation - a single
+spool of #22 covers the entire project electrically - but the
+finer #24 is easier to wind on the small-signal VFO toroids, and
+#18 buys real efficiency margin on the QRO balun.
 
-**#22 AWG enameled magnet wire** - works everywhere in the project:
+**#24 AWG enameled - VFO LPF on the control board:**
 
-VFO LPF (8 turns on T68-6): trivial fit, plenty of window left
-Driver output transformer (T68-6, 12+12/6+6 bifilar): 13% margin,
-   fits with careful uniform winding
-Output LPF inductors (~8 turns on T68-6 or ~14 turns on T50-6):
-   plenty of room
-ATU inductors when that board comes online: ample current capacity
+- VFO LPF inductors (3 toroids, 8 turns each on T68-6)
+- Carrier current is a few mA after the 20 dB pi pad
+- Q penalty vs #22 is negligible at 14 MHz (~10% Q drop, lost in
+  the T68-6 core-loss floor; translates to ~0.02 dB extra passband
+  loss across the whole 7-pole filter)
+- Easier to thread the T68-6 window than #22; tighter winding pitch
 
-Q penalty vs #24 AWG is negligible at 14 MHz (core loss dominates;
-the ~10% Q improvement from heavier wire disappears into the
-core-loss floor). Current handling for the output LPF at 50 W
-output (1 A RMS) is comfortable.
+**#22 AWG enameled - driver and output LPF, future ATU:**
 
-If the driver output transformer's 13% bifilar margin feels too
-tight, that single transformer can move to a larger T94-6 core
-without affecting any other inductor spec.
+- Driver output transformer (T68-6, 12+12/6+6 bifilar): 13% window
+  margin, fits with careful uniform winding
+- Output LPF inductors (8 turns on T68-6): trivial fit, ample current
+  capacity at 50 W output (1 A RMS)
+- ATU inductors when that board comes online
+- If the driver output transformer's 13% bifilar margin feels too
+  tight, that single transformer can move to a larger T94-6 core
+  without affecting any other inductor spec.
 
-**Order**: 1 lb spool of #22 AWG enameled magnet wire from Kits
-and Parts (~$15). Covers every winding on every board with
-generous redo margin. Magnet wire stores indefinitely if kept dry.
+**#18 AWG enameled - balun and PA parasitic suppressors:**
+
+- Balun on FT82-43 (5 t primary, 2 t secondary): heavier wire buys
+  meaningful I^2 R efficiency at 50 W and thermal headroom for
+  sustained key-down operation
+- L10/L11 parasitic suppressor coils on the PA board
+- See `balun_stage.md` for the balun winding spec
+
+**Order from Kits and Parts**: 1/4 lb spool of #24 + 1 lb spool of
+#22 + 1/4 lb spool of #18 (~$25-30 total). Each spool lasts a long
+time; the per-pound discount makes generous quantities worthwhile
+and magnet wire stores indefinitely if kept dry.
 
 NOT a good source: hardware store / general electronics catalog.
 Magnet wire from non-RF suppliers is often thicker-insulated
@@ -406,13 +418,17 @@ Option A - keep T50-6 for VFO LPF:
 - T68-2 cores x 4 (300 ohm output LPF path, optional)
 - T68-6 cores x 4 (50 ohm output LPF path, OR use the T68-6 spares
   above for this too if not building the 300 ohm version)
-- 1 lb spool #22 AWG enameled magnet wire
+- 1/4 lb spool #24 AWG enameled (VFO LPF)
+- 1 lb spool #22 AWG enameled (driver, output LPF, ATU)
+- 1/4 lb spool #18 AWG enameled (balun, PA parasitic suppressors)
 
 Option B - T68-6 for VFO LPF too (recommended since user has them):
 - T68-6 cores x 10 (VFO LPF 3 + driver output xfmr 1 + output LPF 4
   + 2 spare)
 - T68-2 cores x 4 (300 ohm output LPF path, optional)
-- 1 lb spool #22 AWG enameled magnet wire
+- 1/4 lb spool #24 AWG enameled (VFO LPF)
+- 1 lb spool #22 AWG enameled (driver, output LPF, ATU)
+- 1/4 lb spool #18 AWG enameled (balun, PA parasitic suppressors)
 
 Option B has a smaller bill of core types and consolidates inventory
 to one iron-powder type for the small-signal stuff.

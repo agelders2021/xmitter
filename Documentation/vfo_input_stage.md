@@ -65,11 +65,11 @@ filter-shape consequence is intentional and documented below.
 │ Ref │ Value  │ Construction                                    │
 ├─────┼────────┼─────────────────────────────────────────────────┤
 │ CF1 │ 220 pF │ Silver mica E12, ≥ 500 V (CD15/CD19 series)     │
-│ LF2 │ 736 nH │ 8 turns #22 AWG enameled on T68-6               │
+│ LF2 │ 736 nH │ 8 turns #24 AWG enameled on T68-6               │
 │ CF3 │ 390 pF │ Silver mica E12, ≥ 500 V                        │
-│ LF4 │ 736 nH │ 8 turns #22 AWG enameled on T68-6               │
+│ LF4 │ 736 nH │ 8 turns #24 AWG enameled on T68-6               │
 │ CF5 │ 390 pF │ Silver mica E12, ≥ 500 V                        │
-│ LF6 │ 736 nH │ 8 turns #22 AWG enameled on T68-6               │
+│ LF6 │ 736 nH │ 8 turns #24 AWG enameled on T68-6               │
 │ CF7 │ 220 pF │ Silver mica E12, ≥ 500 V                        │
 └─────┴────────┴─────────────────────────────────────────────────┘
 
