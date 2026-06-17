@@ -281,6 +281,76 @@ on timeout. This is separate from, and must not depend on, the DAC value.
 
 ---
 
+## Future enhancement: DAC-driven digital carrier null
+
+The current design (per `xmitter_prj/keyer.sch`) uses a **fixed
+PNP-injection nulling scheme** to cancel the MC1496's residual
+carrier leakage during key-up: T1 / T2 PNP transistors with the
+R5–R10 8.2 kΩ network drive complementary base currents that
+balance the modulator's intrinsic offset. The null is set once
+via component matching during alignment and doesn't adjust over
+temperature or supply drift.
+
+An alternative — **designed but not built** — uses a **dual-output
+DAC to inject complementary null-trim signals under firmware
+control**. Firmware binary-searches the null at key-down and
+stores the result in NVS, re-running periodically to track drift.
+
+### Hardware additions
+
+- `R_INJ1` = 330 kΩ from DAC_NULL_P → MC1496 pin 1 (SIG_P),
+  joining the existing R_SIG_P / pin 1 junction
+- `R_INJ2` = 330 kΩ from DAC_NULL_N → MC1496 pin 4 (SIG_N),
+  joining the existing AGC network / pin 4 junction
+- `DAC_NULL_P` / `DAC_NULL_N` = complementary 12-bit DAC outputs
+  (could be two channels of an MCP4728 since the project already
+  uses MCP4728 for the bias DAC, or a separate small DAC)
+- No series protection resistors needed; the 330 kΩ inherently
+  limits current
+
+### Coverage analysis
+
+| Quantity | Value |
+|---|---|
+| Mid-scale on both DACs | No differential injection (null starting point) |
+| Full-scale swing per pin | ±16 mV injection |
+| Total differential range | ±33 mV |
+| MC1496 worst-case offset | ≤ 5 mV (datasheet) |
+| Headroom | ~6× over worst-case offset |
+| Resolution per LSB | ~8 µV (12-bit DAC over the swing range) |
+
+Resolution is far finer than needed; the binary search converges
+in about 12 cycles to a level well below the modulator's own
+noise floor.
+
+### Firmware
+
+- Run a binary search at each key-down (or once on bring-up plus
+  periodic re-checks) by walking DAC_A while keeping
+  `DAC_A + DAC_B = full_scale`, sampling the carrier-leakage level
+  at the MC1496 output via an envelope detector or the cathode
+  monitor signal
+- Convergence: ~12 iterations (12-bit resolution); each iteration
+  needs settling time of ~100 µs for the RC network
+- Store the converged DAC code pair in NVS; refresh every N
+  transmissions or whenever a temperature/operating-condition
+  delta crosses a threshold
+
+### Tradeoff vs the current fixed-null scheme
+
+- **Cost**: one extra DAC channel + ~30 lines of firmware
+- **Benefit**: eliminates static null error from PNP mismatch,
+  PNP bias drift, and ambient temperature variation; eliminates
+  the alignment-time null trim step entirely
+- **Risk**: if the firmware loop fails (sensor fault, etc.) the
+  rig falls back to whatever DAC code was last in NVS — same
+  failure mode as the envelope DAC fail-safe
+
+Original design notes preserved in
+`xmitter_prj/legacy/mc1496_level_control.md`.
+
+---
+
 ## Open work / next steps
 
 - [ ] DAC-sweep-and-invert calibration routine to populate `s_cal[]`.
