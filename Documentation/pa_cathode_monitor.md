@@ -58,10 +58,13 @@ top needs serious protection between it and the ADC.
 
 ### Level 0 — Cathode resistor + RF bypass
 
-| Component | Value | Notes |
-|---|---|---|
-| R_C | 10 Ω, 1 W metal film | Sense resistor; carries full cathode current. 1 W rating gives 4× margin at 150 mA (0.225 W) |
-| C_BYP | 0.01 µF NP0 ceramic | RF bypass to GND. Mounted **at the tube socket cathode pin**, short leads (≤5 mm). Low-ESL package (1206 or smaller). |
+┌───────────┬───────────────────────┬──────────────────────────────────────────────────────────────────────────┐
+│ Component │ Value                 │ Notes                                                                    │
+├───────────┼───────────────────────┼──────────────────────────────────────────────────────────────────────────┤
+│ R_C       │ 10 Ω, 1 W metal film  │ Sense resistor; carries full cathode current. 1 W = 4× margin at 150 mA  │
+│ C_BYP     │ 0.01 µF NP0 ceramic   │ RF bypass to GND. Mount **at the tube socket cathode pin**, short leads  │
+│           │                       │ (≤5 mm). Low-ESL package (1206 or smaller).                              │
+└───────────┴───────────────────────┴──────────────────────────────────────────────────────────────────────────┘
 
 **Critical layout rule:** the **DC sense tap leaves the R_C top *before* C_BYP**.
 RF currents go through C_BYP to ground; DC sense goes elsewhere. This prevents
@@ -74,9 +77,11 @@ Operating point (per tube, full drive):
 
 ### Level 1 — PTC fuse (resettable thermal)
 
-| Component | Value | Notes |
-|---|---|---|
-| F1 | Bourns MF-R010 | Hold 100 mA, trip 200 mA, V_max 60 V, R_initial ~5 Ω |
+┌───────────┬─────────────────┬────────────────────────────────────────────────────┐
+│ Component │ Value           │ Notes                                              │
+├───────────┼─────────────────┼────────────────────────────────────────────────────┤
+│ F1        │ Bourns MF-R010  │ Hold 100 mA, trip 200 mA, V_max 60 V, R ~5 Ω init  │
+└───────────┴─────────────────┴────────────────────────────────────────────────────┘
 
 Slow-blow thermal protection. Opens within ~1 s at 500 mA sustained, faster at
 higher currents. Self-resets when the fault clears. Catches the case where R_C
@@ -91,9 +96,11 @@ trips the watchdog gate within microseconds.
 
 ### Level 2 — Series current limiter
 
-| Component | Value | Notes |
-|---|---|---|
-| R_S | 10 kΩ, 1/4 W metal film | Fault current limit |
+┌───────────┬──────────────────────────┬─────────────────────┐
+│ Component │ Value                    │ Notes               │
+├───────────┼──────────────────────────┼─────────────────────┤
+│ R_S       │ 10 kΩ, 1/4 W metal film  │ Fault current limit │
+└───────────┴──────────────────────────┴─────────────────────┘
 
 If everything above failed and the sense tap saw the full 600 V plate supply,
 R_S limits fault current to 600 V / 10 kΩ = **60 mA**. That's:
@@ -110,11 +117,13 @@ current is microamps, so the 10 kΩ drop is microvolts. No measurement error.
 
 ### Level 3 — Schottky clamps + anti-alias filter
 
-| Component | Value | Notes |
-|---|---|---|
-| D1 | BAT54 (or 1N5817) | Schottky to GND, catches negative excursions |
-| D2 | BAT54 (or 1N5817) | Schottky to +3.3 V, catches positive excursions |
-| C_FILT | 1 nF X7R | Anti-alias / RF rejection |
+┌───────────┬────────────────────┬────────────────────────────────────────────────┐
+│ Component │ Value              │ Notes                                          │
+├───────────┼────────────────────┼────────────────────────────────────────────────┤
+│ D1        │ BAT54 (or 1N5817)  │ Schottky to GND, catches negative excursions   │
+│ D2        │ BAT54 (or 1N5817)  │ Schottky to +3.3 V, catches positive excursions│
+│ C_FILT    │ 1 nF X7R           │ Anti-alias / RF rejection                      │
+└───────────┴────────────────────┴────────────────────────────────────────────────┘
 
 D1 and D2 turn on ~300 mV beyond their rail and shunt overvoltage into the
 supply. C_FILT in parallel makes the node a single-pole LPF with R_S:
@@ -130,11 +139,13 @@ energy. The Schottky clamps then conduct for the brief window until F1 trips
 
 ### Level 4 — Op-amp buffer (ADC isolation)
 
-| Component | Value | Notes |
-|---|---|---|
-| U1 | OPA1641 | ±20 V differential input protection, single-supply, FET input |
-| Alternates | LMC6041 / LM358 | All work; OPA1641 has lowest leakage |
-| Supply | +5 V regulated, GND | Same +5 V the ADC uses |
+┌─────────────┬──────────────────────┬───────────────────────────────────────────────────────────────┐
+│ Component   │ Value                │ Notes                                                         │
+├─────────────┼──────────────────────┼───────────────────────────────────────────────────────────────┤
+│ U1          │ OPA1641              │ ±20 V differential input protection, single-supply, FET input │
+│ Alternates  │ LMC6041 / LM358      │ All work; OPA1641 has lowest leakage                          │
+│ Supply      │ +5 V regulated, GND  │ Same +5 V the ADC uses                                        │
+└─────────────┴──────────────────────┴───────────────────────────────────────────────────────────────┘
 
 Configured as **unity-gain buffer** (output tied to inverting input). Provides:
 
@@ -154,13 +165,15 @@ by D2), op-amp is at the edge of CM but still within absolute max.
 
 ### Level 5 — Hardware comparator (FAST hardware trip)
 
-| Component | Value | Notes |
-|---|---|---|
-| U2 | LM393 | Dual comparator (one section per tube) |
-| V_REF | +1.5 V from LM4040 divider | Trip threshold = 150 mA cathode current |
-| R_HYST | 470 kΩ | Positive feedback from output to (+) input — 50 mV hysteresis |
-| R_PULLUP | 4.7 kΩ to +3.3 V | LM393 has open-collector output |
-| C_DEC | 100 nF X7R | Local supply bypass at LM393 supply pin |
+┌───────────┬────────────────────────────┬─────────────────────────────────────────────────────────────┐
+│ Component │ Value                      │ Notes                                                       │
+├───────────┼────────────────────────────┼─────────────────────────────────────────────────────────────┤
+│ U2        │ LM393                      │ Dual comparator (one section per tube)                      │
+│ V_REF     │ +1.5 V from LM4040 divider │ Trip threshold = 150 mA cathode current                     │
+│ R_HYST    │ 470 kΩ                     │ Positive feedback output → (+) input — 50 mV hysteresis     │
+│ R_PULLUP  │ 4.7 kΩ to +3.3 V           │ LM393 has open-collector output                             │
+│ C_DEC     │ 100 nF X7R                 │ Local supply bypass at LM393 supply pin                     │
+└───────────┴────────────────────────────┴─────────────────────────────────────────────────────────────┘
 
 The op-amp output (Layer 4) feeds the comparator (+) input. Comparator (−) input
 sits at the precision +1.5 V reference. When V_sense exceeds 1.5 V:
@@ -186,11 +199,13 @@ would otherwise damage them in milliseconds.
 ADC samples cathode voltage at **1 kHz** per channel (ADS1115 if external
 high-resolution ADC, or built-in MCU ADC if 12-bit is enough).
 
-| Threshold | Voltage | Cathode current | Action |
-|---|---|---|---|
-| Nominal | 1.0 V | 100 mA | Normal operation, log every 1 s |
-| Warning | 1.2 V | 120 mA for >50 ms | Soft fault: log, alert UI, reduce envelope DAC code by 10 % |
-| Hard | 1.5 V | 150 mA for >5 ms | Hard fault: drop screen via watchdog GPIO, log timestamp, alert UI |
+┌───────────┬─────────┬────────────────────┬──────────────────────────────────────────────────────────────────┐
+│ Threshold │ Voltage │ Cathode current    │ Action                                                           │
+├───────────┼─────────┼────────────────────┼──────────────────────────────────────────────────────────────────┤
+│ Nominal   │ 1.0 V   │ 100 mA             │ Normal operation, log every 1 s                                  │
+│ Warning   │ 1.2 V   │ 120 mA for >50 ms  │ Soft fault: log, alert UI, reduce envelope DAC code by 10 %      │
+│ Hard      │ 1.5 V   │ 150 mA for >5 ms   │ Hard fault: drop screen via watchdog GPIO, log timestamp, UI     │
+└───────────┴─────────┴────────────────────┴──────────────────────────────────────────────────────────────────┘
 
 The hardware comparator (Level 5) trips at 1.5 V too — both fire on hard
 faults; the hardware path is faster, the firmware path provides logging.
@@ -274,32 +289,36 @@ Two parallel sense chains, one per tube. Both feed into:
 
 ## BOM (per-tube, ×2 for the pair)
 
-| Ref | Part | Qty/tube | Notes |
-|---|---|---|---|
-| R_C | 10 Ω 1 % 1 W metal film | 1 | Vishay PR01000101000JR500 or similar |
-| C_BYP | 0.01 µF NP0 ceramic, 100 V | 1 | Mount AT the tube socket |
-| F1 | Bourns MF-R010 | 1 | PTC, 100 mA hold |
-| R_S | 10 kΩ 1 % 1/4 W | 1 | |
-| D1, D2 | BAT54 (or 1N5817) | 2 | Schottky clamps |
-| C_FILT | 1 nF X7R 50 V | 1 | |
-| U1 (op-amp) | OPA1641 | 1 | One section per tube (or OPA1642 dual for both) |
-| U2 (comparator) | LM393 | 0.5 | One IC handles both tubes |
-| V_REF | LM4040DIZ-1.2 + 1 k trim pot | 1 | Shared between both tubes' comparators |
-| R_HYST | 470 kΩ | 1 | |
-| R_PULLUP | 4.7 kΩ | 1 | LM393 output pull-up |
-| C_DEC | 100 nF X7R | several | Decoupling at each IC |
+┌─────────────────┬──────────────────────────────┬──────────┬─────────────────────────────────────────────────┐
+│ Ref             │ Part                         │ Qty/tube │ Notes                                           │
+├─────────────────┼──────────────────────────────┼──────────┼─────────────────────────────────────────────────┤
+│ R_C             │ 10 Ω 1 % 1 W metal film      │ 1        │ Vishay PR01000101000JR500 or similar            │
+│ C_BYP           │ 0.01 µF NP0 ceramic, 100 V   │ 1        │ Mount AT the tube socket                        │
+│ F1              │ Bourns MF-R010               │ 1        │ PTC, 100 mA hold                                │
+│ R_S             │ 10 kΩ 1 % 1/4 W              │ 1        │                                                 │
+│ D1, D2          │ BAT54 (or 1N5817)            │ 2        │ Schottky clamps                                 │
+│ C_FILT          │ 1 nF X7R 50 V                │ 1        │                                                 │
+│ U1 (op-amp)     │ OPA1641                      │ 1        │ One section per tube (or OPA1642 dual for both) │
+│ U2 (comparator) │ LM393                        │ 0.5      │ One IC handles both tubes                       │
+│ V_REF           │ LM4040DIZ-1.2 + 1 k trim pot │ 1        │ Shared between both tubes' comparators          │
+│ R_HYST          │ 470 kΩ                       │ 1        │                                                 │
+│ R_PULLUP        │ 4.7 kΩ                       │ 1        │ LM393 output pull-up                            │
+│ C_DEC           │ 100 nF X7R                   │ several  │ Decoupling at each IC                           │
+└─────────────────┴──────────────────────────────┴──────────┴─────────────────────────────────────────────────┘
 
 ## Watchdog gate (the screen-voltage interrupter)
 
 The fault output from Level 5 / Level 6 needs to **actually do something** to
 protect the tubes. The screen-voltage gate is the cleanest interrupter:
 
-| Component | Value | Notes |
-|---|---|---|
-| Q1 | High-side P-channel MOSFET (e.g., IRF9540) | Switches screen voltage |
-| R_GATE | 10 kΩ to source | Pulls gate to source (default ON) |
-| Q2 | NPN switch (2N3904) | Pulls gate low to turn OFF Q1 |
-| Trigger | OR of: comparator latches, MCU GPIO, esp_task_wdt | Any source can fire |
+┌───────────┬───────────────────────────────────────────────────┬─────────────────────────────────┐
+│ Component │ Value                                             │ Notes                           │
+├───────────┼───────────────────────────────────────────────────┼─────────────────────────────────┤
+│ Q1        │ High-side P-channel MOSFET (e.g., IRF9540)        │ Switches screen voltage         │
+│ R_GATE    │ 10 kΩ to source                                   │ Pulls gate to source (default ON)│
+│ Q2        │ NPN switch (2N3904)                               │ Pulls gate low to turn OFF Q1   │
+│ Trigger   │ OR of: comparator latches, MCU GPIO, esp_task_wdt │ Any source can fire             │
+└───────────┴───────────────────────────────────────────────────┴─────────────────────────────────┘
 
 When tripped, Q1 opens, screen drops to 0 V, tubes go dark. Tube cathode current
 returns to leakage levels (< 100 µA). The plate supply is still hot but the

@@ -21,7 +21,7 @@ is the WinKey-emulation layer, which lives elsewhere and calls into this module.
 This is one subsystem of a homebrew 20 m CW vacuum-tube transmitter:
 
 - **PA:** push-pull 6146B beam tetrodes
-- **Driver:** push-pull 6CL6 pentodes
+- **Driver:** push-pull 12HG7 pentodes
 - **VFO buffer / level control:** **MC1496** balanced modulator — the RF carrier
   passes through it, and its **modulating port sets the output amplitude**. That
   port is this module's target.
@@ -45,10 +45,12 @@ THIS MODULE  --(SPI)--> MCP4921 DAC --> R_F (1.5 kΩ) ──┬── MC1496 pin
 
 ## RTOS / core model
 
-| Core | Process | Responsibility |
-|------|---------|----------------|
-| Core 0 (PRO_CPU) | Monitoring | ADS1115 cathode-current sensing, PA protection, MCP4728 bias adjustment — all over **I2C** |
-| Core 1 (APP_CPU) | Keying | This envelope module + the WinKey emulation |
+┌──────────────────┬────────────┬─────────────────────────────────────────────────────────────────────────────────────┐
+│ Core             │ Process    │ Responsibility                                                                      │
+├──────────────────┼────────────┼─────────────────────────────────────────────────────────────────────────────────────┤
+│ Core 0 (PRO_CPU) │ Monitoring │ ADS1115 cathode-current sensing, PA protection, MCP4728 bias adjustment — all I²C    │
+│ Core 1 (APP_CPU) │ Keying     │ This envelope module + the WinKey emulation                                         │
+└──────────────────┴────────────┴─────────────────────────────────────────────────────────────────────────────────────┘
 
 The playout task is created with `xTaskCreatePinnedToCore(..., 1)` so it stays on
 core 1, isolated from the monitoring I2C traffic.
@@ -123,15 +125,17 @@ consequence noted.
 
 ## Tuning parameters (top of the .cpp)
 
-| Constant | Meaning | Default |
-|----------|---------|---------|
-| `TICK_US` | Sample period of the playout loop | 25 us (40 kHz) |
-| `LUT_SIZE` | Master raised-cosine table length | 256 |
-| `EDGE_FRACTION` | Edge time as a fraction of one dot | 0.15 |
-| `EDGE_MAX_MS` | Max full edge (slow speeds peg here) | 5.0 ms |
-| `EDGE_MIN_MS` | Min full edge (fastest, crispest) | 2.0 ms |
-| `CODE_NULL` | DAC code that nulls modulator output (RF off) | set at bring-up |
-| `CODE_FULL` | DAC code for full key-down amplitude | set at bring-up |
+┌─────────────────┬───────────────────────────────────────────────┬──────────────────┐
+│ Constant        │ Meaning                                       │ Default          │
+├─────────────────┼───────────────────────────────────────────────┼──────────────────┤
+│ `TICK_US`       │ Sample period of the playout loop             │ 25 µs (40 kHz)   │
+│ `LUT_SIZE`      │ Master raised-cosine table length             │ 256              │
+│ `EDGE_FRACTION` │ Edge time as a fraction of one dot            │ 0.15             │
+│ `EDGE_MAX_MS`   │ Max full edge (slow speeds peg here)          │ 5.0 ms           │
+│ `EDGE_MIN_MS`   │ Min full edge (fastest, crispest)             │ 2.0 ms           │
+│ `CODE_NULL`     │ DAC code that nulls modulator output (RF off) │ set at bring-up  │
+│ `CODE_FULL`     │ DAC code for full key-down amplitude          │ set at bring-up  │
+└─────────────────┴───────────────────────────────────────────────┴──────────────────┘
 
 WPM → edge mapping: `edge = clamp(EDGE_FRACTION * (1200 / wpm), EDGE_MIN_MS, EDGE_MAX_MS)`.
 This pegs at 5 ms for speeds <= ~30 WPM and shortens above that.
@@ -189,13 +193,15 @@ on timeout. This is separate from, and must not depend on, the DAC value.
   R_F + R4 form the divider; C_F to GND provides the single-pole rolloff.
   Combined behavior:
 
-  | Parameter | Value | How |
-  |-----------|-------|-----|
-  | DC scale | 3.3 V DAC → 108 mV at pin 1 | R4 / (R_F + R4) = 51 / 1551 = 0.0329 |
-  | LPF −3 dB | 4.75 kHz | Thevenin R = R_F ‖ R4 = 49 Ω; τ = 34 µs |
-  | 40 kHz image (1st DAC alias) | −18.5 dB | single-pole rolloff |
-  | Settling (3τ) | ~100 µs | ≪ 2–5 ms envelope edge → no shape distortion |
-  | Pin 1 at 14 MHz | |Z_C| = 0.017 Ω | C_F also AC-grounds pin 1 → carrier isolation |
+  ┌──────────────────────────────┬─────────────────────────────┬──────────────────────────────────────────────┐
+  │ Parameter                    │ Value                       │ How                                          │
+  ├──────────────────────────────┼─────────────────────────────┼──────────────────────────────────────────────┤
+  │ DC scale                     │ 3.3 V DAC → 108 mV at pin 1 │ R4 / (R_F + R4) = 51 / 1551 = 0.0329         │
+  │ LPF −3 dB                    │ 4.75 kHz                    │ Thevenin R = R_F ‖ R4 = 49 Ω; τ = 34 µs      │
+  │ 40 kHz image (1st DAC alias) │ −18.5 dB                    │ Single-pole rolloff                          │
+  │ Settling (3τ)                │ ~100 µs                     │ ≪ 2–5 ms envelope edge → no shape distortion │
+  │ Pin 1 at 14 MHz              │ |Z_C| = 0.017 Ω             │ C_F also AC-grounds pin 1 → carrier isolation│
+  └──────────────────────────────┴─────────────────────────────┴──────────────────────────────────────────────┘
 
   108 mV peak drives the modulator ~4× past AN531's linear boundary, into
   saturation. That's intentional: `CODE_FULL` is calibrated to the actual
@@ -219,15 +225,18 @@ on timeout. This is separate from, and must not depend on, the DAC value.
   deeper (now critical, since carrier harmonics translate directly to
   spurs in linear-multiplier mode).
 
-  See the VFO subcircuit section in `20m-leveled-keyed-buffer.md` for
-  the pad and LPF values. Effect on the keyer:
+  See `vfo_input_stage.md` for the current pad and LPF values
+  (original derivation is in `legacy/20m-leveled-keyed-buffer.md`).
+  Effect on the keyer:
 
-  | Parameter | Before | After |
-  |-----------|--------|-------|
-  | V_RF_IN to keyer (post-pad) | ~380 mV peak | ~38 mV peak |
-  | V_pin10 (with C1 = 330 pF) | ~100 mV peak | ~32 mV peak |
-  | Modulator mode | hard switching | linear / soft-switching boundary |
-  | 3rd-harmonic spur at carrier port | ~−42 dBc | ~−69 dBc |
+  ┌───────────────────────────────────┬────────────────┬───────────────────────────────────┐
+  │ Parameter                         │ Before         │ After                             │
+  ├───────────────────────────────────┼────────────────┼───────────────────────────────────┤
+  │ V_RF_IN to keyer (post-pad)       │ ~380 mV peak   │ ~38 mV peak                       │
+  │ V_pin10 (with C1 = 330 pF)        │ ~100 mV peak   │ ~32 mV peak                       │
+  │ Modulator mode                    │ Hard switching │ Linear / soft-switching boundary  │
+  │ 3rd-harmonic spur at carrier port │ ~−42 dBc       │ ~−69 dBc                          │
+  └───────────────────────────────────┴────────────────┴───────────────────────────────────┘
 
   C1 stays at the original 330 pF — the cap divider with R1 = 51 Ω is no
   longer being used as an attenuator; the upstream pad does that work.
@@ -256,13 +265,15 @@ on timeout. This is separate from, and must not depend on, the DAC value.
 
   (Mirror circuit on OUT_N → driver in 2.)
 
-  | Parameter | Value | Notes |
-  |-----------|-------|-------|
-  | Gain | 1 + R_F/R_G = 5.8 | R_F = 47 kΩ, R_G = 10 kΩ |
-  | BW at G = 5.8 | ~34 MHz | LM7171 GBW = 200 MHz |
-  | Output swing | rail-to-rail−2 V | ample for ±5 V swing on ±10 V rails |
-  | Input bias point | 0 V (via 100 kΩ to GND) | well within CM range of split supply |
-  | Drives | ~100 Ω cathode-input of grounded-grid 12HG7 stage | output impedance ≪ 100 Ω |
+  ┌──────────────────┬─────────────────────────────────────────────┬─────────────────────────────────────────┐
+  │ Parameter        │ Value                                       │ Notes                                   │
+  ├──────────────────┼─────────────────────────────────────────────┼─────────────────────────────────────────┤
+  │ Gain             │ 1 + R_F/R_G = 5.8                           │ R_F = 47 kΩ, R_G = 10 kΩ                │
+  │ BW at G = 5.8    │ ~34 MHz                                     │ LM7171 GBW = 200 MHz                    │
+  │ Output swing     │ Rail-to-rail−2 V                            │ Ample for ±5 V swing on ±10 V rails     │
+  │ Input bias point │ 0 V (via 100 kΩ to GND)                     │ Well within CM range of split supply    │
+  │ Drives           │ ~100 Ω cathode-input of grounded-grid 12HG7 │ Output impedance ≪ 100 Ω                │
+  └──────────────────┴─────────────────────────────────────────────┴─────────────────────────────────────────┘
 
   Drive headroom: keyer ~1.4 V p-p × 5.8 ≈ 8 V p-p at driver input —
   matches the 8 V p-p design point of the driver/PA chain.
@@ -310,14 +321,16 @@ stores the result in NVS, re-running periodically to track drift.
 
 ### Coverage analysis
 
-| Quantity | Value |
-|---|---|
-| Mid-scale on both DACs | No differential injection (null starting point) |
-| Full-scale swing per pin | ±16 mV injection |
-| Total differential range | ±33 mV |
-| MC1496 worst-case offset | ≤ 5 mV (datasheet) |
-| Headroom | ~6× over worst-case offset |
-| Resolution per LSB | ~8 µV (12-bit DAC over the swing range) |
+┌──────────────────────────┬──────────────────────────────────────────────────────┐
+│ Quantity                 │ Value                                                │
+├──────────────────────────┼──────────────────────────────────────────────────────┤
+│ Mid-scale on both DACs   │ No differential injection (null starting point)      │
+│ Full-scale swing per pin │ ±16 mV injection                                     │
+│ Total differential range │ ±33 mV                                               │
+│ MC1496 worst-case offset │ ≤ 5 mV (datasheet)                                   │
+│ Headroom                 │ ~6× over worst-case offset                           │
+│ Resolution per LSB       │ ~8 µV (12-bit DAC over the swing range)              │
+└──────────────────────────┴──────────────────────────────────────────────────────┘
 
 Resolution is far finer than needed; the binary search converges
 in about 12 cycles to a level well below the modulator's own

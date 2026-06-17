@@ -7,13 +7,15 @@ Total time: ~1 hour, mostly waiting on the ~2 GB EIM download.
 
 ## Prerequisites
 
-| Item | Notes |
-|---|---|
-| Windows 10/11, current updates | Run Windows Update first if machine has been idle |
-| Git for Windows | https://git-scm.com/download/win — defaults are fine |
-| Python 3.11 or 3.12 | 3.12.x confirmed working with v5.4.4. Do NOT install 3.13 (untested) |
-| ~5 GB free disk on install drive | ESP-IDF source + toolchain |
-| xmitter repo cloned | `git clone https://github.com/agelders2021/xmitter.git` |
+┌────────────────────────────────────┬─────────────────────────────────────────────────────────────┐
+│ Item                               │ Notes                                                       │
+├────────────────────────────────────┼─────────────────────────────────────────────────────────────┤
+│ Windows 10/11, current updates     │ Run Windows Update first if machine has been idle           │
+│ Git for Windows                    │ https://git-scm.com/download/win — defaults are fine        │
+│ Python 3.11 or 3.12                │ 3.12.x confirmed working with v5.4.4. Do NOT install 3.13   │
+│ ~5 GB free disk on install drive   │ ESP-IDF source + toolchain                                  │
+│ xmitter repo cloned                │ `git clone https://github.com/agelders2021/xmitter.git`     │
+└────────────────────────────────────┴─────────────────────────────────────────────────────────────┘
 
 ## Step 1: VS Code
 
@@ -43,14 +45,16 @@ block it — that mirror is unsafe to use from the US and EIM will auto-skip it.
 
 Pick **Custom Installation** (Easy doesn't expose mirror or version choices).
 
-| EIM step | Choice |
-|---|---|
-| Target Chips | Uncheck "All", check only `esp32s3` |
-| IDF Version | **`v5.4.4`** (Stable Releases / LTS line — not v6.0.x) |
-| Mirrors | Leave defaults: github.com / dl.espressif.com / pypi.org |
-| Features | `core` only — skip gdbgui, pytest, ci, docs, ide |
-| Tools | Required only (12 pre-checked). Skip optional `qemu-xtensa` |
-| Installation Path | `D:\esp\v5.4.4` (or `C:\esp\v5.4.4` if no D:) — short, no spaces |
+┌───────────────────┬──────────────────────────────────────────────────────────────────────┐
+│ EIM step          │ Choice                                                               │
+├───────────────────┼──────────────────────────────────────────────────────────────────────┤
+│ Target Chips      │ Uncheck "All", check only `esp32s3`                                  │
+│ IDF Version       │ **`v5.4.4`** (Stable Releases / LTS line — not v6.0.x)               │
+│ Mirrors           │ Leave defaults: github.com / dl.espressif.com / pypi.org             │
+│ Features          │ `core` only — skip gdbgui, pytest, ci, docs, ide                     │
+│ Tools             │ Required only (12 pre-checked). Skip optional `qemu-xtensa`          │
+│ Installation Path │ `D:\esp\v5.4.4` (or `C:\esp\v5.4.4` if no D:) — short, no spaces     │
+└───────────────────┴──────────────────────────────────────────────────────────────────────┘
 
 Wait for the ~2 GB download. Resumes if interrupted.
 
@@ -88,12 +92,14 @@ Should print `ESP-IDF v5.4.4`. Toolchain is verified, install is complete.
 
 ## Paths created on disk
 
-| Path | What |
-|---|---|
-| `D:\esp\v5.4.4\v5.4.4\esp-idf` | ESP-IDF source (EIM nests version dir twice) |
-| `C:\Espressif\tools` | Toolchain binaries (EIM puts on C: regardless of install root) |
-| `%USERPROFILE%\.espressif\eim_gui` | EIM itself |
-| `.vscode/settings.json` in workspace | Machine-specific extension config — **gitignored** |
+┌────────────────────────────────────┬───────────────────────────────────────────────────────────┐
+│ Path                               │ What                                                      │
+├────────────────────────────────────┼───────────────────────────────────────────────────────────┤
+│ `D:\esp\v5.4.4\v5.4.4\esp-idf`     │ ESP-IDF source (EIM nests version dir twice)              │
+│ `C:\Espressif\tools`               │ Toolchain binaries (EIM puts on C: regardless of root)    │
+│ `%USERPROFILE%\.espressif\eim_gui` │ EIM itself                                                │
+│ `.vscode/settings.json` in workspace│ Machine-specific extension config — **gitignored**       │
+└────────────────────────────────────┴───────────────────────────────────────────────────────────┘
 
 ## Gotchas
 

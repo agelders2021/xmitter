@@ -7,13 +7,15 @@ learned about ngspice quirks that bit us along the way.
 
 ## Summary
 
-| Question | Answer arrived at |
-|---|---|
-| Is C_TANK = 33 pF the right value? | **Yes.** Tank already accounts for ~8.5 pF 6146B output capacitance per tube → effective 41.5 pF per side → resonance lands at 14.2 MHz. Sweep showed peak power within ±1 pF. |
-| Best R17 load for the PA in standalone test? | **~320 Ω** (broad peak from 290–360 Ω, all within 2 % of max). Equivalent to the ~300 Ω the balun + 50 Ω antenna naturally present in the full chain. |
-| Max V6 drive without exceeding tube ratings? | **Dissipation alone: V6 = 240 V is safe** (14 W/tube, 55 W out). **But the grid-voltage spec (−150 V max) is the binding constraint** — at bias = −70 V, V6 = 160 V puts the peak negative grid voltage at exactly −150 V; anything above that overdrives the grid and risks the tube. See "Corrected operating point" below. |
-| Can we hit 50 W output safely (including the grid voltage limit)? | **Yes** — bias = **−60 V**, V6 = **180 V** on R17 = 300 Ω gives 50 W out, 24 W/tube dissipation (5 % margin on 25 W rating), peak grid at exactly −150 V. (The earlier "−70 V / V6 = 200 V" recommendation looked great for dissipation but was producing peak grid voltage of −170 V — over the spec by 20 V — and is no longer the design point.) |
-| Does the modulator-port linear-mode redesign work? | **Yes.** 20 dB pad + 7-pole LPF + LM7171 post-amp (gain ~5.8) restored full driver input level while moving the MC1496 into true 4-quadrant multiplier behaviour (carrier port ~30 mV peak, well below switching threshold). |
+┌──────────────────────────────────────────────────────────┬──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Question                                                 │ Answer arrived at                                                                                                                                                                                                                                                                                │
+├──────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ Is C_TANK = 33 pF the right value?                       │ **Yes.** Tank already accounts for ~8.5 pF 6146B output capacitance per tube → effective 41.5 pF per side → resonance lands at 14.2 MHz. Sweep showed peak power within ±1 pF.                                                                                                                   │
+│ Best R17 load for the PA in standalone test?             │ **~320 Ω** (broad peak from 290–360 Ω, all within 2 % of max). Equivalent to the ~300 Ω the balun + 50 Ω antenna naturally present in the full chain.                                                                                                                                            │
+│ Max V6 drive without exceeding tube ratings?             │ **Dissipation alone: V6 = 240 V is safe** (14 W/tube, 55 W out). **But the grid-voltage spec (−150 V max) is the binding constraint** — bias = −70 V, V6 = 160 V puts peak negative grid voltage at exactly −150 V; above that overdrives the grid. See "Corrected operating point" below.        │
+│ Can we hit 50 W safely (with the grid voltage limit)?    │ **Yes** — bias = **−60 V**, V6 = **180 V** on R17 = 300 Ω gives 50 W out, 24 W/tube dissipation (5 % margin on 25 W rating), peak grid at exactly −150 V. (The earlier "−70 V / V6 = 200 V" hit peak grid of −170 V, 20 V over spec, no longer the design point.)                                  │
+│ Does the modulator-port linear-mode redesign work?       │ **Yes.** 20 dB pad + 7-pole LPF + LM7171 post-amp (gain ~5.8) restored full driver input level while moving the MC1496 into true 4-quadrant multiplier behaviour (carrier port ~30 mV peak, well below switching threshold).                                                                     │
+└──────────────────────────────────────────────────────────┴──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
 ## Changes committed this session
 
@@ -21,10 +23,12 @@ learned about ngspice quirks that bit us along the way.
 
 **Pi pad** upgraded from 6 dB to **20 dB** to reduce carrier amplitude into the keyer:
 
-| Ref | Old | New |
-|---|---|---|
-| RP1, RP3 | 150 Ω | **62 Ω** |
-| RP2 | 39 Ω | **240 Ω** |
+┌──────────┬───────┬────────────┐
+│ Ref      │ Old   │ New        │
+├──────────┼───────┼────────────┤
+│ RP1, RP3 │ 150 Ω │ **62 Ω**   │
+│ RP2      │ 39 Ω  │ **240 Ω**  │
+└──────────┴───────┴────────────┘
 
 Result: V_RF_IN to keyer drops from ~380 mV peak to ~38 mV peak, putting the MC1496
 carrier port in linear-multiplier mode.
@@ -33,20 +37,24 @@ carrier port in linear-multiplier mode.
 for deeper harmonic rejection — necessary now that the modulator passes carrier harmonics
 directly to the output instead of generating its own from switching mode:
 
-| Element | Old (5-pole) | New (7-pole) |
-|---|---|---|
-| CF1 / CF7 | 200 pF | **220 pF** |
-| LF2 / LF6 | 13 t T50-6 (~624 nH) | 13 t T50-6 (~647 nH) ← same as before |
-| CF3 / CF5 | 360 pF | **390 pF** |
-| LF4 (center) | 13 t T50-6 | **14 t T50-6** (~715 nH) |
+┌──────────────┬──────────────────────┬─────────────────────────────────────────┐
+│ Element      │ Old (5-pole)         │ New (7-pole)                            │
+├──────────────┼──────────────────────┼─────────────────────────────────────────┤
+│ CF1 / CF7    │ 200 pF               │ **220 pF**                              │
+│ LF2 / LF6    │ 13 t T50-6 (~624 nH) │ 13 t T50-6 (~647 nH) ← same as before   │
+│ CF3 / CF5    │ 360 pF               │ **390 pF**                              │
+│ LF4 (center) │ 13 t T50-6           │ **14 t T50-6** (~715 nH)                │
+└──────────────┴──────────────────────┴─────────────────────────────────────────┘
 
 Stopband rejection improvement at the LPF output:
 
-| Harmonic | 5-pole | 7-pole | Δ |
-|---|---|---|---|
-| 2f (28.4 MHz) | 13 dB | **28 dB** | +15 dB |
-| 3f (42.6 MHz) | 33 dB | **60 dB** | +27 dB |
-| 5f (71 MHz) | 58 dB | **95 dB** | +37 dB |
+┌────────────────┬────────┬──────────┬────────┐
+│ Harmonic       │ 5-pole │ 7-pole   │ Δ      │
+├────────────────┼────────┼──────────┼────────┤
+│ 2f (28.4 MHz)  │ 13 dB  │ **28 dB**│ +15 dB │
+│ 3f (42.6 MHz)  │ 33 dB  │ **60 dB**│ +27 dB │
+│ 5f (71 MHz)    │ 58 dB  │ **95 dB**│ +37 dB │
+└────────────────┴────────┴──────────┴────────┘
 
 ### Keyer subcircuit (`keyer.sch`)
 
@@ -60,13 +68,15 @@ Stopband rejection improvement at the LPF output:
 
 Non-inverting gain-of-5.8 amp, AC-coupled in/out, powered from existing +12 V / −8.3 V:
 
-| Part | Value | Role |
-|---|---|---|
-| LM7171AIN | — | 200 MHz GBW op-amp (DIP-8/SOIC-8) |
-| C_IN, C_OUT | 100 nF X7R | Couples around the +10 V DC at MC1496 outputs |
-| R_B | 100 kΩ 1% | + input bias to GND |
-| R_F | 30 kΩ 1% | Feedback (gain = 1 + R_F/R_G = 4) |
-| R_G | 10 kΩ 1% | Inverting-input leg to GND |
+┌─────────────┬─────────────┬─────────────────────────────────────────────────┐
+│ Part        │ Value       │ Role                                            │
+├─────────────┼─────────────┼─────────────────────────────────────────────────┤
+│ LM7171AIN   │ —           │ 200 MHz GBW op-amp (DIP-8/SOIC-8)               │
+│ C_IN, C_OUT │ 100 nF X7R  │ Couples around the +10 V DC at MC1496 outputs   │
+│ R_B         │ 100 kΩ 1%   │ + input bias to GND                             │
+│ R_F         │ 30 kΩ 1%    │ Feedback (gain = 1 + R_F/R_G = 4)               │
+│ R_G         │ 10 kΩ 1%    │ Inverting-input leg to GND                      │
+└─────────────┴─────────────┴─────────────────────────────────────────────────┘
 
 (Schematic ships with R_F = 30 kΩ for gain 4. After this session's analysis the
 recommended value for production is R_F = 47 kΩ giving gain 5.8 — see
@@ -90,20 +100,22 @@ C_TANK = 33 pF, sim window = 3.5 µs (50 cycles at 14.2 MHz), R17 = 300 Ω unles
 
 ### R17 sweep at V6 = 160 V
 
-| R17 (Ω) | V_rms (V) | P_out (W) |
-|---|---|---|
-| 220 | 92.3 | 38.7 |
-| 240 | 98.6 | 40.5 |
-| 260 | 104.4 | 41.9 |
-| 275 | 108.3 | 42.7 |
-| 290 | 111.8 | 43.1 |
-| 300 | 114.0 | 43.3 |
-| 310 | 115.9 | 43.3 |
-| **325** | **118.7** | **43.4** ← peak |
-| 340 | 121.1 | 43.1 |
-| 360 | 124.0 | 42.7 |
-| 380 | 126.5 | 42.1 |
-| 420 | 130.6 | 40.6 |
+┌──────────┬───────────┬─────────────────────┐
+│ R17 (Ω)  │ V_rms (V) │ P_out (W)           │
+├──────────┼───────────┼─────────────────────┤
+│ 220      │ 92.3      │ 38.7                │
+│ 240      │ 98.6      │ 40.5                │
+│ 260      │ 104.4     │ 41.9                │
+│ 275      │ 108.3     │ 42.7                │
+│ 290      │ 111.8     │ 43.1                │
+│ 300      │ 114.0     │ 43.3                │
+│ 310      │ 115.9     │ 43.3                │
+│ **325**  │ **118.7** │ **43.4** ← peak     │
+│ 340      │ 121.1     │ 43.1                │
+│ 360      │ 124.0     │ 42.7                │
+│ 380      │ 126.5     │ 42.1                │
+│ 420      │ 130.6     │ 40.6                │
+└──────────┴───────────┴─────────────────────┘
 
 Conclusion: broad plateau 290–360 Ω, peak ~325 Ω. Tube spread (±10 %) swamps any
 finer optimization; **300 Ω is the production target**.
@@ -112,17 +124,19 @@ finer optimization; **300 Ω is the production target**.
 
 Each V6 row gives peak current, average current, output power, plate dissipation per tube:
 
-| V6 (V) | I_peak (mA/tube) | I_avg (mA/tube) | P_in/tube (W) | P_out total (W) | P_diss/tube (W) | Efficiency |
-|---|---|---|---|---|---|---|
-| 80 | 59 | 8.5 | 5.1 | 0.9 | 4.7 | 9 % |
-| 100 | 133 | 20.2 | 12.1 | 5.0 | 9.6 | 21 % |
-| 120 | 224 | 35.0 | 21.0 | 14.3 | 13.8 | 34 % |
-| 140 | 318 | 50.8 | 30.5 | 29.3 | 15.8 | 48 % |
-| 160 | 377 | 60.9 | 36.5 | 41.6 | 15.7 | 57 % |
-| 180 | 400 | 64.6 | 38.8 | 47.0 | 15.3 | 61 % |
-| **200** | **416** | **66.8** | **40.1** | **50.3** | **14.9** | **63 %** |
-| 220 | 426 | 68.2 | 40.9 | 52.8 | 14.5 | 65 % |
-| 240 | 433 | 69.1 | 41.5 | 54.6 | 14.2 | 66 % |
+┌─────────┬──────────────────┬─────────────────┬───────────────┬─────────────────┬─────────────────┬────────────┐
+│ V6 (V)  │ I_peak (mA/tube) │ I_avg (mA/tube) │ P_in/tube (W) │ P_out total (W) │ P_diss/tube (W) │ Efficiency │
+├─────────┼──────────────────┼─────────────────┼───────────────┼─────────────────┼─────────────────┼────────────┤
+│ 80      │ 59               │ 8.5             │ 5.1           │ 0.9             │ 4.7             │ 9 %        │
+│ 100     │ 133              │ 20.2            │ 12.1          │ 5.0             │ 9.6             │ 21 %       │
+│ 120     │ 224              │ 35.0            │ 21.0          │ 14.3            │ 13.8            │ 34 %       │
+│ 140     │ 318              │ 50.8            │ 30.5          │ 29.3            │ 15.8            │ 48 %       │
+│ 160     │ 377              │ 60.9            │ 36.5          │ 41.6            │ 15.7            │ 57 %       │
+│ 180     │ 400              │ 64.6            │ 38.8          │ 47.0            │ 15.3            │ 61 %       │
+│ **200** │ **416**          │ **66.8**        │ **40.1**      │ **50.3**        │ **14.9**        │ **63 %**   │
+│ 220     │ 426              │ 68.2            │ 40.9          │ 52.8            │ 14.5            │ 65 %       │
+│ 240     │ 433              │ 69.1            │ 41.5          │ 54.6            │ 14.2            │ 66 %       │
+└─────────┴──────────────────┴─────────────────┴───────────────┴─────────────────┴─────────────────┴────────────┘
 
 Tube envelope check (6146B: 25 W plate, 270 mA peak emission steady-state):
 
@@ -150,15 +164,17 @@ honour the grid limit.
 A paired (bias, V6) sweep ran each operating point at the limit point where
 peak grid = exactly −150 V (V6 = 2 × (150 − |bias|)):
 
-| Bias | V6 | P_out | I_peak/tube | P_diss/tube | Eff |
-|---|---|---|---|---|---|
-| −75 V | 150 V | 22 W | 276 mA | 21 W | 35 % |
-| −70 V | 160 V | 35 W | 341 mA | 23 W | 43 % |
-| −65 V | 170 V | 44 W | 380 mA | 24 W | 48 % |
-| **−60 V** | **180 V** | **50 W** | **412 mA** | **24 W** | **51 %** ← 50 W target |
-| −55 V | 190 V | 56 W | 431 mA | 23 W | 54 % |
-| −50 V | 200 V | 60 W | 442 mA | 23 W | 56 % |
-| −45 V | 210 V | 63 W | 459 mA | 23 W | 57 % |
+┌───────────┬───────────┬──────────┬─────────────┬─────────────┬──────────────────────────┐
+│ Bias      │ V6        │ P_out    │ I_peak/tube │ P_diss/tube │ Eff                      │
+├───────────┼───────────┼──────────┼─────────────┼─────────────┼──────────────────────────┤
+│ −75 V     │ 150 V     │ 22 W     │ 276 mA      │ 21 W        │ 35 %                     │
+│ −70 V     │ 160 V     │ 35 W     │ 341 mA      │ 23 W        │ 43 %                     │
+│ −65 V     │ 170 V     │ 44 W     │ 380 mA      │ 24 W        │ 48 %                     │
+│ **−60 V** │ **180 V** │ **50 W** │ **412 mA**  │ **24 W**    │ **51 %** ← 50 W target   │
+│ −55 V     │ 190 V     │ 56 W     │ 431 mA      │ 23 W        │ 54 %                     │
+│ −50 V     │ 200 V     │ 60 W     │ 442 mA      │ 23 W        │ 56 %                     │
+│ −45 V     │ 210 V     │ 63 W     │ 459 mA      │ 23 W        │ 57 %                     │
+└───────────┴───────────┴──────────┴─────────────┴─────────────┴──────────────────────────┘
 
 Key observation: **plate dissipation is nearly flat at 21–24 W/tube** across
 the whole bias range. The trade-off isn't "deep C = efficient vs. shallow C
@@ -169,23 +185,25 @@ dissipation; the only real cost is higher peak current (still inside the
 
 ### Corrected operating point
 
-| Metric | Value |
-|---|---|
-| V6 drive amplitude | **180 V peak** (≈8 V p-p × driver gain at the LM7171 output) |
-| R17 / load impedance | **300 Ω** (matches the balun's 6:1 step-down from 50 Ω antenna) |
-| Plate supply (V_supply) | 600 V DC |
-| Screen voltage | +200 V |
-| Grid bias | **−60 V** (operating; see below for hardware-vs-firmware strategy) |
-| Output power | **50 W** |
-| Plate dissipation | 24 W/tube (5 % margin on 25 W CW rating) |
-| Peak grid voltage | **−150 V** (exactly at spec) |
-| Efficiency | 51 % |
+┌──────────────────────────┬─────────────────────────────────────────────────────────────────────┐
+│ Metric                   │ Value                                                               │
+├──────────────────────────┼─────────────────────────────────────────────────────────────────────┤
+│ V6 drive amplitude       │ **180 V peak** (≈8 V p-p × driver gain at the LM7171 output)        │
+│ R17 / load impedance     │ **300 Ω** (matches the balun's 6:1 step-down from 50 Ω antenna)     │
+│ Plate supply (V_supply)  │ 600 V DC                                                            │
+│ Screen voltage           │ +200 V                                                              │
+│ Grid bias                │ **−60 V** (operating; see below for hardware-vs-firmware strategy)  │
+│ Output power             │ **50 W**                                                            │
+│ Plate dissipation        │ 24 W/tube (5 % margin on 25 W CW rating)                            │
+│ Peak grid voltage        │ **−150 V** (exactly at spec)                                        │
+│ Efficiency               │ 51 %                                                                │
+└──────────────────────────┴─────────────────────────────────────────────────────────────────────┘
 
 ### Bias rail strategy: hardware−rail vs firmware−adjusted
 
 Set the **hardware bias supply rail to −65 to −70 V** (deeper than operating
 point), and have firmware bring the operating bias to −60 V via the per-tube
-DAC + HV op-amp (OPA454) circuit captured in `20m-leveled-keyed-buffer.md`.
+DAC + HV op-amp (OPA454) circuit captured in `legacy/20m-leveled-keyed-buffer.md`.
 Rationale:
 
 - **Power-up safe**: hardware default is deep cutoff before firmware runs
@@ -210,10 +228,12 @@ nothing forces a single fixed operating-bias value. **Use two distinct bias
 setpoints** — one for key-up (idle), one for key-down (transmit) — and the
 PA gets meaningfully safer plus cleaner.
 
-| State | Bias | Tube state | Plate current | Standby dissipation |
-|---|---|---|---|---|
-| **IDLE** (key-up) | **−90 V** | Deep cutoff, fully off | 0 mA | 0 W per tube |
-| **OPERATE** (key-down) | **−50 V** | Shallow class C | per envelope | per envelope |
+┌────────────────────────┬───────────┬─────────────────────────┬───────────────┬─────────────────────┐
+│ State                  │ Bias      │ Tube state              │ Plate current │ Standby dissipation │
+├────────────────────────┼───────────┼─────────────────────────┼───────────────┼─────────────────────┤
+│ **IDLE** (key-up)      │ **−90 V** │ Deep cutoff, fully off  │ 0 mA          │ 0 W per tube        │
+│ **OPERATE** (key-down) │ **−50 V** │ Shallow class C         │ per envelope  │ per envelope        │
+└────────────────────────┴───────────┴─────────────────────────┴───────────────┴─────────────────────┘
 
 The IDLE state gives belt-and-braces safety: even if the MC1496's carrier
 null isn't perfect, biased-off tubes can't emit RF. Plate current is exactly
@@ -256,12 +276,14 @@ The bias circuit drawn in `Grid_Bias_Schematic.pdf` was originally sized for
 the −70 V to −50 V range. For two-state operation we need the IDLE state to
 reach −90 V. Change one resistor:
 
-| Resistor | Original (−70 V range) | Two-state (−90 V range) |
-|---|---|---|
-| R_2 | 3.57 kΩ | **2.78 kΩ** |
-| R_3 | 1.00 kΩ | unchanged |
-| R_F | 50 kΩ | unchanged |
-| R_in | 10 kΩ | unchanged |
+┌──────────┬────────────────────────┬──────────────────────────┐
+│ Resistor │ Original (−70 V range) │ Two-state (−90 V range)  │
+├──────────┼────────────────────────┼──────────────────────────┤
+│ R_2      │ 3.57 kΩ                │ **2.78 kΩ**              │
+│ R_3      │ 1.00 kΩ                │ unchanged                │
+│ R_F      │ 50 kΩ                  │ unchanged                │
+│ R_in     │ 10 kΩ                  │ unchanged                │
+└──────────┴────────────────────────┴──────────────────────────┘
 
 Same OPA454, same DAC, same supplies — just one resistor value. New range
 maps DAC code 0 → −90 V (IDLE) and code 4095 → −50 V (OPERATE). Per-tube
@@ -285,23 +307,27 @@ extension worth keeping the door open for after first-light bring-up.
 
 ### Grid-bias subcircuit implementation files
 
-| File | Purpose |
-|---|---|
-| `xmitter_prj/grid_bias.sch` | The 2-port subcircuit. External pins: `Control_In` (from DAC), `Grid_Bias_Out` (to 6146B grid). Internal: +12 V / +5 V LM4040 ref / −85 V supplies, OPA454, R_pad, R_G, R_F = 170 kΩ, R_GL = 22 kΩ. |
-| `xmitter_prj/grid_bias_check.sch` | Test wrapper instantiating `grid_bias` as a Sub component. Drives Control_In with V1, loads Grid_Bias_Out with 1 MΩ, probes via VProbe Pr1, sweeps V1 = 0–3.3 V via `.SW` + `.DC` blocks. **The canonical reference for setting up a parameter-sweep simulation in QUCS-S** — open this if you need to add a sweep to another schematic. |
-| `xmitter_prj/opa454.lib` | TI's PSpice OPA454 model, converted to ngspice (PSpice expression VCVS → Berkeley B-source). Includes 5-pin wrapper `OPA454_5PIN` that ties enable HIGH and exposes only +IN, −IN, V+, V−, OUT. |
-| `xmitter_prj/grid_bias_standalone.cir` | Hand-written ngspice netlist that replicates `grid_bias_check.sch`'s circuit without QUCS-S. Useful for rapid iteration when fighting QUCS-S sim-block configuration. Confirms V_out = V_DAC × 18 − 85 to 3 decimal places. |
-| `xmitter_prj/ngspice.py` | CLI wrapper: `python ngspice.py <stem>` runs ngspice_con on `<stem>.cir`, parses the rawfile, writes `<stem>.dat.ngspice` for `gui_plot.py` to open. Saves typing the full path to `ngspice_con.exe`. |
-| `Documentation/Grid_Bias_Schematic.pdf` | 5-page reference doc with both design variants (Design A: OPA454 HV op-amp; Design B: discrete PNP level-shifter), component tables, transfer functions, and the two-state firmware sequencing notes. |
+┌─────────────────────────────────────────┬──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ File                                    │ Purpose                                                                                                                                                                                                                                              │
+├─────────────────────────────────────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ `xmitter_prj/grid_bias.sch`             │ The 2-port subcircuit. External pins: `Control_In` (from DAC), `Grid_Bias_Out` (to 6146B grid). Internal: +12 V / +5 V LM4040 ref / −85 V supplies, OPA454, R_pad, R_G, R_F = 170 kΩ, R_GL = 22 kΩ.                              │
+│ `xmitter_prj/grid_bias_check.sch`       │ Test wrapper instantiating `grid_bias` as a Sub component. Drives Control_In with V1, loads Grid_Bias_Out with 1 MΩ, sweeps V1 = 0–3.3 V via `.SW` + `.DC` blocks. **Canonical reference for parameter-sweep setup in QUCS-S.** │
+│ `xmitter_prj/opa454.lib`                │ TI's PSpice OPA454 model, converted to ngspice (PSpice expression VCVS → Berkeley B-source). Includes 5-pin wrapper `OPA454_5PIN` that ties enable HIGH and exposes only +IN, −IN, V+, V−, OUT.                                  │
+│ `xmitter_prj/grid_bias_standalone.cir`  │ Hand-written ngspice netlist that replicates `grid_bias_check.sch`'s circuit without QUCS-S. Useful for rapid iteration. Confirms V_out = V_DAC × 18 − 85 to 3 decimal places.                                                    │
+│ `xmitter_prj/ngspice.py`                │ CLI wrapper: `python ngspice.py <stem>` runs ngspice_con on `<stem>.cir`, parses the rawfile, writes `<stem>.dat.ngspice` for `gui_plot.py`. Saves typing the full path to `ngspice_con.exe`.                                    │
+│ `Documentation/Grid_Bias_Schematic.pdf` │ 5-page reference doc with both design variants (Design A: OPA454 HV op-amp; Design B: discrete PNP level-shifter), component tables, transfer functions, and the two-state firmware sequencing notes.                            │
+└─────────────────────────────────────────┴──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
 #### Important QUCS-S gotchas learned setting this up
 
-| Symptom | Cause | Fix |
-|---|---|---|
-| Custom `.sym` file fails to load ("No symbol loaded") | Non-ASCII characters in Description (em dash, ohm symbol, etc.) | Keep `.sym` files strictly ASCII. QUCS-S symbol parser is not Unicode-clean. |
-| SpLib component generates `XX1  OPA454_5PIN` with no nodes | "Port name" column in the SpLib dialog can't be edited in QUCS-S 26.1.1 Windows build (UI bug) | Use template `"auto"` instead of `"opamp5t"` — QUCS-S generates a generic box symbol from the .SUBCKT pin order, no port mapping needed. |
-| `.SW` parameter sweep produces a single `op` only | The "Simulation" field (first SW property) was empty | Set the `.SW`'s first property to the name of a `.DC` (or `.AC` / `.TR`) simulation block on the same schematic. `.SW` is a wrapper around another analysis; both must be present. |
-| `dc dac_v ...` fails with "Voltage source ... named 'dac_v' is not in the circuit" | `dc` ngspice command sweeps a SOURCE, not a `.PARAM` | Sweep the Vdc source directly (e.g., `V1`). The `.SW` "Parameter" field accepts a source name as well as a parameter name. |
+┌─────────────────────────────────────────────────────────────────────────┬────────────────────────────────────────────────────────────────────────────────────────────────┬─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Symptom                                                                 │ Cause                                                                                          │ Fix                                                                                                                                 │
+├─────────────────────────────────────────────────────────────────────────┼────────────────────────────────────────────────────────────────────────────────────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ Custom `.sym` file fails to load ("No symbol loaded")                   │ Non-ASCII characters in Description (em dash, ohm symbol, etc.)                                │ Keep `.sym` files strictly ASCII. QUCS-S symbol parser is not Unicode-clean.                                                        │
+│ SpLib component generates `XX1  OPA454_5PIN` with no nodes              │ "Port name" column in the SpLib dialog can't be edited in QUCS-S 26.1.1 Windows build (UI bug) │ Use template `"auto"` instead of `"opamp5t"` — QUCS-S generates a generic box symbol from the .SUBCKT pin order.                    │
+│ `.SW` parameter sweep produces a single `op` only                       │ The "Simulation" field (first SW property) was empty                                           │ Set the `.SW`'s first property to the name of a `.DC` (or `.AC` / `.TR`) simulation block on the same schematic.                    │
+│ `dc dac_v ...` fails with "Voltage source ... named 'dac_v' is not …"   │ `dc` ngspice command sweeps a SOURCE, not a `.PARAM`                                           │ Sweep the Vdc source directly (e.g., `V1`). The `.SW` "Parameter" field accepts a source name as well as a parameter name.          │
+└─────────────────────────────────────────────────────────────────────────┴────────────────────────────────────────────────────────────────────────────────────────────────┴─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
 ## New tooling
 
