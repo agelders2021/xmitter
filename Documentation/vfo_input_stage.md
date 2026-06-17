@@ -53,25 +53,76 @@ Signal flow, end to end:
 │ RP3 │ 62 Ω   │ Series, output side     │
 └─────┴────────┴─────────────────────────┘
 
-### 7-pole Chebyshev LPF (0.1 dB ripple, f_c = 17.5 MHz)
+### 7-pole low-pass filter (T68-6 inductors, original caps kept)
 
-┌─────┬──────────┬──────────────────────────────────┐
-│ Ref │ Value    │ Construction                     │
-├─────┼──────────┼──────────────────────────────────┤
-│ CF1 │ 220 pF   │ Silver mica or NPO ceramic       │
-│ LF2 │ 647 nH   │ 13 t on T50-6, or 8 t on T68-6   │
-│ CF3 │ 390 pF   │ Silver mica or NPO ceramic       │
-│ LF4 │ 715 nH   │ 14 t on T50-6, or 8 t on T68-6   │
-│ CF5 │ 390 pF   │ Silver mica or NPO ceramic       │
-│ LF6 │ 647 nH   │ Same as LF2                      │
-│ CF7 │ 220 pF   │ Same as CF1                      │
-└─────┴──────────┴──────────────────────────────────┘
+Built with three identical T68-6 inductors at 8 turns each
+(uniform 736 nH). Capacitor values are kept at the original
+Chebyshev 0.1 dB ripple design (220 / 390 / 390 / 220 pF) — both
+are E12 standard silver mica values for easy sourcing. The slight
+filter-shape consequence is intentional and documented below.
 
-T68-6 substitution shifts each LPF inductor from 647/715/647 nH to a
-uniform 736 nH (8 turns gives the same L for each). Cutoff drops
-from 17.5 MHz to ~16.4 MHz; 14.2 MHz operating frequency stays well
-in the passband. Harmonic rejection is unchanged. See
-`control_board_BOM_and_wire_plan.md` for the rationale.
+┌─────┬────────┬─────────────────────────────────────────────────┐
+│ Ref │ Value  │ Construction                                    │
+├─────┼────────┼─────────────────────────────────────────────────┤
+│ CF1 │ 220 pF │ Silver mica E12, ≥ 500 V (CD15/CD19 series)     │
+│ LF2 │ 736 nH │ 8 turns #22 AWG enameled on T68-6               │
+│ CF3 │ 390 pF │ Silver mica E12, ≥ 500 V                        │
+│ LF4 │ 736 nH │ 8 turns #22 AWG enameled on T68-6               │
+│ CF5 │ 390 pF │ Silver mica E12, ≥ 500 V                        │
+│ LF6 │ 736 nH │ 8 turns #22 AWG enameled on T68-6               │
+│ CF7 │ 220 pF │ Silver mica E12, ≥ 500 V                        │
+└─────┴────────┴─────────────────────────────────────────────────┘
+
+#### Why uniform 736 nH (instead of a true 647 / 715 / 647 Chebyshev)
+
+The original Chebyshev design used T50-6 cores with L = 647 nH on
+the outer positions and 715 nH at the center — the asymmetric
+values come from the per-position Chebyshev coefficients
+(g₂ = g₆ ≈ 1.423, g₄ ≈ 1.573).
+
+On T68-6 (AL ≈ 11.5 nH/t²), the closest integer turn count for
+either target lands at 8 turns = 736 nH:
+
+- 7 turns = 564 nH (13 % low vs 647 nH target)
+- 8 turns = 736 nH (14 % high vs 647 nH, only 3 % high vs 715 nH)
+
+Eight turns at every position is the practical choice. Three
+identical windings are far easier to wind, count, and pack
+uniformly around the core than mixing 7 t and 8 t.
+
+#### Why the caps are NOT retuned to compensate
+
+The combined "all 736 nH + original caps" choice means the filter
+is no longer a strict 7-pole 0.1 dB Chebyshev. It becomes an
+equivalent 7-element LC ladder with slightly different passband
+ripple and a cutoff shifted from 17.5 MHz down to ~16.4 MHz.
+
+For this application that's invisible:
+
+- **14.2 MHz operating frequency** sits at 87 % of the shifted
+  cutoff — still well in the passband; insertion loss < 0.4 dB
+- **2nd harmonic at 28.4 MHz** is still 1.7× the cutoff regardless
+  of which exact tuning is used; stopband suppression here is
+  governed by the ladder structure, not the exact Chebyshev shape
+  (28+ dB rejection holds)
+- **MC1496 carrier input** doesn't care about an extra 0.1-0.2 dB
+  ripple in the passband — its dynamic range absorbs it trivially
+
+Alternatives considered and rejected:
+
+- **Retune caps to 200 / 360 pF** (E24 values): would restore the
+  17.5 MHz cutoff but loses the E12 sourcing convenience and the
+  ~1 MHz of cutoff margin is academic at 14.2 MHz operation
+- **Redesign as true Chebyshev for 736 nH inductors**: would
+  require recomputing all cap values from the Chebyshev coefficients
+  (not a simple scale) and gives no practical benefit
+- **Stick with T50-6 + original values**: gives exact original
+  filter but requires winding 13/14/13 turns on the smaller, less
+  finger-friendly core
+
+The trade is **constructional uniformity over the last ounce of
+filter spec**. For a single-band VFO chain feeding a keyer, the
+simpler build wins clearly.
 
 ### Output coupling and termination
 
