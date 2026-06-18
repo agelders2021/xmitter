@@ -1,4 +1,12 @@
-"""Generate Documentation/VFO_Keyer_Order.xlsx — flat order list with check-off columns."""
+"""Generate Documentation/VFO_Keyer_Order.xlsx — flat order list with check-off columns.
+
+WARNING: this is a from-scratch bootstrap. Running it OVERWRITES any
+On Hand / Ordered / Received / Ordered From / corrected P/N / price
+entries the user has filled in. If you just want to add or change a
+column structure without losing user data, write a migration script
+that calls openpyxl.load_workbook() on the existing file and modifies
+it in place (see tools/add_mfr_pn_column.py for the pattern).
+"""
 import openpyxl
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 from openpyxl.utils import get_column_letter
@@ -9,9 +17,29 @@ ws.title = "VFO + Keyer Order"
 
 headers = ['Section', 'Ref', 'Value / Description', 'Package', 'Qty',
            'On Hand', 'Ordered', 'Received', 'Ordered From',
-           'Mouser P/N', 'Digi-Key P/N',
+           'Mfr P/N', 'Mouser P/N', 'Digi-Key P/N',
            'Unit $', 'Ext $', 'Notes']
-col_widths = [13, 10, 38, 18, 5, 8, 8, 9, 13, 26, 26, 8, 9, 40]
+col_widths = [13, 10, 38, 18, 5, 8, 8, 9, 13, 26, 26, 26, 8, 9, 40]
+
+# Manufacturer P/Ns - populated only where unambiguous
+MFR_PN = {
+    'U1':    'Adafruit 5566',
+    'U2':    'MC1496P',
+    'Q1':    'J310',
+    'T1':    '2N3906',
+    'U3,4':  'LM7171AIN/NOPB',
+    'U5':    'MCP4921-E/P',
+    'D1':    '1N4738A',
+    'CF1':   'CD15FD221JO3F',
+    'CF3':   'CD15FD391JO3F',
+    'CF5':   'CD15FD391JO3F',
+    'CF7':   'CD15FD221JO3F',
+    'C1':    'CD15FD331JO3F (silver mica option)',
+    'CB_BLK':'Kemet T350F106K025AT',
+    'C_F':   'Wima MKP4 680 nF / 63 V',
+    'XU2':   'Mill-Max 110-43-314 (machined)',
+    'XU3,4': 'Mill-Max 110-43-308 (machined)',
+}
 
 header_font = Font(bold=True, color='FFFFFF', size=11)
 header_fill = PatternFill('solid', fgColor='305496')
@@ -129,7 +157,7 @@ parts = [
 
 row = 2
 section_color = {'VFO': 'D9E1F2', 'KEYER': 'E2EFDA', 'POWER': 'FFF2CC', 'CONN': 'FCE4D6', 'TEST': 'EDEDED'}
-N_COLS = len(headers)  # 14
+N_COLS = len(headers)  # 15
 for section, ref, value, package, qty, mouser_pn, digikey_pn, unit, notes in parts:
     if ref == '' and qty is None:
         c = ws.cell(row=row, column=1, value=section)
@@ -145,29 +173,32 @@ for section, ref, value, package, qty, mouser_pn, digikey_pn, unit, notes in par
 
     fill = PatternFill('solid', fgColor=section_color.get(section, 'FFFFFF'))
     # Columns: 1=Section 2=Ref 3=Value 4=Package 5=Qty 6=OnHand 7=Ordered
-    #          8=Received 9=OrderedFrom 10=MouserPN 11=DigiKeyPN 12=Unit$ 13=Ext$ 14=Notes
-    cells = [section, ref, value, package, qty, '', '', '', '', mouser_pn, digikey_pn,
+    #          8=Received 9=OrderedFrom 10=MfrPN 11=MouserPN 12=DigiKeyPN
+    #          13=Unit$ 14=Ext$ 15=Notes
+    mfr = MFR_PN.get(ref, '')
+    cells = [section, ref, value, package, qty, '', '', '', '', mfr,
+             mouser_pn, digikey_pn,
              unit if unit else None, None, notes]
     for col, val in enumerate(cells, start=1):
         c = ws.cell(row=row, column=col, value=val)
         c.border = border
-        if col in (5, 6, 7, 8, 9, 12, 13):
+        if col in (5, 6, 7, 8, 9, 13, 14):
             c.alignment = center
         if col in (6, 7, 8, 9):
             c.fill = check_fill
         else:
             c.fill = fill
     if qty and qty > 0 and unit:
-        ws.cell(row=row, column=13).value = f'=E{row}*L{row}'
-        ws.cell(row=row, column=13).number_format = '"$"#,##0.00'
+        ws.cell(row=row, column=14).value = f'=E{row}*M{row}'
+        ws.cell(row=row, column=14).number_format = '"$"#,##0.00'
     if unit:
-        ws.cell(row=row, column=12).number_format = '"$"#,##0.00'
+        ws.cell(row=row, column=13).number_format = '"$"#,##0.00'
     row += 1
 
 total_row = row + 1
-ws.cell(row=total_row, column=11, value='TOTAL:').font = Font(bold=True)
-ws.cell(row=total_row, column=11).alignment = Alignment(horizontal='right')
-tc = ws.cell(row=total_row, column=13, value=f'=SUM(M2:M{row-1})')
+ws.cell(row=total_row, column=12, value='TOTAL:').font = Font(bold=True)
+ws.cell(row=total_row, column=12).alignment = Alignment(horizontal='right')
+tc = ws.cell(row=total_row, column=14, value=f'=SUM(N2:N{row-1})')
 tc.font = Font(bold=True, color='FFFFFF')
 tc.number_format = '"$"#,##0.00'
 tc.fill = PatternFill('solid', fgColor='305496')
@@ -186,10 +217,11 @@ instr_lines = [
     '  Ordered       Mark X when the PO goes out',
     '  Received      Mark X when the parts arrive',
     '  Ordered From  Which supplier you actually ordered from (M / DK / A / KP)',
-    '  Mouser P/N    Mouser catalog number',
-    '  Digi-Key P/N  Digi-Key catalog number (where known; some parts left blank',
-    '                because Yageo MFR-25 axial resistor P/Ns vary by value - search',
-    '                Digi-Key for "Yageo MFR-25" + value + tolerance)',
+    '  Mfr P/N       Manufacturer part number (universal across distributors;',
+    '                populated only for active devices and named caps where it is',
+    '                unambiguous; blank for generic passives - search by description)',
+    '  Mouser P/N    Mouser catalog number (verify before ordering)',
+    '  Digi-Key P/N  Digi-Key catalog number (verify before ordering)',
     '  Unit $        Estimated unit price (verify when ordering)',
     '  Ext $         Auto = Qty x Unit $',
     '  Notes         Substitutions, matching requirements, gotchas',
