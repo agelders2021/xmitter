@@ -135,6 +135,37 @@ The standard KiCad symbol for MCP4921 is already clean (eight pins, one
 function each) — no obvious gain from a replacement. Defer unless the
 standard symbol turns out to mislabel something.
 
+### xmitter:MCP4728  (DONE — built 2026-06-19)
+
+Custom symbol for the Adafruit MCP4728 breakout (PID 4470, 4-channel
+12-bit I²C DAC). Built because we wire the schematic to the BREAKOUT
+header, not the bare MSOP-10 chip — the standard KiCad MCP4728 symbol
+assumes the chip and exposes datasheet pin names (VDD, VSS, REFA-D, etc.)
+that don't match the breakout's silkscreen.
+
+10 pins matching the breakout's 0.1" header:
+
+┌──────┬─────────┬──────────────────┬───────────────────────────────────┐
+│ Pin# │ Name    │ Type             │ Used for                          │
+├──────┼─────────┼──────────────────┼───────────────────────────────────┤
+│  1   │ VIN     │ power_in         │ 5 V or 3.3 V supply               │
+│  2   │ GND     │ power_in         │ Ground                            │
+│  3   │ SCL     │ input            │ I²C clock (from ESP32-S3)         │
+│  4   │ SDA     │ bidirectional    │ I²C data                          │
+│  5   │ LDAC    │ input            │ Latch / EEPROM-address-write pin  │
+│  6   │ RDY     │ open_collector   │ EEPROM-busy indicator (active low)│
+│  7   │ VA      │ output           │ Channel A — DAC_NULL_P            │
+│  8   │ VB      │ output           │ Channel B — DAC_NULL_N            │
+│  9   │ VC      │ output           │ Channel C — spare (future bias?)  │
+│ 10   │ VD      │ output           │ Channel D — spare                 │
+└──────┴─────────┴──────────────────┴───────────────────────────────────┘
+
+Built via `tools/add_mcp4728_symbol.py` (declarative pin list, same
+pattern as the Metro generator). Body 15.24 × 15.24 mm. STEMMA QT JST
+connectors on the breakout duplicate VIN/GND/SDA/SCL — not in the symbol
+because the project doesn't use them (project wires direct via the 0.1"
+header for hand-solder reasons).
+
 ### xmitter:MC1496  (optional, secondary priority)
 
 The standard KiCad MC1496 symbol uses Motorola's original pin names

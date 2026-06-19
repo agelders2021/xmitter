@@ -33,15 +33,19 @@ in each phase for power-supply items that gate that phase.
 
 - [ ] Adafruit Metro ESP32-S3 confirmed on hand and verified working
       (`idf.py build && flash && monitor` shows boot banner).
-- [ ] Adafruit Si5351A breakout on hand. Identify which I²C address it
-      uses (0x60 default; some boards have a jumper for 0x61).
-- [ ] **MCP4728 address vs. Si5351 (0x60) collision check.** Inventory
-      the MCP4728s already ordered — what factory address are they
-      programmed with? If they collide with the Si5351, options are:
-      (a) program the MCP4728 to an alternate address before first use,
-      (b) put the MCP4728 on a second I²C peripheral (the S3 has one
-      available), or (c) use an I²C multiplexer. Note in `pin_map.h`:
-      `I2C_ADDR_BIAS_DAC = 0x61` is currently a placeholder.
+- [x] Adafruit Si5351A breakout on hand (PID 5640). Stays at factory
+      default **0x60** (no ADDR jumper — solder bridge is too small for
+      this builder's hand tremor).
+- [x] **MCP4728 vs Si5351 (0x60) collision RESOLVED via MCP4728
+      EEPROM re-program.** Adafruit MCP4728 (PID 4470) on hand,
+      factory address 0x60 (collides). Resolution: firmware bring-up
+      runs a one-time MCP4728 address-write sequence (LDAC pin held
+      low + Microchip address-write I²C command) to move the MCP4728
+      to **0x62**. Wiring requirement: MCP4728 LDAC pin must connect
+      to an ESP32-S3 GPIO so firmware can drive it for the one-time
+      programming. Update `pin_map.h`: `I2C_ADDR_NULL_DAC = 0x62`
+      (replaces `I2C_ADDR_BIAS_DAC` placeholder — first MCP4728 is
+      for null DAC, bias DAC is deferred).
 - [ ] MBL-600-100P-5L optical encoder on hand. Confirm it's the L
       (line-driver) variant per the model code — that determines whether
       U_ENC_RX is needed.

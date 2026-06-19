@@ -351,7 +351,8 @@ swap-out during bring-up)
 - 1x 6-pin female header for BSS138 breakout
 - 1x 16-pin male header for WH2004A LCD ribbon
 - 1x 5-pin male header for rotary encoder (when chosen)
-- 1x 4-pin male header for I2C pass-through (or use STEMMA QT JST-SH)
+- 1x 4-pin male header for I2C pass-through (NOT STEMMA QT JST-SH —
+  see "I²C bus routing" decision below)
 - 1x 3-pin male header for differential RF output (HOT+, HOT-, GND)
 - 1x 2-pin or 4-pin power input header (depending on rails brought in)
 - 1x 2-pin male header for paddle inputs (dit, dah, common)
@@ -365,8 +366,42 @@ swap-out during bring-up)
 **RF output** - see PCB strategy doc for choices; if going with the
 3-pin header recommendation, no special connector needed.
 
-**STEMMA QT cables** (if using Adafruit modules' built-in connectors)
-- Adafruit P/N 4209 (50 mm) and 4210 (100 mm) - order 5 mixed lengths
+**STEMMA QT cables** — NOT used for inter-breakout I²C on this build
+(see decision below). The STEMMA QT JST-SH ports on the breakouts
+are kept clear for bench-debug use only (logic analyzer, scope probe).
+
+## I²C bus routing — decision
+
+**All inter-breakout I²C connections use PCB traces through 0.1" header
+sockets, not STEMMA QT cables.**
+
+Why:
+
+- The Adafruit STEMMA QT connector is JST-SH at 1 mm pitch. Even
+  pre-assembled cables require fine-motor coordination to seat the
+  connector squarely — incompatible with this builder's hand tremor.
+- All affected Adafruit breakouts (Si5351A, MCP4728, future) expose
+  the same I²C signals on a 0.1" through-hole header alongside the
+  STEMMA QT port. The 0.1" route is what this build standardizes on.
+- Noise immunity is actually slightly better with short PCB traces:
+  10 kΩ pullups (already on the breakouts) + low trace capacitance
+  forms a mild low-pass against 14 MHz RF coupling. The I²C protocol
+  also tolerates the occasional retry transparently.
+- Mechanical robustness — no cables to come loose during chassis
+  transport or vibration.
+
+PCB topology:
+
+- Each Adafruit breakout sits in a row of 0.1" socket strips on the
+  control PCB
+- I²C SDA/SCL traces run point-to-point between sockets in a
+  daisy-chain: Metro → Si5351 → MCP4728 → MCP23017
+- One 0.1 µF bypass cap close to each breakout's VIN pin
+- Keep I²C traces away from the MC1496 / LM7171 output side of the
+  board (which carries 14 MHz RF) — route on the opposite half of
+  the PCB or with a ground-pour barrier in between
+- STEMMA QT ports remain physically clear so a logic analyzer or
+  extra debug breakout can be plugged in temporarily during bring-up
 
 ## Trim caps for tuning
 
@@ -402,9 +437,13 @@ PA board).
 - Terminal blocks per list
 
 **Adafruit order**:
-- Si5351 breakout (P/N 2045) - confirm if already on hand
-- BSS138 4-ch level converter (P/N 757)
-- STEMMA QT cables 50 mm x 3, 100 mm x 2
+- Si5351 breakout (PID 5640) - on hand
+- MCP4728 4-ch I²C DAC breakout (PID 4470) - on hand (null DAC)
+- BSS138 4-ch level converter (P/N 757) - check if still needed; Metro
+  ESP32-S3 is 3.3 V logic, same as Si5351 / MCP4728, so level shifting
+  may be unnecessary for the I²C bus
+- STEMMA QT cables - NOT ordered (PCB traces instead; STEMMA ports
+  reserved for bench-debug only)
 - (WH2004A already on hand per user notes)
 
 **Kits and Parts order** (combined with magnet wire):

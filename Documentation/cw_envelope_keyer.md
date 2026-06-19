@@ -292,7 +292,7 @@ on timeout. This is separate from, and must not depend on, the DAC value.
 
 ---
 
-## Future enhancement: DAC-driven digital carrier null
+## Next-phase enhancement: DAC-driven digital carrier null
 
 The current design (per `xmitter_prj/keyer.sch`) uses a **fixed
 PNP-injection nulling scheme** to cancel the MC1496's residual
@@ -302,10 +302,12 @@ balance the modulator's intrinsic offset. The null is set once
 via component matching during alignment and doesn't adjust over
 temperature or supply drift.
 
-An alternative — **designed but not built** — uses a **dual-output
-DAC to inject complementary null-trim signals under firmware
-control**. Firmware binary-searches the null at key-down and
-stores the result in NVS, re-running periodically to track drift.
+An alternative — **hardware on hand (Adafruit MCP4728 acquired
+2026-06), implementation deferred until after first-light** — uses
+a **dual-channel DAC to inject complementary null-trim signals
+under firmware control**. Firmware binary-searches the null at
+key-down and stores the result in NVS, re-running periodically to
+track drift.
 
 ### Hardware additions
 
@@ -313,11 +315,33 @@ stores the result in NVS, re-running periodically to track drift.
   joining the existing R_SIG_P / pin 1 junction
 - `R_INJ2` = 330 kΩ from DAC_NULL_N → MC1496 pin 4 (SIG_N),
   joining the existing AGC network / pin 4 junction
-- `DAC_NULL_P` / `DAC_NULL_N` = complementary 12-bit DAC outputs
-  (could be two channels of an MCP4728 since the project already
-  uses MCP4728 for the bias DAC, or a separate small DAC)
+- `DAC_NULL_P` / `DAC_NULL_N` = two of the four channels of the
+  on-hand Adafruit MCP4728 breakout (Adafruit PID 4470, 12-bit
+  4-channel I²C DAC). The other two channels remain available for
+  the planned PA bias-adjustment role (`cathode_monitor` integration).
 - No series protection resistors needed; the 330 kΩ inherently
   limits current
+
+### I²C address — MCP4728 vs Si5351 collision
+
+The Adafruit MCP4728 ships with factory I²C address **0x60**, which
+**collides with the Adafruit Si5351A breakout** (also 0x60 default).
+Resolution path for this project:
+
+- **Reprogram the MCP4728's EEPROM address** via the chip's built-in
+  address-write command (LDAC pin pulled low + special I²C sequence).
+  One-time firmware setup routine; address persists across power
+  cycles.
+- **Target address: 0x62** (avoids 0x60 Si5351, 0x61 Si5351-with-ADDR,
+  0x20 MCP23017, 0x48 future ADS1115).
+- Why not the Si5351 ADDR solder-jumper: requires bridging an 0805-pad
+  pair on the breakout PCB — too small for this builder's hand
+  tremor. Firmware re-program is the cleaner path.
+- **Wiring requirement**: the MCP4728's LDAC pin must connect to an
+  ESP32-S3 GPIO (not tied to GND), so firmware can drive it during
+  the address-write sequence. After the one-time programming, LDAC
+  can be parked high (envelope updates don't need latching at the
+  speeds involved here).
 
 ### Coverage analysis
 
