@@ -1152,370 +1152,6 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "xmitter:MC1496"
-			(pin_names
-				(offset 1.016)
-			)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(in_pos_files yes)
-			(duplicate_pin_numbers_are_jumpers no)
-			(property "Reference" "U"
-				(at 0 9.652 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Value" "MC1496"
-				(at 0 -9.652 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Datasheet" "https://www.onsemi.com/pdf/datasheet/mc1496-d.pdf"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Description" "Balanced Modulator/Demodulator, DIP-14"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Manufacturer" "onsemi"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "MPN" "MC1496P"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "ki_keywords" "modulator demodulator mixer balanced AGC MC1496"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(symbol "MC1496_0_1"
-				(rectangle
-					(start -6.35 8.89)
-					(end 6.35 -8.89)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type background)
-					)
-				)
-			)
-			(symbol "MC1496_1_1"
-				(pin passive line
-					(at -8.89 7.62 0)
-					(length 2.54)
-					(name "SIG_IN+"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at -8.89 5.08 0)
-					(length 2.54)
-					(name "GADJ_A"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at -8.89 2.54 0)
-					(length 2.54)
-					(name "GADJ_B"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at -8.89 0 0)
-					(length 2.54)
-					(name "SIG_IN-"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at -8.89 -2.54 0)
-					(length 2.54)
-					(name "BIAS"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "5"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at -8.89 -5.08 0)
-					(length 2.54)
-					(name "OUT+"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "6"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin no_connect line
-					(at -8.89 -7.62 0)
-					(length 2.54)
-					(name "NC"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "7"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 8.89 -7.62 180)
-					(length 2.54)
-					(name "CAR_IN-"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "8"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin no_connect line
-					(at 8.89 -5.08 180)
-					(length 2.54)
-					(name "NC"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "9"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 8.89 -2.54 180)
-					(length 2.54)
-					(name "CAR_IN+"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "10"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin no_connect line
-					(at 8.89 0 180)
-					(length 2.54)
-					(name "NC"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "11"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 8.89 2.54 180)
-					(length 2.54)
-					(name "OUT-"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "12"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin no_connect line
-					(at 8.89 5.08 180)
-					(length 2.54)
-					(name "NC"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "13"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_in line
-					(at 8.89 7.62 180)
-					(length 2.54)
-					(name "VEE"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "14"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
 		(symbol "xmitter:Si5351A_Breakout"
 			(pin_names
 				(offset 1.016)
@@ -1762,12 +1398,6 @@
 		(uuid "165ecd63-30ec-47b5-9058-69cda40d3ea0")
 	)
 	(junction
-		(at 124.46 62.23)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "2f65ef50-8e42-4708-8c92-cb0334a99688")
-	)
-	(junction
 		(at 151.13 62.23)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -1784,6 +1414,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "82b55353-7968-43f4-bdf8-fbd2decb7399")
+	)
+	(junction
+		(at 204.47 66.04)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "917b05b9-903d-45e5-b4b0-6ce5523d8d03")
 	)
 	(junction
 		(at 180.34 62.23)
@@ -1825,16 +1461,6 @@
 	)
 	(wire
 		(pts
-			(xy 124.46 62.23) (xy 124.46 63.5)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "25d892e2-6a45-4140-99a8-8647db718d25")
-	)
-	(wire
-		(pts
 			(xy 104.14 62.23) (xy 116.84 62.23)
 		)
 		(stroke
@@ -1862,6 +1488,16 @@
 			(type default)
 		)
 		(uuid "377dfea0-9a9b-4a89-b08e-926d7c54abb8")
+	)
+	(wire
+		(pts
+			(xy 204.47 66.04) (xy 204.47 67.31)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3dc882bc-e172-4b1e-8a8e-80800b0411de")
 	)
 	(wire
 		(pts
@@ -1962,6 +1598,60 @@
 			(type default)
 		)
 		(uuid "ef3bf85e-d2b4-4982-9285-aca97b5817b2")
+	)
+	(wire
+		(pts
+			(xy 204.47 66.04) (xy 215.9 66.04)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "fa4834cd-a373-489f-b212-3bd593e0c75c")
+	)
+	(hierarchical_label "3V3"
+		(shape input)
+		(at 43.18 60.96 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "09a6f6fa-c4db-49e7-a974-e00e20a026f3")
+	)
+	(hierarchical_label "SDA"
+		(shape bidirectional)
+		(at 43.18 68.58 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "50d311bf-86c5-428d-8faa-2236259ff9b9")
+	)
+	(hierarchical_label "VFO_OUT"
+		(shape output)
+		(at 215.9 66.04 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "65563a0a-77bc-4ef1-94d3-8c739872e0f2")
+	)
+	(hierarchical_label "SCL"
+		(shape bidirectional)
+		(at 43.18 66.04 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "8e077ff6-eb33-4249-8401-2114b694d6bb")
 	)
 	(symbol
 		(lib_id "power:GND")
@@ -2215,7 +1905,7 @@
 			)
 		)
 		(pin "1"
-			(uuid "04709abc-92f2-44ed-99e8-450f8f6c622c")
+			(uuid "04709abc-92f2-44ed-99e8-450f8f6c622d")
 		)
 		(instances
 			(project "KiCAD"
@@ -2409,144 +2099,6 @@
 		)
 	)
 	(symbol
-		(lib_id "xmitter:MC1496")
-		(at 229.87 68.58 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "161b7651-ff4f-4987-82fd-19231c98d59d")
-		(property "Reference" "U2"
-			(at 229.87 54.61 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "MC1496"
-			(at 229.87 57.15 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
-			(at 229.87 68.58 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" "https://www.onsemi.com/pdf/datasheet/mc1496-d.pdf"
-			(at 229.87 68.58 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Balanced Modulator/Demodulator, DIP-14"
-			(at 229.87 68.58 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Manufacturer" "onsemi"
-			(at 229.87 68.58 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "MPN" "MC1496P"
-			(at 229.87 68.58 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "9"
-			(uuid "fc14b997-dd05-4023-af5a-b719b58dd1dd")
-		)
-		(pin "14"
-			(uuid "0eeddca6-de45-4861-8f52-5ce766add6bb")
-		)
-		(pin "6"
-			(uuid "bbeb7a54-31b7-40f2-bd6e-448b2e7f5330")
-		)
-		(pin "13"
-			(uuid "4b8ea2b4-0312-45fb-91bb-f4534ff9b515")
-		)
-		(pin "11"
-			(uuid "46f9df13-dbff-4930-a6b1-3b7975576969")
-		)
-		(pin "10"
-			(uuid "9a47c30e-d9fc-4436-a956-92cfd466174c")
-		)
-		(pin "12"
-			(uuid "d8ac4a96-b7b0-4e8a-9247-1cae899a3d2f")
-		)
-		(pin "1"
-			(uuid "08423bd3-eae8-4410-a065-1d1f60f98220")
-		)
-		(pin "2"
-			(uuid "5cfe422d-c392-4d02-a48c-f2cd59ecc660")
-		)
-		(pin "4"
-			(uuid "91b987dd-7af2-4e07-94be-2064a39daf3d")
-		)
-		(pin "3"
-			(uuid "8983700e-99dc-4272-af23-7b206683e4ac")
-		)
-		(pin "5"
-			(uuid "508f7082-8158-4278-b53d-1ae1cbe3c01c")
-		)
-		(pin "7"
-			(uuid "13415351-8390-4960-bc30-55048b67d57c")
-		)
-		(pin "8"
-			(uuid "aa32aab5-ee54-47bb-b135-fcb9249fd49c")
-		)
-		(instances
-			(project "KiCAD"
-				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/c08cbce4-6e06-48f3-b334-a48b1cc09989"
-					(reference "U2")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:C")
 		(at 132.08 66.04 0)
 		(unit 1)
@@ -2682,7 +2234,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Inductor_THT:L_Toroid_Horizontal_D14.0mm_P20.32mm"
+		(property "Footprint" "Inductor_THT:L_Toroid_Horizontal_D17.3mm_P15.24mm_Bourns_2000"
 			(at 163.83 62.23 0)
 			(hide yes)
 			(show_name no)
@@ -2929,7 +2481,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 204.47 74.93 0)
+		(at 204.47 73.66 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -2940,7 +2492,7 @@
 		(fields_autoplaced yes)
 		(uuid "3c57955d-61e7-435f-bcbc-d8ac703c90ac")
 		(property "Reference" "#PWR07"
-			(at 204.47 81.28 0)
+			(at 204.47 80.01 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2951,7 +2503,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 204.47 80.01 0)
+			(at 204.47 78.74 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -2961,7 +2513,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 204.47 74.93 0)
+			(at 204.47 73.66 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2972,7 +2524,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 204.47 74.93 0)
+			(at 204.47 73.66 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2983,7 +2535,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 204.47 74.93 0)
+			(at 204.47 73.66 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3199,7 +2751,7 @@
 	)
 	(symbol
 		(lib_id "Device:R_US")
-		(at 204.47 71.12 0)
+		(at 204.47 69.85 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -3210,7 +2762,7 @@
 		(fields_autoplaced yes)
 		(uuid "96913c13-7fca-4cf8-a7b1-637c4c8889da")
 		(property "Reference" "R6"
-			(at 207.01 69.8499 0)
+			(at 207.01 68.5799 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3221,7 +2773,7 @@
 			)
 		)
 		(property "Value" "270R"
-			(at 207.01 72.3899 0)
+			(at 207.01 71.1199 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3232,7 +2784,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
-			(at 205.486 71.374 90)
+			(at 205.486 70.104 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3243,7 +2795,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 204.47 71.12 0)
+			(at 204.47 69.85 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3254,7 +2806,7 @@
 			)
 		)
 		(property "Description" "metal film"
-			(at 204.47 71.12 0)
+			(at 204.47 69.85 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3265,7 +2817,7 @@
 			)
 		)
 		(property "power" "1/4W"
-			(at 204.47 71.12 0)
+			(at 204.47 69.85 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3400,7 +2952,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Inductor_THT:L_Toroid_Horizontal_D14.0mm_P20.32mm"
+		(property "Footprint" "Inductor_THT:L_Toroid_Horizontal_D17.3mm_P15.24mm_Bourns_2000"
 			(at 142.24 62.23 0)
 			(hide yes)
 			(show_name no)
@@ -4017,7 +3569,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Inductor_THT:L_Toroid_Horizontal_D14.0mm_P20.32mm"
+		(property "Footprint" "Inductor_THT:L_Toroid_Horizontal_D17.3mm_P15.24mm_Bourns_2000"
 			(at 120.65 62.23 0)
 			(hide yes)
 			(show_name no)
@@ -4133,10 +3685,10 @@
 			)
 		)
 		(pin "1"
-			(uuid "aedc33d5-4553-4809-82c9-32e7d5593711")
+			(uuid "aedc33d5-4553-4809-82c9-32e7d5593712")
 		)
 		(pin "2"
-			(uuid "b988bdbc-a8e7-465c-9c9a-4fb38760101c")
+			(uuid "b988bdbc-a8e7-465c-9c9a-4fb38760101d")
 		)
 		(instances
 			(project "KiCAD"
@@ -4317,15 +3869,94 @@
 			)
 		)
 		(pin "1"
-			(uuid "aedc33d5-4553-4809-82c9-32e7d5593711")
+			(uuid "aedc33d5-4553-4809-82c9-32e7d5593713")
 		)
 		(pin "2"
-			(uuid "b988bdbc-a8e7-465c-9c9a-4fb38760101c")
+			(uuid "b988bdbc-a8e7-465c-9c9a-4fb38760101e")
 		)
 		(instances
 			(project "KiCAD"
 				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/c08cbce4-6e06-48f3-b334-a48b1cc09989"
 					(reference "RP2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 43.18 63.5 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "f2adf6ba-40f7-4ab9-9b59-1f6777b07546")
+		(property "Reference" "#PWR023"
+			(at 36.83 63.5 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 39.37 63.4999 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" ""
+			(at 43.18 63.5 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 43.18 63.5 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 43.18 63.5 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "95addab6-e7ce-482c-b4fa-fc589b1bbea5")
+		)
+		(instances
+			(project "KiCAD"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/c08cbce4-6e06-48f3-b334-a48b1cc09989"
+					(reference "#PWR023")
 					(unit 1)
 				)
 			)

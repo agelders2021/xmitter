@@ -5,6 +5,16 @@
 	(uuid "d3de40b8-856b-4fbd-829c-f45ffcd55742")
 	(paper "A4")
 	(lib_symbols)
+	(wire
+		(pts
+			(xy 59.69 50.8) (xy 74.93 50.8)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b9bb3449-5fbe-4784-93fc-7f82f43db7a3")
+	)
 	(sheet
 		(at 90.17 106.68)
 		(size 116.84 38.1)
@@ -227,6 +237,16 @@
 				(justify left top)
 			)
 		)
+		(pin "VFO_OUT" input
+			(at 74.93 50.8 180)
+			(uuid "e16f28c5-1056-4aca-b777-3dd0861b736f")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
 		(instances
 			(project "KiCAD"
 				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742"
@@ -271,6 +291,16 @@
 					(size 1.27 1.27)
 				)
 				(justify left top)
+			)
+		)
+		(pin "VFO_OUT" output
+			(at 59.69 50.8 0)
+			(uuid "672f4b4a-9a6e-460b-8715-a432d20b4fae")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
 			)
 		)
 		(instances
