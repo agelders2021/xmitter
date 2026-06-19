@@ -2597,85 +2597,6 @@
 		)
 	)
 	(symbol
-		(lib_id "power:+5V")
-		(at 26.67 78.74 270)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "3156bdd9-d0e6-4f52-8c94-df4878d02492")
-		(property "Reference" "#PWR013"
-			(at 22.86 78.74 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "+5V"
-			(at 30.48 78.7399 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" ""
-			(at 26.67 78.74 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 26.67 78.74 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"+5V\""
-			(at 26.67 78.74 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "015fc1a8-1e1f-42d6-ba15-ce36f7b5d6d5")
-		)
-		(instances
-			(project "KiCAD"
-				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9b3a5939-c591-4389-8331-709ea54f36b7"
-					(reference "#PWR013")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:R_US")
 		(at 116.84 111.76 0)
 		(unit 1)
@@ -2698,7 +2619,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "R_US"
+		(property "Value" "6K8"
 			(at 119.38 113.0299 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3984,85 +3905,6 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
-		(at 26.67 81.28 90)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "c045bd08-40d2-4917-bfcc-75af120303e1")
-		(property "Reference" "#PWR012"
-			(at 33.02 81.28 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 30.48 81.2799 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" ""
-			(at 26.67 81.28 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 26.67 81.28 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 26.67 81.28 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "c1c87996-ffa5-4200-8a12-0eebb12f927b")
-		)
-		(instances
-			(project "KiCAD"
-				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9b3a5939-c591-4389-8331-709ea54f36b7"
-					(reference "#PWR012")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:R_US")
 		(at 184.15 99.06 0)
 		(unit 1)
@@ -4130,10 +3972,10 @@
 			)
 		)
 		(pin "1"
-			(uuid "4c784bdb-d14c-46d8-91d3-7ccefbb5a7d4")
+			(uuid "4c784bdb-d14c-46d8-91d3-7ccefbb5a7d5")
 		)
 		(pin "2"
-			(uuid "25836f53-a463-48f7-af4c-6fe6c877c169")
+			(uuid "25836f53-a463-48f7-af4c-6fe6c877c16a")
 		)
 		(instances
 			(project "KiCAD"
@@ -4528,7 +4370,7 @@
 			)
 		)
 		(pin "1"
-			(uuid "c1c87996-ffa5-4200-8a12-0eebb12f927b")
+			(uuid "c1c87996-ffa5-4200-8a12-0eebb12f927c")
 		)
 		(instances
 			(project "KiCAD"
