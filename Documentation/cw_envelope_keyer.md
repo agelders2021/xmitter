@@ -294,33 +294,55 @@ on timeout. This is separate from, and must not depend on, the DAC value.
 
 ## Next-phase enhancement: DAC-driven digital carrier null
 
-The current design (per `xmitter_prj/keyer.sch`) uses a **fixed
-PNP-injection nulling scheme** to cancel the MC1496's residual
-carrier leakage during key-up: T1 / T2 PNP transistors with the
-R5–R10 8.2 kΩ network drive complementary base currents that
-balance the modulator's intrinsic offset. The null is set once
-via component matching during alignment and doesn't adjust over
-temperature or supply drift.
+The current design (per `xmitter_prj/keyer.sch`, mirrored in
+`KiCAD/buffer_keyer.kicad_sch`) uses a **PNP-injection nulling scheme**
+to cancel the MC1496's residual carrier leakage. T1 / T2 (2N3906 PNPs)
+biased through the R5–R10 8.2 kΩ symmetry network and R6 / R8 2.7 kΩ
+base resistors drive complementary collector currents that get summed
+at the MC1496 SIG_P (pin 1) and SIG_N (pin 4) inputs via 8.2 kΩ
+isolation resistors (R9, R10). This shifts the lower-diff-pair bias
+balance and nulls the carrier feedthrough — functionally identical to
+the 50 kΩ manual null pot shown in the MC1496 application note Figure 7,
+just split into a current-injection topology.
 
-An alternative — **hardware on hand (Adafruit MCP4728 acquired
-2026-06), implementation deferred until after first-light** — uses
-a **dual-channel DAC to inject complementary null-trim signals
-under firmware control**. Firmware binary-searches the null at
-key-down and stores the result in NVS, re-running periodically to
-track drift.
+The 51 Ω resistors R3 / R4 at pins 1 and 4 satisfy the app note's
+critical constraint: "low DC resistance between the bases of the lower
+differential amplifier (pins 1 and 4) and ground… not significantly
+higher than the 51 Ω utilized in the circuit shown in Figure 3" (AN531
+page 5). The 8.2 kΩ injection resistors and the 1.5 kΩ envelope-feed
+resistor are high enough to not disturb this requirement (51 Ω
+dominates the parallel combination).
+
+**The DAC enhancement modulates the PNP BASE voltages** (not direct
+injection at MC1496 pins 1/4). Hardware on hand (Adafruit MCP4728
+acquired 2026-06); implementation deferred until after first-light.
 
 ### Hardware additions
 
-- `R_INJ1` = 330 kΩ from DAC_NULL_P → MC1496 pin 1 (SIG_P),
-  joining the existing R_SIG_P / pin 1 junction
-- `R_INJ2` = 330 kΩ from DAC_NULL_N → MC1496 pin 4 (SIG_N),
-  joining the existing AGC network / pin 4 junction
+- `R_INJ1` = 330 kΩ from **DAC_NULL_P → T1 base** (the BASE of the
+  +side null PNP, joining the existing R6 / R5 / R7 bias network at
+  that node)
+- `R_INJ2` = 330 kΩ from **DAC_NULL_N → T2 base** (the BASE of the
+  −side null PNP, joining the existing R8 / R9 / R10 bias network)
 - `DAC_NULL_P` / `DAC_NULL_N` = two of the four channels of the
   on-hand Adafruit MCP4728 breakout (Adafruit PID 4470, 12-bit
   4-channel I²C DAC). The other two channels remain available for
   the planned PA bias-adjustment role (`cathode_monitor` integration).
-- No series protection resistors needed; the 330 kΩ inherently
-  limits current
+- The 330 kΩ series resistors isolate the DAC from the live PNP base
+  bias network (which sits around the PNP's Vbe-below-rail point) and
+  limit any fault current; they're not the dominant impedance at the
+  base node — the 2.7 kΩ R6 / R8 bias resistors are. The DAC just
+  trims the base voltage by a few mV worth of offset.
+- **Why NOT direct injection at MC1496 pins 1 / 4:** an earlier draft
+  of this doc described 330 kΩ direct injection at the SIG pins.
+  That approach would parallel the 51 Ω R3 / R4 resistors with 330 kΩ
+  to the DAC, raising the DC resistance at pins 1 / 4 above the app
+  note's recommended ceiling and degrading the carrier null vs
+  temperature. The QUCS simulation (`keyer.sch`) uses PNP-base
+  modulation specifically to preserve the 51 Ω constraint while still
+  giving the DAC enough leverage on the carrier null to track drift.
+  The PNP's current-mode gain amplifies the small DAC-trim voltage at
+  the base into a useful collector-current shift at the SIG pin.
 
 ### I²C address — MCP4728 vs Si5351 collision
 
@@ -345,20 +367,28 @@ Resolution path for this project:
 
 ### Coverage analysis
 
+Approximate — exact numbers depend on the PNP bias point and the
+MCP4728 reference configuration (assumed internal 2.048 V Vref,
+gain 1×; matches the MCP4921 envelope DAC config).
+
 ┌──────────────────────────┬──────────────────────────────────────────────────────┐
 │ Quantity                 │ Value                                                │
 ├──────────────────────────┼──────────────────────────────────────────────────────┤
 │ Mid-scale on both DACs   │ No differential injection (null starting point)      │
-│ Full-scale swing per pin │ ±16 mV injection                                     │
-│ Total differential range │ ±33 mV                                               │
+│ Full-scale swing per pin │ ±15 mV at MC1496 pins 1/4 (via PNP transconductance) │
+│ Total differential range │ ±30 mV                                               │
 │ MC1496 worst-case offset │ ≤ 5 mV (datasheet)                                   │
 │ Headroom                 │ ~6× over worst-case offset                           │
-│ Resolution per LSB       │ ~8 µV (12-bit DAC over the swing range)              │
+│ Resolution per LSB       │ ~8 µV at the SIG pins (12-bit DAC ÷ attenuation)     │
 └──────────────────────────┴──────────────────────────────────────────────────────┘
 
-Resolution is far finer than needed; the binary search converges
-in about 12 cycles to a level well below the modulator's own
-noise floor.
+The PNP's transconductance (≈ gm × ΔV_base × R4_eq) turns a small
+base-voltage trim into a useful collector-current shift; the 8.2 kΩ
+R9/R10 isolation + 51 Ω R3/R4 at pins 1/4 set the effective impedance
+the injected current sees. Resolution is far finer than needed; the
+binary search converges in about 12 cycles to a level well below the
+modulator's own noise floor. Final calibration confirms numbers during
+bring-up.
 
 ### Firmware
 
@@ -373,15 +403,20 @@ noise floor.
   transmissions or whenever a temperature/operating-condition
   delta crosses a threshold
 
-### Tradeoff vs the current fixed-null scheme
+### Tradeoff vs running PNPs at fixed bias only
 
-- **Cost**: one extra DAC channel + ~30 lines of firmware
-- **Benefit**: eliminates static null error from PNP mismatch,
-  PNP bias drift, and ambient temperature variation; eliminates
-  the alignment-time null trim step entirely
+- **Cost**: two DAC channels (DAC_NULL_P / DAC_NULL_N) + ~30 lines
+  of firmware + two 330 kΩ series resistors. MCP4728 itself is
+  shared on the I²C bus, no extra silicon beyond what's already
+  ordered.
+- **Benefit**: eliminates static null error from PNP β mismatch,
+  PNP bias-network drift, and ambient temperature variation;
+  eliminates the alignment-time null trim step entirely.
 - **Risk**: if the firmware loop fails (sensor fault, etc.) the
   rig falls back to whatever DAC code was last in NVS — same
-  failure mode as the envelope DAC fail-safe
+  failure mode as the envelope DAC fail-safe. Worst case: the rig
+  operates with whatever static null happened to be in NVS at last
+  successful run, no worse than not having the enhancement at all.
 
 Original design notes preserved in
 `xmitter_prj/legacy/mc1496_level_control.md`.
