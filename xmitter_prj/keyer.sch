@@ -1,6 +1,6 @@
 <Qucs Schematic 26.1.1>
 <Properties>
-  <View=-372,-386,1485,721,1.33861,819,564>
+  <View=-185,-369,1898,789,0.755613,0,0>
   <Grid=10,10,1>
   <DataSet=keyer.dat>
   <DataDisplay=keyer.dpl>
