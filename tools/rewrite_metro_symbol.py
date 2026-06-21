@@ -40,9 +40,9 @@ LEFT_PINS = [
     # UART
     ('input',         'D0/RX',        'D0'),
     ('output',        'D1/TX',        'D1'),
-    # I2C
-    ('bidirectional', 'D2/SDA',       'D2'),
-    ('output',        'D3/SCL',       'D3'),
+    # FREQ encoder (firmware uses D2/D3 for quadrature - I2C goes off-board via STEMMA QT to Si5351)
+    ('input',         'D2/FREQ_A',    'D2'),
+    ('input',         'D3/FREQ_B',    'D3'),
     # keyer
     ('input',         'D4/DIT',       'D4'),
     # spare digital
@@ -236,14 +236,10 @@ print(f'  new cached Metro: {len(new_metro_sch)} chars')
 
 sch_new = sch[:back2] + new_metro_sch + sch[metro_end2:]
 
-# ------------------------------- 3. Wires - only delete on FIRST run (no-op after)
-wires_re = re.compile(r'\t\(wire\n(?:\t\t[^\n]*\n)+\t\)\n')
-n_wires = len(wires_re.findall(sch_new))
-if n_wires:
-    sch_new = wires_re.sub('', sch_new)
-    print(f'  removed {n_wires} wire blocks')
-else:
-    print(f'  no wires to remove (already empty)')
+# ------------------------------- 3. (Wires preserved.)
+# Earlier versions of this script unconditionally deleted ALL wires on the
+# arduino sheet — that was correct only for the very first conversion. Now
+# the user has live wiring that must NOT be touched. So we don't touch wires.
 
 # ------------------------------- 4. CS_DAC hierarchical label (idempotent)
 if '"CS_DAC"' in sch_new:
