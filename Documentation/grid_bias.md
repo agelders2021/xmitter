@@ -247,10 +247,10 @@ Three layers of bias-side safety:
 │ C20       │ 100 nF X7R                       │ V− HF bypass; pooled                                 │
 └───────────┴──────────────────────────────────┴──────────────────────────────────────────────────────┘
 
-Note: C17 and C18 currently use the `Device:C_Polarized` symbol. At 1 µF
-the part will be a non-polarized X7R ceramic in production; the symbol
-choice doesn't affect electrical correctness but should be switched to
-`Device:C` to avoid an assembly-orientation hazard.
+Note: C17 and C18 use `Device:C` (non-polarized) — the parts will be
+1 µF X7R ceramic in production. Earlier iteration of this sheet used
+`Device:C_Polarized` symbols which would have created an assembly-
+orientation hazard for what's actually a non-polarized ceramic part.
 
 ## Inter-sheet I/O
 
@@ -330,8 +330,7 @@ Total: 6 active devices, 10 resistors, 7 capacitors.
       Suggested: 1206 or 1812 for hand-solder ceramic caps; through-hole
       1/4 W axial for resistors. Power resistors (R_Z dissipates < 25 mW
       — no special concern).
-- [ ] Change C17 and C18 from `Device:C_Polarized` to `Device:C` (assembly
-      hazard mitigation; no electrical change).
+- [x] ~~Change C17 and C18 from `Device:C_Polarized` to `Device:C`.~~ Done 2026-06-23.
 - [ ] Confirm +12 V rail source on root sheet (Metro VIN passthrough vs
       dedicated 12 V supply input on this board).
 - [ ] Confirm −90 V rail topology decision: isolated DC-DC (Murata
