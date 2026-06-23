@@ -197,8 +197,38 @@ would otherwise damage them in milliseconds.
 
 ### Level 6 — Firmware soft trip
 
-ADC samples cathode voltage at **1 kHz** per channel (ADS1115 if external
-high-resolution ADC, or built-in MCU ADC if 12-bit is enough).
+ADC samples cathode voltage at **1 kHz** per channel using the
+**built-in ESP32-S3 ADC** (12-bit, on-chip, ADC1 module). Two analog
+input pins on the Metro — one per tube — route off the bias sheet via
+hierarchical labels `I_CATHODE_A` / `I_CATHODE_B` and land on a pair
+of ESP32 GPIOs on the arduino sheet. No external ADC chip.
+
+**Why built-in instead of ADS1115:**
+
+- **Resolution.** 100 mA full-scale maps to ~3.0 V at the buffer
+  output → 80 µA LSB. The soft-trip thresholds (warning at 120 mA,
+  hard at 150 mA) sit 250–625 LSB above zero — quantization is
+  ignorable.
+- **Tube balance trim.** Differential matching between ADC1 channels
+  (same SAR core, same Vref) is tight enough to resolve well under
+  0.5 mA tube-to-tube difference. With 100-sample averaging at 1 kHz
+  the noise floor drops another 10×. The practical balance limit is
+  tube thermal drift (~5–10 mA over warm-up), not ADC resolution.
+- **Speed.** ESP32-S3 ADC supports kHz-class sampling natively; the
+  ADS1115 caps at 860 SPS in continuous mode. The hardware LM393
+  comparator (Level 5) handles the fast trip path anyway — the ADC's
+  only deadline is the 50 ms warning detection window.
+- **Bus simplicity.** One fewer I²C address to manage on a bus that
+  already carries Si5351 (0x60), MCP4728 (0x62 after reprogram), and
+  the two per-tube MCP4725 bias DACs.
+- **Bias DAC quantization sets the balance floor.** MCP4725 step at
+  the OPA454 V+ input is ~0.8 mV → ~0.1 mA cathode current step.
+  16-bit ADC precision is wasted resolution against a 12-bit DAC
+  control signal.
+
+**Cost:** ESP32 ADC INL is documented as noisy near rail ends.
+Mitigation is two-point per-tube calibration (zero + a known full-load
+shunt) stored in NVS — see "Calibration procedure" below.
 
 ┌───────────┬─────────┬────────────────────┬──────────────────────────────────────────────────────────────────┐
 │ Threshold │ Voltage │ Cathode current    │ Action                                                           │
@@ -344,9 +374,8 @@ tubes can't conduct without screen voltage.
 
 ## Open items
 
-- [ ] Choose ADC: built-in ESP32 ADC (12-bit, fast) vs. ADS1115 (16-bit, slow
-      but precise). For 100 µA resolution at 100 mA range, 12-bit on 3.3 V
-      gives 80 µA LSB — adequate.
+- [x] ~~Choose ADC: built-in ESP32 ADC vs. ADS1115.~~ Decided 2026-06-23:
+      **built-in ESP32-S3 ADC1**, 12-bit. Rationale in Level 6 above.
 - [ ] Decide hardware vs. firmware-only latch. Pure firmware (using
       `esp_task_wdt` GPIO) is simpler but takes ~1 ms to fire. Hardware
       latch is < 100 µs but adds a 74HC chip.

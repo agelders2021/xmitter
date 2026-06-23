@@ -40,33 +40,37 @@ LEFT_PINS = [
     # UART
     ('input',         'D0/RX',        'D0'),
     ('output',        'D1/TX',        'D1'),
-    # FREQ encoder (firmware uses D2/D3 for quadrature - I2C goes off-board via STEMMA QT to Si5351)
+    # FREQ encoder (D2/D3 = ADC1 capable per Adafruit Metro ESP32-S3 doc p.17,
+    # but used here for the quadrature encoder; I2C goes off-board via
+    # STEMMA QT to Si5351)
     ('input',         'D2/FREQ_A',    'D2'),
     ('input',         'D3/FREQ_B',    'D3'),
     # keyer
     ('input',         'D4/DIT',       'D4'),
-    # spare digital
-    ('passive',       'D7',           'D7'),
-    ('passive',       'D8',           'D8'),
-    ('passive',       'D9',           'D9'),
+    # spare digital -- ALL three are ADC1 capable (currently NC; will likely
+    # take I_CATHODE_A and I_CATHODE_B for cathode current monitoring)
+    ('passive',       'D7/ADC1',      'D7'),
+    ('passive',       'D8/ADC1',      'D8'),
+    ('passive',       'D9/ADC1',      'D9'),
 ]
 
 RIGHT_PINS = [
     # keyer + LED
     ('input',         'D5/DAH',       'D5'),
     ('output',        'D6/TX_LED',    'D6'),
-    # SPI to MCP4921
+    # SPI to MCP4921 (D10 is ADC1 capable but committed to SPI CS)
     ('output',        'D10/CS_DAC',   'D10'),
     ('output',        'D11/MOSI',     'D11'),
     ('output',        'D13/SCK',      'D13'),
-    # spares
-    ('passive',       'D12',          'D12'),
-    ('passive',       'A0',           'A0'),
-    ('passive',       'A1',           'A1'),
-    ('passive',       'A2',           'A2'),
-    ('passive',       'A3',           'A3'),
-    ('passive',       'A4',           'A4'),
-    ('passive',       'A5',           'A5'),
+    # spares -- ADC2 (less useful: unreliable when WiFi active)
+    ('passive',       'D12/ADC2',     'D12'),
+    ('passive',       'A0/ADC2',      'A0'),
+    ('passive',       'A1/ADC2',      'A1'),
+    ('passive',       'A2/ADC2',      'A2'),
+    ('passive',       'A3/ADC2',      'A3'),
+    ('passive',       'A4/ADC2',      'A4'),
+    # A5 is the ONE A-pin on ADC1
+    ('passive',       'A5/ADC1',      'A5'),
 ]
 
 # ---------------------------------------------------------- geometry config
