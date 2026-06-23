@@ -4,8 +4,8 @@ Per-tube negative grid-bias generation for the push-pull 6146B PA, with a
 DAC-controlled OPERATE/IDLE bias point and a hardware crash-bar that
 slams both grids to deep cutoff on a cathode-current fault.
 
-Schematic: `KiCAD/untitled.kicad_sch` (sheet name "Bias" — file slated to
-be renamed `bias.kicad_sch`). Simulation: `xmitter_prj/grid_bias.sch`.
+Schematic: `KiCAD/bias.kicad_sch` (sheet name "Bias"). Simulation:
+`xmitter_prj/grid_bias.sch`.
 
 ## Why this matters
 
@@ -325,7 +325,7 @@ Total: 6 active devices, 10 resistors, 7 capacitors.
 
 ## Open items
 
-- [ ] Rename `KiCAD/untitled.kicad_sch` → `bias.kicad_sch` (cosmetic).
+- [x] ~~Rename `KiCAD/untitled.kicad_sch` → `bias.kicad_sch`.~~ Done 2026-06-23.
 - [ ] Assign footprints to all R and C (currently `(none set)`).
       Suggested: 1206 or 1812 for hand-solder ceramic caps; through-hole
       1/4 W axial for resistors. Power resistors (R_Z dissipates < 25 mW
