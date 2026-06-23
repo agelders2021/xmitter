@@ -290,6 +290,45 @@ ground-loop currents from corrupting the cathode sense measurement.
 common-mode pickup. Optional: shielded cable, with shield grounded ONLY at the
 analog board (avoids ground loops).
 
+## Layout rules (binding decisions for this build)
+
+### F1 and R_S stay paired in F1 → R_S order
+
+R_C, C_BYP, **F1**, and **R_S** all mount at the tube socket area.
+Only the sense signal *after R_S* routes to the analog board.
+
+The F1 → R_S pairing is **not optional** — either keep both at the
+socket, or move both to the analog board. Splitting them with the
+cable in the middle creates a fault-mode failure: if F1 opens during a
+cathode-open fault, no current flows, R_S drops 0 V, and the cable
+sits at full plate voltage (~600 V) for the fault duration. Cable is
+rated for low voltage only.
+
+The current ordering (F1 → R_S → cable → clamps) is safe because
+clamps D1/D2 actively pull cable voltage to ≤ 3.3 V while current
+flows, and when F1 opens the cable is on the *clamp side* of R_S — so
+it floats at clamp voltage, not source voltage.
+
+### F1 thermal: chassis muffin fan over 6146 socket area
+
+F1 (Bourns MF-R010) is rated 60 °C ambient. Mounted near the 6146B
+socket, it sees envelope heat. A muffin fan in the chassis directed at
+the bottom side of the 6146 sockets is required to keep the socket
+area below 60 °C during sustained CW operation. Socket-area
+temperature is not measurable once HV is live (safety) — designed-in
+cooling, not bench-tuned.
+
+### Sense cable: shielded coax, shield grounded at tube end
+
+For this HF transmitter environment, shielded coax is chosen over the
+twisted-pair alternative described above. The shield grounds ONLY at
+the tube-socket end (the noisier reference) so RF return currents
+drain locally instead of flowing through the shield into the analog
+board. The PCB end of the shield is left floating. If HF noise shows
+up on the analog board after assembly, a 1 nF ceramic from
+PCB-end-of-shield to PCB GND adds an HF tie without creating a DC
+ground loop.
+
 ## Calibration procedure (bring-up)
 
 1. **Zero**: tubes in deep cutoff (key-up). ADC reading is the offset.
