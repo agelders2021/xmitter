@@ -166,6 +166,58 @@ connectors on the breakout duplicate VIN/GND/SDA/SCL — not in the symbol
 because the project doesn't use them (project wires direct via the 0.1"
 header for hand-solder reasons).
 
+### xmitter:OPA454  (DONE — built 2026-06-22)
+
+Custom symbol for the TI OPA454 high-voltage op-amp used in the
+grid-bias subsystem (one per tube, ×2 on the planned `bias.kicad_sch`
+sheet). Built because the KiCad stock library doesn't ship an OPA454
+symbol, and the chip's enable/status pins need to be visible on the
+schematic (not hidden inside an opaque "standard op-amp" footprint).
+
+Multi-unit symbol, same pattern as the existing `TL072` in this library
+(triangle + separate power block). Both units must be placed on every
+sheet that uses the OPA454 — there's no "Unit A alone" mode.
+
+Unit A — op-amp triangle (3 pins), 15.24 × 15.24 mm:
+
+┌──────┬─────────┬────────┬───────────────────────────────────────────┐
+│ Pin# │ Name    │ Type   │ Used for                                  │
+├──────┼─────────┼────────┼───────────────────────────────────────────┤
+│  2   │ IN-     │ input  │ Summing junction: R_G from +5 V LM4040    │
+│      │         │        │ + R_F feedback from OUT                   │
+│  3   │ IN+     │ input  │ Control: MCP4725/MCP4921 DAC via R_pad    │
+│  6   │ OUT     │ output │ Grid bias output (R_GL → tube grid)       │
+└──────┴─────────┴────────┴───────────────────────────────────────────┘
+
+Unit B — power + enable + status block (5 pins), 15.24 × 22.86 mm:
+
+┌──────┬─────────┬────────────────┬───────────────────────────────────┐
+│ Pin# │ Name    │ Type           │ Used for                          │
+├──────┼─────────┼────────────────┼───────────────────────────────────┤
+│  7   │ V+      │ power_in       │ +5 V from shared LM4040 rail      │
+│  4   │ V-      │ power_in       │ −90 V from isolated DC-DC         │
+│  8   │ ED      │ input          │ Enable: tie to V+ for always-on   │
+│  1   │ EDCOMM  │ input          │ Enable reference: tie to V-       │
+│  5   │ STATFLG │ open_collector │ Thermal/current-limit flag;       │
+│      │         │                │ NC unless wired to MCU fault GPIO │
+└──────┴─────────┴────────────────┴───────────────────────────────────┘
+
+**KiCad sub-symbol naming gotcha**: the format is
+`SYMBOL_NAME_{unit}_{body_style}`, not `_{body_style}_{unit}`. Got bitten
+early on — initially named sub-symbols `OPA454_0_1` / `OPA454_1_1` /
+`OPA454_0_2` / `OPA454_1_2`, which KiCad parsed as "single unit with
+DeMorgan body-style variants" and never offered Unit B as a placement
+option. Fix is `OPA454_1_1` (unit 1, body 1) + `OPA454_2_1` (unit 2,
+body 1), each combining its graphics and pins in a single sub-symbol.
+(The TL072 already in this library has the same misnaming and would
+show the same single-unit behavior if anyone tries to place it.)
+
+Built via `tools/add_opa454_symbol.py` (declarative pin lists, same
+pattern as the MCP4728 / Metro generators). Footprint:
+`Package_DIP:DIP-8_W7.62mm` — the chip only ships in SOIC-8 but
+project parts are mounted on SOIC-to-DIP adapters for hand-solder
+reasons (same as TL072). MPN: `OPA454AIDA`.
+
 ### xmitter:MC1496  (optional, secondary priority)
 
 The standard KiCad MC1496 symbol uses Motorola's original pin names

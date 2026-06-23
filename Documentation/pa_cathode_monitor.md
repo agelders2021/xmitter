@@ -169,7 +169,8 @@ by D2), op-amp is at the edge of CM but still within absolute max.
 │ Component │ Value                      │ Notes                                                       │
 ├───────────┼────────────────────────────┼─────────────────────────────────────────────────────────────┤
 │ U2        │ LM393                      │ Dual comparator (one section per tube)                      │
-│ V_REF     │ +1.5 V from LM4040 divider │ Trip threshold = 150 mA cathode current                     │
+│ V_REF     │ +1.5 V from divider on the │ Trip threshold = 150 mA cathode current. One divider + trim │
+│           │ shared +5 V LM4040 rail    │ feeds both tubes' comparators (same threshold).             │
 │ R_HYST    │ 470 kΩ                     │ Positive feedback output → (+) input — 50 mV hysteresis     │
 │ R_PULLUP  │ 4.7 kΩ to +3.3 V           │ LM393 has open-collector output                             │
 │ C_DEC     │ 100 nF X7R                 │ Local supply bypass at LM393 supply pin                     │
@@ -300,7 +301,12 @@ Two parallel sense chains, one per tube. Both feed into:
 │ C_FILT          │ 1 nF X7R 50 V                │ 1        │                                                 │
 │ U1 (op-amp)     │ OPA1641                      │ 1        │ One section per tube (or OPA1642 dual for both) │
 │ U2 (comparator) │ LM393                        │ 0.5      │ One IC handles both tubes                       │
-│ V_REF           │ LM4040DIZ-1.2 + 1 k trim pot │ 1        │ Shared between both tubes' comparators          │
+│ U_REF           │ LM4040DIZ-5.0                │ 0        │ Already in grid_bias BOM; same +5 V rail powers │
+│                 │                              │          │ both subsystems (CLAUDE.md: same analog board)  │
+│ R_DIV1          │ 4.7 kΩ 1 % 1/8 W             │ 0.5      │ Divider top: +5 V → trim pot                    │
+│ R_TRIM          │ Bourns 3296W 1 kΩ trim pot   │ 0.5      │ Sets V_REF tap; one divider feeds both tubes    │
+│ R_DIV2          │ 1.5 kΩ 1 % 1/8 W             │ 0.5      │ Divider bottom: trim pot → GND. Nominal tap =   │
+│                 │                              │          │ 1.50 V (range 1.21–1.74 V across full pot)      │
 │ R_HYST          │ 470 kΩ                       │ 1        │                                                 │
 │ R_PULLUP        │ 4.7 kΩ                       │ 1        │ LM393 output pull-up                            │
 │ C_DEC           │ 100 nF X7R                   │ several  │ Decoupling at each IC                           │
@@ -355,8 +361,12 @@ tubes can't conduct without screen voltage.
 
 - `Documentation/2026-06-08-pa-validation.md` — PA operating point that
   determines I_cathode nominal and limits
-- `Documentation/Grid_Bias_Schematic.pdf` — companion subsystem; both bias
-  control and cathode monitoring share the +5 V rail and live on the same
-  analog board
+- `Documentation/Grid_Bias_Schematic.pdf` — companion subsystem on the same
+  analog board. Both subsystems share a **single LM4040DIZ-5.0** producing
+  the +5 V reference rail: grid_bias uses it raw (R_G input to OPA454);
+  cathode_monitor divides it down to +1.5 V (R_DIV1 / R_TRIM / R_DIV2 above)
+  for the LM393 threshold. One chip, two consumers.
+- `xmitter_prj/grid_bias.sch` — QUCS-S sim of the bias circuit; supplies are
+  V+ = +5 V (V3) and V− = −90 V (V2), LM4040 = 5 V
 - `Documentation/cw_envelope_keyer.md` — firmware fail-safe rationale (the
   watchdog gate concept originated here)
