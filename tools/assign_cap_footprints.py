@@ -53,6 +53,23 @@ VALUE_TO_FOOTPRINT = {
     '390pF':   'Capacitor_THT:C_Disc_D6.0mm_W2.5mm_P5.00mm',   # 1/4" body
     '330pF':   'Capacitor_THT:C_Disc_D6.0mm_W2.5mm_P5.00mm',   # 1/4" body
     '33pF':    'Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm',   # 3/16" body
+
+    # 100 pF C0G(NP0) 200V, AVX AR212A101J4RTR2 (AR21 style).
+    # Body 5.08 x 5.08 x 3.175 mm, LS=5.08 mm.
+    '100pF':   'Capacitor_THT:C_Rect_L7.0mm_W3.5mm_P5.00mm',
+
+    # 1 uF X7R 200V, KEMET C330C105K2R5TA (GoldMax 300 Comm).
+    # Body L=7.11 x H=9.14 x T=4.07 mm, S=5.08 mm.
+    '1uF':     'Capacitor_THT:C_Rect_L7.2mm_W4.5mm_P5.00mm',
+
+    # 0.33 uF X7R 25V, KEMET C317C334K3R5TA (GoldMax case 317).
+    # Small body ~ 4 x 6 x 3 mm, LS=5.08 mm.
+    '0.33uF':  'Capacitor_THT:C_Rect_L7.0mm_W3.5mm_P5.00mm',
+
+    # 1 nF C0G 25V, KEMET C327C102J3G5TA (GoldMax case 327).
+    # Small body ~ 5 x 6 x 3 mm, LS=5.08 mm.
+    '1nF':     'Capacitor_THT:C_Rect_L7.0mm_W3.5mm_P5.00mm',
+    '1000pF':  'Capacitor_THT:C_Rect_L7.0mm_W3.5mm_P5.00mm',
 }
 
 CAP_LIB_IDS = ('Device:C', 'Device:C_Polarized')
