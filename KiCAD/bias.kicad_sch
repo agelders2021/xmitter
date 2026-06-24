@@ -3843,6 +3843,12 @@
 		(uuid "2f97a8a6-fa76-4f6c-8876-d3f0c68ae7d5")
 	)
 	(junction
+		(at 184.15 33.02)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "36ee0a24-4421-43c4-925b-b95cdba03e63")
+	)
+	(junction
 		(at 107.95 189.23)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -3883,6 +3889,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "54904809-90e7-46b1-b1e6-598bfa378b65")
+	)
+	(junction
+		(at 186.69 71.12)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "572e0aa7-483b-4e7a-b0fc-e4e91ffbc0a8")
 	)
 	(junction
 		(at 60.96 132.08)
@@ -4246,6 +4258,16 @@
 	)
 	(wire
 		(pts
+			(xy 165.1 33.02) (xy 171.45 33.02)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "31121ad3-c947-4272-96fb-d28d131b12c3")
+	)
+	(wire
+		(pts
 			(xy 68.58 78.74) (xy 45.72 78.74)
 		)
 		(stroke
@@ -4303,6 +4325,16 @@
 			(type default)
 		)
 		(uuid "4df71b82-bcc6-4ab0-af7c-d00b28a99434")
+	)
+	(wire
+		(pts
+			(xy 179.07 33.02) (xy 184.15 33.02)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "50db353c-c54e-42d5-82aa-7730764a02e3")
 	)
 	(wire
 		(pts
@@ -4753,6 +4785,16 @@
 			(type default)
 		)
 		(uuid "c85e2e23-3671-4232-8ba8-54132bb12fbf")
+	)
+	(wire
+		(pts
+			(xy 182.88 71.12) (xy 186.69 71.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c9286b3e-5cd1-4d77-a675-f38d2965c968")
 	)
 	(wire
 		(pts
@@ -5454,6 +5496,86 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:C_Polarized")
+		(at 179.07 71.12 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "0e1954af-d4db-4e97-8f99-e61db07753ca")
+		(property "Reference" "C33"
+			(at 179.959 63.5 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "10uF"
+			(at 179.959 66.04 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm"
+			(at 175.26 72.0852 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 179.07 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Polarized capacitor"
+			(at 179.07 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "5e1560c6-f514-4820-a8d8-7d3039d9eddb")
+		)
+		(pin "1"
+			(uuid "e26d136e-bc20-488e-a853-3e424667f8c9")
+		)
+		(instances
+			(project "KiCAD"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/7fdf4693-bc5c-444f-bf1a-20e5b9bdb92c"
+					(reference "C33")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Reference_Voltage:LM4040LP-5")
 		(at 38.1 121.92 90)
 		(unit 1)
@@ -5569,7 +5691,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
 			(at 250.444 115.824 90)
 			(hide yes)
 			(show_name no)
@@ -5651,7 +5773,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
 			(at 163.576 106.934 90)
 			(hide yes)
 			(show_name no)
@@ -5970,7 +6092,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
 			(at 224.536 101.854 90)
 			(hide yes)
 			(show_name no)
@@ -6894,7 +7016,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
 			(at 232.664 106.934 90)
 			(hide yes)
 			(show_name no)
@@ -7135,7 +7257,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
 			(at 239.776 37.084 90)
 			(hide yes)
 			(show_name no)
@@ -7535,7 +7657,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
 			(at 219.964 53.594 90)
 			(hide yes)
 			(show_name no)
@@ -7861,6 +7983,85 @@
 		)
 	)
 	(symbol
+		(lib_id "power:GND")
+		(at 175.26 71.12 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "597b4ee0-e9c8-4fa5-b5ac-fbe7a278cbe4")
+		(property "Reference" "#PWR088"
+			(at 168.91 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 171.45 71.1199 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" ""
+			(at 175.26 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 175.26 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 175.26 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "f6475c13-5918-4cbb-af63-615770c6b012")
+		)
+		(instances
+			(project "KiCAD"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/7fdf4693-bc5c-444f-bf1a-20e5b9bdb92c"
+					(reference "#PWR088")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:+5V")
 		(at 45.72 53.34 270)
 		(unit 1)
@@ -8131,7 +8332,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Potentiometer_THT:Potentiometer_Bourns_3296W_Vertical"
 			(at 162.56 99.06 0)
 			(hide yes)
 			(show_name no)
@@ -8810,7 +9011,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
 			(at 258.826 61.214 90)
 			(hide yes)
 			(show_name no)
@@ -8968,7 +9169,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-8_W7.62mm"
 			(at 231.14 116.84 0)
 			(hide yes)
 			(show_name no)
@@ -9463,7 +9664,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-8_W7.62mm"
 			(at 260.35 148.59 0)
 			(hide yes)
 			(show_name no)
@@ -10350,7 +10551,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-8_W7.62mm"
 			(at 215.9 81.28 0)
 			(hide yes)
 			(show_name no)
@@ -10892,7 +11093,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-8_W7.62mm"
 			(at 203.2 43.18 0)
 			(hide yes)
 			(show_name no)
@@ -11148,7 +11349,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
 			(at 235.204 47.244 90)
 			(hide yes)
 			(show_name no)
@@ -11230,7 +11431,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
 			(at 163.576 91.694 90)
 			(hide yes)
 			(show_name no)
@@ -11441,6 +11642,84 @@
 	)
 	(symbol
 		(lib_id "power:GND")
+		(at 165.1 33.02 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "c5f77e37-694e-49b5-862e-3b5ac46a5c85")
+		(property "Reference" "#PWR087"
+			(at 165.1 39.37 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 165.1 38.1 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 165.1 33.02 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 165.1 33.02 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 165.1 33.02 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "f6475c13-5918-4cbb-af63-615770c6b012")
+		)
+		(instances
+			(project "KiCAD"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/7fdf4693-bc5c-444f-bf1a-20e5b9bdb92c"
+					(reference "#PWR087")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
 		(at 74.93 137.16 0)
 		(unit 1)
 		(body_style 1)
@@ -11632,7 +11911,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-8_W7.62mm"
 			(at 231.14 57.15 0)
 			(hide yes)
 			(show_name no)
@@ -12459,6 +12738,85 @@
 			(project "KiCAD"
 				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/7fdf4693-bc5c-444f-bf1a-20e5b9bdb92c"
 					(reference "D6")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C_Polarized")
+		(at 175.26 33.02 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "f8db62b1-a0ac-4536-9b04-430a8183dac6")
+		(property "Reference" "C32"
+			(at 172.466 25.908 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "10uF"
+			(at 172.466 28.448 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm"
+			(at 171.45 33.9852 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 175.26 33.02 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Polarized capacitor"
+			(at 175.26 33.02 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "5e1560c6-f514-4820-a8d8-7d3039d9eddb")
+		)
+		(pin "1"
+			(uuid "e26d136e-bc20-488e-a853-3e424667f8c9")
+		)
+		(instances
+			(project "KiCAD"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/7fdf4693-bc5c-444f-bf1a-20e5b9bdb92c"
+					(reference "C32")
 					(unit 1)
 				)
 			)
