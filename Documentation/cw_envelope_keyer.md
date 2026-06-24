@@ -48,7 +48,7 @@ THIS MODULE  --(SPI)--> MCP4921 DAC --> R_F (1.5 kΩ) ──┬── MC1496 pin
 ┌──────────────────┬────────────┬─────────────────────────────────────────────────────────────────────────────────────┐
 │ Core             │ Process    │ Responsibility                                                                      │
 ├──────────────────┼────────────┼─────────────────────────────────────────────────────────────────────────────────────┤
-│ Core 0 (PRO_CPU) │ Monitoring │ ADS1115 cathode-current sensing, PA protection, MCP4728 bias adjustment — all I²C    │
+│ Core 0 (PRO_CPU) │ Monitoring │ ADC1 cathode-current sensing (built-in 12-bit), PA protection, MCP4728 bias adj (I²C)│
 │ Core 1 (APP_CPU) │ Keying     │ This envelope module + the WinKey emulation                                         │
 └──────────────────┴────────────┴─────────────────────────────────────────────────────────────────────────────────────┘
 
@@ -110,10 +110,12 @@ consequence noted.
    ISR — that is the fragile path. (A GPTimer-notify variant is acceptable, but
    the SPI write stays in the task.)
 
-3. **The DAC is on its own SPI bus.**
-   It must **never** share the I2C bus the monitoring core uses for the ADS1115
-   and MCP4728. An ADS1115 read can hold that bus for milliseconds; the resulting
-   contention becomes envelope-edge jitter, i.e. clicks. Keep buses separate.
+3. **The envelope DAC is on its own SPI bus.**
+   It must **never** share the I2C bus the monitoring core uses for the
+   MCP4728 bias DACs and the Si5351. Keep envelope timing (SPI, deterministic)
+   independent of bias control + VFO programming (I2C, occasional bursts that
+   could blocking-stall the envelope path otherwise). Cathode current is read
+   via the ESP32-S3's built-in ADC1 (no I2C needed for that path either).
 
 4. **The LUT is pre-distorted via `predistort()` to linearize the MC1496.**
    A cosine *control voltage* only yields a cosine *RF envelope* if the modulator
@@ -355,7 +357,8 @@ Resolution path for this project:
   One-time firmware setup routine; address persists across power
   cycles.
 - **Target address: 0x62** (avoids 0x60 Si5351, 0x61 Si5351-with-ADDR,
-  0x20 MCP23017, 0x48 future ADS1115).
+  0x20 MCP23017, and leaves room around 0x48 for any future I²C ADC if
+  the built-in ADC1 path proves insufficient).
 - Why not the Si5351 ADDR solder-jumper: requires bridging an 0805-pad
   pair on the breakout PCB — too small for this builder's hand
   tremor. Firmware re-program is the cleaner path.

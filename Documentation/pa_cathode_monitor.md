@@ -105,9 +105,10 @@ trips the watchdog gate within microseconds.
 If everything above failed and the sense tap saw the full 600 V plate supply,
 R_S limits fault current to 600 V / 10 kΩ = **60 mA**. That's:
 
-- Survivable for clamp diodes (BAT54 has 200 mA peak, 30 mA continuous — would be
-  damaged eventually but not instantly)
-- Below F1's trip current (so F1 trips and opens the path before D1/D2 die)
+- Comfortably within the 1N5817 clamp diode rating (1 A continuous, 25 A
+  peak surge — 60 mA is a non-event)
+- Below F1's trip current (so F1 trips and opens the path before anything
+  downstream sees prolonged stress)
 - Well below R_S's own thermal limit (60 mA × 600 V × duty cycle of 100 % =
   36 W instantaneous, but R_S only sees this during the brief fault window
   before F1 opens; integrated energy is small)
@@ -120,8 +121,8 @@ current is microamps, so the 10 kΩ drop is microvolts. No measurement error.
 ┌───────────┬────────────────────┬────────────────────────────────────────────────┐
 │ Component │ Value              │ Notes                                          │
 ├───────────┼────────────────────┼────────────────────────────────────────────────┤
-│ D1        │ BAT54 (or 1N5817)  │ Schottky to GND, catches negative excursions   │
-│ D2        │ BAT54 (or 1N5817)  │ Schottky to +3.3 V, catches positive excursions│
+│ D1        │ 1N5817 (1 A Schottky) │ To GND, catches negative excursions          │
+│ D2        │ 1N5817 (1 A Schottky) │ To +3.3 V, catches positive excursions       │
 │ C_FILT    │ 1 nF X7R           │ Anti-alias / RF rejection                      │
 └───────────┴────────────────────┴────────────────────────────────────────────────┘
 
@@ -133,8 +134,10 @@ not to slow the comparator trip beyond ~60 µs.
 
 The +3.3 V rail must be **stiff enough to absorb the fault current** transient
 without sagging. With F1 + R_S limiting the worst case to 60 mA, the +3.3 V
-rail needs an electrolytic bulk cap (~10 µF) near the clamp node to absorb the
-energy. The Schottky clamps then conduct for the brief window until F1 trips
+rail needs an electrolytic bulk cap (~10 µF) near each clamp pair to absorb
+the energy. Implemented as **C32** (channel A, near D4) and **C33** (channel
+B, near D2) — Panasonic ECA-1EM100, 10 µF / 25 V, polarized with + side to
++3.3 V. The Schottky clamps then conduct for the brief window until F1 trips
 (< 1 s).
 
 ### Level 4 — Op-amp buffer (ADC isolation)
@@ -444,8 +447,12 @@ Per-tube items are marked Qty=1 (multiply ×2 for the pair). Shared items
 │                 │  already in stock)           │          │ tied at common GRID_BLOCK_CRASH node.           │
 │ R_PD            │ 100 kΩ 1 % 1/4 W             │ 1        │ Pull-down at the diode-OR common node, defines  │
 │                 │                              │          │ LOW state when no fault.                        │
-│ C_DEC           │ 100 nF X7R + 10 µF bulk      │ several  │ Decoupling at each IC (OPA1641, LM393, LM4040). │
-└─────────────────┴──────────────────────────────┴──────────┴─────────────────────────────────────────────────┘
+│ C_DEC            │ 100 nF X7R + 10 µF bulk      │ several  │ Decoupling at each IC (OPA1641, LM393, LM4040). │
+│ C32, C33         │ 10 µF 25 V electrolytic      │ 1/tube   │ Panasonic ECA-1EM100. +3.3 V bulk near D2 (ch.B)│
+│                  │ (Panasonic ECA-1EM100)       │          │ and D4 (ch.A) clamps -- absorbs the 60 mA fault │
+│                  │                              │          │ transient that gets dumped into +3.3 V via the  │
+│                  │                              │          │ Schottky clamps when V_sense exceeds +3.3 V.    │
+└──────────────────┴──────────────────────────────┴──────────┴─────────────────────────────────────────────────┘
 
 ## Watchdog gate (grid-bias slam, on the bias sheet)
 
@@ -493,20 +500,37 @@ the Q2/Q3 slam-transistor wiring detail.
       path (Level 6). Slam stays asserted as long as cathode current is
       above threshold; clearing requires the fault to physically subside
       OR a firmware-asserted CLEAR (TBD wiring).
+- [x] ~~Confirm 1N5817 voltage rating handles the 60 mA fault current
+      transient on the clamp side.~~ Confirmed 2026-06-23: datasheet 1 A
+      continuous / 25 A peak surge — comfortably above the 60 mA F1-limited
+      fault current.
+- [x] ~~Add the diode-OR diodes (D_OR_A, D_OR_B) and R_PD (100 kΩ pull-down)
+      to bias.kicad_sch.~~ Done 2026-06-24. Refs on schematic: D5, D6
+      (1N4148), R24 (100 kΩ pull-down). Per-channel R_PULLs are R19 (ch.A)
+      and R25 (ch.B), both 4.7 kΩ to +3.3 V.
+- [x] ~~Add `I_CATHODE_A` and `I_CATHODE_B` hierarchical labels on
+      bias.kicad_sch and route them to ESP32-S3 ADC1 pins on the arduino
+      sheet.~~ Done 2026-06-24. Bias sheet exports them (output); arduino
+      sheet imports them (input) at Metro D7/D8 (both ADC1-capable).
+- [x] ~~Add +3.3 V bulk capacitance near D2 and D4 for fault-energy
+      absorption.~~ Done 2026-06-24. C32 = 10 µF (channel A, near D4),
+      C33 = 10 µF (channel B, near D2), Panasonic ECA-1EM100 electrolytic,
+      + side to +3.3 V, − side to GND.
+- [x] ~~Assign footprints to all cathode-monitor parts.~~ Done 2026-06-24.
+      Re-runnable via `tools/assign_cap_footprints.py` for caps and the
+      one-off ref-based script in commit 93bcd4b for the rest.
 - [ ] Wire the CLEAR path. Either:
       (a) firmware GPIO that pulls the diode-OR common node LOW through a
           weak resistor (overrides R_PD only while asserted), or
       (b) skip the explicit CLEAR — assume any real fault is physical and
           the slam releases on its own when the cathode current drops back
           below threshold (− 50 mV hysteresis).
-- [ ] Confirm 1N5817 voltage rating handles the 60 mA fault current
-      transient on the clamp side. Datasheet: 1 A continuous, 25 A peak
-      surge — comfortably above the 60 mA F1-limited fault current.
-- [ ] Add the diode-OR diodes (D_OR_A, D_OR_B) and R_PD (100 kΩ pull-down)
-      to bias.kicad_sch.
-- [ ] Add `I_CATHODE_A` and `I_CATHODE_B` hierarchical labels on
-      bias.kicad_sch and route them to ESP32-S3 ADC1 pins on the arduino
-      sheet (D7/ADC1, D8/ADC1 are the picked spares).
+- [ ] Cosmetic: shorten the long D6-anode routing wire on bias.kicad_sch
+      (currently runs ~52 mm south from D6 to U12 ch B OC, then 7.6 mm
+      west). Functionally correct; visual only.
+- [ ] Consider moving U13 and U14 (per-channel OPA1641 buffers) physically
+      close on the schematic so they can share one bypass-cap pair (C26+C27
+      or C30+C31). Currently 38 mm apart. Optimization, not a bug.
 - [ ] PCB layout: cathode socket area to analog board distance, twisted-pair
       wire gauge, shielding decision.
 

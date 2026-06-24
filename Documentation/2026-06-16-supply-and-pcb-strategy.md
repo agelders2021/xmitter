@@ -79,10 +79,11 @@ The full rail list required by the rig, derived from the design docs.
   in `20m-leveled-keyed-buffer.md`)
 
 **+5 V**
-- Voltage: +5 V regulated
-- Current: ~500 mA
-- Loads: OPA1641 buffer, LM393 comparators, ADS1115 ADC, MCP4921
-  reference
+- Voltage: +5 V regulated (LM7805 from +12 V on the bias sheet)
+- Current: ~30 mA total
+- Loads: OPA1641 buffers (cathode monitor), MC1496 + LM7171 V+ rails
+  (buffer_keyer), MCP4921 SPI envelope DAC reference, OPA454 V+ pins
+  (grid bias)
 
 **+3.3 V**
 - Voltage: +3.3 V
@@ -197,7 +198,8 @@ from the HV NTC) is cheap insurance, but not required.
 - 6146B sockets and tank circuit
 - Grid bias OPA454 (one per tube)
 - Bias DAC (MCP4728)
-- Cathode monitor chain (clamp + buffer + comparator + ADS1115)
+- Cathode monitor chain (clamp + OPA1641 buffer + LM393 comparator;
+  digitized by the Metro's built-in ADC1, no external ADC chip)
 - Fault interlock to HV contactor
 
 Connected by a short umbilical carrying SPI/I2C and DC supplies.
@@ -215,8 +217,8 @@ bandwidth is at most 5 kHz (envelope rate).
 
 The actual noise sources near the bias circuit are:
 
-- SPI to the bias DAC (~MHz traffic)
-- I2C to the ADS1115 (~400 kHz)
+- SPI to the envelope DAC (~MHz traffic)
+- I2C to the bias DACs (MCP4728) and the Si5351 VFO (~400 kHz)
 - ESP32-S3 internal clocks, WiFi if enabled
 - 120 Hz plate-supply ripple via shared ground
 

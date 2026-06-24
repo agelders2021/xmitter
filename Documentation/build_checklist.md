@@ -16,7 +16,8 @@ The build order assumed below:
 1. VFO (current focus)
 2. User Interface (encoders + console)
 3. Driver
-4. PA + Grid Bias + Cathode Monitor + Watchdog Gate
+4. PA + Grid Bias + Cathode Monitor (bias-slam fault path replaces the
+   old separate "Watchdog Gate" phase — the slam lives on the bias sheet)
 5. Balun + Output LPF + ATU
 6. Integration / first light
 
@@ -139,10 +140,12 @@ in each phase for power-supply items that gate that phase.
 
 - [ ] (Carry over) 12HG7 / 6146B / PA tank cap / cores if not yet
       sourced.
-- [ ] **MCP4728** alt-address parts if Phase 1 inventory check showed a
-      collision (Grid Bias phase).
-- [ ] **ADS1115 breakout** (Cathode Monitor phase).
-- [ ] **IRF9540** P-MOSFET (Watchdog Gate phase).
+- [x] ~~**MCP4728** alt-address parts.~~ Resolved via EEPROM re-program;
+      the existing 0x60 part moves to 0x62 in firmware bring-up.
+- [x] ~~**ADS1115 breakout** (Cathode Monitor phase).~~ No longer needed;
+      cathode monitor uses built-in ESP32-S3 ADC1 (decided 2026-06-23).
+- [x] ~~**IRF9540** P-MOSFET (Watchdog Gate phase).~~ No longer needed;
+      watchdog is grid-bias slam via 2N7000 on the bias sheet.
 
 ---
 
@@ -178,50 +181,65 @@ in each phase for power-supply items that gate that phase.
 
 ---
 
-## Phase 4 — PA + Grid Bias + Cathode Monitor + Watchdog
+## Phase 4 — PA + Grid Bias + Cathode Monitor (bias-slam fault path)
 
-**Status: not started**
+**Status: schematic complete (2026-06-24); awaiting parts + PCB layout**
+
+The watchdog is now **grid-bias slam** (Q2/Q3 2N7000s on the bias sheet),
+not a screen-voltage interrupter. See `Documentation/pa_cathode_monitor.md`
+"Watchdog gate" section for the rationale.
 
 ### Verify before starting
 
 - [ ] 6146B PA tubes on hand, matched pair.
 - [ ] PA tank variable caps on hand, 10–75 pF range, ≥2 kV rating.
-- [ ] +600 V plate / +200 V screen / −85 V bias rails available from
+- [ ] +600 V plate / +200 V screen / −90 V bias rails available from
       the power-supply chat.
-- [ ] OPA454 (×2) on hand for grid-bias chain.
-- [ ] MCP4728 (with the alt-address question resolved in Phase 1) on
-      hand.
-- [ ] ADS1115 ADC + OPA1642 buffer + LM393 comparator + LM4040DIZ-1.2
-      reference all on hand.
-- [ ] Bourns MF-R010 PTC fuses (×2) on hand.
-- [ ] BAT54 Schottkys (×4, two per tube) on hand.
-- [ ] IRF9540 P-MOSFET + 2N3904 NPN on hand for watchdog gate.
-- [ ] Hardware-vs-firmware SR latch decision made
-      (`pa_cathode_monitor.md` Open Items §1). If hardware, 74HC74 on
-      hand.
+- [x] ~~OPA454 (×2) on hand for grid-bias chain.~~ Ordered; SOIC-8 chips
+      to mount on SOIC-to-DIP adapters and plug into 8-pin DIP sockets.
+- [x] ~~MCP4728 (with the alt-address question resolved in Phase 1) on
+      hand.~~ Adafruit MCP4728 breakout in hand, re-programmed to 0x62
+      to avoid Si5351 collision (see Phase 1 entry).
+- [x] ~~ADS1115 ADC + OPA1642 buffer + LM393 comparator + LM4040DIZ-1.2~~
+      **Revised topology (2026-06-23):** built-in ESP32-S3 ADC1 (no
+      ADS1115), OPA1641 buffers (one per tube; SOIC-to-DIP adapter into
+      8P socket), LM393 dual comparator (DIP-8, Mill-Max socket), **shared
+      LM4040DIZ-5.0** with a R17/RV1/R18 trim divider (27 k / 10 k 25-turn
+      pot / 10 k) producing a 1.06–2.13 V threshold range. Parts in hand
+      per the Mouser 2026-06-19 invoice and the pending 2026-06-24 cart.
+- [x] ~~Bourns MF-R010 PTC fuses (×2) on hand.~~ On the in-progress order.
+- [x] ~~BAT54 Schottkys (×4, two per tube) on hand.~~ Replaced by **1N5817**
+      (8× ordered on the 2026-06-19 invoice) — current rating margin is
+      huge (1 A / 25 A surge vs 60 mA F1-limited fault).
+- [x] ~~IRF9540 P-MOSFET + 2N3904 NPN on hand for watchdog gate.~~ Watchdog
+      now uses **2N7000 bias-slam** (Q2, Q3 on bias sheet) instead of the
+      old screen-voltage interrupter. No P-MOSFET or NPN-pulldown needed.
+- [x] ~~Hardware-vs-firmware SR latch decision made.~~ **No latch** —
+      diode-OR + bias-slam holds until cathode current drops below
+      threshold (50 mV hysteresis). Firmware records the event via ADC1.
 - [ ] **Mains interlock** parts on hand: K_MAIN AC relay (sized for
       transformer inrush — Omron G7L-2A-T or equivalent, 10 A min),
       74HC4538 monostable, driver transistor + flyback diode.
+      (Separate watchdog from cathode monitor; gates AC to HV
+      transformers on firmware heartbeat.)
 
 ### Verify before declaring done
 
-- [ ] Grid-bias DAC range covers IDLE (−90 V) and OPERATE (−50 V) with
-      ~2 V firmware trim margin around each setpoint.
-- [ ] OPA454 swings cleanly to −90 V and back to −50 V under DAC step.
-      No oscillation, no overshoot past −100 V at any time.
-- [ ] Q_SLAM (2N7000) bias-slam path forces grids to the −85 V rail
-      within 1 µs of `CT_FAULT` being asserted (oscilloscope check on
-      the bias node).
-- [ ] Cathode monitor ADC reads ~1.0 V at nominal 100 mA per tube.
-- [ ] LM393 comparator trips at exactly 1.5 V_sense (150 mA), latches,
-      and drops the screen-voltage gate within <100 µs of fault.
-- [ ] Watchdog gate (IRF9540) opens and screen voltage falls to 0 V on
-      every fault path:
-      - hardware comparator trip,
-      - `fault::assert_fault()` from firmware,
-      - `esp_task_wdt` timeout.
-- [ ] Bias supply default (with firmware off) parks tubes in deep
-      cutoff (no plate current).
+- [ ] Grid-bias DAC range covers IDLE (−85 V at code 0) and OPERATE
+      (~−60 V at code ~1400) with ~2 V firmware trim margin around the
+      OPERATE setpoint. Transfer function: V_out = 18·V_DAC − 85.
+- [ ] OPA454 swings cleanly to −85 V and back to −60 V under DAC step.
+      No oscillation, no overshoot past −90 V at any time.
+- [ ] Q2/Q3 (2N7000) bias-slam path forces both grids to the −85 V rail
+      within < 5 µs of `GRID_BLOCK_CRASH` being asserted (oscilloscope
+      check on each grid output).
+- [ ] Cathode monitor ADC1 reads ~1.0 V at nominal 100 mA per tube
+      (V_sense = I_cathode × R_C = I × 10 Ω).
+- [ ] LM393 comparator trips at the trimmed threshold (~1.5 V_sense =
+      150 mA cathode); fault propagates through diode-OR (D5/D6) onto
+      GRID_BLOCK_CRASH; bias slam fires; tubes cut off in < 100 µs.
+- [ ] Bias supply default (with firmware off, MCP4728 EEPROM = 0) parks
+      tubes in deep cutoff (no plate current).
 - [ ] Drive level + bias combination produces 50 W output without
       exceeding the −150 V peak grid spec (verify with envelope-peak
       capture; cross-check `2026-06-08-pa-validation.md`).

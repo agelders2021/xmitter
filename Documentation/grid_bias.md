@@ -24,9 +24,10 @@ Specifically the subsystem does four things:
 - **Switch to OPERATE bias (~−50 V) per tube on key-down**, with per-tube
   trim of a few DAC counts to balance plate current between the two
   6146Bs.
-- **Bias-slam to cutoff on CT_FAULT trip** via a 2N7000 that pulls the
-  DAC control input to GND, forcing V_out back to −85 V in < 1 µs.
-  Independent of the MCU.
+- **Bias-slam to cutoff on GRID_BLOCK_CRASH trip** (from the cathode
+  monitor's diode-OR; conceptually the "CT_FAULT" signal) via a 2N7000
+  that pulls the DAC control input to GND, forcing V_out back to −85 V
+  in < 1 µs. Independent of the MCU.
 - **Reference-grade precision**: bias point set by an LM4040 5 V shunt
   reference, not by the noisy +5 V supply rail.
 
@@ -113,8 +114,9 @@ hierarchical label (GRID_CTL_A_IN / GRID_CTL_B_IN) and the
 corresponding OPA454's IN+ pin. The 2N7000 bias-slam drain ties onto
 the **OPA454 side** of R_pad — *not* the DAC side. Two reasons:
 
-- **DAC protection on bias-slam.** When CT_FAULT trips and Q2/Q3 turn on,
-  the 2N7000 drain pulls its node to GND. With R_pad in series, the
+- **DAC protection on bias-slam.** When GRID_BLOCK_CRASH asserts and
+  Q2/Q3 turn on, the 2N7000 drain pulls its node to GND. With R_pad in
+  series, the
   DAC sees 1 kΩ → GND (well within its drive capability). Without
   R_pad, the DAC output would be short-circuited to GND every time
   the bias slammed — a fast way to kill a DAC over many crashes.
@@ -199,7 +201,7 @@ Three layers of bias-side safety:
 │ U9        │ LM7805CT (TO-220)                │ +12 V → +5 V supply rail. ~30 mA load (OPA454 V+×2,  │
 │           │                                  │ all buffer_keyer/cathode_monitor +5 V loads).        │
 │           │                                  │ Dissipation ~270 mW, no heatsink needed at this load │
-│ C21       │ 0.22 µF X7R                      │ LM7805 input bypass (between +12 V and GND)          │
+│ C21       │ 0.33 µF X7R                      │ LM7805 input bypass (between +12 V and GND)          │
 │ C22       │ 0.1 µF X7R                       │ LM7805 output bypass (stability requirement)         │
 │ U11       │ LM4040DIZ-5.0 (TO-92 3-pin)      │ Precision +5 V shunt reference (1 % initial)         │
 │ R_Z       │ 2.2 kΩ 5 % 1/4 W                 │ LM4040 bias resistor from +12 V → cathode (3.2 mA    │
@@ -298,7 +300,7 @@ Capacitors (all X7R ceramic):
 
 - 3× 100 nF (C19, C20, C23)
 - 2× 1 µF (C17, C18)
-- 1× 0.22 µF (C21)
+- 1× 0.33 µF (C21)
 - 1× 0.1 µF (C22)
 
 Total: 6 active devices, 10 resistors, 7 capacitors.
@@ -326,10 +328,12 @@ Total: 6 active devices, 10 resistors, 7 capacitors.
 ## Open items
 
 - [x] ~~Rename `KiCAD/untitled.kicad_sch` → `bias.kicad_sch`.~~ Done 2026-06-23.
-- [ ] Assign footprints to all R and C (currently `(none set)`).
-      Suggested: 1206 or 1812 for hand-solder ceramic caps; through-hole
-      1/4 W axial for resistors. Power resistors (R_Z dissipates < 25 mW
-      — no special concern).
+- [x] ~~Assign footprints to all R and C.~~ Done 2026-06-24. R's = DIN 0207
+      P10.16mm horizontal (1/4 W metal film); ceramic caps = `C_Disc_*` or
+      `C_Rect_*` per the KEMET/AVX/Vishay parts on the Mouser orders; 10 µF
+      electrolytics = `CP_Radial_D5.0mm_P2.00mm` (Panasonic ECA-1EM100).
+      See `tools/assign_cap_footprints.py` for the value-to-footprint map.
+      The footprint pass is re-runnable.
 - [x] ~~Change C17 and C18 from `Device:C_Polarized` to `Device:C`.~~ Done 2026-06-23.
 - [ ] Confirm +12 V rail source on root sheet (Metro VIN passthrough vs
       dedicated 12 V supply input on this board).

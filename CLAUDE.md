@@ -41,26 +41,34 @@ items to verify before/after each phase, plus long-lead items to order while
 working on the current phase. Edit it as a `- [ ]` / `- [x]` checklist; keep
 finished items in place as history.
 
-## Firmware scaffolding (current focus)
+## Current focus
 
-Next work item: scaffold `firmware/` with the architecture specified in
-`Documentation/cw_envelope_keyer.md` —
-`main.cpp`, `keyer_envelope.cpp/h`, `keyer_winkey.cpp/h`,
-`grid_bias_dac.cpp`, `cathode_monitor.cpp`, `fault_handler.cpp`, plus
-`CMakeLists.txt` and `sdkconfig.defaults`. Set `IDF_TARGET=esp32s3` per
-project (`idf.py set-target esp32s3` inside `firmware/`).
+Analog-board schematic is complete (2026-06-24): bias + cathode monitor
+on `KiCAD/bias.kicad_sch`, MC1496 keyer chain on `KiCAD/buffer_keyer.kicad_sch`,
+Si5351 VFO on `KiCAD/vfo.kicad_sch`, Metro carrier on `KiCAD/arduino.kicad_sch`.
+PA / driver / balun / LPF sheets are still empty stubs (Phase 3-5 work).
 
-## Existing design references for the firmware work
+Next likely work items:
+- PCB layout for the analog board (bias + cathode monitor + buffer_keyer
+  + arduino + vfo sheets stitched at the root).
+- Scaffold `firmware/` (ESP-IDF project) — see
+  `Documentation/cw_envelope_keyer.md` for the module breakdown:
+  `main.cpp`, `keyer_envelope.cpp/h`, `keyer_winkey.cpp/h`,
+  `grid_bias_dac.cpp`, `cathode_monitor.cpp`, `fault_handler.cpp`, plus
+  `CMakeLists.txt` and `sdkconfig.defaults`. Set `IDF_TARGET=esp32s3`
+  per project (`idf.py set-target esp32s3` inside `firmware/`).
 
-When writing firmware, these design docs are the source of truth:
+## Existing design references
+
+The design docs are the source of truth for both firmware and PCB work:
 
 | Doc | What it specs |
 |---|---|
 | `Documentation/cw_envelope_keyer.md` | Envelope generation (raised cosine LUT, predistortion, 25 µs tick, core-1 pinning), WinKey emulation hook, MCP4921 SPI DAC, fail-safe gating |
-| `Documentation/pa_cathode_monitor.md` | Cathode current monitor, comparator hardware trip, ADC sampling threshold/window, NVS fault log |
+| `Documentation/grid_bias.md` | OPA454 bias generator topology, supply tree, transfer function, R/C values per tube |
+| `Documentation/pa_cathode_monitor.md` | 7-layer failsafe chain: clamps, OPA1641 buffer, LM393 comparator with hysteresis, diode-OR combiner, grid-bias slam handoff, ADC firmware thresholds, NVS fault log |
 | `Documentation/2026-06-08-pa-validation.md` | PA operating point (V6 = 180 V, bias = −60 V, R17 = 300 Ω) that determines firmware bias DAC code |
-| `Documentation/Grid_Bias_Schematic.pdf` | Per-tube OPA454 bias + CT_FAULT bias-slam (Q_SLAM 2N7000) |
-| `Documentation/Cathode_Monitor_Schematic.pdf` | 7-layer failsafe chain spec |
+| `Documentation/Cathode_Monitor_Schematic.pdf` | Generated PDF render of the cathode monitor + diode-OR + bias-slam path |
 
 ## Conventions
 
@@ -95,4 +103,10 @@ python xmitter_prj/ngspice.py <netlist_stem>
 
 # Parameter sweeps
 python tools/sweep_param.py <netlist> --pattern <regex> --values <list> ...
+
+# Assign THT capacitor footprints by value (re-runnable; fills empty
+# Footprint fields only, never overwrites). Edit VALUE_TO_FOOTPRINT
+# at the top of the script when a new value gets ordered.
+python tools/assign_cap_footprints.py KiCAD/bias.kicad_sch \
+       KiCAD/buffer_keyer.kicad_sch KiCAD/vfo.kicad_sch KiCAD/arduino.kicad_sch
 ```
