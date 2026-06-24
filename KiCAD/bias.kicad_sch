@@ -1335,6 +1335,193 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Diode:1N4148"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "D"
+				(at 0 2.54 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "1N4148"
+				(at 0 -2.54 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" "https://assets.nexperia.com/documents/data-sheet/1N4148_1N4448.pdf"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "100V 0.15A standard switching diode, DO-35"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Sim.Device" "D"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Sim.Pins" "1=K 2=A"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "diode"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "D*DO?35*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "1N4148_0_1"
+				(polyline
+					(pts
+						(xy -1.27 1.27) (xy -1.27 -1.27)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 1.27) (xy 1.27 -1.27) (xy -1.27 0) (xy 1.27 1.27)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 0) (xy -1.27 0)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "1N4148_1_1"
+				(pin passive line
+					(at -3.81 0 0)
+					(length 2.54)
+					(name "K"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 3.81 0 180)
+					(length 2.54)
+					(name "A"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "Diode:1N5817"
 			(pin_numbers
 				(hide yes)
@@ -3626,6 +3813,12 @@
 		(uuid "0ab460f8-2a26-445e-b1ad-31eb57f6c779")
 	)
 	(junction
+		(at 238.76 57.15)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "11806b42-0fec-44b9-9ea5-e151e4f970cb")
+	)
+	(junction
 		(at 204.47 78.74)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -3668,16 +3861,16 @@
 		(uuid "3ac0db0a-ab78-42b8-a6c6-472da5c513af")
 	)
 	(junction
+		(at 246.38 116.84)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "4148f479-392c-4daa-8423-281c2d9d28a4")
+	)
+	(junction
 		(at 223.52 97.79)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "4ca676c1-129a-46d5-9b55-c2b686e73bbd")
-	)
-	(junction
-		(at 238.76 57.15)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "4fb617a0-dec0-44e7-a6f4-d01a6733094b")
 	)
 	(junction
 		(at 199.39 86.36)
@@ -3716,10 +3909,22 @@
 		(uuid "7402bf19-5962-4098-a08f-e71892c590d4")
 	)
 	(junction
+		(at 238.76 116.84)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "74d1fb6b-7d6c-4b51-a4ab-cc3eb4003a9a")
+	)
+	(junction
 		(at 27.94 118.11)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "79ba3464-a215-44c1-b371-2f2fc25e15a8")
+	)
+	(junction
+		(at 246.38 57.15)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "8033aae7-6398-40fb-bedc-1cba794a3fb1")
 	)
 	(junction
 		(at 85.09 189.23)
@@ -3818,12 +4023,6 @@
 		(uuid "c7f80297-a9f5-42aa-8d5c-2b86171b03ec")
 	)
 	(junction
-		(at 238.76 107.95)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "d653f716-924e-4110-971b-3c4cd3ba28b4")
-	)
-	(junction
 		(at 38.1 160.02)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -3840,6 +4039,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "e36625a2-97aa-4784-8e9a-0b352318885a")
+	)
+	(junction
+		(at 257.81 57.15)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "e4f6ff22-ade5-42eb-a1f9-db120c0c5d7f")
 	)
 	(junction
 		(at 85.09 160.02)
@@ -4041,16 +4246,6 @@
 	)
 	(wire
 		(pts
-			(xy 238.76 57.15) (xy 250.19 57.15)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "357b394a-da43-4f5d-94cc-e79a4fafb6b2")
-	)
-	(wire
-		(pts
 			(xy 68.58 78.74) (xy 45.72 78.74)
 		)
 		(stroke
@@ -4128,16 +4323,6 @@
 			(type default)
 		)
 		(uuid "534913a1-b616-406f-b1cd-900799208efc")
-	)
-	(wire
-		(pts
-			(xy 238.76 57.15) (xy 238.76 107.95)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "54f55d3f-2097-4fad-b6b7-7df95e958772")
 	)
 	(wire
 		(pts
@@ -4341,6 +4526,16 @@
 	)
 	(wire
 		(pts
+			(xy 246.38 57.15) (xy 257.81 57.15)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "950b9d31-4798-4b14-bc16-336a2deeb5cd")
+	)
+	(wire
+		(pts
 			(xy 44.45 53.34) (xy 45.72 53.34)
 		)
 		(stroke
@@ -4378,6 +4573,26 @@
 			(type default)
 		)
 		(uuid "9a52d5a8-dc64-41b5-9abc-d47b9d222bf3")
+	)
+	(wire
+		(pts
+			(xy 257.81 57.15) (xy 259.08 57.15)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9cd5427b-b5e6-4664-bdfd-32f1c7ebe4b8")
+	)
+	(wire
+		(pts
+			(xy 238.76 116.84) (xy 246.38 116.84)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a1763a2e-2490-4fdf-be30-a18a50feb005")
 	)
 	(wire
 		(pts
@@ -4508,6 +4723,16 @@
 			(type default)
 		)
 		(uuid "c048f41e-9aa7-4943-b2ae-9ac2091a4216")
+	)
+	(wire
+		(pts
+			(xy 246.38 116.84) (xy 246.38 64.77)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c4167409-04dd-43ff-8604-4f6d6849148d")
 	)
 	(wire
 		(pts
@@ -4792,6 +5017,17 @@
 		)
 		(uuid "23bb5e58-821b-4940-9244-ddc891419962")
 	)
+	(hierarchical_label "I_CATHODE_B"
+		(shape output)
+		(at 223.52 81.28 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "2f93c47e-409a-4309-a088-04a6206721b1")
+	)
 	(hierarchical_label "+5V_REF"
 		(shape output)
 		(at 162.56 87.63 90)
@@ -4858,9 +5094,20 @@
 		)
 		(uuid "77f90313-4ede-480f-ba2e-306cb91a5e92")
 	)
+	(hierarchical_label "I_CATHODE_A"
+		(shape output)
+		(at 210.82 43.18 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "9fec4554-a699-40dd-85e3-e4f98a32aa37")
+	)
 	(hierarchical_label "GRID_BLOCK_CRASH"
 		(shape output)
-		(at 250.19 57.15 0)
+		(at 259.08 57.15 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -5105,6 +5352,108 @@
 		)
 	)
 	(symbol
+		(lib_id "Diode:1N4148")
+		(at 242.57 57.15 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "056dc63e-6ea0-4228-ae50-9b8d4f7f2acd")
+		(property "Reference" "D5"
+			(at 242.57 50.8 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "1N4148"
+			(at 242.57 53.34 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
+			(at 242.57 57.15 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "https://assets.nexperia.com/documents/data-sheet/1N4148_1N4448.pdf"
+			(at 242.57 57.15 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "100V 0.15A standard switching diode, DO-35"
+			(at 242.57 57.15 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Sim.Device" "D"
+			(at 242.57 57.15 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Sim.Pins" "1=K 2=A"
+			(at 242.57 57.15 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "ad13be26-7c41-491f-9b56-9d062d5457c0")
+		)
+		(pin "2"
+			(uuid "83382681-1f6d-4c68-9f64-ab937bca3f33")
+		)
+		(instances
+			(project "KiCAD"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/7fdf4693-bc5c-444f-bf1a-20e5b9bdb92c"
+					(reference "D5")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Reference_Voltage:LM4040LP-5")
 		(at 38.1 121.92 90)
 		(unit 1)
@@ -5183,6 +5532,86 @@
 			(project "KiCAD"
 				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/7fdf4693-bc5c-444f-bf1a-20e5b9bdb92c"
 					(reference "U11")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_US")
+		(at 250.19 116.84 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "11c80708-9e15-488f-a030-c1c067021d68")
+		(property "Reference" "R25"
+			(at 250.19 110.49 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "4.7K"
+			(at 250.19 113.03 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 250.444 115.824 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 250.19 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor, US symbol"
+			(at 250.19 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "3d734e28-27da-4dce-b8ee-8f40c92fc996")
+		)
+		(pin "1"
+			(uuid "2cded567-bffa-43d2-b4a8-767fa732dd1b")
+		)
+		(instances
+			(project "KiCAD"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/7fdf4693-bc5c-444f-bf1a-20e5b9bdb92c"
+					(reference "R25")
 					(unit 1)
 				)
 			)
@@ -5460,7 +5889,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm"
 			(at 204.1652 74.93 0)
 			(hide yes)
 			(show_name no)
@@ -5899,7 +6328,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
 			(at 223.2152 31.75 0)
 			(hide yes)
 			(show_name no)
@@ -5981,7 +6410,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
 			(at 194.0052 74.93 0)
 			(hide yes)
 			(show_name no)
@@ -6351,6 +6780,84 @@
 			(project "KiCAD"
 				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/7fdf4693-bc5c-444f-bf1a-20e5b9bdb92c"
 					(reference "#PWR073")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 257.81 64.77 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "393a39c5-80a6-4e3b-ae0b-89b394a904eb")
+		(property "Reference" "#PWR085"
+			(at 257.81 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 257.81 69.85 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 257.81 64.77 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 257.81 64.77 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 257.81 64.77 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "5cdd5233-a3aa-4715-b3e2-94cb8f69f62f")
+		)
+		(instances
+			(project "KiCAD"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/7fdf4693-bc5c-444f-bf1a-20e5b9bdb92c"
+					(reference "#PWR085")
 					(unit 1)
 				)
 			)
@@ -7433,6 +7940,85 @@
 		)
 	)
 	(symbol
+		(lib_id "power:+3.3V")
+		(at 254 116.84 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "5f3c1072-2cbe-4459-86e7-f17428b5fbd5")
+		(property "Reference" "#PWR086"
+			(at 250.19 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "+3.3V"
+			(at 257.81 116.8399 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 254 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 254 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"+3.3V\""
+			(at 254 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "c43b1c86-44fe-44e6-9e86-bddb888e0594")
+		)
+		(instances
+			(project "KiCAD"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/7fdf4693-bc5c-444f-bf1a-20e5b9bdb92c"
+					(reference "#PWR086")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R_US")
 		(at 71.12 125.73 90)
 		(unit 1)
@@ -7823,7 +8409,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
 			(at 125.4252 167.64 0)
 			(hide yes)
 			(show_name no)
@@ -8142,7 +8728,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm"
 			(at 252.4252 149.86 0)
 			(hide yes)
 			(show_name no)
@@ -8185,6 +8771,88 @@
 			(project "KiCAD"
 				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/7fdf4693-bc5c-444f-bf1a-20e5b9bdb92c"
 					(reference "C25")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_US")
+		(at 257.81 60.96 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "757c2171-c115-4124-812d-40fce3fbf8b0")
+		(property "Reference" "R24"
+			(at 260.35 59.6899 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "100K"
+			(at 260.35 62.2299 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 258.826 61.214 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 257.81 60.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor, US symbol"
+			(at 257.81 60.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "ce623245-3b3f-4d9b-837b-2de327fa4d72")
+		)
+		(pin "1"
+			(uuid "4e879c7f-9cae-46c2-8624-02b05edb9a09")
+		)
+		(instances
+			(project "KiCAD"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/7fdf4693-bc5c-444f-bf1a-20e5b9bdb92c"
+					(reference "R24")
 					(unit 1)
 				)
 			)
@@ -8713,7 +9381,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
 			(at 46.6852 60.96 0)
 			(hide yes)
 			(show_name no)
@@ -9902,7 +10570,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm"
 			(at 209.2452 31.75 0)
 			(hide yes)
 			(show_name no)
@@ -10063,7 +10731,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
 			(at 268.9352 149.86 0)
 			(hide yes)
 			(show_name no)
@@ -10644,7 +11312,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
 			(at 125.4252 189.23 0)
 			(hide yes)
 			(show_name no)
@@ -11306,7 +11974,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
 			(at 28.9052 125.73 0)
 			(hide yes)
 			(show_name no)
@@ -11687,6 +12355,110 @@
 			(project "KiCAD"
 				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/7fdf4693-bc5c-444f-bf1a-20e5b9bdb92c"
 					(reference "R_GB")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Diode:1N4148")
+		(at 246.38 60.96 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "f750f30f-72d2-473c-a448-0cee4622a04c")
+		(property "Reference" "D6"
+			(at 248.92 59.6899 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "1N4148"
+			(at 248.92 62.2299 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
+			(at 246.38 60.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "https://assets.nexperia.com/documents/data-sheet/1N4148_1N4448.pdf"
+			(at 246.38 60.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "100V 0.15A standard switching diode, DO-35"
+			(at 246.38 60.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Sim.Device" "D"
+			(at 246.38 60.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Sim.Pins" "1=K 2=A"
+			(at 246.38 60.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "ad13be26-7c41-491f-9b56-9d062d5457c0")
+		)
+		(pin "2"
+			(uuid "83382681-1f6d-4c68-9f64-ab937bca3f33")
+		)
+		(instances
+			(project "KiCAD"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/7fdf4693-bc5c-444f-bf1a-20e5b9bdb92c"
+					(reference "D6")
 					(unit 1)
 				)
 			)

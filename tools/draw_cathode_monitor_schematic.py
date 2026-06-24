@@ -178,19 +178,19 @@ def _block(ax, x, y, w, h, label, sublabel=''):
 
 
 def make_schematic():
-    fig, ax = plt.subplots(figsize=(15, 9.5))
-    ax.set_xlim(0, 18)
+    fig, ax = plt.subplots(figsize=(16.5, 9.5))
+    ax.set_xlim(0, 20)
     ax.set_ylim(0, 11)
     ax.set_aspect('equal')
     ax.axis('off')
 
     # Title
-    _txt(ax, 9, 10.5,
+    _txt(ax, 10, 10.5,
          'Per-Tube Cathode Current Monitor + Failsafe Chain',
          size=12, bold=True)
-    _txt(ax, 9, 10.1,
+    _txt(ax, 10, 10.1,
          'Seven defensive layers from cathode (+1 V nominal, may see 600 V on fault) to MCU ADC. '
-         'Replicate one channel per tube; comparator outputs OR-ed to watchdog gate.',
+         'One channel shown; ×2 for the push-pair, combined via the diode-OR on the right.',
          size=8, italic=True, color='#555555')
 
     # ── Tube cathode area ────────────────────────────────────────────────
@@ -330,20 +330,31 @@ def make_schematic():
     comp_ports = _opamp(ax, comp_cx, comp_cy, w=1.4, h=1.2, label='LM393')
     # (+) input at (13.3, 4.7), (-) at (13.3, 5.3), output at (14.7, 5.0)
 
-    # Signal from buffer fan-out drops down then approaches (+) input at y=4.7
-    _wire(ax, [(fanout_x, ports['out'][1]), (fanout_x, 4.7)])  # straight down
-    _wire(ax, [(fanout_x, 4.7), comp_ports['non']])  # horizontal into (+) pin
+    # Signal from buffer fan-out drops down through R_SOURCE then into (+) at y=4.7.
+    # R_SOURCE is in series so that R_HYST (positive feedback below) produces a
+    # well-defined hysteresis voltage (~50 mV with R_HYST=470 kΩ and a 3.15 V swing).
+    _wire(ax, [(fanout_x, ports['out'][1]), (fanout_x, 6.55)])  # buffer OUT → top of R_SOURCE
+    _resistor_v(ax, fanout_x, 6.10, h=0.9,
+                label_right='R_SOURCE = 7.5 kΩ',
+                label_left='per channel')
+    _wire(ax, [(fanout_x, 5.65), (fanout_x, 4.7)])              # R_SOURCE bottom → (+) y
+    _wire(ax, [(fanout_x, 4.7), comp_ports['non']])             # horizontal into (+) pin
 
-    # V_REF block on (-) input -- enter horizontally at the (-) input's y
+    # V_THR block on (-) input: shared threshold from LM4040DIZ-5.0 → R17 → RV1 → R18 → GND
+    # Wiper range 1.06 - 2.13 V; nominal set point ~1.5 V (~ 150 mA cathode current).
     vref_x = comp_ports['inv'][0] - 1.2
     _wire(ax, [comp_ports['inv'], (vref_x, comp_ports['inv'][1])])
-    ax.add_patch(patches.Rectangle((vref_x - 1.0, comp_ports['inv'][1] - 0.25),
-                                   1.0, 0.5, fill=True, facecolor='#fff8e8',
+    ax.add_patch(patches.Rectangle((vref_x - 1.2, comp_ports['inv'][1] - 0.32),
+                                   1.2, 0.64, fill=True, facecolor='#fff8e8',
                                    edgecolor='black', lw=LWH, zorder=4))
-    _txt(ax, vref_x - 0.5, comp_ports['inv'][1] + 0.05, 'V_REF',
+    _txt(ax, vref_x - 0.6, comp_ports['inv'][1] + 0.12, 'V_THR',
          size=FS - 0.5, bold=True, color='#0066aa')
-    _txt(ax, vref_x - 0.5, comp_ports['inv'][1] - 0.13, '+1.5 V',
+    _txt(ax, vref_x - 0.6, comp_ports['inv'][1] - 0.05, '1.06 - 2.13 V',
          size=FS - 1, italic=True, color='#0066aa')
+    _txt(ax, vref_x - 0.6, comp_ports['inv'][1] - 0.20, '(R17/RV1/R18,',
+         size=FS - 1.5, italic=True, color='#0066aa')
+    _txt(ax, vref_x - 0.6, comp_ports['inv'][1] - 0.30, 'shared)',
+         size=FS - 1.5, italic=True, color='#0066aa')
 
     # Hysteresis: R_HYST from output back to (+) input
     # Route: output → right → up (above triangle) → left → down to (+) input
@@ -388,22 +399,87 @@ def make_schematic():
                (pu_x, comp_ports['out'][1])])
     _dot(ax, pu_x, comp_ports['out'][1])
 
-    # R_PULL vertical, body above the output node
+    # R_PULL vertical, body above the output node (one per channel -- NOT shared)
     pu_y_center = comp_ports['out'][1] + 0.6   # 5.6
-    _resistor_v(ax, pu_x, pu_y_center, h=0.6, label_right='R_PULL = 4.7 kΩ')
+    _resistor_v(ax, pu_x, pu_y_center, h=0.6,
+                label_right='R_PULL = 4.7 kΩ',
+                label_left='per channel')
     _wire(ax, [(pu_x, comp_ports['out'][1]),
                (pu_x, pu_y_center - 0.30)])      # output → R_PULL bottom
     _wire(ax, [(pu_x, pu_y_center + 0.30),
                (pu_x, pu_y_center + 0.55)])      # R_PULL top → supply
     _supply(ax, pu_x, pu_y_center + 0.55, '+3.3 V', up=True)
 
-    # Output signal to watchdog: continues right from the pull-up dot
-    _wire(ax, [(pu_x, comp_ports['out'][1]),
-               (pu_x + 1.4, comp_ports['out'][1])])
-    _txt(ax, pu_x + 1.5, comp_ports['out'][1], '→ CT_FAULT_N',
-         ha='left', size=FS - 0.5, bold=True, color='#cc0000')
-    _txt(ax, pu_x + 1.5, comp_ports['out'][1] - 0.30, '(to watchdog gate)',
-         ha='left', size=FS - 1, italic=True, color='#cc0000')
+    # ── Diode-OR combiner (this channel + Ch. B, both fault outputs combine) ──
+    # CT_FAULT_A (this channel's pulled-up OC output) goes right through D_OR_A.
+    # CT_FAULT_B comes up from below through D_OR_B. Common cathode node has a
+    # pull-down R_PD so the line sits LOW when no fault. Output is GRID_BLOCK_CRASH
+    # (active HIGH) -- drives the Q2/Q3 bias-slam MOSFETs on the bias sheet.
+    or_y = comp_ports['out'][1]               # 5.0
+    da_x = pu_x + 1.0                         # 16.8 -- D_OR_A position
+    common_x = da_x + 1.0                     # 17.8 -- diode-OR common node
+
+    # Wire from pull-up dot to D_OR_A anode
+    _wire(ax, [(pu_x, or_y), (da_x - 0.30, or_y)])
+    # D_OR_A horizontal: anode on left, cathode on right
+    s = 0.22
+    tri_a = [(da_x - 0.20, or_y - s), (da_x - 0.20, or_y + s), (da_x + 0.10, or_y)]
+    ax.add_patch(patches.Polygon(tri_a, closed=True, fill=True,
+                                 facecolor='white', edgecolor='black',
+                                 lw=LWH, zorder=4))
+    _wire(ax, [(da_x + 0.10, or_y - s), (da_x + 0.10, or_y + s)], lw=LWH + 0.2)
+    _wire(ax, [(da_x + 0.10, or_y), (common_x, or_y)])
+    _txt(ax, da_x - 0.05, or_y + 0.35, 'D_OR_A', size=FS - 1, italic=True,
+         color='#444444')
+    _txt(ax, da_x - 0.05, or_y - 0.35, '1N4148', size=FS - 1.5, italic=True,
+         color='#444444')
+
+    # Common node dot
+    _dot(ax, common_x, or_y)
+
+    # D_OR_B coming UP from below (representing Channel B feeding in)
+    db_y_bot = or_y - 1.2
+    _wire(ax, [(common_x, or_y), (common_x, or_y - 0.20)])
+    tri_b = [(common_x - s, db_y_bot + 0.20 + s),
+             (common_x + s, db_y_bot + 0.20 + s),
+             (common_x, db_y_bot + 0.50)]
+    ax.add_patch(patches.Polygon(tri_b, closed=True, fill=True,
+                                 facecolor='white', edgecolor='black',
+                                 lw=LWH, zorder=4))
+    _wire(ax, [(common_x - s, db_y_bot + 0.50),
+               (common_x + s, db_y_bot + 0.50)], lw=LWH + 0.2)
+    _wire(ax, [(common_x, db_y_bot + 0.50), (common_x, db_y_bot)])
+    _wire(ax, [(common_x, db_y_bot + 0.20 + s), (common_x, or_y - 0.20)])
+    _txt(ax, common_x + 0.30, db_y_bot + 0.35, 'D_OR_B', ha='left',
+         size=FS - 1, italic=True, color='#444444')
+    _txt(ax, common_x + 0.30, db_y_bot + 0.20, '1N4148', ha='left',
+         size=FS - 1.5, italic=True, color='#444444')
+    # Annotate the "from Channel B" input
+    _txt(ax, common_x, db_y_bot - 0.18,
+         'from Ch. B', ha='center', size=FS - 1, bold=True, color='#cc6600')
+    _txt(ax, common_x, db_y_bot - 0.40,
+         '(CT_FAULT_B, similar circuit)', ha='center', size=FS - 1.5,
+         italic=True, color='#cc6600')
+
+    # R_PD pull-down on common node (defines LOW when no fault)
+    rpd_x = common_x + 1.1
+    _wire(ax, [(common_x, or_y), (rpd_x, or_y)])
+    _dot(ax, rpd_x, or_y)
+    _resistor_v(ax, rpd_x, or_y - 0.55, h=0.6, label_right='R_PD\n100 kΩ')
+    _wire(ax, [(rpd_x, or_y), (rpd_x, or_y - 0.25)])
+    _wire(ax, [(rpd_x, or_y - 0.85), (rpd_x, or_y - 1.10)])
+    _gnd(ax, rpd_x, or_y - 1.10)
+
+    # GRID_BLOCK_CRASH net label above the common node, well clear of D_OR_A
+    _txt(ax, common_x + 0.50, or_y + 0.70,
+         'GRID_BLOCK_CRASH', ha='center', size=FS - 0.5, bold=True,
+         color='#cc0000')
+    _txt(ax, common_x + 0.50, or_y + 0.50,
+         '(active HIGH on fault)', ha='center', size=FS - 1, italic=True,
+         color='#cc0000')
+    _txt(ax, common_x + 0.50, or_y + 0.30,
+         '→ Q2/Q3 bias-slam (bias sheet)', ha='center', size=FS - 1,
+         italic=True, color='#cc0000')
 
     # ── Level labels ─────────────────────────────────────────────────────
     level_label_y = 8.7
@@ -417,31 +493,36 @@ def make_schematic():
          color='#888800')
     _txt(ax, 14.0, level_label_y, 'L5: HW trip', size=FS - 0.5, bold=True,
          color='#888800')
+    _txt(ax, 17.8, level_label_y, 'L5b: diode-OR', size=FS - 0.5, bold=True,
+         color='#888800')
 
     # ── Notes box at the bottom ──────────────────────────────────────────
     ax.add_patch(patches.FancyBboxPatch(
-        (0.5, 0.4), 17.0, 2.2,
+        (0.5, 0.4), 19.0, 2.2,
         boxstyle='round,pad=0.05', fill=True, facecolor='#fafafa',
         edgecolor='#888888', lw=LW, zorder=3))
 
     notes = [
         ('Operating point (per tube at full drive):',
          'I_cathode ≈ 100 mA  →  V_sense ≈ 1.0 V at ADC input  →  ~30% ADC range'),
-        ('Trip threshold:',
-         'V_REF = 1.5 V on LM393 (-) corresponds to 150 mA cathode current; 50 mV hysteresis from R_HYST.'),
-        ('Total fault response (cathode overcurrent → tubes off):',
-         '< 100 µs total -- op-amp slew (~1 µs) + comparator (~3 µs) + SR latch + screen-voltage gate discharge'),
+        ('Trip threshold + hysteresis:',
+         'V_THR (RV1 wiper) sits at ~1.5 V nominal (~150 mA cathode); R_HYST=470 kΩ feeding back '
+         'through R_SOURCE=7.5 kΩ gives ~50 mV hysteresis. LM393 (+) > (-) → OC releases → fault HIGH.'),
+        ('Total fault response (cathode overcurrent → tubes cut off):',
+         '< 100 µs total -- buffer + comparator + hysteresis settling (~10 µs) + diode-OR + OPA454 slew '
+         'from operating bias to -85 V rail at 13 V/µs (~2 µs); no SR latch needed.'),
+        ('Diode-OR vs. wired-tie (why two channels are NOT tied to one pull-up):',
+         'LM393 OC tied directly with single R_PULL gives wired-AND of fault (HIGH only when BOTH '
+         'channels fault) -- wrong polarity. Diode-OR with per-channel R_PULL gives true OR.'),
         ('Critical layout rule:',
-         'DC sense tap leaves R_C top BEFORE C_BYP. Sense wire is twisted pair (signal + analog GND return).'),
-        ('Three separate grounds, one star point:',
-         'GND_RF (at tube socket, bypass returns) | GND_SENSE (analog board signal GND) | '
-         'GND_DIG (MCU board). All meet at the analog board single-point ground only.'),
+         'DC sense tap leaves R_C top BEFORE C_BYP. Three grounds (GND_RF, GND_SENSE, GND_DIG) meet at '
+         'one star point on the analog board.'),
     ]
     for i, (head, body) in enumerate(notes):
         y = 2.30 - i * 0.40
         _txt(ax, 0.85, y, head, ha='left', bold=True, size=FS - 0.5,
              color='#222244')
-        _txt(ax, 5.6, y, body, ha='left', size=FS - 0.5, italic=True,
+        _txt(ax, 5.8, y, body, ha='left', size=FS - 0.5, italic=True,
              color='#444444')
 
     fig.tight_layout()
