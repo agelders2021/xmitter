@@ -47,6 +47,12 @@ VALUE_TO_FOOTPRINT = {
 
     # 220 pF silver mica, Knowles CD17FD221JO3F, P5.08 mm
     '220pF':   'Capacitor_THT:C_Rect_L7.0mm_W4.5mm_P5.00mm',
+
+    # User-stock ceramic disc caps. Body diameter given; leads on 5.08 mm
+    # pitch (bend in/out slightly to fit standard holes).
+    '390pF':   'Capacitor_THT:C_Disc_D6.0mm_W2.5mm_P5.00mm',   # 1/4" body
+    '330pF':   'Capacitor_THT:C_Disc_D6.0mm_W2.5mm_P5.00mm',   # 1/4" body
+    '33pF':    'Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm',   # 3/16" body
 }
 
 CAP_LIB_IDS = ('Device:C', 'Device:C_Polarized')
