@@ -169,28 +169,42 @@ by D2), op-amp is at the edge of CM but still within absolute max.
 │ Component │ Value                      │ Notes                                                       │
 ├───────────┼────────────────────────────┼─────────────────────────────────────────────────────────────┤
 │ U2        │ LM393                      │ Dual comparator (one section per tube)                      │
-│ V_REF     │ +1.5 V from divider on the │ Trip threshold = 150 mA cathode current. One divider + trim │
-│           │ shared +5 V LM4040 rail    │ feeds both tubes' comparators (same threshold).             │
-│ R_HYST    │ 470 kΩ                     │ Positive feedback output → (+) input — 50 mV hysteresis     │
-│ R_PULLUP  │ 4.7 kΩ to +3.3 V           │ LM393 has open-collector output                             │
-│ C_DEC     │ 100 nF X7R                 │ Local supply bypass at LM393 supply pin                     │
+│ V_THR     │ +1.06 to +2.13 V from a    │ Trip threshold = ~150 mA cathode current at the chosen set  │
+│           │ trimmer divider on the     │ point. R17 (27 kΩ) → RV1 (10 kΩ 25-turn cermet) →           │
+│           │ shared +5 V LM4040 rail    │ R18 (10 kΩ) → GND. ONE divider feeds BOTH comparators       │
+│           │                            │ (channels share the same threshold).                        │
+│ R_SOURCE  │ 7.5 kΩ (one per channel:   │ Series resistor between OPA1641 OUT and LM393 (+) input.    │
+│           │  R20 = ch.B, R22 = ch.A)   │ Sets the hysteresis voltage with R_HYST.                    │
+│ R_HYST    │ 470 kΩ (one per channel:   │ Positive feedback LM393 OUT → (+) input. With R_SOURCE =    │
+│           │  R21 = ch.B, R23 = ch.A)   │ 7.5 kΩ and a 3.15 V LM393 swing, gives ~50 mV hysteresis.   │
+│ R_PULLUP  │ 4.7 kΩ to +3.3 V, one per  │ NOT a shared pull-up — see "Per-tube summing" below for the │
+│           │ channel                    │ diode-OR rationale.                                         │
+│ C_DEC     │ 100 nF X7R                 │ Local supply bypass at LM393 V+ pin                         │
 └───────────┴────────────────────────────┴─────────────────────────────────────────────────────────────┘
 
-The op-amp output (Layer 4) feeds the comparator (+) input. Comparator (−) input
-sits at the precision +1.5 V reference. When V_sense exceeds 1.5 V:
+Input polarity: OPA1641 buffer output (V_sense) feeds the LM393 **(+)** input
+through R_SOURCE. The threshold (from the trimmer divider) feeds the **(−)**
+input. When V_sense exceeds the threshold:
 
-- Comparator output snaps low (open-collector pulled to GND)
-- Hysteresis prevents chatter near the threshold
-- Output latched in an SR flip-flop (or NAND-latch from two LM393 sections)
-- Latched fault drives the **watchdog gate** (a high-side MOSFET or SSR in the
-  screen-voltage supply) → screen drops to 0 V → tubes go dark in <100 µs
-- Latch is cleared by firmware **after** acknowledging the fault
+- LM393 output transistor turns OFF → the open-collector floats → its
+  per-channel R_PULLUP takes the output node to +3.3 V (**fault = HIGH**).
+- Hysteresis (R_HYST through R_SOURCE) gives ~50 mV separation between the
+  trip-up and trip-down thresholds — no chatter near the set point.
+- Either channel going HIGH propagates through the **diode-OR** (see
+  "Per-tube summing" below) onto the GRID_BLOCK_CRASH net.
+- GRID_BLOCK_CRASH (active HIGH) drives the Q2/Q3 bias-slam MOSFETs on the
+  bias sheet, which yank the OPA454 summing junctions to GND → the OPA454
+  outputs slam to their negative rail (~−85 V) → both tubes go to deep
+  cutoff in <100 µs.
+- Reset: power-cycle, or assert a firmware CLEAR line that releases the
+  slam (TBD — see Open items).
 
 Total fault response time:
-- Op-amp slew + comparator decision: < 5 µs
-- Latch + gate drive: < 10 µs
-- Screen voltage discharge: < 50 µs (depends on screen supply cap value)
-- **Total cathode-to-tubes-off latency: well under 100 µs**
+- Op-amp slew + comparator decision + hysteresis settling: < 10 µs
+- Diode-OR forward + bias-slam Q gate drive: < 5 µs
+- OPA454 slew from operating bias (~−60 V) to negative rail (~−85 V) at
+  13 V/µs: < 2 µs
+- **Total cathode-to-tubes-cut-off latency: well under 100 µs**
 
 That's fast enough to protect the tubes from internal flashover faults that
 would otherwise damage them in milliseconds.
@@ -350,78 +364,149 @@ hours or after any servicing).
 
 Two parallel sense chains, one per tube. Both feed into:
 
-- **Per-tube ADC channels** (for individual tube monitoring + balance trim)
-- **Comparator chain**: each tube's comparator output goes to an OR gate
-  (or wired-OR with shared pull-up). Either tube tripping fires the watchdog.
-- **Optional sum probe**: sum the two cathode voltages via two 10 kΩ resistors
-  to a third comparator with threshold at 1.4 V (≡ 280 mA total cathode).
-  Catches the case where both tubes drift hot together.
+- **Per-tube ADC channels** (`I_CATHODE_A`, `I_CATHODE_B` hierarchical labels)
+  tapped at the OPA1641 OUT node — *before* R_SOURCE — for individual tube
+  monitoring + balance trim. Routes to ESP32-S3 ADC1 pins on the arduino sheet.
+- **Comparator chain**: each tube's LM393 comparator output is HIGH on fault
+  (see Level 5 polarity above). The two outputs combine through a **diode-OR**
+  to produce a single GRID_BLOCK_CRASH (active HIGH) net.
 
-## BOM (per-tube, ×2 for the pair)
+### Why diode-OR (not the simpler wired-tie)
+
+LM393 is open-collector: it can pull LOW but not drive HIGH (it depends on the
+external pull-up to define the HIGH state). With our polarity (V_sense on +,
+threshold on −), the OC transistor is OFF on fault — and tying two OC outputs
+to a single pull-up gives wired-AND of HIGH, not wired-OR: the combined node
+only goes HIGH when *both* tubes fault simultaneously. Useless for our case.
+
+A diode-OR with **per-channel pull-ups** gives true OR:
+
+```
+       +3.3V                       +3.3V
+         |                           |
+        R_PU_A (4.7K)               R_PU_B (4.7K)
+         |                           |
+         +--- LM393A OC              +--- LM393B OC
+              |                           |
+              D_OR_A (1N4148, anode→cath) D_OR_B (1N4148, anode→cath)
+                       \                 /
+                        +-------+-------+
+                                |
+                              R_PD (100K to GND)   ← defines LOW when no fault
+                                |
+                                +---→  GRID_BLOCK_CRASH (active HIGH)
+                                        │
+                                        ▼
+                                  Q2/Q3 bias-slam gates on bias sheet
+```
+
+Either fault → that channel's OC releases → R_PU takes it HIGH → its diode
+forward-biases → common node goes to ~2.7 V → Q2/Q3 turn ON → bias slammed.
+No fault → both OCs pulled LOW by their pull-ups → diodes reverse-biased →
+R_PD holds the common node at 0 V → Q2/Q3 OFF → bias circuit operates normally.
+
+No inverter required — polarity propagates straight through.
+
+- **Optional sum probe** (future): sum the two cathode voltages via two 10 kΩ
+  resistors to a third comparator with threshold at 1.4 V (≡ 280 mA total
+  cathode). Catches the case where both tubes drift hot together below the
+  per-tube threshold.
+
+## BOM
+
+Per-tube items are marked Qty=1 (multiply ×2 for the pair). Shared items
+(divider, diode-OR combiner, LM393 chip) are marked with the actual count.
 
 ┌─────────────────┬──────────────────────────────┬──────────┬─────────────────────────────────────────────────┐
-│ Ref             │ Part                         │ Qty/tube │ Notes                                           │
+│ Ref             │ Part                         │ Qty      │ Notes                                           │
 ├─────────────────┼──────────────────────────────┼──────────┼─────────────────────────────────────────────────┤
-│ R_C             │ 10 Ω 1 % 1 W metal film      │ 1        │ Vishay PR01000101000JR500 or similar            │
-│ C_BYP           │ 0.01 µF NP0 ceramic, 100 V   │ 1        │ Mount AT the tube socket                        │
-│ F1              │ Bourns MF-R010               │ 1        │ PTC, 100 mA hold                                │
-│ R_S             │ 10 kΩ 1 % 1/4 W              │ 1        │                                                 │
-│ D1, D2          │ BAT54 (or 1N5817)            │ 2        │ Schottky clamps                                 │
-│ C_FILT          │ 1 nF X7R 50 V                │ 1        │                                                 │
-│ U1 (op-amp)     │ OPA1641                      │ 1        │ One section per tube (or OPA1642 dual for both) │
-│ U2 (comparator) │ LM393                        │ 0.5      │ One IC handles both tubes                       │
-│ U_REF           │ LM4040DIZ-5.0                │ 0        │ Already in grid_bias BOM; same +5 V rail powers │
-│                 │                              │          │ both subsystems (CLAUDE.md: same analog board)  │
-│ R_DIV1          │ 4.7 kΩ 1 % 1/8 W             │ 0.5      │ Divider top: +5 V → trim pot                    │
-│ R_TRIM          │ Bourns 3296W 1 kΩ trim pot   │ 0.5      │ Sets V_REF tap; one divider feeds both tubes    │
-│ R_DIV2          │ 1.5 kΩ 1 % 1/8 W             │ 0.5      │ Divider bottom: trim pot → GND. Nominal tap =   │
-│                 │                              │          │ 1.50 V (range 1.21–1.74 V across full pot)      │
-│ R_HYST          │ 470 kΩ                       │ 1        │                                                 │
-│ R_PULLUP        │ 4.7 kΩ                       │ 1        │ LM393 output pull-up                            │
-│ C_DEC           │ 100 nF X7R                   │ several  │ Decoupling at each IC                           │
+│ R_C             │ 10 Ω 1 % 1 W metal film      │ 1/tube   │ Vishay PR01000101000JR500 or similar            │
+│ C_BYP           │ 0.01 µF NP0 ceramic, 100 V   │ 1/tube   │ Mount AT the tube socket                        │
+│ F1              │ Bourns MF-R010               │ 1/tube   │ PTC, 100 mA hold                                │
+│ R_S             │ 10 kΩ 1 % 1/4 W              │ 1/tube   │ Mounts at the tube socket (see Layout rules)    │
+│ D1, D2          │ 1N5817                       │ 2/tube   │ Schottky clamps to GND and +3.3 V               │
+│ C_FILT          │ 1 nF X7R 50 V                │ 1/tube   │                                                 │
+│ U13, U14        │ OPA1641                      │ 1/tube   │ Voltage-follower buffer (one IC per tube)       │
+│ U12             │ LM393                        │ 1        │ Dual comparator — one IC handles both tubes     │
+│ U11             │ LM4040DIZ-5.0                │ 0        │ Already in grid_bias BOM; same +5 V_REF rail    │
+│                 │                              │          │ powers both subsystems                          │
+│ R17             │ 27 kΩ 1 % 1/4 W              │ 1        │ Threshold divider top                           │
+│ RV1             │ Bourns 3296W 10 kΩ 25-turn   │ 1        │ Threshold trim pot (shared between channels)    │
+│ R18             │ 10 kΩ 1 % 1/4 W              │ 1        │ Threshold divider bottom. Wiper range:          │
+│                 │                              │          │ 1.06 V – 2.13 V; nominal set point ~1.5 V       │
+│ R_SOURCE        │ 7.5 kΩ 1 % 1/4 W             │ 1/tube   │ R20 (ch.B) and R22 (ch.A). OPA1641 OUT → LM393  │
+│                 │                              │          │ (+). Sets hysteresis with R_HYST.               │
+│ R_HYST          │ 470 kΩ 1 % 1/4 W             │ 1/tube   │ R21 (ch.B) and R23 (ch.A). LM393 OUT → (+).     │
+│                 │                              │          │ ~50 mV hysteresis with 3.15 V LM393 swing.      │
+│ R_PULLUP        │ 4.7 kΩ 1 % 1/4 W             │ 1/tube   │ Pull-up to +3.3 V on each LM393 OC output       │
+│                 │                              │          │ (NOT shared — see "Per-tube summing").          │
+│ D_OR_A, D_OR_B  │ 1N4148 (or 1N5817 since      │ 1/tube   │ Diode-OR combiner. Anode at LM393 OC, cathodes  │
+│                 │  already in stock)           │          │ tied at common GRID_BLOCK_CRASH node.           │
+│ R_PD            │ 100 kΩ 1 % 1/4 W             │ 1        │ Pull-down at the diode-OR common node, defines  │
+│                 │                              │          │ LOW state when no fault.                        │
+│ C_DEC           │ 100 nF X7R + 10 µF bulk      │ several  │ Decoupling at each IC (OPA1641, LM393, LM4040). │
 └─────────────────┴──────────────────────────────┴──────────┴─────────────────────────────────────────────────┘
 
-## Watchdog gate (the screen-voltage interrupter)
+## Watchdog gate (grid-bias slam, on the bias sheet)
 
 The fault output from Level 5 / Level 6 needs to **actually do something** to
-protect the tubes. The screen-voltage gate is the cleanest interrupter:
+protect the tubes. The current design uses **grid-bias slam** — yanking the
+grid bias from its normal operating point (~−60 V) to deep cutoff (~−85 V)
+within a few microseconds.
 
-┌───────────┬───────────────────────────────────────────────────┬─────────────────────────────────┐
-│ Component │ Value                                             │ Notes                           │
-├───────────┼───────────────────────────────────────────────────┼─────────────────────────────────┤
-│ Q1        │ High-side P-channel MOSFET (e.g., IRF9540)        │ Switches screen voltage         │
-│ R_GATE    │ 10 kΩ to source                                   │ Pulls gate to source (default ON)│
-│ Q2        │ NPN switch (2N3904)                               │ Pulls gate low to turn OFF Q1   │
-│ Trigger   │ OR of: comparator latches, MCU GPIO, esp_task_wdt │ Any source can fire             │
-└───────────┴───────────────────────────────────────────────────┴─────────────────────────────────┘
+This is implemented on the `bias.kicad_sch` sheet:
 
-When tripped, Q1 opens, screen drops to 0 V, tubes go dark. Tube cathode current
-returns to leakage levels (< 100 µA). The plate supply is still hot but the
-tubes can't conduct without screen voltage.
+- **Q2, Q3** (2N7000 N-channel MOSFETs, one per tube) sit across the OPA454
+  summing junction. Their gates are tied together through R_GATE and fed by
+  the `GRID_BLOCK_CRASH` net (active HIGH).
+- When `GRID_BLOCK_CRASH` goes HIGH (via the diode-OR above), both MOSFETs
+  turn ON simultaneously, pulling the OPA454 inverting inputs to GND through
+  R_PADA / R_PADB. The OPA454 outputs slam to their negative rail (~−85 V).
+- Both tubes go to deep cutoff in <100 µs (see Level 5 timing budget).
 
-**Why screen instead of plate, grid, or filament?**
+**Why grid bias instead of screen, plate, or filament?**
 
 - **Plate**: hard to switch reliably at 600 V / 250 mA without a relay (slow,
-  arcing). Drops would also have to dissipate the energy of the plate supply
-  cap discharge.
-- **Grid bias**: already the firmware's normal off mechanism. Hardware should
-  have an independent path.
+  arcing). The plate supply cap also stores significant energy that must
+  dissipate somewhere.
+- **Screen**: would work (low current, fast off) but adds a separate
+  switching MOSFET and a dedicated path with its own failure modes. The grid
+  bias rail is already available, already controlled by the OPA454s, and
+  already designed for fast slewing.
+- **Grid bias**: re-uses the existing OPA454 bias generator. A single
+  2N7000 per tube short-circuits the summing junction; the OPA454 then does
+  the heavy lifting (slewing to −85 V at 13 V/µs). Independent of firmware
+  — the slam fires purely from the hardware comparator chain.
 - **Filament**: takes seconds for cathode to cool. Doesn't protect against
   the immediate fault.
-- **Screen**: low current (~30 mA), small voltage (200 V), fast off (cap
-  discharge in µs). Tubes are guaranteed off without screen voltage.
+
+See `Documentation/grid_bias.md` for the OPA454 bias generator topology and
+the Q2/Q3 slam-transistor wiring detail.
 
 ## Open items
 
 - [x] ~~Choose ADC: built-in ESP32 ADC vs. ADS1115.~~ Decided 2026-06-23:
       **built-in ESP32-S3 ADC1**, 12-bit. Rationale in Level 6 above.
-- [ ] Decide hardware vs. firmware-only latch. Pure firmware (using
-      `esp_task_wdt` GPIO) is simpler but takes ~1 ms to fire. Hardware
-      latch is < 100 µs but adds a 74HC chip.
-- [ ] Confirm BAT54 voltage rating handles the 60 mA fault current transient.
-      Datasheet: peak 200 mA for 1 µs. For F1's < 1 s trip window, ~60 mA
-      sustained is right at the BAT54 limit. Consider BAS70-04W or upsizing
-      to PMEG3050 for headroom.
+- [x] ~~Decide hardware vs. firmware-only latch.~~ Decided 2026-06-23: **no
+      latch chip** — diode-OR + grid-bias slam provides the fast hardware
+      path (<100 µs); firmware records the event from the ADC oversampling
+      path (Level 6). Slam stays asserted as long as cathode current is
+      above threshold; clearing requires the fault to physically subside
+      OR a firmware-asserted CLEAR (TBD wiring).
+- [ ] Wire the CLEAR path. Either:
+      (a) firmware GPIO that pulls the diode-OR common node LOW through a
+          weak resistor (overrides R_PD only while asserted), or
+      (b) skip the explicit CLEAR — assume any real fault is physical and
+          the slam releases on its own when the cathode current drops back
+          below threshold (− 50 mV hysteresis).
+- [ ] Confirm 1N5817 voltage rating handles the 60 mA fault current
+      transient on the clamp side. Datasheet: 1 A continuous, 25 A peak
+      surge — comfortably above the 60 mA F1-limited fault current.
+- [ ] Add the diode-OR diodes (D_OR_A, D_OR_B) and R_PD (100 kΩ pull-down)
+      to bias.kicad_sch.
+- [ ] Add `I_CATHODE_A` and `I_CATHODE_B` hierarchical labels on
+      bias.kicad_sch and route them to ESP32-S3 ADC1 pins on the arduino
+      sheet (D7/ADC1, D8/ADC1 are the picked spares).
 - [ ] PCB layout: cathode socket area to analog board distance, twisted-pair
       wire gauge, shielding decision.
 
