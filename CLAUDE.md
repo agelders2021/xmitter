@@ -48,9 +48,18 @@ on `KiCAD/bias.kicad_sch`, MC1496 keyer chain on `KiCAD/buffer_keyer.kicad_sch`,
 Si5351 VFO on `KiCAD/vfo.kicad_sch`, Metro carrier on `KiCAD/arduino.kicad_sch`.
 PA / driver / balun / LPF sheets are still empty stubs (Phase 3-5 work).
 
+Front-panel interface subsystem started 2026-07-02:
+`KiCAD/interface.kicad_sch` (RJ45 umbilical + RS-422 termination + PCF8575
+expander placeholder) and `KiCAD/xmitter.pretty/Amphenol_RJE1D-188_Horizontal_Shielded.kicad_mod`
+(custom footprint). Both are drafts — see `Documentation/front_panel_interface.md`
+"Open items" for the footprint verification checklist and remaining
+schematic work (RS-422 receiver placement, RJ45 jack symbol, control-
+function relays).
+
 Next likely work items:
 - PCB layout for the analog board (bias + cathode monitor + buffer_keyer
-  + arduino + vfo sheets stitched at the root).
+  + arduino + vfo + interface sheets stitched at the root). Front-panel
+  interface open items must be resolved before gerbers ship.
 - Scaffold `firmware/` (ESP-IDF project) — see
   `Documentation/cw_envelope_keyer.md` for the module breakdown:
   `main.cpp`, `keyer_envelope.cpp/h`, `keyer_winkey.cpp/h`,
@@ -69,6 +78,7 @@ The design docs are the source of truth for both firmware and PCB work:
 | `Documentation/pa_cathode_monitor.md` | 7-layer failsafe chain: clamps, OPA1641 buffer, LM393 comparator with hysteresis, diode-OR combiner, grid-bias slam handoff, ADC firmware thresholds, NVS fault log |
 | `Documentation/2026-06-08-pa-validation.md` | PA operating point (V6 = 180 V, bias = −60 V, R17 = 300 Ω) that determines firmware bias DAC code |
 | `Documentation/Cathode_Monitor_Schematic.pdf` | Generated PDF render of the cathode monitor + diode-OR + bias-slam path |
+| `Documentation/front_panel_interface.md` | RJ45 (Amphenol RJE1D-188-21401) umbilical, T568B pin map, PCF8575 expander, MBL-600 RS-422 termination, RJE1D-188 footprint verification checklist |
 
 ## Conventions
 
@@ -108,5 +118,6 @@ python tools/sweep_param.py <netlist> --pattern <regex> --values <list> ...
 # Footprint fields only, never overwrites). Edit VALUE_TO_FOOTPRINT
 # at the top of the script when a new value gets ordered.
 python tools/assign_cap_footprints.py KiCAD/bias.kicad_sch \
-       KiCAD/buffer_keyer.kicad_sch KiCAD/vfo.kicad_sch KiCAD/arduino.kicad_sch
+       KiCAD/buffer_keyer.kicad_sch KiCAD/vfo.kicad_sch KiCAD/arduino.kicad_sch \
+       KiCAD/interface.kicad_sch
 ```

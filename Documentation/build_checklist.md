@@ -105,19 +105,41 @@ in each phase for power-supply items that gate that phase.
 - [ ] Front-panel material decided (machined aluminum vs 3D print vs
       hand-drilled), shaft hole + LCD cutout pattern marked.
 - [ ] Winstar WH2004A 20×4 LCD on hand (`Documentation/Display/`).
-- [ ] PCF8574 I²C LCD backpack on hand (I²C addr 0x27 or 0x3F, solder-
-      jumper selectable — confirm choice doesn't collide with other I²C
-      peripherals).
-- [ ] PCA9685 16-channel I²C PWM driver on hand for the RGB backlight,
-      OR decision made to tie pins 16/17/18 together for monochrome
-      backlight (and skip the PCA9685).
-- [ ] 18-pin 0.1" header (or ribbon) for the LCD edge connector.
+- [x] ~~PCF8574 I²C LCD backpack on hand~~ **Replaced 2026-07-02 by
+      PCF8575 breakout** on a front-panel vector board. The PCF8575 (16
+      GPIO, addr 0x20) drives the LCD in 4-bit mode AND both PEC11-4
+      encoders + paddle + spare LEDs, saving a chip. See
+      `Documentation/front_panel_interface.md`.
+- [ ] Adafruit PCF8575 breakout (PID 5904) on hand.
+- [x] ~~PCA9685 for RGB backlight~~ Not planned — the WH2004A gets a
+      single-color backlight driven via a PCF8575 GPIO (or tied always-on
+      through a series resistor).
+- [x] ~~18-pin 0.1" header (or ribbon) for the LCD edge connector.~~ LCD
+      connects to the PCF8575 on the same vector-board module; no
+      separate LCD-header wiring back to the main PCB.
+- [ ] Shielded CAT6 cable + 2× Amphenol RJE1D-188-21401 shielded RJ45
+      sockets on hand (Mouser 523-RJE1D18821401; on the 2026-07-02
+      Mouser cart, 2 pcs).
+- [ ] RJ45 footprint verified against datasheet page 2 — see
+      `Documentation/front_panel_interface.md` "Open items" for the
+      specific dimensions still to check.
 - [ ] Encoder pull-up strategy: rely on ESP32-S3 internal pullups
       (already in `encoders.cpp`) or add external 10 kΩ — internal is
       enough for short on-board wiring, external preferred for ≥30 cm
-      runs.
+      runs. Note: the two mechanical encoders now hang off PCF8575 GPIOs
+      on the front-panel vector board, not the ESP32-S3 directly.
 - [ ] Paddle keyer jack chosen (1/4" TRS vs 3.5 mm); confirm tip = dit,
-      ring = dah, sleeve = GND.
+      ring = dah, sleeve = GND. Paddle wires terminate at the PCF8575 on
+      the front-panel vector board (not routed back over the umbilical
+      as separate conductors).
+- [ ] MBL-600 optical encoder confirmed as the RS-422 line-driver
+      variant. RS-422 receiver (AM26LS32ACN default, or 74LVC2G17 SMT
+      fallback) picked and on hand. Receiver lives on the Interface
+      schematic sheet — not yet drawn; see
+      `Documentation/front_panel_interface.md`.
+- [ ] MCP4728 LDAC pin wired to a spare ESP32-S3 GPIO on the Arduino
+      sheet (required for the one-time EEPROM address reprogram; see
+      Phase 1 collision note).
 
 ### Verify before declaring done
 
@@ -133,8 +155,16 @@ in each phase for power-supply items that gate that phase.
       drives clean 3.3 V signals to the GPIOs — verify on scope. NEVER
       connect the 5 V encoder outputs directly to the S3.
 - [ ] LCD shows boot banner + live VFO / step / power / fault state.
-- [ ] PCA9685 cycles backlight R/G/B as a power-on sanity check, then
-      settles on the chosen idle colour. Skip if monochrome.
+- [ ] RJ45 umbilical wired end-to-end per T568B (see
+      `Documentation/front_panel_interface.md`). Continuity check each
+      of the 8 conductors + shield-drain path before powering the front
+      panel for the first time.
+- [ ] Aluminum shield can fabricated and mounted over the vector-board
+      module WITHOUT touching the cable shield (single-point ground rule
+      — grounding both ends creates a loop through the enclosure).
+- [ ] Cable shield grounded ONLY at the main-PCB end (through RJE1D-188
+      shell tabs). Vector-board GND arrives via pin 5 of the RJ45, NOT
+      via the shield.
 
 ### Procure now for later phases
 
@@ -329,4 +359,6 @@ not a screen-voltage interrupter. See `Documentation/pa_cathode_monitor.md`
 - `Documentation/cw_envelope_keyer.md` — firmware module rationale.
 - `Documentation/pa_cathode_monitor.md` — 7-layer failsafe design.
 - `Documentation/2026-06-08-pa-validation.md` — PA operating point + two-state bias scheme.
+- `Documentation/front_panel_interface.md` — RJ45 umbilical, PCF8575,
+  RJE1D-188 footprint verification checklist, RS-422 receiver TBD.
 - `firmware/main/pin_map.h` — current GPIO assignments.
