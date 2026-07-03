@@ -113,9 +113,34 @@ Schmitt buffer) is **not yet placed** on the schematic. See open items.
 
 ---
 
-## Interrupt handling (decision: none)
+## Interrupt handling (decision: polling now, INT hardware reserved)
 
-**No INT wiring back to the Metro. Firmware polls at 100 Hz.**
+**No INT cable on first build. Firmware polls at 100 Hz. Hardware
+provisions exist to add INT later without touching the PCB.**
+
+Reserved on the analog board (added 2026-07-03):
+
+- **Metro D4** — reserved as `ENC_INT` input (open-drain, active-low).
+  Was previously labeled `D4/DIT` in the Metro symbol; freed up when the
+  paddle moved to the PCF8575.
+- **R102 = 10 kΩ pull-up** from D4 to +3.3 V — makes D4 idle high when
+  no cable is connected, so ERC/DRC and firmware bring-up are clean
+  even without a cable installed.
+- **J50 = 2-pin 0.1"-pitch header** on the arduino sheet, labeled
+  `ENC_INT_CABLE`. Pin 1 = ENC_INT signal, pin 2 = GND. **Leave
+  unpopulated on first build.** When (if) the INT cable is added later,
+  install the header, run a shielded 2-conductor cable from J50 to the
+  vector board, and tie both QT encoder INTs + the PCF8575 INT together
+  at the vector board end.
+- Footprint chosen: `PinHeader_1x02_P2.54mm_Vertical`. Standard 0.1" pin
+  header slot. Fits any 2-pin plug or dupont wires or gets skipped and
+  wired direct.
+
+Firmware bring-up with no cable installed:
+
+    // D4 configured as input; external 10K pull-up holds it high.
+    // No internal pull-up needed. Nothing else to do.
+    // If a cable is added later, configure attachInterrupt(D4, FALLING).
 
 Decision made 2026-07-03 after evaluating whether to add a second
 shielded cable for the wired-OR'd INT signals from the two QT rotary
