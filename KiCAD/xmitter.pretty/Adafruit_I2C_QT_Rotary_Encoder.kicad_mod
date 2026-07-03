@@ -1,0 +1,172 @@
+(footprint "Adafruit_I2C_QT_Rotary_Encoder"
+	(version 20240108)
+	(generator "manual")
+	(generator_version "9.0")
+	(layer "F.Cu")
+	(descr "Adafruit I2C QT Rotary Encoder breakout (PID 4991). Onboard SAMD09 running seesaw firmware handles quadrature decoding, pushbutton debounce, and NeoPixel. Board 1.00 x 1.00 in (25.4 x 25.4 mm), 4 corner mounting holes on 0.90 in spacing (22.86 mm). One 6-pin 0.1 in header row along the bottom edge: VIN, GND, SCL, SDA, INT, 3Vo (left to right). Default I2C address 0x36; address jumpers on the back set 0x36-0x3D. STEMMA QT connectors on the side edges are NOT represented -- user is installing via the included 0.1 in header. Onboard 10K I2C pull-ups, VIN bypass caps, and 3V3 LDO regulator all live on the breakout module.")
+	(tags "adafruit i2c qt rotary encoder seesaw pec11 stemma quadrature")
+	(attr through_hole)
+	(property "Reference" "ENC**"
+		(at 0 -14.0 0)
+		(layer "F.SilkS")
+		(uuid "d0000000-0000-0000-0000-000000000001")
+		(effects
+			(font (size 1 1) (thickness 0.15))
+		)
+	)
+	(property "Value" "Adafruit_I2C_QT_Rotary_Encoder"
+		(at 0 14.0 0)
+		(layer "F.Fab")
+		(uuid "d0000000-0000-0000-0000-000000000002")
+		(effects
+			(font (size 1 1) (thickness 0.15))
+		)
+	)
+	(property "Datasheet" "https://learn.adafruit.com/adafruit-i2c-qt-rotary-encoder"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "d0000000-0000-0000-0000-000000000003")
+		(effects
+			(font (size 1 1) (thickness 0.15))
+		)
+	)
+	(property "Description" "Adafruit I2C QT Rotary Encoder (PID 4991); seesaw SAMD09, addr 0x36-0x3D"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "d0000000-0000-0000-0000-000000000004")
+		(effects
+			(font (size 1 1) (thickness 0.15))
+		)
+	)
+
+	(fp_rect
+		(start -12.7 -12.7)
+		(end 12.7 12.7)
+		(stroke (width 0.12) (type solid))
+		(fill no)
+		(layer "F.SilkS")
+		(uuid "d0000000-0000-0000-0000-000000000010")
+	)
+	(fp_rect
+		(start -13.5 -13.5)
+		(end 13.5 13.5)
+		(stroke (width 0.05) (type solid))
+		(fill no)
+		(layer "F.CrtYd")
+		(uuid "d0000000-0000-0000-0000-000000000011")
+	)
+	(fp_rect
+		(start -12.7 -12.7)
+		(end 12.7 12.7)
+		(stroke (width 0.1) (type solid))
+		(fill no)
+		(layer "F.Fab")
+		(uuid "d0000000-0000-0000-0000-000000000012")
+	)
+	(fp_text user "QT rotary encoder breakout mounts here on 6-pin 0.1\" header"
+		(at 0 -2 0)
+		(layer "F.Fab")
+		(uuid "d0000000-0000-0000-0000-000000000013")
+		(effects
+			(font (size 0.8 0.8) (thickness 0.12))
+		)
+	)
+	(fp_text user "encoder shaft (center, 45 deg on breakout)"
+		(at 0 2 0)
+		(layer "F.Fab")
+		(uuid "d0000000-0000-0000-0000-000000000014")
+		(effects
+			(font (size 0.7 0.7) (thickness 0.1))
+		)
+	)
+	(fp_text user "VIN"
+		(at -6.35 8.5 0)
+		(layer "F.SilkS")
+		(uuid "d0000000-0000-0000-0000-000000000015")
+		(effects
+			(font (size 0.6 0.6) (thickness 0.1))
+		)
+	)
+	(fp_text user "3Vo"
+		(at 6.35 8.5 0)
+		(layer "F.SilkS")
+		(uuid "d0000000-0000-0000-0000-000000000016")
+		(effects
+			(font (size 0.6 0.6) (thickness 0.1))
+		)
+	)
+
+	(pad "" np_thru_hole circle
+		(at -10.16 -10.16)
+		(size 2.5 2.5)
+		(drill 2.5)
+		(layers "*.Cu" "*.Mask")
+		(uuid "d0000000-0000-0000-0000-000000000100")
+	)
+	(pad "" np_thru_hole circle
+		(at 10.16 -10.16)
+		(size 2.5 2.5)
+		(drill 2.5)
+		(layers "*.Cu" "*.Mask")
+		(uuid "d0000000-0000-0000-0000-000000000101")
+	)
+	(pad "" np_thru_hole circle
+		(at -10.16 10.16)
+		(size 2.5 2.5)
+		(drill 2.5)
+		(layers "*.Cu" "*.Mask")
+		(uuid "d0000000-0000-0000-0000-000000000102")
+	)
+	(pad "" np_thru_hole circle
+		(at 10.16 10.16)
+		(size 2.5 2.5)
+		(drill 2.5)
+		(layers "*.Cu" "*.Mask")
+		(uuid "d0000000-0000-0000-0000-000000000103")
+	)
+
+	(pad "VIN" thru_hole rect
+		(at -6.35 10.16)
+		(size 1.7 1.7)
+		(drill 1.0)
+		(layers "*.Cu" "*.Mask")
+		(uuid "d0000000-0000-0000-0000-000000000200")
+	)
+	(pad "GND" thru_hole circle
+		(at -3.81 10.16)
+		(size 1.7 1.7)
+		(drill 1.0)
+		(layers "*.Cu" "*.Mask")
+		(uuid "d0000000-0000-0000-0000-000000000201")
+	)
+	(pad "SCL" thru_hole circle
+		(at -1.27 10.16)
+		(size 1.7 1.7)
+		(drill 1.0)
+		(layers "*.Cu" "*.Mask")
+		(uuid "d0000000-0000-0000-0000-000000000202")
+	)
+	(pad "SDA" thru_hole circle
+		(at 1.27 10.16)
+		(size 1.7 1.7)
+		(drill 1.0)
+		(layers "*.Cu" "*.Mask")
+		(uuid "d0000000-0000-0000-0000-000000000203")
+	)
+	(pad "INT" thru_hole circle
+		(at 3.81 10.16)
+		(size 1.7 1.7)
+		(drill 1.0)
+		(layers "*.Cu" "*.Mask")
+		(uuid "d0000000-0000-0000-0000-000000000204")
+	)
+	(pad "3Vo" thru_hole circle
+		(at 6.35 10.16)
+		(size 1.7 1.7)
+		(drill 1.0)
+		(layers "*.Cu" "*.Mask")
+		(uuid "d0000000-0000-0000-0000-000000000205")
+	)
+)

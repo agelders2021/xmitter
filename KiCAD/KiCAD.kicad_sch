@@ -5,6 +5,18 @@
 	(uuid "d3de40b8-856b-4fbd-829c-f45ffcd55742")
 	(paper "A4")
 	(lib_symbols)
+	(junction
+		(at 91.44 64.77)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "5226ffcf-0f59-460e-bd98-4030c9cc879e")
+	)
+	(junction
+		(at 93.98 68.58)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "7ab34f15-81e1-4db1-87a8-a36afe527385")
+	)
 	(wire
 		(pts
 			(xy 82.55 62.23) (xy 82.55 59.69)
@@ -77,6 +89,36 @@
 	)
 	(wire
 		(pts
+			(xy 49.53 59.69) (xy 49.53 68.58)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "70000001-0000-4000-8000-000000000002")
+	)
+	(wire
+		(pts
+			(xy 260.35 64.77) (xy 260.35 106.68)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "70000001-0000-4000-8000-000000000007")
+	)
+	(wire
+		(pts
+			(xy 254 68.58) (xy 254 106.68)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "70000001-0000-4000-8000-000000000008")
+	)
+	(wire
+		(pts
 			(xy 57.15 62.23) (xy 82.55 62.23)
 		)
 		(stroke
@@ -84,16 +126,6 @@
 			(type default)
 		)
 		(uuid "7bf544fe-d749-4918-98e1-c06fa2f4fe8b")
-	)
-	(wire
-		(pts
-			(xy 53.34 59.69) (xy 53.34 64.77)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "8605dbf6-d8d1-4323-803b-e1b659ffab2c")
 	)
 	(wire
 		(pts
@@ -107,23 +139,33 @@
 	)
 	(wire
 		(pts
-			(xy 91.44 64.77) (xy 91.44 59.69)
+			(xy 53.34 59.69) (xy 53.34 64.77)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "9468e283-9d95-4995-9a75-8d79ae311365")
+		(uuid "8eb7864d-5ff6-4852-a61d-0e712bba3ab3")
 	)
 	(wire
 		(pts
-			(xy 67.31 139.7) (xy 90.17 139.7)
+			(xy 58.42 113.03) (xy 90.17 113.03)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "9ca62658-22c6-4b34-a23b-c0b79758b19a")
+	)
+	(wire
+		(pts
+			(xy 91.44 59.69) (xy 91.44 64.77)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9d2eb582-f86e-41e8-b69c-8ab94b96a865")
 	)
 	(wire
 		(pts
@@ -134,6 +176,16 @@
 			(type default)
 		)
 		(uuid "a4d19240-875c-474a-92ac-1e35d23396ed")
+	)
+	(wire
+		(pts
+			(xy 254 68.58) (xy 93.98 68.58)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a96fc348-80d3-4cef-bf76-cd3752cdac7f")
 	)
 	(wire
 		(pts
@@ -177,16 +229,6 @@
 	)
 	(wire
 		(pts
-			(xy 49.53 59.69) (xy 49.53 68.58)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "c9f10c5b-410a-40af-a279-657f51cde142")
-	)
-	(wire
-		(pts
 			(xy 125.73 106.68) (xy 125.73 73.66)
 		)
 		(stroke
@@ -194,6 +236,16 @@
 			(type default)
 		)
 		(uuid "ca52c38e-d9f7-4e5a-8cbc-e4673625d211")
+	)
+	(wire
+		(pts
+			(xy 91.44 64.77) (xy 260.35 64.77)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ccc439c4-8b3d-469b-8c64-d9e1dc7d279b")
 	)
 	(wire
 		(pts
@@ -207,7 +259,7 @@
 	)
 	(wire
 		(pts
-			(xy 67.31 137.16) (xy 90.17 137.16)
+			(xy 58.42 110.49) (xy 90.17 110.49)
 		)
 		(stroke
 			(width 0)
@@ -244,6 +296,46 @@
 			(type default)
 		)
 		(uuid "fea0aee5-e58f-4fbb-8e07-99535e28ffa9")
+	)
+	(label "SCL"
+		(at 49.53 68.58 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "80000001-0000-4000-8000-000000000002")
+	)
+	(label "SCL"
+		(at 93.98 68.58 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "80000001-0000-4000-8000-000000000004")
+	)
+	(label "SDA"
+		(at 260.35 101.6 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "80000001-0000-4000-8000-000000000007")
+	)
+	(label "SCL"
+		(at 254 99.06 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "80000001-0000-4000-8000-000000000008")
 	)
 	(sheet
 		(at 90.17 106.68)
@@ -324,7 +416,7 @@
 			)
 		)
 		(pin "I_CATHODE_A" input
-			(at 90.17 137.16 180)
+			(at 90.17 110.49 180)
 			(uuid "e6587eab-49fe-46c9-bff2-9c4060397e75")
 			(effects
 				(font
@@ -334,7 +426,7 @@
 			)
 		)
 		(pin "I_CATHODE_B" input
-			(at 90.17 139.7 180)
+			(at 90.17 113.03 180)
 			(uuid "bd2190f0-bb7f-4c23-a676-b80cddac08e7")
 			(effects
 				(font
@@ -482,23 +574,23 @@
 			)
 		)
 		(pin "SDA" bidirectional
-			(at 215.9 116.84 180)
+			(at 260.35 106.68 90)
 			(uuid "50000001-0000-4000-8000-000000000001")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
+				(justify right)
 			)
 		)
 		(pin "SCL" bidirectional
-			(at 215.9 121.92 180)
+			(at 254 106.68 90)
 			(uuid "50000001-0000-4000-8000-000000000002")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
+				(justify right)
 			)
 		)
 		(pin "MBL_A_P" output
@@ -508,7 +600,7 @@
 				(font
 					(size 1.27 1.27)
 				)
-				(justify right)
+				(justify left)
 			)
 		)
 		(pin "MBL_A_N" output
@@ -518,7 +610,7 @@
 				(font
 					(size 1.27 1.27)
 				)
-				(justify right)
+				(justify left)
 			)
 		)
 		(pin "MBL_B_P" output
@@ -528,7 +620,7 @@
 				(font
 					(size 1.27 1.27)
 				)
-				(justify right)
+				(justify left)
 			)
 		)
 		(pin "MBL_B_N" output
@@ -538,7 +630,7 @@
 				(font
 					(size 1.27 1.27)
 				)
-				(justify right)
+				(justify left)
 			)
 		)
 		(instances
@@ -550,7 +642,53 @@
 		)
 	)
 	(sheet
-		(at 33.02 114.3)
+		(at 25.4 147.32)
+		(size 55.88 38.1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "6a4b1c9d-2e3f-4b5a-8c7d-1e2f3a4b5c6d")
+		(property "Sheetname" "Front_Panel"
+			(at 25.4 146.6084 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "front_panel.kicad_sch"
+			(at 25.4 186.0046 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "KiCAD"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742"
+					(page "11")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 24.13 87.63)
 		(size 34.29 30.48)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -566,7 +704,7 @@
 		)
 		(uuid "7fdf4693-bc5c-444f-bf1a-20e5b9bdb92c")
 		(property "Sheetname" "Bias"
-			(at 33.02 113.5884 0)
+			(at 24.13 86.9184 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -577,7 +715,7 @@
 			)
 		)
 		(property "Sheetfile" "bias.kicad_sch"
-			(at 33.02 145.3646 0)
+			(at 24.13 118.6946 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -588,7 +726,7 @@
 			)
 		)
 		(pin "+5V_REF" output
-			(at 39.37 114.3 90)
+			(at 30.48 87.63 90)
 			(uuid "47c974e4-8522-4a6f-b1ac-77c6334a5213")
 			(effects
 				(font
@@ -598,7 +736,7 @@
 			)
 		)
 		(pin "CATHODE_SENSE_A" input
-			(at 59.69 114.3 90)
+			(at 50.8 87.63 90)
 			(uuid "a30e4e97-2763-4c27-b9f7-0f5f76787eb6")
 			(effects
 				(font
@@ -608,7 +746,7 @@
 			)
 		)
 		(pin "CATHODE_SENSE_B" input
-			(at 62.23 114.3 90)
+			(at 53.34 87.63 90)
 			(uuid "c32395d2-6413-4df3-bf15-ad9dba8a985a")
 			(effects
 				(font
@@ -618,7 +756,7 @@
 			)
 		)
 		(pin "GRID_BIAS_A_OUT" output
-			(at 53.34 114.3 90)
+			(at 44.45 87.63 90)
 			(uuid "f83c1de2-f1b8-443c-bdd5-27e735264449")
 			(effects
 				(font
@@ -628,7 +766,7 @@
 			)
 		)
 		(pin "GRID_BIAS_B_OUT" output
-			(at 55.88 114.3 90)
+			(at 46.99 87.63 90)
 			(uuid "18c76887-acc7-4d29-9ffe-fdf5b23a7d6b")
 			(effects
 				(font
@@ -638,7 +776,7 @@
 			)
 		)
 		(pin "GRID_BLOCK_CRASH" output
-			(at 49.53 114.3 90)
+			(at 40.64 87.63 90)
 			(uuid "17d839ff-9c16-4e5e-ad36-58a552f3c206")
 			(effects
 				(font
@@ -648,7 +786,7 @@
 			)
 		)
 		(pin "GRID_CTL_A_IN" input
-			(at 44.45 114.3 90)
+			(at 35.56 87.63 90)
 			(uuid "416cbbcc-d957-425a-b001-df30a7400827")
 			(effects
 				(font
@@ -658,7 +796,7 @@
 			)
 		)
 		(pin "GRID_CTL_B_IN" input
-			(at 46.99 114.3 90)
+			(at 38.1 87.63 90)
 			(uuid "d4fd5dd1-d4b1-48eb-be86-025678502916")
 			(effects
 				(font
@@ -668,7 +806,7 @@
 			)
 		)
 		(pin "I_CATHODE_A" output
-			(at 67.31 137.16 0)
+			(at 58.42 110.49 0)
 			(uuid "26274f5f-389f-4a01-bdce-199e99e999ce")
 			(effects
 				(font
@@ -678,7 +816,7 @@
 			)
 		)
 		(pin "I_CATHODE_B" output
-			(at 67.31 139.7 0)
+			(at 58.42 113.03 0)
 			(uuid "f07c39af-c6f7-4b65-91e3-64530e9b05ca")
 			(effects
 				(font
@@ -858,7 +996,7 @@
 				(justify left)
 			)
 		)
-		(pin "SCL" input
+		(pin "SCL" bidirectional
 			(at 93.98 59.69 270)
 			(uuid "6252c4be-9cce-4e6f-ae7c-f016055842bd")
 			(effects
@@ -868,7 +1006,7 @@
 				(justify left)
 			)
 		)
-		(pin "SDA" input
+		(pin "SDA" bidirectional
 			(at 91.44 59.69 270)
 			(uuid "8cca5948-e9ba-4296-a67a-49a9d285b152")
 			(effects
@@ -943,7 +1081,7 @@
 				(justify left)
 			)
 		)
-		(pin "SCL" output
+		(pin "SCL" bidirectional
 			(at 49.53 59.69 270)
 			(uuid "feb2abf0-c54a-4870-936a-f249b9b3130d")
 			(effects
@@ -953,7 +1091,7 @@
 				(justify left)
 			)
 		)
-		(pin "SDA" output
+		(pin "SDA" bidirectional
 			(at 53.34 59.69 270)
 			(uuid "fa3eb919-3bd7-4393-921f-98d3d112a4af")
 			(effects

@@ -16,7 +16,16 @@ Related docs:
 Related schematic: `KiCAD/interface.kicad_sch` (page 10 of the root
 schematic hierarchy). Was added 2026-07-02.
 
-Related footprint: `KiCAD/xmitter.pretty/Amphenol_RJE1D-188_Horizontal_Shielded.kicad_mod`.
+Related footprints (all custom, in `KiCAD/xmitter.pretty/`):
+
+- `Amphenol_RJE1D-188_Horizontal_Shielded.kicad_mod`
+- `Adafruit_PCF8575_Breakout.kicad_mod`
+- `Adafruit_I2C_QT_Rotary_Encoder.kicad_mod`
+
+Related symbols (in `KiCAD/xmitter.kicad_sym`):
+
+- `Adafruit_PCF8575_Breakout`
+- `Adafruit_I2C_QT_Rotary_Encoder`
 
 ---
 
@@ -27,10 +36,23 @@ Related footprint: `KiCAD/xmitter.pretty/Amphenol_RJE1D-188_Horizontal_Shielded.
   paddle jack, and front-panel status LEDs.
 - **Vector-board module** mounts directly behind the LCD, inside a small
   aluminum shield can that the builder will fabricate. Holds:
-    - Adafruit PCF8575 I²C 16-GPIO expander (drives the LCD in 4-bit mode
-      and reads the two mechanical encoders + paddle + spare LEDs).
-    - Bypass caps: 10 µF electrolytic + 100 nF ceramic on both PCF8575 Vcc
-      and LCD Vcc, physically close to each part.
+    - Adafruit PCF8575 I²C 16-GPIO expander (I²C addr 0x20) drives the LCD
+      in 4-bit mode and reads the paddle + front-panel LEDs. **No longer
+      handles the mechanical encoders** — see next item.
+    - 2× Adafruit I²C QT Rotary Encoder breakouts (PID 4991), one for STEP
+      and one for FUNC. Each carries a PEC11-pinout mechanical encoder
+      whose quadrature decoding + button debounce lives on the breakout's
+      onboard SAMD09 (seesaw firmware). This drops ~200 lines of
+      quadrature/debounce/state-machine code in the ESP32-S3 firmware
+      down to a couple of I²C reads per encoder. Addresses:
+        - STEP: **0x36** (default, no jumpers soldered)
+        - FUNC: **0x37** (A0 address jumper soldered closed on the back
+          of the breakout)
+    - Bypass caps: 10 µF electrolytic + 100 nF ceramic on **LCD Vcc only**,
+      physically close to the LCD's Vcc pin. The PCF8575 and both QT
+      encoder breakouts already have VCC bypassing and 10 kΩ I²C pull-ups
+      on-board (per each breakout's datasheet), so no additional caps at
+      those parts.
 - **Cable**: shielded CAT6 (STP), one end factory-terminated in an RJ45
   plug, the other end cut off and soldered directly into the vector
   board. Cable shield is grounded only at the PCB end (see below).
@@ -91,6 +113,56 @@ Schmitt buffer) is **not yet placed** on the schematic. See open items.
 
 ---
 
+## Interrupt handling (decision: none)
+
+**No INT wiring back to the Metro. Firmware polls at 100 Hz.**
+
+Decision made 2026-07-03 after evaluating whether to add a second
+shielded cable for the wired-OR'd INT signals from the two QT rotary
+encoders and the PCF8575. Skipped because:
+
+- The seesaw SAMD09 inside each QT encoder has a **hardware quadrature
+  decoder with an internal 32-bit accumulator**. Every tick is captured
+  on the seesaw side regardless of when the Metro reads. Polling never
+  misses ticks; it only delays the moment the Metro *notices* a change.
+- At 100 Hz poll rate, the worst-case knob-turn-to-VFO-update latency is
+  10 ms — well below human perception (~50 ms feels instant).
+- I²C bandwidth cost is trivial: STEP + FUNC + PCF8575 reads total
+  ~400 µs per poll cycle; at 100 Hz that's 4 % bus utilization.
+- The Metro is USB-powered, so idle-CPU-load savings from interrupts
+  don't matter here.
+- The RJ45 has no spare conductors; adding INT means either upgrading
+  to a DE-9 connector or running a second shielded cable, both of which
+  cost more mechanical work than the polling loop saves in firmware.
+
+**Velocity-adaptive tuning** (rate-based step multiplier — turn fast,
+each tick moves the VFO more) is handled entirely in firmware from the
+poll loop:
+
+    velocity = (current_position - last_position) / (now - last_poll_us)
+    multiplier = table_lookup(velocity)   // e.g., 1× / 10× / 100×
+    step_hz = delta_ticks * base_step * multiplier
+
+This is exactly how Kenwood / Yaesu / Icom rigs implement their VFO
+accelerator. INT would give sub-poll-period timing on **when** a change
+happened but adds nothing to velocity measurement itself — you still
+compute `Δposition / Δtime` either way.
+
+If firmware measurement later shows polling isn't adequate (unlikely),
+adding INT is a small hardware change:
+
+- Add a wired-OR at the vector board (all three open-drain INTs
+  tied together)
+- Add a second shielded 2-conductor cable (RG-174 or similar) with any
+  small connector (RCA / 2.5 mm TRS / JST)
+- Add a 10 kΩ pull-up to +3.3 V on the Metro side
+- Wire to one spare Metro GPIO
+
+Not blocking the current design. Just documented so future-me knows the
+option exists and why it wasn't taken.
+
+---
+
 ## Open items (verify before PCB fab)
 
 Any of these can wait, but each must be resolved before the analog-board
@@ -121,6 +193,44 @@ check.
 If any of these is wrong, open the footprint in KiCad's footprint editor
 and drag the offending pad to the right coordinate. It's ~1 minute per
 pad.
+
+### PCF8575 breakout footprint verification
+
+`KiCAD/xmitter.pretty/Adafruit_PCF8575_Breakout.kicad_mod`.
+
+- [x] **Board outline (40.64 × 17.78 mm) and mounting-hole X/Y (1.40 × 0.50 in
+      spacing)** — exact from datasheet page 22 fab print. No verification
+      needed.
+- [x] **Pin count, labels, and X spacing (12 pins per row, 2.54 mm pitch)** —
+      exact from the pinout page. No verification needed.
+- [ ] **Pin row Y offset from board edge** — I placed both rows at
+      `y = ±6.35 mm` (0.10 in, same Y as the mounting holes, offset only in
+      X). If the fab print shows a different offset (0.05 in outer edge is
+      also common), measure and drag the 24 pads to the correct Y.
+
+### Adafruit I²C QT Rotary Encoder footprint + pin-order verification
+
+`KiCAD/xmitter.pretty/Adafruit_I2C_QT_Rotary_Encoder.kicad_mod` and the
+`Adafruit_I2C_QT_Rotary_Encoder` symbol in `xmitter.kicad_sym`.
+
+- [x] **Board outline (25.4 × 25.4 mm) and 4 corner mounting holes on 0.90 in
+      spacing** — exact from datasheet page 23 fab print.
+- [ ] **6-pin header order** — I placed the 6 THT pads as
+      **VIN, GND, SCL, SDA, INT, 3Vo** (left to right) based on the datasheet
+      pinout text. The fab-print thumbnail on page 23 is too small to read
+      the silkscreen definitively. Compare against the physical breakout's
+      bottom-edge silkscreen when it arrives; if any pin is out of order,
+      rename the pads in the footprint. The symbol pin numbers use the same
+      names, so a footprint rename automatically re-links.
+- [ ] **Header row Y offset from board edge** — I placed the row at
+      `y = +10.16 mm` (same Y as the bottom mounting holes). Verify from the
+      physical part.
+- [ ] **FUNC encoder A0 jumper** — solder the A0 pad closed on the back of
+      the second breakout to move it from 0x36 to 0x37. Confirmed via I²C
+      scan before installing on the front panel.
+- [ ] **Encoder body clearance** — the PEC11 encoder sits at 45° on the
+      breakout to fit the 1 × 1 in board. Confirm knob/shaft clearance and
+      panel-cutout diameter (encoder shaft nut is standard M7).
 
 ### Schematic — Interface sheet is not yet complete
 
@@ -191,8 +301,15 @@ schematically drawn or wired.
       5V-tolerant I²C inputs, so 3.3 V Metro can talk to it natively
       without translation. Removed from the working Mouser cart.
 - [x] ~~**MCP23017** GPIO expander~~ — determined NOT needed. PCF8575
-      alone covers the LCD (7 pins) + both PEC11-4 encoders (6 pins) +
-      spare (3 pins). Removed from the working Mouser cart.
+      covers the LCD + paddle + panel LEDs; the two mechanical encoders
+      moved to dedicated I²C QT encoder breakouts. Removed from the
+      working Mouser cart.
+- [ ] **2× Adafruit I²C QT Rotary Encoder breakout** — PID 4991, one for
+      STEP and one for FUNC. Solder the A0 jumper on the second unit to
+      move it from 0x36 to 0x37. Not yet ordered.
+- [ ] **2× Bourns PEC11-4 mechanical encoder** (with pushbutton, 24
+      detents / 24 pulses) — solder onto the two QT breakouts. May already
+      be on hand from the pre-QT-encoder plan; if not, order to match.
 
 ### Fabrication (vector board + shield can)
 
@@ -217,9 +334,17 @@ MBL-600 encoder (front panel, +5 V bus power)
   → 2× single-ended 3.3 V quadrature signals
   → ESP32-S3 PCNT peripheral inputs (Arduino sheet)
 
-LCD + PEC11-4 encoders (front panel, +5 V bus power)
+LCD + paddle + panel LEDs (front panel, +5 V bus power)
   → PCF8575 I²C GPIO expander on vector board (also +5 V)
   → 2 conductors through CAT6 (pair 2, SDA and SCL)
   → RJE1D-188 socket on main PCB
   → I²C bus (shared with Si5351 at 0x60 and MCP4728 at 0x62)
   → ESP32-S3 SDA/SCL pins (Arduino sheet)
+
+STEP + FUNC mechanical encoders (front panel, +5 V bus power)
+  → PEC11-pinout encoder on Adafruit I²C QT Rotary Encoder breakout
+  → seesaw SAMD09 does quadrature decoding + button debounce on-board
+  → same 2 I²C conductors through CAT6 (pair 2, SDA and SCL)
+  → RJE1D-188 socket on main PCB
+  → I²C bus (STEP at 0x36, FUNC at 0x37; joins the shared bus)
+  → ESP32-S3 SDA/SCL pins

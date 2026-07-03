@@ -361,4 +361,7 @@ not a screen-voltage interrupter. See `Documentation/pa_cathode_monitor.md`
 - `Documentation/2026-06-08-pa-validation.md` — PA operating point + two-state bias scheme.
 - `Documentation/front_panel_interface.md` — RJ45 umbilical, PCF8575,
   RJE1D-188 footprint verification checklist, RS-422 receiver TBD.
+- `Documentation/pcb_fab_checklist.md` — final pre-flight gate before
+  submitting analog-board gerbers. Consolidates footprint verification,
+  schematic completeness, ERC/DRC, physical, and BOM sign-offs.
 - `firmware/main/pin_map.h` — current GPIO assignments.
