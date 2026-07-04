@@ -1,0 +1,122 @@
+(footprint "SameSky_RCJ-02_RCA_Jack"
+	(version 20240108)
+	(generator "manual")
+	(generator_version "9.0")
+	(layer "F.Cu")
+	(descr "Same Sky (formerly CUI Devices) RCJ-02 series RCA jack, through-hole, panel-mount. 2 electrical contacts: pad 1 = signal (center pin), pad 2 = shield/ground (both mounting feet). PCB layout from datasheet page 2: one 1.70 mm signal hole at origin; two 2.00 mm mounting-foot holes at (+/-5.15, +1.60) mm both wired to pad 2 (they share the shield net internally). Connector body extends in the -Y direction from the pin row -- barrel opening faces away from the mounting feet. Ordering options: RCJ-02-1 (black), -2 (red), -3 (white), -4 (yellow), -5 (blue), -6 (green), -7 (orange). Datasheet: Documentation/Components/RCA_Connector.pdf.")
+	(tags "rca cinch phono jack through-hole panel-mount same-sky cui rcj-02")
+	(attr through_hole)
+	(property "Reference" "J**"
+		(at 0 -4.5 0)
+		(layer "F.SilkS")
+		(uuid "e0000000-0000-0000-0000-000000000001")
+		(effects
+			(font (size 1 1) (thickness 0.15))
+		)
+	)
+	(property "Value" "SameSky_RCJ-02"
+		(at 0 6.5 0)
+		(layer "F.Fab")
+		(uuid "e0000000-0000-0000-0000-000000000002")
+		(effects
+			(font (size 1 1) (thickness 0.15))
+		)
+	)
+	(property "Datasheet" "Documentation/Components/RCA_Connector.pdf"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "e0000000-0000-0000-0000-000000000003")
+		(effects
+			(font (size 1 1) (thickness 0.15))
+		)
+	)
+	(property "Description" "Same Sky RCJ-02 series RCA phono jack, through-hole, panel-mount"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "e0000000-0000-0000-0000-000000000004")
+		(effects
+			(font (size 1 1) (thickness 0.15))
+		)
+	)
+
+	(fp_rect
+		(start -5.5 -3.5)
+		(end 5.5 5.0)
+		(stroke (width 0.12) (type solid))
+		(fill no)
+		(layer "F.SilkS")
+		(uuid "e0000000-0000-0000-0000-000000000010")
+	)
+	(fp_rect
+		(start -6.2 -4.2)
+		(end 6.2 5.7)
+		(stroke (width 0.05) (type solid))
+		(fill no)
+		(layer "F.CrtYd")
+		(uuid "e0000000-0000-0000-0000-000000000011")
+	)
+	(fp_rect
+		(start -5.5 -3.5)
+		(end 5.5 5.0)
+		(stroke (width 0.1) (type solid))
+		(fill no)
+		(layer "F.Fab")
+		(uuid "e0000000-0000-0000-0000-000000000012")
+	)
+	(fp_circle
+		(center 0 -2.0)
+		(end 4.15 -2.0)
+		(stroke (width 0.12) (type solid))
+		(fill no)
+		(layer "F.SilkS")
+		(uuid "e0000000-0000-0000-0000-000000000013")
+	)
+	(fp_text user "SameSky RCJ-02 RCA jack"
+		(at 0 3.5 0)
+		(layer "F.Fab")
+		(uuid "e0000000-0000-0000-0000-000000000014")
+		(effects
+			(font (size 0.7 0.7) (thickness 0.1))
+		)
+	)
+	(fp_text user "sig"
+		(at -1.7 0 0)
+		(layer "F.SilkS")
+		(uuid "e0000000-0000-0000-0000-000000000015")
+		(effects
+			(font (size 0.5 0.5) (thickness 0.08))
+		)
+	)
+	(fp_text user "GND"
+		(at 0 2.4 0)
+		(layer "F.SilkS")
+		(uuid "e0000000-0000-0000-0000-000000000016")
+		(effects
+			(font (size 0.5 0.5) (thickness 0.08))
+		)
+	)
+
+	(pad "1" thru_hole rect
+		(at 0 0)
+		(size 2.4 2.4)
+		(drill 1.7)
+		(layers "*.Cu" "*.Mask")
+		(uuid "e0000000-0000-0000-0000-000000000100")
+	)
+	(pad "2" thru_hole circle
+		(at -5.15 1.6)
+		(size 2.8 2.8)
+		(drill 2.0)
+		(layers "*.Cu" "*.Mask")
+		(uuid "e0000000-0000-0000-0000-000000000101")
+	)
+	(pad "2" thru_hole circle
+		(at 5.15 1.6)
+		(size 2.8 2.8)
+		(drill 2.0)
+		(layers "*.Cu" "*.Mask")
+		(uuid "e0000000-0000-0000-0000-000000000102")
+	)
+)
