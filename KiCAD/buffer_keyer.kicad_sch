@@ -2781,6 +2781,17 @@
 		)
 		(uuid "add7600f-d558-468d-98cd-18eab43bff9f")
 	)
+	(text "I2C reaches MCP4728 via STEMMA QT cables.\nInitial setup brings I2C from Arduino to MCP4728.\nOnce address is set to 0x62 add STEMMA QT cable out\nto Si5351 which then routes I2C to PCB."
+		(exclude_from_sim no)
+		(at 46.482 154.94 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "e6e1a990-98f3-429e-a54e-d0acd364fb20")
+	)
 	(junction
 		(at 231.14 121.92)
 		(diameter 0)
@@ -2914,6 +2925,12 @@
 		(uuid "8fe1812f-334b-4232-b171-df7199dd3ded")
 	)
 	(junction
+		(at 64.77 105.41)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "90e8ac31-ddd5-4105-bf98-5fbbb339cc34")
+	)
+	(junction
 		(at 236.22 73.66)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -2948,6 +2965,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "bf5f2265-671a-4315-b626-39d62d0c6eae")
+	)
+	(junction
+		(at 97.79 105.41)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "c8896823-7e00-4658-a076-2043f6c47994")
 	)
 	(junction
 		(at 34.29 132.08)
@@ -2996,6 +3019,10 @@
 		(uuid "43eb92e5-b8ef-412e-adc3-7d36e0e4770c")
 	)
 	(no_connect
+		(at 48.26 137.16)
+		(uuid "5bdb179b-5857-44b0-81f8-1b080c234866")
+	)
+	(no_connect
 		(at 196.85 68.58)
 		(uuid "8c7b6eb2-d034-4401-8fa4-b38776e16ce6")
 	)
@@ -3006,6 +3033,10 @@
 	(no_connect
 		(at 196.85 58.42)
 		(uuid "cf100a21-e2ab-428c-b257-722ae2c80f7f")
+	)
+	(no_connect
+		(at 48.26 139.7)
+		(uuid "dd58f1b8-738a-448e-9139-0922c8ff4e08")
 	)
 	(no_connect
 		(at 179.07 71.12)
@@ -3944,17 +3975,6 @@
 		)
 		(uuid "21503f9d-836e-4243-8c07-926ad978f684")
 	)
-	(hierarchical_label "SDA"
-		(shape bidirectional)
-		(at 48.26 139.7 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "5beec4e2-eee3-4eba-bfcd-a7b99afad130")
-	)
 	(hierarchical_label "SCK"
 		(shape input)
 		(at 127 60.96 180)
@@ -3987,17 +4007,6 @@
 			(justify left)
 		)
 		(uuid "b0edb429-2543-495c-89d9-f62b69bf4048")
-	)
-	(hierarchical_label "SCL"
-		(shape bidirectional)
-		(at 48.26 137.16 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "de696dc7-2db4-4b94-a383-f664cb0cbd7a")
 	)
 	(hierarchical_label "RAW_RF_IN"
 		(shape input)
@@ -4116,6 +4125,87 @@
 			(project "KiCAD"
 				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9b3a5939-c591-4389-8331-709ea54f36b7"
 					(reference "#PWR043")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 97.79 109.22 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "036bf595-f070-4f15-9a8b-6d79e1c628b7")
+		(property "Reference" "C39"
+			(at 90.932 110.49 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "100nF"
+			(at 90.932 113.03 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+			(at 98.7552 113.03 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 97.79 109.22 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Unpolarized capacitor"
+			(at 97.79 109.22 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "cc040f03-609a-4f18-82dc-098fc6dd3ca1")
+		)
+		(pin "2"
+			(uuid "306a6e8f-6c72-4a5d-9b25-ae775098ac64")
+		)
+		(instances
+			(project "KiCAD"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9b3a5939-c591-4389-8331-709ea54f36b7"
+					(reference "C39")
 					(unit 1)
 				)
 			)
@@ -6467,7 +6557,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "xmitter:Adafruit_MCP4728_Breakout"
 			(at 58.42 138.43 0)
 			(hide yes)
 			(show_name no)
@@ -7442,6 +7532,84 @@
 		)
 	)
 	(symbol
+		(lib_id "power:GND")
+		(at 97.79 113.03 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "756fae20-48ed-481a-b5dd-3e386efe33b2")
+		(property "Reference" "#PWR0115"
+			(at 97.79 119.38 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 97.79 118.11 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 97.79 113.03 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 97.79 113.03 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 97.79 113.03 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "f13961a3-d8ac-4560-a49d-f9bb58512e83")
+		)
+		(instances
+			(project "KiCAD"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9b3a5939-c591-4389-8331-709ea54f36b7"
+					(reference "#PWR0115")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:C_Polarized")
 		(at 231.14 118.11 0)
 		(unit 1)
@@ -7877,6 +8045,84 @@
 			(project "KiCAD"
 				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9b3a5939-c591-4389-8331-709ea54f36b7"
 					(reference "U4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 64.77 113.03 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "825882f7-23ee-4794-b2ce-db6e484bc613")
+		(property "Reference" "#PWR0114"
+			(at 64.77 119.38 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 64.77 118.11 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 64.77 113.03 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 64.77 113.03 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 64.77 113.03 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "4911d8f9-0497-45cb-9b62-153cb074f7fd")
+		)
+		(instances
+			(project "KiCAD"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9b3a5939-c591-4389-8331-709ea54f36b7"
+					(reference "#PWR0114")
 					(unit 1)
 				)
 			)
@@ -11862,6 +12108,88 @@
 			(project "KiCAD"
 				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9b3a5939-c591-4389-8331-709ea54f36b7"
 					(reference "R7")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 64.77 109.22 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "fc5b2d04-e909-4bde-8847-68da4dfdfa25")
+		(property "Reference" "C40"
+			(at 68.58 107.9499 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "100nF"
+			(at 68.58 110.4899 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+			(at 65.7352 113.03 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 64.77 109.22 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Unpolarized capacitor"
+			(at 64.77 109.22 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "adeda0e9-c641-4a0d-bf3c-550ca685ce23")
+		)
+		(pin "2"
+			(uuid "8349f3be-a667-44e9-b6e1-967545e05653")
+		)
+		(instances
+			(project "KiCAD"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9b3a5939-c591-4389-8331-709ea54f36b7"
+					(reference "C40")
 					(unit 1)
 				)
 			)
