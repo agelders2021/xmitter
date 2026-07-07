@@ -107,20 +107,18 @@ BLOCKERS -- must fix before layout
 
 [ ] B4. Fix real ERC bugs (5 items):
 
-        [ ] B4a. VFO sheet: C_coup (Device:C, 10nF at 86.36, 62.23) has
-                 a text-string reference instead of an annotated Cn. Rename
-                 or run Tools -> Annotate Schematic to fix.
+        [x] B4a. VFO sheet: C_coup -> renamed to C_IN1 (10nF at 86.36,
+                 62.23). Resolved 2026-07-07.
 
-        [ ] B4b. Duplicate R6: R6 exists as 270 ohms on VFO (204.47, 69.85)
-                 AND as 2K7 on buffer_keyer (106.68, 96.52). Two different
-                 physical parts sharing a designator. Easiest fix: Tools ->
-                 Annotate Schematic -> "Reset existing annotations" and let
-                 KiCad re-annotate the whole project. Handles B4a too.
+        [x] B4b. Duplicate R6: VFO's 270R R6 renamed to RD1. Buffer_keyer
+                 keeps R6 (2K7) as the sole R6 in the project. Resolved
+                 2026-07-07.
 
-        [ ] B4c. buffer_keyer sheet: J2 is a 2-pin connector at (21.59,
-                 78.74) with no value assigned ("Conn_01x02_Pin" placeholder)
-                 and pin 2 unwired. Either wire it to its intended net or
-                 delete it. Decide what J2 is FOR before deciding.
+        [x] B4c. J2 pin 2 marked NC (no_connect flag at 26.67, 81.28
+                 matches J2 pin 2). Resolved 2026-07-07. Note: J2's Value
+                 field still says "Conn_01x02_Pin" (placeholder). Rename
+                 the Value to whatever role J2 plays if it isn't going to
+                 be deleted.
 
         [x] B4d. TP2 (MOD_RF+) -- resolved 2026-07-07. User verified in
                  KiCad: junction dots + wires connect TP2 pin to
