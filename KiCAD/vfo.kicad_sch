@@ -1766,9 +1766,10 @@
 		)
 		(uuid "fa4834cd-a373-489f-b212-3bd593e0c75c")
 	)
-	(hierarchical_label "3V3"
+	(global_label "3V3"
 		(shape output)
 		(at 33.02 60.96 180)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1776,10 +1777,20 @@
 			(justify right)
 		)
 		(uuid "09a6f6fa-c4db-49e7-a974-e00e20a026f3")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 33.02 60.96 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 	)
-	(hierarchical_label "RAW_RF_OUT"
+	(global_label "RAW_RF"
 		(shape output)
 		(at 215.9 66.04 0)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1787,6 +1798,15 @@
 			(justify left)
 		)
 		(uuid "65563a0a-77bc-4ef1-94d3-8c739872e0f2")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 215.9 66.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 	)
 	(symbol
 		(lib_id "power:GND")

@@ -6,38 +6,46 @@ Deep-dive audit of the analog control board (arduino + bias + buffer_keyer
 severity. Check off as you go.
 
 
+UPDATES SINCE FIRST AUDIT
+==========================
+
+Path A executed: all hierarchical_label instances converted to global_label
+across the six active sheets, and the root sheet had its now-vestigial
+sheet pins, wires, junctions, and stitching labels stripped. Also renamed
+three _OUT/_IN pairs to unified names so same-name globals auto-connect:
+
+  GRID_CTL_A_OUT + GRID_CTL_A_IN -> GRID_CTL_A
+  GRID_CTL_B_OUT + GRID_CTL_B_IN -> GRID_CTL_B
+  RAW_RF_OUT     + RAW_RF_IN     -> RAW_RF
+
+Every cross-sheet net now shares one name across all sheets that touch it.
+Verified matrix:
+  3V3               buffer_keyer, vfo
+  CS_DAC            arduino, buffer_keyer
+  GRID_BLOCK_CRASH  arduino, bias
+  GRID_CTL_A/B      bias, buffer_keyer
+  I_CATHODE_A/B     arduino, bias
+  LDAC_4728         arduino, buffer_keyer
+  MBL600_A/B        arduino, interface
+  MOSI, SCK         arduino, buffer_keyer
+  RAW_RF            buffer_keyer, vfo
+  RESET_N           arduino, buffer_keyer
+  SDA, SCL          arduino, buffer_keyer, interface
+
+Consequences for this punch list:
+  - Section B1 (root sheet pins + wires) is now fully resolved.
+  - L1 (RESET_N linkage) is resolved -- both sheets use the same global.
+  - L2 (+5V_REF root pin) is moot -- root pins are all gone.
+  - GRID_CTL_A false alarm: my earlier trace flagged bias:GRID_CTL_A as
+    "unwired." False positive. The label sits directly on R_PADA's left
+    pin (69.85, 86.36) which is a valid KiCad connection idiom. Full
+    verified path: MCP4728 U8 VC -> R_PADA -> OPA454 U5 IN+ + Q3 drain.
+
+
 BLOCKERS -- must fix before layout
 ===================================
 
-[ ] B1a. Add root-sheet pins for Arduino:
-        - SDA
-        - SCL
-        - MBL600_A
-        - MBL600_B
-        - GRID_BLOCK_CRASH
-        - RESET_N (or resolve L1 first)
-
-[ ] B1b. Add root-sheet pins for VFO_Buffer_keyer:
-        - GRID_CTL_A_OUT
-        - GRID_CTL_B_OUT
-        - RESET_N (or resolve L1 first)
-
-[ ] B1c. Add root-sheet pins for Interface:
-        - MBL600_A
-        - MBL600_B
-
-[ ] B1d. REMOVE root-sheet pins from VFO:
-        - SCL     (Si5351 now gets I2C via STEMMA cable)
-        - SDA     (same)
-
-[ ] B1e. On the root sheet, draw wires to link the newly-added pins between
-        the sheets that share each signal:
-        - Arduino SDA/SCL   <-> VFO_Buffer_keyer SDA/SCL   (I2C bus continues
-                                to main-board PCF8575 U17 at 0x21)
-        - Arduino GRID_BLOCK_CRASH  <-> Bias GRID_BLOCK_CRASH  (fault int)
-        - Arduino MBL600_A/B  <-> Interface MBL600_A/B  (encoder data)
-        - VFO_Buffer_keyer GRID_CTL_A_OUT/B_OUT  <-> Bias GRID_CTL_A_IN/B_IN
-                                (keyed grid drive path)
+[x] B1a-e. Root sheet pins + stitching wires -- resolved by Path A globals.
 
 [ ] B2. Wire J10 paddle connector on Arduino sheet:
         - J10 pin 1 -> Metro D4 (labeled D4/DIT)
@@ -98,7 +106,7 @@ HIGH PRIORITY -- decide before ordering PCB
                 the supply project, and let the supply project's own
                 monostable do the enforcement.
 
-        Once decided, add the connector footprint and hierarchical label
+        Once decided, add the connector footprint and a global label
         on the arduino sheet.
 
 [ ] H2. C3 (+12V rail source)
@@ -134,10 +142,10 @@ HIGH PRIORITY -- decide before ordering PCB
 MEDIUM -- readability / documentation
 ======================================
 
-[ ] M1. Add HV_ENABLE net label on the arduino sheet along the wire from
+[ ] M1. Add HV_ENABLE global label on the arduino sheet along the wire from
         U17 pin P14 to Q5 gate.
 
-[ ] M2. Add HV_HEARTBEAT net label on the arduino sheet along the wire
+[ ] M2. Add HV_HEARTBEAT global label on the arduino sheet along the wire
         from U17 pin P12 to U18 pin 4 (+TR_A).
 
 [ ] M3. Update the stale I2C-topology text note on the arduino sheet. The
@@ -152,31 +160,33 @@ MEDIUM -- readability / documentation
              the RJ45 pins). Si5351 breakout is CHAINED off MCP4728's
              STEMMA-OUT port, installed AFTER the one-time EEPROM reprogram.
 
-[ ] M4. 3V3 vs +3.3V naming inconsistency across sheets. Buffer_keyer and
-        VFO use hierarchical label "3V3"; arduino uses power symbol "+3.3V".
-        These are separate nets today.
-        [ ] Decide: unify to +3.3V (drop 3V3 hierarchical labels, use power
-            symbols) OR document that they are intentionally isolated
-            power domains (STEMMA-cabled Si5351 as its own domain).
+[ ] M4. 3V3 vs +3.3V naming: buffer_keyer and VFO use the global label
+        "3V3", arduino uses power symbol "+3.3V". These are still separate
+        nets after Path A.
+        [ ] Decide: unify by dropping the 3V3 global label on both sheets
+            and replacing with the "+3.3V" power symbol, OR document that
+            they are intentionally isolated power domains (STEMMA-cabled
+            Si5351 as its own domain).
 
 [ ] M5. TX_LED (Metro D6) not implemented. Decide-and-document:
         [ ] Confirm no TX indicator LED is planned (deferred / not needed).
         [ ] If wanted later, plan on adding a red LED + series R from D6
             to GND (or LED anode to +3.3V, cathode to D6, sink-driven).
 
+[ ] M6. (Cosmetic) On the bias sheet, GRID_CTL_A uses the label-at-pin-origin
+        idiom (label directly on R_PADA left pin, no visible wire).
+        GRID_CTL_B uses a short wire from the label to R_PADB. Both work,
+        but GRID_CTL_A silently breaks if R_PADA ever moves. Consider
+        adding a short wire to match the GRID_CTL_B style for robustness.
+
 
 LOW -- deferred but worth noting
 =================================
 
-[ ] L1. RESET_N used on both Arduino and VFO_Buffer_keyer sheets but not
-        linked. Decide:
-        [ ] Link them (add root sheet pins on both + root-sheet wire)
-        [ ] Rename one so they're clearly separate signals
+[x] L1. RESET_N -- resolved by Path A. Both sheets share the global.
 
-[ ] L2. Bias sheet root pin +5V_REF has no other consumer.
-        [ ] If used only inside Bias, delete the root sheet pin.
-        [ ] If planned for cross-sheet (e.g., Metro ADC reference), leave
-            and note the intended consumer.
+[x] L2. +5V_REF -- resolved by Path A. No root sheet pins exist anymore;
+        the label is local to bias only, which is fine.
 
 [ ] L3. Verify custom footprint physical dimensions (from pcb_fab_checklist):
         [ ] Amphenol RJE1D-188 (RJ45) -- 5 items already flagged
@@ -196,8 +206,8 @@ CONFIRMED SOUND -- no action needed
 - CD14538B RC timing (R30 470K + C41 1uF -> 470 ms)
 - CD14538B power ties, reset A/B, unused-section ties
 - All I_CATHODE and MBL600 signal chains within their sheets
-- Bias sheet root pins line up with child sheet labels (only sheet that's
-  fully consistent)
+- Bias sheet GRID_CTL_A/B chain: MCP4728 U8 VC/VD -> R_PADA/B (1K padding)
+  -> OPA454 U5/U10 IN+ -> Q3/Q2 drain (crash slam). Verified.
 - All hierarchical labels within the buffer_keyer, vfo, and interface
   sheets are internally consistent
 - External flyback diodes at each relay coil noted in text -- planned for
@@ -209,18 +219,19 @@ CONFIRMED SOUND -- no action needed
 RECOMMENDED WORK ORDER
 =======================
 
-1. B1 (root sheet pins + wires)          -- batch S-expression edit
-2. B2 (paddle wiring)                    -- small, hands-on
-3. H1 + H2 decisions, then add connectors -- one edit pass
-4. H3 (PCF8575 supply verification)      -- read u2 datasheet + edit if needed
-5. B3 (footprint assignments)            -- can partly run assign_cap_footprints.py
-6. M1, M2, M3 (labels + text note)       -- cosmetic
+1. B2 (paddle wiring)                    -- small, hands-on
+2. H1 + H2 decisions, then add connectors -- one edit pass
+3. H3 (PCF8575 supply verification)      -- read u17 datasheet + edit if needed
+4. B3 (footprint assignments)            -- can partly run assign_cap_footprints.py
+5. M1, M2, M3, M6 (labels + text note + wire) -- cosmetic
+6. M4 (3V3 vs +3.3V) decision            -- may cascade to Path A cleanup
 7. L3 (custom footprint physical check)  -- when parts arrive
 
 
 VERDICT
 ========
 
-Not ready for layout yet. The netlist will fail ERC due to B1. Everything
-in the BLOCKERS section is straightforward once decided; nothing found in
-this audit warrants a schematic redesign.
+BLOCKERS is much shorter after Path A + label renames. Remaining B2 and B3
+are straightforward. HIGH-priority items are all decisions rather than
+mysteries. Ready to move to layout once B2/B3 are done and H1/H2/H3 are
+decided; nothing found warrants a schematic redesign.
