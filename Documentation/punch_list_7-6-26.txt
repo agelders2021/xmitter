@@ -3,7 +3,8 @@ Pre-Layout Punch List -- 2026-07-06
 
 Deep-dive audit of the analog control board (arduino + bias + buffer_keyer
 + vfo + interface sheets) before starting PCB layout. Items are grouped by
-severity. Check off as you go.
+severity. Check off as you go -- change "[ ]" to "[x]" in any text editor,
+optionally with a "-- resolved" note explaining what was done.
 
 
 UPDATES SINCE FIRST AUDIT
@@ -42,50 +43,114 @@ Consequences for this punch list:
     verified path: MCP4728 U8 VC -> R_PADA -> OPA454 U5 IN+ + Q3 drain.
 
 
+ERC PASS RESULTS (2026-07-06, from KiCAD/ERC.rpt)
+==================================================
+
+74 errors + 2 warnings. Categorized: 5 real bugs, ~8-10 clearable by
+adding PWR_FLAG symbols, rest are known non-issues (unused pins on chips
+by design, STEMMA-cabled power for the Si5351, and the entire Front_Panel
+sheet which is deferred). New action items B4 and B5 below; existing
+items H1, H2, H3 already cover the intent of some ERC complaints.
+
+
 BLOCKERS -- must fix before layout
 ===================================
 
 [x] B1a-e. Root sheet pins + stitching wires -- resolved by Path A globals.
 
 [ ] B2. Wire J10 paddle connector on Arduino sheet:
-        - J10 pin 1 -> Metro D4 (labeled D4/DIT)
-        - J10 pin 2 -> Metro D5 (labeled D5/DAH)
-        - Update the text note to remove the "D5 and D6 can be swapped"
-          claim. D6 is TX_LED, not a paddle pin. If you want swapability,
-          the correct pair is D4/D5.
+        J10 is a 2-pin THT header that mates to a 2-conductor 1/4" phone
+        plug going out to the front panel (single-contact key or single-
+        lever paddle -- one signal + shield-return).
 
-[ ] B3. Assign footprints to these components:
+        Wire:
+        - J10 pin 1 (tip)    -> Metro GPIO for key input (D5 suggested;
+                                  see below)
+        - J10 pin 2 (sleeve) -> GND
+
+        Metro pin choice:
+        - AVOID D4 -- reserved as encoder INT (currently at J5 coax)
+        - AVOID D6 -- TX_LED is not firmware-driven (see M5)
+        - AVOID A0-A4 -- ADC2 pins, WiFi conflict
+        - D5 is available and unused. The library-symbol alias "D5/DAH"
+          is just an Adafruit-doc naming hint; firmware treats it as a
+          plain digital input with pull-up.
+
+        Update the arduino sheet's paddle text note. Current text:
+          "J10 connects to the paddle. Function of D5 and D6 can be
+          swapped in software."
+        Rewrite to match the actual design:
+          "J10 = paddle/key input via front-panel 2-conductor 1/4-inch
+          phone jack. Tip -> D5 (INPUT_PULLUP), sleeve -> GND."
+
+[x] B3. Footprints assigned -- resolved 2026-07-07.
 
         Arduino sheet:
-        [ ] R30 (470K, CD14538B timing)  -> Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal
-                                            (or whatever pattern matches
-                                            other 1/4W THT resistors on this
-                                            sheet)
-        [ ] C41 (1uF, CD14538B timing)   -> Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm
-                                            (or the matching THT ceramic footprint)
-        [ ] C42 (100nF, U18 VDD bypass)  -> Capacitor_THT:C_Disc_D3.8mm_W2.6mm_P2.50mm
-                                            (100nF disc that's already used
-                                            elsewhere on this sheet)
-        [ ] C43 (10uF, U18 bulk)         -> Capacitor_THT:CP_Radial_D5.0mm_P2.50mm
-                                            (or matching polarized cap
-                                            footprint)
+        [x] R30 (470K)  -> Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal
+        [x] C41 (1uF)   -> Capacitor_THT:C_Rect_L7.2mm_W4.5mm_P5.00mm
+        [x] C42 (100nF) -> Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm
+        [x] C43 (10uF)  -> Capacitor_THT:CP_Radial_D5.0mm_P2.00mm
 
         Bias sheet:
-        [ ] J11 (GRID_BIAS)      2-pin -> Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical
-        [ ] J12 (CATHODE_SENSE)  2-pin -> same
-        [ ] J14 (unnamed)        2-pin -> same (decide role first)
+        [x] J11 (GRID_BIAS)     -> Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical
+        [x] J12 (CATHODE_SENSE) -> same
+        [x] J14 (2-pin)         -> same (role still to decide, but header
+                                   footprint is a safe default)
 
         Buffer_keyer sheet:
-        [ ] J13 (5-pin, unnamed) -> Connector_PinHeader_2.54mm:PinHeader_1x05_P2.54mm_Vertical
-                                    (decide role first)
+        [x] J13 (5-pin)         -> Connector_PinHeader_2.54mm:PinHeader_1x05_P2.54mm_Vertical
 
         Interface sheet:
-        [ ] J15 (3-pin, unnamed) -> Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical
-                                    (decide role first)
+        [x] J15 (3-pin)         -> Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical
 
-        NOTE: Rerunning tools/assign_cap_footprints.py after this pass should
-        pick up C41, C42, C43. R30 is a resistor, so it won't -- assign by
-        hand.
+        Only U2 (Metro) remains footprint-less, intentionally off-PCB.
+
+[ ] B4. Fix real ERC bugs (5 items):
+
+        [ ] B4a. VFO sheet: C_coup (Device:C, 10nF at 86.36, 62.23) has
+                 a text-string reference instead of an annotated Cn. Rename
+                 or run Tools -> Annotate Schematic to fix.
+
+        [ ] B4b. Duplicate R6: R6 exists as 270 ohms on VFO (204.47, 69.85)
+                 AND as 2K7 on buffer_keyer (106.68, 96.52). Two different
+                 physical parts sharing a designator. Easiest fix: Tools ->
+                 Annotate Schematic -> "Reset existing annotations" and let
+                 KiCad re-annotate the whole project. Handles B4a too.
+
+        [ ] B4c. buffer_keyer sheet: J2 is a 2-pin connector at (21.59,
+                 78.74) with no value assigned ("Conn_01x02_Pin" placeholder)
+                 and pin 2 unwired. Either wire it to its intended net or
+                 delete it. Decide what J2 is FOR before deciding.
+
+        [x] B4d. TP2 (MOD_RF+) -- resolved 2026-07-07. User verified in
+                 KiCad: junction dots + wires connect TP2 pin to
+                 MOD_RF_OUT+ net.
+
+        [x] B4e. TP7 (MOD_RF-) -- resolved 2026-07-07. Same as B4d --
+                 junction + short wire electrically connects TP7 to
+                 MOD_RF_OUT-. TP3 = SCL is intentional (I2C-bus probe
+                 for debug access).
+
+[ ] B5. Add PWR_FLAG symbols to silence "power_pin_not_driven" errors.
+
+        Currently zero PWR_FLAG components exist project-wide. Each
+        externally-sourced rail needs one PWR_FLAG somewhere on the sheet
+        where the rail arrives.
+
+        [ ] B5a. buffer_keyer: PWR_FLAG on +3.3V, placed at the MCP4728
+                 breakout VIN pin. STEMMA-QT cable is the physical source.
+        [ ] B5b. buffer_keyer: PWR_FLAG on VEE. VEE is the negative rail
+                 for MC1496 and other analog stages -- arrives externally.
+        [ ] B5c. buffer_keyer: PWR_FLAG on +12V, placed at whatever
+                 connector/point ends up sourcing +12V (see H2 -- the
+                 decision cascades to this location).
+        [ ] B5d. bias: PWR_FLAG on -90V, placed at the incoming -90V point.
+                 Arrives from the separate power-supply project.
+        [ ] B5e. arduino: PWR_FLAG on +12V if the source lands here (again,
+                 depends on H2 decision).
+        [ ] B5f. arduino: PWR_FLAG on +3.3V if the source lands here (may
+                 not be needed if all +3.3V is sourced via STEMMA at
+                 buffer_keyer's MCP4728 VIN -- verify after B5a).
 
 
 HIGH PRIORITY -- decide before ordering PCB
@@ -168,10 +233,13 @@ MEDIUM -- readability / documentation
             they are intentionally isolated power domains (STEMMA-cabled
             Si5351 as its own domain).
 
-[ ] M5. TX_LED (Metro D6) not implemented. Decide-and-document:
-        [ ] Confirm no TX indicator LED is planned (deferred / not needed).
-        [ ] If wanted later, plan on adding a red LED + series R from D6
-            to GND (or LED anode to +3.3V, cathode to D6, sink-driven).
+[x] M5. TX_LED -- resolved by design decision (not firmware-driven).
+        The front-panel TX LED will be wired in parallel with the T/R
+        relay coil (with an appropriate series R for the coil voltage).
+        When firmware energizes T/R, the coil pulls in and the LED
+        lights automatically. No Metro GPIO needed.
+        The "D6/TX_LED" alias in the Metro library symbol is just an
+        Adafruit-doc naming hint; D6 remains available for future use.
 
 [ ] M6. (Cosmetic) On the bias sheet, GRID_CTL_A uses the label-at-pin-origin
         idiom (label directly on R_PADA left pin, no visible wire).
@@ -216,22 +284,67 @@ CONFIRMED SOUND -- no action needed
   references)
 
 
+ERC NON-ISSUES (categorized once, so we don't re-check next run)
+================================================================
+
+After B4 and B5 are done, the remaining ~55 ERC errors are all known,
+expected non-issues. You can right-click each in the KiCad ERC panel ->
+Exclude to hide them from future runs.
+
+Category A -- Unused chip pins by design:
+  - U2 A0-A4 (Metro ADC2 pins; unused because of WiFi conflict)  ...5
+  - U2 AREF (unused ADC reference)                              ...1
+  - U18 pin 7 ~Q_A (we only use Q_A, not the inverted output)    ...1
+  - U18 pins 9, 10, 14, 15 (unused CD14538B section B)           ...4
+  - U17 P0-P11 + IRQ (unused main-board PCF8575 expander pins)   ...9
+  - U17 A0-A2 (hardware jumpers on the Adafruit breakout; the
+    schematic pins remain NC but the breakout handles the tie
+    physically) -- clears after B5a adds PWR_FLAG on +3.3V       ...6
+  - U1 CLK1, CLK2 (Si5351 only uses CLK0 for the 14 MHz VFO)     ...2
+
+Category B -- STEMMA-QT cable is off-schematic:
+  - U1 VIN, GND on VFO sheet (Si5351 gets +3.3V and GND via the
+    STEMMA cable chained from MCP4728; no PCB trace exists)      ...2
+
+Category C -- Deferred sheet (populate in Phase 3+):
+  - Entire Front_Panel sheet: U15 PCF8575 all pins              ...28
+
+Category D -- Stub sheets (Phase 3-5 destinations):
+  - MOD_RF_OUT+ / MOD_RF_OUT- "isolated_pin_label" warnings --
+    destination Driver / PA sheets are empty stubs               ...2
+
+Category E -- Pin-type quirk in the Metro symbol:
+  - U2 5V pin flagged as "power_output" collides with U9 (LM7805)
+    VO pin also typed "power_output." In practice the Metro's 5V
+    pin can accept external 5V input; ERC just sees both as sources.
+    Either add an ERC directive on this violation or change the
+    Metro symbol's 5V pin type to power_input.                    ...1
+
+
 RECOMMENDED WORK ORDER
 =======================
 
-1. B2 (paddle wiring)                    -- small, hands-on
-2. H1 + H2 decisions, then add connectors -- one edit pass
-3. H3 (PCF8575 supply verification)      -- read u17 datasheet + edit if needed
-4. B3 (footprint assignments)            -- can partly run assign_cap_footprints.py
-5. M1, M2, M3, M6 (labels + text note + wire) -- cosmetic
-6. M4 (3V3 vs +3.3V) decision            -- may cascade to Path A cleanup
-7. L3 (custom footprint physical check)  -- when parts arrive
+1. B4 (real ERC bugs) -- annotate to fix C_coup + R6 dup, wire TP2/TP7,
+   decide J2. About 5 min in KiCad.
+2. B5 (PWR_FLAG symbols) -- 4-6 flags total. About 5 min.
+3. Rerun ERC -- should drop from 74 errors + 2 warnings to about 55
+   errors, all in known-non-issue categories above. Right-click ->
+   Exclude to hide them.
+4. B2 (paddle wiring) -- small hands-on.
+5. H1 + H2 decisions, then add connectors -- one edit pass. H2 decision
+   also unblocks placing the +12V PWR_FLAG (B5c/B5e).
+6. H3 (PCF8575 supply verification) -- read U17 datasheet + edit if needed.
+7. B3 (footprint assignments) -- can partly run assign_cap_footprints.py.
+8. M1, M2, M3, M6 (labels + text note + wire) -- cosmetic.
+9. M4 (3V3 vs +3.3V) decision -- may cascade to a small Path A cleanup.
+10. L3 (custom footprint physical check) -- when parts arrive.
 
 
 VERDICT
 ========
 
-BLOCKERS is much shorter after Path A + label renames. Remaining B2 and B3
-are straightforward. HIGH-priority items are all decisions rather than
-mysteries. Ready to move to layout once B2/B3 are done and H1/H2/H3 are
-decided; nothing found warrants a schematic redesign.
+ERC identified only 5 real bugs (B4) and a systemic missing-PWR_FLAG
+pattern (B5). No topology surprises. BLOCKERS is longer than yesterday
+by two items (B4, B5) but both are quick fixes. Everything else still
+holds: ready to move to layout once B2/B3/B4/B5 are done and H1/H2/H3
+are decided; nothing found warrants a schematic redesign.
