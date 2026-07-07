@@ -1,0 +1,226 @@
+Pre-Layout Punch List -- 2026-07-06
+====================================
+
+Deep-dive audit of the analog control board (arduino + bias + buffer_keyer
++ vfo + interface sheets) before starting PCB layout. Items are grouped by
+severity. Check off as you go.
+
+
+BLOCKERS -- must fix before layout
+===================================
+
+[ ] B1a. Add root-sheet pins for Arduino:
+        - SDA
+        - SCL
+        - MBL600_A
+        - MBL600_B
+        - GRID_BLOCK_CRASH
+        - RESET_N (or resolve L1 first)
+
+[ ] B1b. Add root-sheet pins for VFO_Buffer_keyer:
+        - GRID_CTL_A_OUT
+        - GRID_CTL_B_OUT
+        - RESET_N (or resolve L1 first)
+
+[ ] B1c. Add root-sheet pins for Interface:
+        - MBL600_A
+        - MBL600_B
+
+[ ] B1d. REMOVE root-sheet pins from VFO:
+        - SCL     (Si5351 now gets I2C via STEMMA cable)
+        - SDA     (same)
+
+[ ] B1e. On the root sheet, draw wires to link the newly-added pins between
+        the sheets that share each signal:
+        - Arduino SDA/SCL   <-> VFO_Buffer_keyer SDA/SCL   (I2C bus continues
+                                to main-board PCF8575 U17 at 0x21)
+        - Arduino GRID_BLOCK_CRASH  <-> Bias GRID_BLOCK_CRASH  (fault int)
+        - Arduino MBL600_A/B  <-> Interface MBL600_A/B  (encoder data)
+        - VFO_Buffer_keyer GRID_CTL_A_OUT/B_OUT  <-> Bias GRID_CTL_A_IN/B_IN
+                                (keyed grid drive path)
+
+[ ] B2. Wire J10 paddle connector on Arduino sheet:
+        - J10 pin 1 -> Metro D4 (labeled D4/DIT)
+        - J10 pin 2 -> Metro D5 (labeled D5/DAH)
+        - Update the text note to remove the "D5 and D6 can be swapped"
+          claim. D6 is TX_LED, not a paddle pin. If you want swapability,
+          the correct pair is D4/D5.
+
+[ ] B3. Assign footprints to these components:
+
+        Arduino sheet:
+        [ ] R30 (470K, CD14538B timing)  -> Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal
+                                            (or whatever pattern matches
+                                            other 1/4W THT resistors on this
+                                            sheet)
+        [ ] C41 (1uF, CD14538B timing)   -> Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm
+                                            (or the matching THT ceramic footprint)
+        [ ] C42 (100nF, U18 VDD bypass)  -> Capacitor_THT:C_Disc_D3.8mm_W2.6mm_P2.50mm
+                                            (100nF disc that's already used
+                                            elsewhere on this sheet)
+        [ ] C43 (10uF, U18 bulk)         -> Capacitor_THT:CP_Radial_D5.0mm_P2.50mm
+                                            (or matching polarized cap
+                                            footprint)
+
+        Bias sheet:
+        [ ] J11 (GRID_BIAS)      2-pin -> Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical
+        [ ] J12 (CATHODE_SENSE)  2-pin -> same
+        [ ] J14 (unnamed)        2-pin -> same (decide role first)
+
+        Buffer_keyer sheet:
+        [ ] J13 (5-pin, unnamed) -> Connector_PinHeader_2.54mm:PinHeader_1x05_P2.54mm_Vertical
+                                    (decide role first)
+
+        Interface sheet:
+        [ ] J15 (3-pin, unnamed) -> Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical
+                                    (decide role first)
+
+        NOTE: Rerunning tools/assign_cap_footprints.py after this pass should
+        pick up C41, C42, C43. R30 is a resistor, so it won't -- assign by
+        hand.
+
+
+HIGH PRIORITY -- decide before ordering PCB
+============================================
+
+[ ] H1. C2 (MAINS_HEARTBEAT / K_MAIN interlock)
+        The CD14538B on Q5 protects only the ON-BOARD HV contactor driver.
+        The MAINS-SIDE K_MAIN contactor (upstream of the HV supply, in the
+        supply project) is not yet handed off to the analog board.
+
+        Decide between:
+        [ ] (a) Use CD14538B section B on the arduino sheet to generate a
+                second hardened heartbeat that exits via a dedicated
+                connector (or spare umbilical pin) to the supply project's
+                K_MAIN driver. Same monostable-hardened topology on both
+                HV switches.
+        [ ] (b) Route a raw GPIO heartbeat via a dedicated connector to
+                the supply project, and let the supply project's own
+                monostable do the enforcement.
+
+        Once decided, add the connector footprint and hierarchical label
+        on the arduino sheet.
+
+[ ] H2. C3 (+12V rail source)
+        Three coils tie to +12V (J6 T/R, J7 HV contactor, J8 HV in-rush
+        bypass). No +12V source is drawn anywhere on the board.
+
+        Decide between:
+        [ ] (a) Metro Vin passthrough (puts Metro on the safety-critical
+                path -- USB disconnect kills +5V too)
+        [ ] (b) Dedicated +12V input connector on the analog board
+                (RECOMMENDED -- cheap to add now, expensive after fab)
+        [ ] (c) Local regulation from a higher rail
+
+        If (b), add a 2-pin connector footprint to the arduino sheet with
+        a +12V power symbol on pin 1 and GND on pin 2, plus a bulk cap
+        (10uF or larger) and 100nF bypass right at the connector.
+
+[ ] H3. U18 (CD14538B) VDD rail choice
+        Datasheet V_IH_min at VDD=5V is 3.5V. The heartbeat trigger comes
+        from PCF8575 U17 pin P12. What rail is U17 powered from?
+
+        [ ] Confirm PCF8575 U17 supply rail (should be either +5V or +3.3V).
+        [ ] If U17 is on +5V, U18 at +5V is fine -- no change needed.
+        [ ] If U17 is on +3.3V, move U18 to +3.3V:
+                - VDD tie: change #PWR0120 from +5V to +3.3V
+                - VDD tie for reset A/B and unused-section ties: also to +3.3V
+                - Q7 gate drive still fine (2N7000 Vgs(th) ~2V)
+
+        At VDD=3V the V_IH_min drops to ~2.1V, comfortably below any
+        3.3V logic HIGH.
+
+
+MEDIUM -- readability / documentation
+======================================
+
+[ ] M1. Add HV_ENABLE net label on the arduino sheet along the wire from
+        U17 pin P14 to Q5 gate.
+
+[ ] M2. Add HV_HEARTBEAT net label on the arduino sheet along the wire
+        from U17 pin P12 to U18 pin 4 (+TR_A).
+
+[ ] M3. Update the stale I2C-topology text note on the arduino sheet. The
+        current text reads:
+             "I2C bus and +3.3V routed off-board via STEMMA QT cable from
+              Metro JST-SH port to Si5351 breakout (VFO sheet). Si5351
+              breakout 0.1" header distributes SDA/SCL/+3V3/GND to other
+              I2C devices ..."
+        Rewrite for the new topology:
+             Metro STEMMA-QT --> MCP4728 breakout --> MCP4728 0.1" header
+             carries SDA/SCL/+3V3/GND to the PCB traces (reaches U17 and
+             the RJ45 pins). Si5351 breakout is CHAINED off MCP4728's
+             STEMMA-OUT port, installed AFTER the one-time EEPROM reprogram.
+
+[ ] M4. 3V3 vs +3.3V naming inconsistency across sheets. Buffer_keyer and
+        VFO use hierarchical label "3V3"; arduino uses power symbol "+3.3V".
+        These are separate nets today.
+        [ ] Decide: unify to +3.3V (drop 3V3 hierarchical labels, use power
+            symbols) OR document that they are intentionally isolated
+            power domains (STEMMA-cabled Si5351 as its own domain).
+
+[ ] M5. TX_LED (Metro D6) not implemented. Decide-and-document:
+        [ ] Confirm no TX indicator LED is planned (deferred / not needed).
+        [ ] If wanted later, plan on adding a red LED + series R from D6
+            to GND (or LED anode to +3.3V, cathode to D6, sink-driven).
+
+
+LOW -- deferred but worth noting
+=================================
+
+[ ] L1. RESET_N used on both Arduino and VFO_Buffer_keyer sheets but not
+        linked. Decide:
+        [ ] Link them (add root sheet pins on both + root-sheet wire)
+        [ ] Rename one so they're clearly separate signals
+
+[ ] L2. Bias sheet root pin +5V_REF has no other consumer.
+        [ ] If used only inside Bias, delete the root sheet pin.
+        [ ] If planned for cross-sheet (e.g., Metro ADC reference), leave
+            and note the intended consumer.
+
+[ ] L3. Verify custom footprint physical dimensions (from pcb_fab_checklist):
+        [ ] Amphenol RJE1D-188 (RJ45) -- 5 items already flagged
+        [ ] Adafruit PCF8575 breakout -- Y-offset
+        [ ] Adafruit MCP4728 breakout -- silk-label to pad-number map
+        [ ] SameSky RCJ-02 RCA jack -- pin locations
+        [ ] Adafruit Si5351A STEMMA -- confirm
+        [ ] Adafruit_MCP4728_Breakout has "VERIFY silk-label to pad-number
+            correspondence" flag in its descr -- resolve.
+
+
+CONFIRMED SOUND -- no action needed
+====================================
+
+- C42 fix confirmed: sits between +5V and GND at U18 with C43 (10uF) bulk
+- Q5-Q7 series stack topology correct
+- CD14538B RC timing (R30 470K + C41 1uF -> 470 ms)
+- CD14538B power ties, reset A/B, unused-section ties
+- All I_CATHODE and MBL600 signal chains within their sheets
+- Bias sheet root pins line up with child sheet labels (only sheet that's
+  fully consistent)
+- All hierarchical labels within the buffer_keyer, vfo, and interface
+  sheets are internally consistent
+- External flyback diodes at each relay coil noted in text -- planned for
+  supply project side
+- Text-note cleanup on arduino sheet already done (no stale J8 or J50
+  references)
+
+
+RECOMMENDED WORK ORDER
+=======================
+
+1. B1 (root sheet pins + wires)          -- batch S-expression edit
+2. B2 (paddle wiring)                    -- small, hands-on
+3. H1 + H2 decisions, then add connectors -- one edit pass
+4. H3 (PCF8575 supply verification)      -- read u2 datasheet + edit if needed
+5. B3 (footprint assignments)            -- can partly run assign_cap_footprints.py
+6. M1, M2, M3 (labels + text note)       -- cosmetic
+7. L3 (custom footprint physical check)  -- when parts arrive
+
+
+VERDICT
+========
+
+Not ready for layout yet. The netlist will fail ERC due to B1. Everything
+in the BLOCKERS section is straightforward once decided; nothing found in
+this audit warrants a schematic redesign.

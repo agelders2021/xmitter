@@ -435,6 +435,251 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Connector_Generic:Conn_01x05"
+			(pin_names
+				(offset 1.016)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "J"
+				(at 0 7.62 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "Conn_01x05"
+				(at 0 -7.62 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Generic connector, single row, 01x05, script generated (kicad-library-utils/schlib/autogen/connector/)"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "connector"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "Connector*:*_1x??_*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "Conn_01x05_1_1"
+				(rectangle
+					(start -1.27 6.35)
+					(end 1.27 -6.35)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(rectangle
+					(start -1.27 5.207)
+					(end 0 4.953)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(rectangle
+					(start -1.27 2.667)
+					(end 0 2.413)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(rectangle
+					(start -1.27 0.127)
+					(end 0 -0.127)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(rectangle
+					(start -1.27 -2.413)
+					(end 0 -2.667)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(rectangle
+					(start -1.27 -4.953)
+					(end 0 -5.207)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(pin passive line
+					(at -5.08 5.08 0)
+					(length 3.81)
+					(name "Pin_1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -5.08 2.54 0)
+					(length 3.81)
+					(name "Pin_2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -5.08 0 0)
+					(length 3.81)
+					(name "Pin_3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -5.08 -2.54 0)
+					(length 3.81)
+					(name "Pin_4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -5.08 -5.08 0)
+					(length 3.81)
+					(name "Pin_5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "Device:C"
 			(pin_numbers
 				(hide yes)
@@ -1317,6 +1562,145 @@
 				)
 			)
 			(symbol "+12V_1_1"
+				(pin power_in line
+					(at 0 0 90)
+					(length 0)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "power:+3.3V"
+			(power global)
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "#PWR"
+				(at 0 -3.81 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "+3.3V"
+				(at 0 3.556 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Power symbol creates a global label with name \"+3.3V\""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "global power"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "+3.3V_0_1"
+				(polyline
+					(pts
+						(xy -0.762 1.27) (xy 0 2.54)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 2.54) (xy 0.762 1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 0) (xy 0 2.54)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "+3.3V_1_1"
 				(pin power_in line
 					(at 0 0 90)
 					(length 0)
@@ -2770,6 +3154,129 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "xmitter:xTP"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0.762)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "TP"
+				(at 0 6.858 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "xTP"
+				(at 0 5.08 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
+				(at 5.08 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 5.08 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "xmitter project test point on broken-off 0.1 inch square pin header; put signal name in Value field so it becomes silk on the PCB"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "test point tp"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "Pin* Test*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "xTP_0_1"
+				(circle
+					(center 0 3.302)
+					(radius 0.762)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "xTP_1_1"
+				(pin passive line
+					(at 0 0 90)
+					(length 2.54)
+					(name "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 	)
 	(text "Bypass for the two LM7171 Op_Amps"
 		(exclude_from_sim no)
@@ -3009,6 +3516,12 @@
 		(uuid "ec4dc6e3-ccc2-45c4-ac9a-bde16d33b47f")
 	)
 	(junction
+		(at 162.56 40.64)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "f19595ab-dcf9-442b-87e4-68891c54b55d")
+	)
+	(junction
 		(at 187.96 90.17)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -3017,10 +3530,6 @@
 	(no_connect
 		(at 196.85 63.5)
 		(uuid "43eb92e5-b8ef-412e-adc3-7d36e0e4770c")
-	)
-	(no_connect
-		(at 48.26 137.16)
-		(uuid "5bdb179b-5857-44b0-81f8-1b080c234866")
 	)
 	(no_connect
 		(at 196.85 68.58)
@@ -3033,10 +3542,6 @@
 	(no_connect
 		(at 196.85 58.42)
 		(uuid "cf100a21-e2ab-428c-b257-722ae2c80f7f")
-	)
-	(no_connect
-		(at 48.26 139.7)
-		(uuid "dd58f1b8-738a-448e-9139-0922c8ff4e08")
 	)
 	(no_connect
 		(at 179.07 71.12)
@@ -3975,8 +4480,30 @@
 		)
 		(uuid "21503f9d-836e-4243-8c07-926ad978f684")
 	)
+	(hierarchical_label "SDA"
+		(shape bidirectional)
+		(at 106.68 142.24 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "26ac53f5-b264-40a2-b1bf-b0ba7f0847dd")
+	)
+	(hierarchical_label "SCL"
+		(shape bidirectional)
+		(at 48.26 137.16 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "4a82baa2-1162-45a8-b2a1-3fe460eec957")
+	)
 	(hierarchical_label "SCK"
-		(shape input)
+		(shape output)
 		(at 127 60.96 180)
 		(effects
 			(font
@@ -3997,6 +4524,39 @@
 		)
 		(uuid "7c29404d-df9b-4602-9fac-574497d56c45")
 	)
+	(hierarchical_label "SCK"
+		(shape output)
+		(at 90.17 63.5 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "7f26979f-b0d9-4716-9471-bdbd08688b02")
+	)
+	(hierarchical_label "SCL"
+		(shape bidirectional)
+		(at 106.68 135.89 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "9b11e508-9a8c-4e50-93be-32622fca0903")
+	)
+	(hierarchical_label "RESET_N"
+		(shape output)
+		(at 26.67 78.74 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "abd180f8-137d-4dcf-97e6-80db70bcf9af")
+	)
 	(hierarchical_label "GRID_CTL_B_OUT"
 		(shape output)
 		(at 68.58 142.24 0)
@@ -4007,6 +4567,39 @@
 			(justify left)
 		)
 		(uuid "b0edb429-2543-495c-89d9-f62b69bf4048")
+	)
+	(hierarchical_label "MOSI"
+		(shape output)
+		(at 90.17 66.04 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "b94f8483-dea8-4234-af51-030f564567dc")
+	)
+	(hierarchical_label "CS_DAC"
+		(shape output)
+		(at 90.17 60.96 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "c3b5244c-3bee-4f98-bc3c-e5fcd3bd7ae2")
+	)
+	(hierarchical_label "SDA"
+		(shape bidirectional)
+		(at 48.26 139.7 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "e32fd984-cf05-4e03-9b94-9ed45d880f29")
 	)
 	(hierarchical_label "RAW_RF_IN"
 		(shape input)
@@ -4020,7 +4613,7 @@
 		(uuid "e9761668-ebab-4760-ac66-8f36bd11198d")
 	)
 	(hierarchical_label "MOSI"
-		(shape input)
+		(shape output)
 		(at 127 63.5 180)
 		(effects
 			(font
@@ -4031,7 +4624,7 @@
 		(uuid "ec29d951-8896-4672-b919-c5f9a407a905")
 	)
 	(hierarchical_label "CS_DAC"
-		(shape input)
+		(shape output)
 		(at 127 58.42 180)
 		(effects
 			(font
@@ -4051,6 +4644,164 @@
 			(justify right)
 		)
 		(uuid "fcbffaf6-5fcc-4490-ae37-f07441e3ad1b")
+	)
+	(symbol
+		(lib_id "xmitter:xTP")
+		(at 162.56 40.64 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "006b8c4c-df6f-4f2f-ba70-cae9a2ecc05f")
+		(property "Reference" "TP5"
+			(at 165.1 36.0679 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "KEY_SIG"
+			(at 165.1 38.6079 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
+			(at 167.64 40.64 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 167.64 40.64 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "xmitter project test point on broken-off 0.1 inch square pin header; put signal name in Value field so it becomes silk on the PCB"
+			(at 162.56 40.64 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "b8b1b903-8c3c-48be-ac71-a3a020c69397")
+		)
+		(instances
+			(project "KiCAD"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9b3a5939-c591-4389-8331-709ea54f36b7"
+					(reference "TP5")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 90.17 71.12 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "01f6a994-66ae-4b28-b035-7501fd468f8b")
+		(property "Reference" "#PWR0117"
+			(at 96.52 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 93.98 71.1199 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" ""
+			(at 90.17 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 90.17 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 90.17 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "e7bfd77a-479b-4651-972d-c8178b9416f9")
+		)
+		(instances
+			(project "KiCAD"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9b3a5939-c591-4389-8331-709ea54f36b7"
+					(reference "#PWR0117")
+					(unit 1)
+				)
+			)
+		)
 	)
 	(symbol
 		(lib_id "power:GND")
@@ -4923,6 +5674,95 @@
 			(project "KiCAD"
 				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9b3a5939-c591-4389-8331-709ea54f36b7"
 					(reference "#PWR039")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector_Generic:Conn_01x05")
+		(at 85.09 66.04 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "1d8f3659-60f5-409f-acf5-395f258cf9d5")
+		(property "Reference" "J13"
+			(at 85.09 54.61 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "Conn_01x05"
+			(at 85.09 57.15 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 85.09 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 85.09 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Generic connector, single row, 01x05, script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(at 85.09 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "3"
+			(uuid "15eac529-5bca-49f1-a6eb-923a2d6742b5")
+		)
+		(pin "2"
+			(uuid "d08e5322-81c9-42da-9af3-d7bd2be50932")
+		)
+		(pin "1"
+			(uuid "8314cbf4-c6ec-4ba5-98de-ee6f54b10937")
+		)
+		(pin "4"
+			(uuid "dc90acb2-221e-47d2-afff-6dff2dfd3e0d")
+		)
+		(pin "5"
+			(uuid "f5684364-9bdd-4a81-a3fe-561fc1d22161")
+		)
+		(instances
+			(project "KiCAD"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9b3a5939-c591-4389-8331-709ea54f36b7"
+					(reference "J13")
 					(unit 1)
 				)
 			)
@@ -6526,6 +7366,85 @@
 		)
 	)
 	(symbol
+		(lib_id "power:+3.3V")
+		(at 90.17 68.58 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "574859dd-f512-4b65-b48d-95343c4233ba")
+		(property "Reference" "#PWR0116"
+			(at 86.36 68.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "+3.3V"
+			(at 93.98 68.5799 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 90.17 68.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 90.17 68.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"+3.3V\""
+			(at 90.17 68.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "ed210224-c1cd-46f8-935d-ca786ea7aa0a")
+		)
+		(instances
+			(project "KiCAD"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9b3a5939-c591-4389-8331-709ea54f36b7"
+					(reference "#PWR0116")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "xmitter:MCP4728")
 		(at 58.42 138.43 0)
 		(unit 1)
@@ -6803,6 +7722,84 @@
 			(project "KiCAD"
 				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9b3a5939-c591-4389-8331-709ea54f36b7"
 					(reference "#PWR045")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "xmitter:xTP")
+		(at 208.28 66.04 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "60046375-7e54-4137-9663-ffbf32fb59db")
+		(property "Reference" "TP6"
+			(at 210.058 63.754 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "CARRIER_IN"
+			(at 196.85 64.262 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
+			(at 213.36 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 213.36 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "xmitter project test point on broken-off 0.1 inch square pin header; put signal name in Value field so it becomes silk on the PCB"
+			(at 208.28 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "28dad592-ab78-4539-a081-2d99fbd01cf7")
+		)
+		(instances
+			(project "KiCAD"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9b3a5939-c591-4389-8331-709ea54f36b7"
+					(reference "TP6")
 					(unit 1)
 				)
 			)
@@ -7122,6 +8119,85 @@
 			(project "KiCAD"
 				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9b3a5939-c591-4389-8331-709ea54f36b7"
 					(reference "#PWR033")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "xmitter:xTP")
+		(at 106.68 142.24 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "66eb8f14-248a-4744-a6c4-8bd89e6d7b3f")
+		(property "Reference" "TP4"
+			(at 111.76 140.9699 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "SDA"
+			(at 111.76 143.5099 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
+			(at 106.68 147.32 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 106.68 147.32 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "xmitter project test point on broken-off 0.1 inch square pin header; put signal name in Value field so it becomes silk on the PCB"
+			(at 106.68 142.24 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "6153087c-b414-4c13-a02c-db8176640285")
+		)
+		(instances
+			(project "KiCAD"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9b3a5939-c591-4389-8331-709ea54f36b7"
+					(reference "TP4")
 					(unit 1)
 				)
 			)
@@ -9090,6 +10166,85 @@
 		)
 	)
 	(symbol
+		(lib_id "xmitter:xTP")
+		(at 222.25 92.71 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "9c6d033b-f03c-426b-98d0-6bd1df16d643")
+		(property "Reference" "TP2"
+			(at 224.79 88.1379 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "MOD_RF"
+			(at 224.79 90.6779 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
+			(at 227.33 92.71 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 227.33 92.71 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "xmitter project test point on broken-off 0.1 inch square pin header; put signal name in Value field so it becomes silk on the PCB"
+			(at 222.25 92.71 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "a315a793-0781-4d59-a4f6-305c08a1729c")
+		)
+		(instances
+			(project "KiCAD"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9b3a5939-c591-4389-8331-709ea54f36b7"
+					(reference "TP2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:GND")
 		(at 187.96 97.79 0)
 		(unit 1)
@@ -10258,6 +11413,85 @@
 		)
 	)
 	(symbol
+		(lib_id "xmitter:xTP")
+		(at 106.68 135.89 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "c7f3513a-f262-4989-81cb-1811acc11519")
+		(property "Reference" "TP3"
+			(at 111.76 134.6199 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "SCL"
+			(at 111.76 137.1599 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
+			(at 106.68 140.97 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 106.68 140.97 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "xmitter project test point on broken-off 0.1 inch square pin header; put signal name in Value field so it becomes silk on the PCB"
+			(at 106.68 135.89 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "472cc5e7-4f24-417c-8ec3-7faa5d4fcc6e")
+		)
+		(instances
+			(project "KiCAD"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9b3a5939-c591-4389-8331-709ea54f36b7"
+					(reference "TP3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:C")
 		(at 120.65 54.61 90)
 		(unit 1)
@@ -10891,6 +12125,84 @@
 			(project "KiCAD"
 				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9b3a5939-c591-4389-8331-709ea54f36b7"
 					(reference "J2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "xmitter:xTP")
+		(at 262.89 31.75 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "d60e6a78-8df6-4ef7-85e3-f637bb95897f")
+		(property "Reference" "TP7"
+			(at 265.43 27.1779 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "MOD_RF"
+			(at 270.002 26.924 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
+			(at 267.97 31.75 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 267.97 31.75 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "xmitter project test point on broken-off 0.1 inch square pin header; put signal name in Value field so it becomes silk on the PCB"
+			(at 262.89 31.75 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "0be69e19-abdd-47f4-bb1b-39005fbc8f45")
+		)
+		(instances
+			(project "KiCAD"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9b3a5939-c591-4389-8331-709ea54f36b7"
+					(reference "TP7")
 					(unit 1)
 				)
 			)

@@ -27,29 +27,52 @@ housekeeping list. No blockers for proceeding to PCB layout.
 
 ## Real conceptual concerns
 
-### C1. MCP4728 EEPROM reprogram is a single point of failure for VFO access
+### C1. MCP4728 EEPROM reprogram single-point-of-failure — RESOLVED 2026-07-06
 
-- **Root cause.** Si5351 factory address is 0x60. MCP4728 factory
-  address is also 0x60. The design resolves this by having firmware run
-  a one-time reprogram of the MCP4728 to 0x62 on first boot.
-- **Failure mode.** If the reprogram fails (LDAC pin doesn't reach the
-  chip, bad I²C sequence, first boot interrupted), both devices remain
-  at 0x60 and fight for the bus. Si5351 becomes unreachable → no VFO
-  clock → the rig cannot operate at all.
-- **Failure is silent.** No hardware indication that the address
-  reprogram failed. The user only notices when the rig doesn't work.
-- **Mitigations (firmware-only, no schematic change):**
-    - Sanity-check the reprogram sequence — after writing the new
-      address, power-cycle the MCP4728 (Metro can drive the VIN pin
-      via a GPIO), then probe 0x62 for MCP4728 signature and 0x60 for
-      Si5351 signature. Only mark "reprogrammed" in NVS after both
-      probes succeed.
-    - Ship a documented recovery path — MCP4728 supports an I²C
-      General Call reset that returns it to factory address. Document
-      this procedure in a rescue file and tape it inside the chassis.
-- **Watch for.** If you buy a replacement Si5351 breakout later, check
-  whether the new revision has larger ADDR jumper pads. Some do, some
-  don't.
+**Original concern.** Si5351 factory address is 0x60. MCP4728 factory
+address is also 0x60. The original topology had SDA/SCL on the PCB
+traces coming from the Si5351 breakout, with MCP4728 chained via
+STEMMA QT off the Si5351. Firmware ran a one-time EEPROM reprogram of
+the MCP4728 to 0x62 on first boot. If that reprogram failed silently,
+both devices remained at 0x60 and the Si5351 became unreachable → no
+VFO clock → rig unbootable.
+
+**Resolution (2026-07-06).** Topology flipped so the MCP4728 sits on
+the STEMMA QT chain closer to the Metro, and its 0.1" header carries
+SDA/SCL to the PCB traces:
+
+    Metro STEMMA QT ─── MCP4728 STEMMA IN
+                         │
+                         MCP4728 0.1" header (SDA/SCL) ─── PCB traces ─── PCF8575 x2 + RJ45
+                         │
+                         MCP4728 STEMMA OUT ─── (optional cable) ─── Si5351 STEMMA IN
+
+Corresponding schematic changes: **SDA/SCL board connections removed
+from the Si5351 breakout**; MCP4728's SDA/SCL pins (3, 4) are now the
+ones that leave the breakout and reach the PCB traces. Si5351 gets I²C
+only via a STEMMA QT cable from the MCP4728, and that cable is
+installed *after* the reprogram.
+
+**Why this closes the single-point-of-failure:**
+
+- During initial EEPROM reprogram, the MCP4728-to-Si5351 STEMMA cable
+  is NOT installed. Only the MCP4728 is on the I²C bus (plus the two
+  PCF8575s at 0x20 and 0x21, which don't collide with 0x60). No
+  address collision possible.
+- Reprogram completes cleanly. MCP4728 is now at 0x62.
+- User installs the STEMMA QT cable from MCP4728 OUT to Si5351 IN.
+  Bus now has: Si5351 (0x60), MCP4728 (0x62), PCF8575 x2 — all
+  distinct addresses, all reachable.
+- If the reprogram ever fails, the recovery is trivial: unplug the
+  Si5351 cable, retry the reprogram with the MCP4728 alone on the
+  bus. No firmware-triggered dance, no hidden state.
+
+**No firmware sanity-check complexity needed** — the topology
+guarantees that the bus can't be in a collision state during the
+reprogram procedure, so firmware can be minimal.
+
+**Setup checklist added to `build_checklist.md` Phase 1** — physical
+"add this cable last" procedure documented step by step.
 
 ### C2. K_MAIN mains-interlock relay is not schematically represented
 
@@ -204,8 +227,9 @@ Documented so future audits don't re-raise these:
 
 Before PCB layout starts:
 
-1. Address MCP4728-reprogram single-point-of-failure — firmware-side
-   sanity check + documented recovery path (**C1**)
+1. ~~Address MCP4728-reprogram single-point-of-failure~~ **RESOLVED**
+   2026-07-06 by flipping the STEMMA QT chain so MCP4728 is the
+   PCB-trace anchor and Si5351 is the "add-last" cable (**C1**)
 2. Decide +12 V source and add connector footprint if needed (**C3**)
 3. Document K_MAIN interlock boundary (**C2**)
 4. Verify custom footprint dimensions against physical parts or

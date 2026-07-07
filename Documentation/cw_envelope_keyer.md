@@ -350,23 +350,40 @@ acquired 2026-06); implementation deferred until after first-light.
 
 The Adafruit MCP4728 ships with factory I²C address **0x60**, which
 **collides with the Adafruit Si5351A breakout** (also 0x60 default).
-Resolution path for this project:
+Resolution path for this project (updated 2026-07-06):
 
-- **Reprogram the MCP4728's EEPROM address** via the chip's built-in
-  address-write command (LDAC pin pulled low + special I²C sequence).
-  One-time firmware setup routine; address persists across power
-  cycles.
+- **Physical topology puts MCP4728 upstream of Si5351 on the STEMMA
+  chain.** The MCP4728's 0.1" header SDA/SCL are the pins that carry
+  I²C to the rest of the PCB traces. Si5351's SDA/SCL board
+  connections are removed; Si5351 gets I²C only via a STEMMA QT cable
+  chained from the MCP4728's OUT port.
+- **Reprogram the MCP4728's EEPROM address to 0x62** via the chip's
+  built-in address-write command (LDAC pin held low + special I²C
+  sequence). Runs once per rig, as a manual USB-CDC firmware
+  procedure.
+- **The Si5351 STEMMA cable is installed *after* the reprogram.**
+  During the reprogram, only the MCP4728 is on the I²C bus at 0x60,
+  so no collision is possible. Physical setup order enforces the
+  correct sequencing.
 - **Target address: 0x62** (avoids 0x60 Si5351, 0x61 Si5351-with-ADDR,
-  0x20 MCP23017, and leaves room around 0x48 for any future I²C ADC if
-  the built-in ADC1 path proves insufficient).
+  0x20 / 0x21 PCF8575, and leaves room around 0x48 for any future
+  I²C ADC if the built-in ADC1 path proves insufficient).
 - Why not the Si5351 ADDR solder-jumper: requires bridging an 0805-pad
   pair on the breakout PCB — too small for this builder's hand
   tremor. Firmware re-program is the cleaner path.
 - **Wiring requirement**: the MCP4728's LDAC pin must connect to an
-  ESP32-S3 GPIO (not tied to GND), so firmware can drive it during
+  ESP32-S3 GPIO (D7) via PCB trace, so firmware can drive it during
   the address-write sequence. After the one-time programming, LDAC
   can be parked high (envelope updates don't need latching at the
   speeds involved here).
+- **Recovery**: if the reprogram ever fails (bad I²C command sequence,
+  interrupted first boot), unplug the Si5351 STEMMA cable and retry.
+  Because the Si5351 is only on the bus when its cable is installed,
+  there's no way to end up in the bus-jammed state that the original
+  Si5351-primary topology had.
+
+Full step-by-step first-boot procedure in `build_checklist.md`
+Phase 1.
 
 ### Coverage analysis
 

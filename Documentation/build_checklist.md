@@ -37,16 +37,33 @@ in each phase for power-supply items that gate that phase.
 - [x] Adafruit Si5351A breakout on hand (PID 5640). Stays at factory
       default **0x60** (no ADDR jumper — solder bridge is too small for
       this builder's hand tremor).
-- [x] **MCP4728 vs Si5351 (0x60) collision RESOLVED via MCP4728
-      EEPROM re-program.** Adafruit MCP4728 (PID 4470) on hand,
-      factory address 0x60 (collides). Resolution: firmware bring-up
-      runs a one-time MCP4728 address-write sequence (LDAC pin held
-      low + Microchip address-write I²C command) to move the MCP4728
-      to **0x62**. Wiring requirement: MCP4728 LDAC pin must connect
-      to an ESP32-S3 GPIO so firmware can drive it for the one-time
-      programming. Update `pin_map.h`: `I2C_ADDR_NULL_DAC = 0x62`
-      (replaces `I2C_ADDR_BIAS_DAC` placeholder — first MCP4728 is
-      for null DAC, bias DAC is deferred).
+- [x] **MCP4728 vs Si5351 (0x60) collision RESOLVED via topology +
+      one-time EEPROM reprogram.** Resolution (updated 2026-07-06):
+      MCP4728 sits on the STEMMA QT chain closer to the Metro; its
+      0.1" header carries SDA/SCL to the PCB traces. Si5351 gets I²C
+      only via a STEMMA cable chained off the MCP4728's OUT port,
+      and that cable is installed **after** the reprogram is done.
+      Reprogram procedure — first-boot only, per rig:
+        1. Assemble the board fully with **only** the Metro→MCP4728
+           STEMMA cable installed. Do NOT install the MCP4728→Si5351
+           cable yet.
+        2. Power on. Bus has: MCP4728 alone at 0x60, plus the two
+           PCF8575s at 0x20 and 0x21 (no collision).
+        3. Run the one-time MCP4728 address-write sequence over
+           USB-CDC (LDAC pin toggled by firmware on ESP32-S3 D7,
+           I²C write commands to 0x60 per Microchip datasheet).
+        4. Probe 0x62 to confirm; log "reprogrammed" flag to Metro
+           NVS.
+        5. Power off. Install the STEMMA QT cable from MCP4728 OUT
+           to Si5351 IN.
+        6. Power on. Bus now has Si5351 (0x60), MCP4728 (0x62),
+           PCF8575 x2 (0x20, 0x21) — all distinct.
+      Wiring requirement: MCP4728 LDAC pin still needs to reach an
+      ESP32-S3 GPIO (D7) via PCB trace; the I²C reprogram command
+      needs LDAC held low regardless of the STEMMA topology.
+      Update `pin_map.h`: `I2C_ADDR_NULL_DAC = 0x62` (replaces
+      `I2C_ADDR_BIAS_DAC` placeholder — first MCP4728 is for null
+      DAC, bias DAC is deferred).
 - [ ] MBL-600-100P-5L optical encoder on hand. Confirm it's the L
       (line-driver) variant per the model code — that determines whether
       U_ENC_RX is needed.

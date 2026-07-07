@@ -5,6 +5,129 @@
 	(uuid "8b3e2d74-b66a-4721-bcda-9a1565ec8245")
 	(paper "A4")
 	(lib_symbols
+		(symbol "Connector:TestPoint"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0.762)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "TP"
+				(at 0 6.858 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "TestPoint"
+				(at 0 5.08 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 5.08 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 5.08 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "test point"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "test point tp"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "Pin* Test*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "TestPoint_0_1"
+				(circle
+					(center 0 3.302)
+					(radius 0.762)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "TestPoint_1_1"
+				(pin passive line
+					(at 0 0 90)
+					(length 2.54)
+					(name "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "Device:C"
 			(pin_numbers
 				(hide yes)
@@ -1398,6 +1521,12 @@
 		(uuid "165ecd63-30ec-47b5-9058-69cda40d3ea0")
 	)
 	(junction
+		(at 213.36 66.04)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "1f56af16-f9bc-449a-85f4-6e598c651f5d")
+	)
+	(junction
 		(at 151.13 62.23)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -1439,6 +1568,14 @@
 		(color 0 0 0 0)
 		(uuid "e9d4db43-082b-4e61-a101-2546982f905c")
 	)
+	(no_connect
+		(at 43.18 68.58)
+		(uuid "01f9c952-ff2e-4240-b39a-91ba47caae01")
+	)
+	(no_connect
+		(at 43.18 66.04)
+		(uuid "3249cb18-5f09-4ea6-896f-dc547c877471")
+	)
 	(wire
 		(pts
 			(xy 146.05 62.23) (xy 151.13 62.23)
@@ -1458,6 +1595,16 @@
 			(type default)
 		)
 		(uuid "1e24f1b7-83c6-493c-bb7d-656d0435658c")
+	)
+	(wire
+		(pts
+			(xy 213.36 66.04) (xy 215.9 66.04)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2bd5c10c-217e-4b28-a8ff-7932946ff5fc")
 	)
 	(wire
 		(pts
@@ -1611,7 +1758,7 @@
 	)
 	(wire
 		(pts
-			(xy 204.47 66.04) (xy 215.9 66.04)
+			(xy 204.47 66.04) (xy 213.36 66.04)
 		)
 		(stroke
 			(width 0)
@@ -1630,17 +1777,6 @@
 		)
 		(uuid "09a6f6fa-c4db-49e7-a974-e00e20a026f3")
 	)
-	(hierarchical_label "SDA"
-		(shape bidirectional)
-		(at 43.18 68.58 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "50d311bf-86c5-428d-8faa-2236259ff9b9")
-	)
 	(hierarchical_label "RAW_RF_OUT"
 		(shape output)
 		(at 215.9 66.04 0)
@@ -1651,17 +1787,6 @@
 			(justify left)
 		)
 		(uuid "65563a0a-77bc-4ef1-94d3-8c739872e0f2")
-	)
-	(hierarchical_label "SCL"
-		(shape bidirectional)
-		(at 43.18 66.04 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "8e077ff6-eb33-4249-8401-2114b694d6bb")
 	)
 	(symbol
 		(lib_id "power:GND")
@@ -2847,6 +2972,85 @@
 			(project "KiCAD"
 				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/c08cbce4-6e06-48f3-b334-a48b1cc09989"
 					(reference "R6")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 213.36 66.04 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "9b3f1e11-f132-4822-bd79-d1657b2d0cbd")
+		(property "Reference" "TP1"
+			(at 215.9 61.4679 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "RAW_RF"
+			(at 215.9 64.0079 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
+			(at 218.44 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 218.44 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "test point"
+			(at 213.36 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "bed84bf9-e999-4df5-b364-d0df902f6a29")
+		)
+		(instances
+			(project "KiCAD"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/c08cbce4-6e06-48f3-b334-a48b1cc09989"
+					(reference "TP1")
 					(unit 1)
 				)
 			)

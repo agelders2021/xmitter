@@ -363,8 +363,9 @@ LCD + paddle + panel LEDs (front panel, +5 V bus power)
   → PCF8575 I²C GPIO expander on vector board (also +5 V)
   → 2 conductors through CAT6 (pair 2, SDA and SCL)
   → RJE1D-188 socket on main PCB
-  → I²C bus (shared with Si5351 at 0x60 and MCP4728 at 0x62)
-  → ESP32-S3 SDA/SCL pins (Arduino sheet)
+  → I²C bus (shared with Si5351 at 0x60, MCP4728 at 0x62,
+    main-board PCF8575 at 0x21, STEP QT at 0x36, FUNC QT at 0x37)
+  → ESP32-S3 SDA/SCL pins (via MCP4728 STEMMA QT chain, see below)
 
 STEP + FUNC mechanical encoders (front panel, +5 V bus power)
   → PEC11-pinout encoder on Adafruit I²C QT Rotary Encoder breakout
@@ -373,3 +374,25 @@ STEP + FUNC mechanical encoders (front panel, +5 V bus power)
   → RJE1D-188 socket on main PCB
   → I²C bus (STEP at 0x36, FUNC at 0x37; joins the shared bus)
   → ESP32-S3 SDA/SCL pins
+
+I²C bus topology on the main board (2026-07-06):
+
+  Metro STEMMA QT port  ──── STEMMA cable ────  MCP4728 breakout STEMMA IN
+                                                      │
+                                                      MCP4728 0.1" header (pins 3, 4)
+                                                      │
+                                                      PCB traces (SDA / SCL)
+                                                      │
+                                                      ├── Main-board PCF8575 @ 0x21
+                                                      └── RJE1D-188 pins 1, 2 → CAT6 pair 2
+                                                              │
+                                                              ├── Front-panel PCF8575 @ 0x20
+                                                              ├── STEP QT rotary @ 0x36
+                                                              └── FUNC QT rotary @ 0x37
+
+  MCP4728 STEMMA OUT ── STEMMA cable ── Si5351 breakout STEMMA IN
+      (Si5351's own 0.1" header SDA/SCL pads are NOT wired to the PCB.)
+
+The Si5351 STEMMA cable is installed *after* the one-time MCP4728
+EEPROM address reprogram procedure — see the reprogram procedure in
+`build_checklist.md` Phase 1 for the physical sequencing.
