@@ -3,7 +3,7 @@
 	(generator "manual")
 	(generator_version "9.0")
 	(layer "F.Cu")
-	(descr "Adafruit MCP4728 4-channel 12-bit I2C DAC breakout. Board 1.00 x 0.70 in (25.4 x 17.78 mm), 4 corner mounting holes on 0.80 x 0.50 in spacing (20.32 x 12.70 mm). 10-pin 0.1 in header split as 5 pins on top edge and 5 pins on bottom edge; pad numbers match the xmitter:MCP4728 symbol (1=VIN, 2=GND, 3=SCL, 4=SDA, 5=LDAC, 6=RDY, 7=VA, 8=VB, 9=VC, 10=VD). STEMMA QT connectors on the side edges are NOT represented -- for this project, I2C reaches the MCP4728 via daisy-chained STEMMA QT cable from the Si5351 breakout, so pins 3 (SCL) and 4 (SDA) on the header are intentionally left unrouted on the parent PCB. VERIFY silk-label to pad-number correspondence against the physical breakout before routing -- Adafruit revisions vary and my assignment is inferred from the Datasheet fab print + symbol pin numbering.")
+	(descr "Adafruit MCP4728 4-channel 12-bit I2C DAC breakout. Board 25.4 x 17.78 mm (1.00 x 0.70 in), 4 corner mounting holes on 20.32 x 12.70 mm (0.80 x 0.50 in) spacing. Two 6-pin 0.1 in headers on the long edges: JP2 (top row = analog side) = GND / VA / VB / VC / VD / VCC left-to-right; JP1 (bottom row = I2C side) = VCC / GND / SCL / SDA / LDAC / RDY left-to-right. Because the xmitter:MCP4728 symbol only has 10 pins (VIN/GND/SCL/SDA/LDAC/RDY/VA/VB/VC/VD), the two physical VCC pads both get pad number '1' (share the VIN net) and the two physical GND pads both get pad number '2'. STEMMA QT connectors on the short edges are NOT represented -- I2C reaches the MCP4728 via daisy-chained STEMMA QT cable from the Si5351 breakout, so pads 3 (SCL) and 4 (SDA) here are intentionally left unrouted on the parent PCB. Verified against Adafruit datasheet pages 19-20 (schematic JP1/JP2 + fab print) 2026-07-09.")
 	(tags "adafruit mcp4728 i2c dac breakout stemma qt")
 	(attr through_hole)
 	(property "Reference" "U**"
@@ -31,7 +31,7 @@
 			(font (size 1 1) (thickness 0.15))
 		)
 	)
-	(property "Description" "Adafruit MCP4728 I2C quad DAC breakout, 10-pin THT + 2 STEMMA QT ports"
+	(property "Description" "Adafruit MCP4728 I2C quad DAC breakout, 2 x 6-pin THT + 2 STEMMA QT ports"
 		(at 0 0 0)
 		(layer "F.Fab")
 		(hide yes)
@@ -65,20 +65,127 @@
 		(layer "F.Fab")
 		(uuid "f0000000-0000-0000-0000-000000000012")
 	)
-	(fp_text user "MCP4728 breakout mounts here on 2x 5-pin 0.1\" headers"
-		(at 0 0 0)
+
+	(fp_text user "MCP4728 breakout mounts here on 2x 6-pin 0.1\" headers"
+		(at 0 -1.4 0)
 		(layer "F.Fab")
 		(uuid "f0000000-0000-0000-0000-000000000013")
 		(effects
-			(font (size 0.8 0.8) (thickness 0.12))
+			(font (size 0.7 0.7) (thickness 0.12))
 		)
 	)
-	(fp_text user "verify pin/pad map vs physical silk"
-		(at 0 2 0)
+	(fp_text user "STEMMA QT on short edges"
+		(at 0 1.0 0)
 		(layer "F.Fab")
 		(uuid "f0000000-0000-0000-0000-000000000014")
 		(effects
 			(font (size 0.6 0.6) (thickness 0.1))
+		)
+	)
+
+	(fp_text user "GND"
+		(at -6.35 -7.87 0)
+		(layer "F.SilkS")
+		(uuid "f0000000-0000-0000-0000-000000000020")
+		(effects
+			(font (size 0.5 0.5) (thickness 0.08))
+		)
+	)
+	(fp_text user "VA"
+		(at -3.81 -7.87 0)
+		(layer "F.SilkS")
+		(uuid "f0000000-0000-0000-0000-000000000021")
+		(effects
+			(font (size 0.5 0.5) (thickness 0.08))
+		)
+	)
+	(fp_text user "VB"
+		(at -1.27 -7.87 0)
+		(layer "F.SilkS")
+		(uuid "f0000000-0000-0000-0000-000000000022")
+		(effects
+			(font (size 0.5 0.5) (thickness 0.08))
+		)
+	)
+	(fp_text user "VC"
+		(at 1.27 -7.87 0)
+		(layer "F.SilkS")
+		(uuid "f0000000-0000-0000-0000-000000000023")
+		(effects
+			(font (size 0.5 0.5) (thickness 0.08))
+		)
+	)
+	(fp_text user "VD"
+		(at 3.81 -7.87 0)
+		(layer "F.SilkS")
+		(uuid "f0000000-0000-0000-0000-000000000024")
+		(effects
+			(font (size 0.5 0.5) (thickness 0.08))
+		)
+	)
+	(fp_text user "VCC"
+		(at 6.35 -7.87 0)
+		(layer "F.SilkS")
+		(uuid "f0000000-0000-0000-0000-000000000025")
+		(effects
+			(font (size 0.5 0.5) (thickness 0.08))
+		)
+	)
+	(fp_text user "VCC"
+		(at -6.35 7.87 0)
+		(layer "F.SilkS")
+		(uuid "f0000000-0000-0000-0000-000000000026")
+		(effects
+			(font (size 0.5 0.5) (thickness 0.08))
+		)
+	)
+	(fp_text user "GND"
+		(at -3.81 7.87 0)
+		(layer "F.SilkS")
+		(uuid "f0000000-0000-0000-0000-000000000027")
+		(effects
+			(font (size 0.5 0.5) (thickness 0.08))
+		)
+	)
+	(fp_text user "SCL"
+		(at -1.27 7.87 0)
+		(layer "F.SilkS")
+		(uuid "f0000000-0000-0000-0000-000000000028")
+		(effects
+			(font (size 0.5 0.5) (thickness 0.08))
+		)
+	)
+	(fp_text user "SDA"
+		(at 1.27 7.87 0)
+		(layer "F.SilkS")
+		(uuid "f0000000-0000-0000-0000-000000000029")
+		(effects
+			(font (size 0.5 0.5) (thickness 0.08))
+		)
+	)
+	(fp_text user "LDAC"
+		(at 3.81 7.87 0)
+		(layer "F.SilkS")
+		(uuid "f0000000-0000-0000-0000-00000000002a")
+		(effects
+			(font (size 0.5 0.5) (thickness 0.08))
+		)
+	)
+	(fp_text user "RDY"
+		(at 6.35 7.87 0)
+		(layer "F.SilkS")
+		(uuid "f0000000-0000-0000-0000-00000000002b")
+		(effects
+			(font (size 0.5 0.5) (thickness 0.08))
+		)
+	)
+
+	(fp_text user "1"
+		(at -6.35 -4.6 0)
+		(layer "F.SilkS")
+		(uuid "f0000000-0000-0000-0000-000000000030")
+		(effects
+			(font (size 0.5 0.5) (thickness 0.08))
 		)
 	)
 
@@ -111,75 +218,89 @@
 		(uuid "f0000000-0000-0000-0000-000000000103")
 	)
 
-	(pad "1" thru_hole rect
-		(at -5.08 -6.35)
+	(pad "2" thru_hole circle
+		(at -6.35 -6.35)
 		(size 1.7 1.7)
 		(drill 1.0)
 		(layers "*.Cu" "*.Mask")
 		(uuid "f0000000-0000-0000-0000-000000000200")
 	)
-	(pad "2" thru_hole circle
-		(at -2.54 -6.35)
+	(pad "7" thru_hole circle
+		(at -3.81 -6.35)
 		(size 1.7 1.7)
 		(drill 1.0)
 		(layers "*.Cu" "*.Mask")
 		(uuid "f0000000-0000-0000-0000-000000000201")
 	)
-	(pad "3" thru_hole circle
-		(at 0 -6.35)
+	(pad "8" thru_hole circle
+		(at -1.27 -6.35)
 		(size 1.7 1.7)
 		(drill 1.0)
 		(layers "*.Cu" "*.Mask")
 		(uuid "f0000000-0000-0000-0000-000000000202")
 	)
-	(pad "4" thru_hole circle
-		(at 2.54 -6.35)
+	(pad "9" thru_hole circle
+		(at 1.27 -6.35)
 		(size 1.7 1.7)
 		(drill 1.0)
 		(layers "*.Cu" "*.Mask")
 		(uuid "f0000000-0000-0000-0000-000000000203")
 	)
-	(pad "5" thru_hole circle
-		(at 5.08 -6.35)
+	(pad "10" thru_hole circle
+		(at 3.81 -6.35)
 		(size 1.7 1.7)
 		(drill 1.0)
 		(layers "*.Cu" "*.Mask")
 		(uuid "f0000000-0000-0000-0000-000000000204")
 	)
-
-	(pad "6" thru_hole circle
-		(at -5.08 6.35)
+	(pad "1" thru_hole circle
+		(at 6.35 -6.35)
 		(size 1.7 1.7)
 		(drill 1.0)
 		(layers "*.Cu" "*.Mask")
 		(uuid "f0000000-0000-0000-0000-000000000205")
 	)
-	(pad "7" thru_hole circle
-		(at -2.54 6.35)
+
+	(pad "1" thru_hole rect
+		(at -6.35 6.35)
 		(size 1.7 1.7)
 		(drill 1.0)
 		(layers "*.Cu" "*.Mask")
-		(uuid "f0000000-0000-0000-0000-000000000206")
+		(uuid "f0000000-0000-0000-0000-000000000210")
 	)
-	(pad "8" thru_hole circle
-		(at 0 6.35)
+	(pad "2" thru_hole circle
+		(at -3.81 6.35)
 		(size 1.7 1.7)
 		(drill 1.0)
 		(layers "*.Cu" "*.Mask")
-		(uuid "f0000000-0000-0000-0000-000000000207")
+		(uuid "f0000000-0000-0000-0000-000000000211")
 	)
-	(pad "9" thru_hole circle
-		(at 2.54 6.35)
+	(pad "3" thru_hole circle
+		(at -1.27 6.35)
 		(size 1.7 1.7)
 		(drill 1.0)
 		(layers "*.Cu" "*.Mask")
-		(uuid "f0000000-0000-0000-0000-000000000208")
+		(uuid "f0000000-0000-0000-0000-000000000212")
 	)
-	(pad "10" thru_hole circle
-		(at 5.08 6.35)
+	(pad "4" thru_hole circle
+		(at 1.27 6.35)
 		(size 1.7 1.7)
 		(drill 1.0)
 		(layers "*.Cu" "*.Mask")
-		(uuid "f0000000-0000-0000-0000-000000000209")
+		(uuid "f0000000-0000-0000-0000-000000000213")
+	)
+	(pad "5" thru_hole circle
+		(at 3.81 6.35)
+		(size 1.7 1.7)
+		(drill 1.0)
+		(layers "*.Cu" "*.Mask")
+		(uuid "f0000000-0000-0000-0000-000000000214")
+	)
+	(pad "6" thru_hole circle
+		(at 6.35 6.35)
+		(size 1.7 1.7)
+		(drill 1.0)
+		(layers "*.Cu" "*.Mask")
+		(uuid "f0000000-0000-0000-0000-000000000215")
 	)
 )
