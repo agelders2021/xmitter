@@ -1,0 +1,91 @@
+(footprint "T68-6_Vertical_HandWound"
+	(version 20240108)
+	(generator "manual")
+	(generator_version "9.0")
+	(layer "F.Cu")
+	(descr "T68-6 iron powder toroid (Micrometals/Amidon mix 6, yellow, A_L=47 nH/N^2), hand-wound, standing on edge with axis parallel to PCB. Top-down projection = rectangle OD (17.53 mm) x HT (4.83 mm). Two leads exit from opposite sides of the standing toroid: pad 1 above (north), pad 2 below (south), each offset slightly along the OD axis for the natural lead exit angle after 4-turn winding. Vertical mount reduces magnetic coupling to adjacent horizontal toroids. Anchor with nylon tie or hot glue after winding. For 20 m LPF (nominal 752 nH with 4 turns 22 AWG).")
+	(tags "toroid iron powder t68-6 amidon micrometals hand wound vertical edge")
+	(attr through_hole)
+	(property "Reference" "L**"
+		(at 0 -8 0)
+		(layer "F.SilkS")
+		(uuid "20000000-0000-0000-0000-000000000001")
+		(effects
+			(font (size 1 1) (thickness 0.15))
+		)
+	)
+	(property "Value" "T68-6"
+		(at 0 8 0)
+		(layer "F.Fab")
+		(uuid "20000000-0000-0000-0000-000000000002")
+		(effects
+			(font (size 1 1) (thickness 0.15))
+		)
+	)
+	(property "Datasheet" "https://www.micrometals.com/design-and-applications/rf-catalog/"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "20000000-0000-0000-0000-000000000003")
+		(effects
+			(font (size 1 1) (thickness 0.15))
+		)
+	)
+	(property "Description" "T68-6 iron powder toroid, vertical (on-edge) mount, hand-wound"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "20000000-0000-0000-0000-000000000004")
+		(effects
+			(font (size 1 1) (thickness 0.15))
+		)
+	)
+
+	(fp_rect
+		(start -8.77 -2.42)
+		(end 8.77 2.42)
+		(stroke (width 0.12) (type solid))
+		(fill no)
+		(layer "F.SilkS")
+		(uuid "20000000-0000-0000-0000-000000000010")
+	)
+	(fp_rect
+		(start -10.5 -6)
+		(end 10.5 6)
+		(stroke (width 0.05) (type solid))
+		(fill no)
+		(layer "F.CrtYd")
+		(uuid "20000000-0000-0000-0000-000000000011")
+	)
+	(fp_rect
+		(start -8.77 -2.42)
+		(end 8.77 2.42)
+		(stroke (width 0.1) (type solid))
+		(fill no)
+		(layer "F.Fab")
+		(uuid "20000000-0000-0000-0000-000000000012")
+	)
+
+	(fp_text user "T68-6 vert"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(uuid "20000000-0000-0000-0000-000000000020")
+		(effects (font (size 0.7 0.7) (thickness 0.1))
+		)
+	)
+
+	(pad "1" thru_hole circle
+		(at -2.0 -4.5)
+		(size 1.7 1.7)
+		(drill 0.9)
+		(layers "*.Cu" "*.Mask")
+		(uuid "20000000-0000-0000-0000-000000000100")
+	)
+	(pad "2" thru_hole circle
+		(at 2.0 4.5)
+		(size 1.7 1.7)
+		(drill 0.9)
+		(layers "*.Cu" "*.Mask")
+		(uuid "20000000-0000-0000-0000-000000000101")
+	)
+)

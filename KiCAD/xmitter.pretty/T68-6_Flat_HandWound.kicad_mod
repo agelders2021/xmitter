@@ -1,0 +1,99 @@
+(footprint "T68-6_Flat_HandWound"
+	(version 20240108)
+	(generator "manual")
+	(generator_version "9.0")
+	(layer "F.Cu")
+	(descr "T68-6 iron powder toroid (Micrometals/Amidon mix 6, yellow, A_L=47 nH/N^2), hand-wound, laying flat on PCB with axis perpendicular to board. Both leads exit on the same radial side; outer lead sits just outside the OD (17.53 mm), inner lead sits inside the ID hole (9.40 mm). Pitch center-to-center 7.5 mm. Suits 4-turn 22/24 AWG magnet wire winding for 20 m LPF (nominal 752 nH). Silk shows OD and ID circles.")
+	(tags "toroid iron powder t68-6 amidon micrometals hand wound flat")
+	(attr through_hole)
+	(property "Reference" "L**"
+		(at 0 -13 0)
+		(layer "F.SilkS")
+		(uuid "10000000-0000-0000-0000-000000000001")
+		(effects
+			(font (size 1 1) (thickness 0.15))
+		)
+	)
+	(property "Value" "T68-6"
+		(at 0 13 0)
+		(layer "F.Fab")
+		(uuid "10000000-0000-0000-0000-000000000002")
+		(effects
+			(font (size 1 1) (thickness 0.15))
+		)
+	)
+	(property "Datasheet" "https://www.micrometals.com/design-and-applications/rf-catalog/"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "10000000-0000-0000-0000-000000000003")
+		(effects
+			(font (size 1 1) (thickness 0.15))
+		)
+	)
+	(property "Description" "T68-6 iron powder toroid, flat mount, hand-wound"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "10000000-0000-0000-0000-000000000004")
+		(effects
+			(font (size 1 1) (thickness 0.15))
+		)
+	)
+
+	(fp_circle
+		(center 0 0)
+		(end 8.77 0)
+		(stroke (width 0.12) (type solid))
+		(fill no)
+		(layer "F.SilkS")
+		(uuid "10000000-0000-0000-0000-000000000010")
+	)
+	(fp_circle
+		(center 0 0)
+		(end 4.70 0)
+		(stroke (width 0.12) (type solid))
+		(fill no)
+		(layer "F.SilkS")
+		(uuid "10000000-0000-0000-0000-000000000011")
+	)
+	(fp_rect
+		(start -11 -12)
+		(end 11 11)
+		(stroke (width 0.05) (type solid))
+		(fill no)
+		(layer "F.CrtYd")
+		(uuid "10000000-0000-0000-0000-000000000012")
+	)
+	(fp_circle
+		(center 0 0)
+		(end 8.77 0)
+		(stroke (width 0.1) (type solid))
+		(fill no)
+		(layer "F.Fab")
+		(uuid "10000000-0000-0000-0000-000000000013")
+	)
+
+	(fp_text user "T68-6 flat"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(uuid "10000000-0000-0000-0000-000000000020")
+		(effects (font (size 0.8 0.8) (thickness 0.12))
+		)
+	)
+
+	(pad "1" thru_hole circle
+		(at 0 -10.0)
+		(size 1.7 1.7)
+		(drill 0.9)
+		(layers "*.Cu" "*.Mask")
+		(uuid "10000000-0000-0000-0000-000000000100")
+	)
+	(pad "2" thru_hole circle
+		(at 0 -2.5)
+		(size 1.7 1.7)
+		(drill 0.9)
+		(layers "*.Cu" "*.Mask")
+		(uuid "10000000-0000-0000-0000-000000000101")
+	)
+)
