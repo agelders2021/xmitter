@@ -269,6 +269,18 @@ not a screen-voltage interrupter. See `Documentation/pa_cathode_monitor.md`
       74HC4538 monostable, driver transistor + flyback diode.
       (Separate watchdog from cathode monitor; gates AC to HV
       transformers on firmware heartbeat.)
+- [ ] **U11 LM4040 shared reference — verify physical pinout before
+      soldering.** The schematic uses `Reference_Voltage:LM4040LP-5`
+      whose symbol has only 2 pins (K = 2, A = 3). The assigned
+      footprint `Package_TO_SOT_THT:TO-92_Inline` has 3 pads, so pad 1
+      is intentionally unrouted (Update-PCB-from-Schematic warns "no
+      net found for U11 pad 1" — expected). For the TI LM4040LP-5
+      variant, datasheet lists pin 1 = NC, pin 2 = cathode, pin 3 =
+      anode. **BEFORE installing**, match the on-hand part's package
+      marking to its own datasheet; some LM4040 package variants
+      (DBZ, ZFT, DCK) map anode/cathode to different lead positions.
+      Bend the two live leads into pads 2 and 3, leave pad 1 empty
+      (or trim the physical NC lead if the part has one).
 
 ### Verify before declaring done
 

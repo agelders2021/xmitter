@@ -3,7 +3,7 @@
 	(generator "manual")
 	(generator_version "9.0")
 	(layer "F.Cu")
-	(descr "Adafruit Si5351A clock generator STEMMA QT breakout - mounts on M2.5 standoffs above PCB, 7 jumper wires from breakout pin holes down to landing pads. VERIFY mounting hole positions with calipers before fabricating.")
+	(descr "Adafruit Si5351A clock generator STEMMA QT breakout - mounts on M2.5 standoffs above PCB, 10 jumper wires from breakout pin holes down to landing pads. Two 5-pin rows: TOP row = CLK2 / GND / CLK1 / GND / CLK0 (with GND spacers for RF isolation between clocks); BOTTOM row = VIN / 3V / GND / SDA / SCL. Board 25.4 x 17.78 mm (1.00 x 0.70 in), mounting holes at 20.32 x 12.70 mm (0.80 x 0.50 in), pin rows share Y with mounting holes at +/-6.35 mm - all verified against physical breakout 2026-07-08.")
 	(tags "adafruit si5351a clock generator stemma qt breakout")
 	(attr through_hole)
 	(property "Reference" "U**"
@@ -51,105 +51,135 @@
 	)
 	(fp_rect
 		(start -13.2 -9.4)
-		(end 19.5 9.4)
+		(end 13.2 9.4)
 		(stroke (width 0.05) (type solid))
 		(fill no)
 		(layer "F.CrtYd")
 		(uuid "00000000-0000-0000-0000-000000000011")
 	)
-	(fp_text user "Si5351A breakout sits here on standoffs"
+	(fp_text user "Si5351A breakout sits above on M2.5 standoffs"
 		(at 0 0 0)
 		(layer "F.Fab")
 		(uuid "00000000-0000-0000-0000-000000000012")
 		(effects
-			(font (size 0.8 0.8) (thickness 0.12))
+			(font (size 0.7 0.7) (thickness 0.12))
 		)
 	)
-	(fp_text user "jumper wires →"
-		(at 14.5 0 0)
+	(fp_text user "CLK2  G  CLK1  G  CLK0"
+		(at 0 -7.62 0)
 		(layer "F.SilkS")
 		(uuid "00000000-0000-0000-0000-000000000013")
 		(effects
-			(font (size 0.7 0.7) (thickness 0.12))
+			(font (size 0.6 0.6) (thickness 0.10))
+		)
+	)
+	(fp_text user "SDA  SCL  GND  3V3  VIN"
+		(at 0 7.62 0)
+		(layer "F.SilkS")
+		(uuid "00000000-0000-0000-0000-000000000014")
+		(effects
+			(font (size 0.6 0.6) (thickness 0.10))
 		)
 	)
 
 	(pad "" np_thru_hole circle
-		(at -11.45 -7.6)
+		(at -10.16 -6.35)
 		(size 2.5 2.5)
 		(drill 2.5)
 		(layers "*.Cu" "*.Mask")
 		(uuid "00000000-0000-0000-0000-000000000100")
 	)
 	(pad "" np_thru_hole circle
-		(at 11.45 -7.6)
+		(at 10.16 -6.35)
 		(size 2.5 2.5)
 		(drill 2.5)
 		(layers "*.Cu" "*.Mask")
 		(uuid "00000000-0000-0000-0000-000000000101")
 	)
 	(pad "" np_thru_hole circle
-		(at -11.45 7.6)
+		(at -10.16 6.35)
 		(size 2.5 2.5)
 		(drill 2.5)
 		(layers "*.Cu" "*.Mask")
 		(uuid "00000000-0000-0000-0000-000000000102")
 	)
 	(pad "" np_thru_hole circle
-		(at 11.45 7.6)
+		(at 10.16 6.35)
 		(size 2.5 2.5)
 		(drill 2.5)
 		(layers "*.Cu" "*.Mask")
 		(uuid "00000000-0000-0000-0000-000000000103")
 	)
 
-	(pad "VIN" thru_hole circle
-		(at 16.5 -7.62)
+	(pad "CLK0" thru_hole circle
+		(at -5.08 -6.35)
 		(size 1.7 1.7)
 		(drill 0.9)
 		(layers "*.Cu" "*.Mask")
 		(uuid "00000000-0000-0000-0000-000000000200")
 	)
 	(pad "GND" thru_hole circle
-		(at 16.5 -5.08)
+		(at -2.54 -6.35)
 		(size 1.7 1.7)
 		(drill 0.9)
 		(layers "*.Cu" "*.Mask")
 		(uuid "00000000-0000-0000-0000-000000000201")
 	)
-	(pad "SDA" thru_hole circle
-		(at 16.5 -2.54)
+	(pad "CLK1" thru_hole circle
+		(at 0 -6.35)
 		(size 1.7 1.7)
 		(drill 0.9)
 		(layers "*.Cu" "*.Mask")
 		(uuid "00000000-0000-0000-0000-000000000202")
 	)
-	(pad "SCL" thru_hole circle
-		(at 16.5 0)
+	(pad "GND" thru_hole circle
+		(at 2.54 -6.35)
 		(size 1.7 1.7)
 		(drill 0.9)
 		(layers "*.Cu" "*.Mask")
 		(uuid "00000000-0000-0000-0000-000000000203")
 	)
-	(pad "CLK0" thru_hole circle
-		(at 16.5 2.54)
+	(pad "CLK2" thru_hole circle
+		(at 5.08 -6.35)
 		(size 1.7 1.7)
 		(drill 0.9)
 		(layers "*.Cu" "*.Mask")
 		(uuid "00000000-0000-0000-0000-000000000204")
 	)
-	(pad "CLK1" thru_hole circle
-		(at 16.5 5.08)
+
+	(pad "VIN" thru_hole circle
+		(at -5.08 6.35)
 		(size 1.7 1.7)
 		(drill 0.9)
 		(layers "*.Cu" "*.Mask")
-		(uuid "00000000-0000-0000-0000-000000000205")
+		(uuid "00000000-0000-0000-0000-000000000210")
 	)
-	(pad "CLK2" thru_hole circle
-		(at 16.5 7.62)
+	(pad "" thru_hole circle
+		(at -2.54 6.35)
 		(size 1.7 1.7)
 		(drill 0.9)
 		(layers "*.Cu" "*.Mask")
-		(uuid "00000000-0000-0000-0000-000000000206")
+		(uuid "00000000-0000-0000-0000-000000000211")
+	)
+	(pad "GND" thru_hole circle
+		(at 0 6.35)
+		(size 1.7 1.7)
+		(drill 0.9)
+		(layers "*.Cu" "*.Mask")
+		(uuid "00000000-0000-0000-0000-000000000212")
+	)
+	(pad "SCL" thru_hole circle
+		(at 2.54 6.35)
+		(size 1.7 1.7)
+		(drill 0.9)
+		(layers "*.Cu" "*.Mask")
+		(uuid "00000000-0000-0000-0000-000000000213")
+	)
+	(pad "SDA" thru_hole circle
+		(at 5.08 6.35)
+		(size 1.7 1.7)
+		(drill 0.9)
+		(layers "*.Cu" "*.Mask")
+		(uuid "00000000-0000-0000-0000-000000000214")
 	)
 )
