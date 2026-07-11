@@ -3837,7 +3837,7 @@
 	)
 	(text "I2C reaches MCP4728 via STEMMA QT cables.\nInitial setup brings I2C from Arduino to MCP4728.\nOnce address is set to 0x62 add STEMMA QT cable out\nto Si5351 which then routes I2C to PCB."
 		(exclude_from_sim no)
-		(at 46.482 154.94 0)
+		(at 22.606 166.116 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -3863,6 +3863,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "1449db98-5c9d-49f2-b565-5b49873f1ccd")
+	)
+	(junction
+		(at 85.09 139.7)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "14a013df-bded-4f84-9162-1697167fee66")
 	)
 	(junction
 		(at 212.09 54.61)
@@ -3929,6 +3935,18 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "3859f68d-5ba6-4b06-a5d8-0528e4d83691")
+	)
+	(junction
+		(at 72.39 142.24)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "3b61f11b-7e94-4700-949e-9f1eeb937684")
+	)
+	(junction
+		(at 116.84 110.49)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "3e3f8913-7699-400c-805f-1c8d1a8e502b")
 	)
 	(junction
 		(at 144.78 50.8)
@@ -4001,6 +4019,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "71d294ea-6e8a-40ae-b2f9-97c98a0b6e8c")
+	)
+	(junction
+		(at 41.91 110.49)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "7d1c98f7-b007-4dbe-bb58-94e24bea9085")
 	)
 	(junction
 		(at 223.52 92.71)
@@ -4181,10 +4205,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "fdfc9c00-a1b1-4a8a-b588-936d38d29d7f")
-	)
-	(no_connect
-		(at 26.67 81.28)
-		(uuid "2d9cf118-3f98-41f4-8ed8-926cf534d96c")
 	)
 	(no_connect
 		(at 196.85 63.5)
@@ -4496,6 +4516,16 @@
 	)
 	(wire
 		(pts
+			(xy 116.84 110.49) (xy 123.19 110.49)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "31a04d80-c72d-4641-87d3-2b7a9fce11f1")
+	)
+	(wire
+		(pts
 			(xy 179.07 140.97) (xy 179.07 143.51)
 		)
 		(stroke
@@ -4523,6 +4553,16 @@
 			(type default)
 		)
 		(uuid "36928207-103b-42f4-90b6-fd4b45f664b2")
+	)
+	(wire
+		(pts
+			(xy 72.39 142.24) (xy 68.58 142.24)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3721faff-eb41-48c0-8b31-dc960d484a03")
 	)
 	(wire
 		(pts
@@ -4633,16 +4673,6 @@
 			(type default)
 		)
 		(uuid "4e6f71cb-c021-4851-a1fe-02ed5aa35344")
-	)
-	(wire
-		(pts
-			(xy 27.94 78.74) (xy 26.67 78.74)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "4ee9c980-6a7c-4d14-8048-1aa59f80fccc")
 	)
 	(wire
 		(pts
@@ -4816,6 +4846,16 @@
 	)
 	(wire
 		(pts
+			(xy 31.75 110.49) (xy 41.91 110.49)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "756c3491-069e-44aa-9715-e0f26bce4356")
+	)
+	(wire
+		(pts
 			(xy 208.28 66.04) (xy 214.63 66.04)
 		)
 		(stroke
@@ -4863,6 +4903,16 @@
 			(type default)
 		)
 		(uuid "7bdbc813-5a36-4bb9-adf9-568b02f5bddc")
+	)
+	(wire
+		(pts
+			(xy 85.09 139.7) (xy 85.09 144.78)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7c3b47b5-5007-4676-ab02-777269c06411")
 	)
 	(wire
 		(pts
@@ -4916,6 +4966,16 @@
 	)
 	(wire
 		(pts
+			(xy 72.39 149.86) (xy 72.39 142.24)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8728dd37-99cb-4da0-9db9-c5b91a8a1981")
+	)
+	(wire
+		(pts
 			(xy 148.59 49.53) (xy 148.59 55.88)
 		)
 		(stroke
@@ -4933,6 +4993,16 @@
 			(type default)
 		)
 		(uuid "8888f7b5-ebfc-4e37-85bb-274e013da6ec")
+	)
+	(wire
+		(pts
+			(xy 87.63 139.7) (xy 85.09 139.7)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "93cb7002-70a1-42d4-a144-02283fae6c41")
 	)
 	(wire
 		(pts
@@ -5146,6 +5216,16 @@
 	)
 	(wire
 		(pts
+			(xy 80.01 144.78) (xy 80.01 142.24)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c1bec061-27e7-49a4-b329-49243cfa3693")
+	)
+	(wire
+		(pts
 			(xy 162.56 55.88) (xy 179.07 55.88)
 		)
 		(stroke
@@ -5233,6 +5313,26 @@
 			(type default)
 		)
 		(uuid "d1068337-579b-4aa1-8cc5-2aaed706c896")
+	)
+	(wire
+		(pts
+			(xy 80.01 142.24) (xy 72.39 142.24)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d175d880-4769-43a9-9c73-04816a950e8b")
+	)
+	(wire
+		(pts
+			(xy 85.09 139.7) (xy 68.58 139.7)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d1dad326-604e-4577-bbcc-8319f54586de")
 	)
 	(wire
 		(pts
@@ -5456,7 +5556,7 @@
 	)
 	(global_label "GRID_CTL_A"
 		(shape output)
-		(at 68.58 139.7 0)
+		(at 87.63 139.7 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -5466,7 +5566,7 @@
 		)
 		(uuid "08c78e0a-dc24-4d22-a3ac-89c97bd69779")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 68.58 139.7 0)
+			(at 87.63 139.7 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5525,7 +5625,7 @@
 	)
 	(global_label "SDA"
 		(shape bidirectional)
-		(at 106.68 142.24 180)
+		(at 109.22 142.24 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -5535,7 +5635,7 @@
 		)
 		(uuid "26ac53f5-b264-40a2-b1bf-b0ba7f0847dd")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 106.68 142.24 0)
+			(at 109.22 142.24 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5664,7 +5764,7 @@
 	)
 	(global_label "SCL"
 		(shape bidirectional)
-		(at 106.68 135.89 180)
+		(at 109.22 135.89 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -5674,30 +5774,7 @@
 		)
 		(uuid "9b11e508-9a8c-4e50-93be-32622fca0903")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 106.68 135.89 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-	)
-	(global_label "RESET_N"
-		(shape output)
-		(at 27.94 78.74 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "abd180f8-137d-4dcf-97e6-80db70bcf9af")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 27.94 78.74 0)
+			(at 109.22 135.89 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5710,17 +5787,17 @@
 	)
 	(global_label "GRID_CTL_B"
 		(shape output)
-		(at 68.58 142.24 0)
+		(at 72.39 149.86 270)
 		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify left)
+			(justify right)
 		)
 		(uuid "b0edb429-2543-495c-89d9-f62b69bf4048")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 68.58 142.24 0)
+			(at 72.39 163.7309 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5728,6 +5805,7 @@
 				(font
 					(size 1.27 1.27)
 				)
+				(justify right)
 			)
 		)
 	)
@@ -9722,7 +9800,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
 			(at 140.6652 135.89 0)
 			(hide yes)
 			(show_name no)
@@ -10326,7 +10404,7 @@
 	)
 	(symbol
 		(lib_id "xmitter:xTP")
-		(at 106.68 142.24 270)
+		(at 109.22 142.24 270)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -10337,7 +10415,7 @@
 		(fields_autoplaced yes)
 		(uuid "66eb8f14-248a-4744-a6c4-8bd89e6d7b3f")
 		(property "Reference" "TP4"
-			(at 111.76 140.9699 90)
+			(at 114.3 140.9699 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -10348,7 +10426,7 @@
 			)
 		)
 		(property "Value" "SDA"
-			(at 111.76 143.5099 90)
+			(at 114.3 143.5099 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -10359,7 +10437,7 @@
 			)
 		)
 		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
-			(at 106.68 147.32 0)
+			(at 109.22 147.32 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10370,7 +10448,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 106.68 147.32 0)
+			(at 109.22 147.32 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10381,7 +10459,7 @@
 			)
 		)
 		(property "Description" "xmitter project test point on broken-off 0.1 inch square pin header; put signal name in Value field so it becomes silk on the PCB"
-			(at 106.68 142.24 0)
+			(at 109.22 142.24 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10398,6 +10476,84 @@
 			(project "KiCAD"
 				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9b3a5939-c591-4389-8331-709ea54f36b7"
 					(reference "TP4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 82.55 144.78 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "6764d8e4-ddc5-4245-a6dd-e4c0bde97fae")
+		(property "Reference" "#PWR0140"
+			(at 82.55 138.43 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 82.55 139.7 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 82.55 144.78 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 82.55 144.78 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 82.55 144.78 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "5bd4c3db-d1c6-4152-97f8-f8264b840201")
+		)
+		(instances
+			(project "KiCAD"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9b3a5939-c591-4389-8331-709ea54f36b7"
+					(reference "#PWR0140")
 					(unit 1)
 				)
 			)
@@ -10517,7 +10673,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm"
 			(at 178.7652 128.27 0)
 			(hide yes)
 			(show_name no)
@@ -11751,7 +11907,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "xTP"
+		(property "Value" "Key_Out"
 			(at 156.21 44.9579 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12049,6 +12205,85 @@
 		)
 	)
 	(symbol
+		(lib_id "power:GND")
+		(at 87.63 144.78 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "87b79c4d-c4e7-42e7-808f-830eaeff3380")
+		(property "Reference" "#PWR0139"
+			(at 93.98 144.78 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 91.44 144.7799 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" ""
+			(at 87.63 144.78 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 87.63 144.78 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 87.63 144.78 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "9615bcaa-b7a0-4af3-b8ca-10e81129f803")
+		)
+		(instances
+			(project "KiCAD"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9b3a5939-c591-4389-8331-709ea54f36b7"
+					(reference "#PWR0139")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "xmitter:xTP")
 		(at 123.19 110.49 0)
 		(unit 1)
@@ -12116,7 +12351,7 @@
 			)
 		)
 		(pin "1"
-			(uuid "7ae118a2-eae3-4635-bbea-149529ef1a3e")
+			(uuid "7ae118a2-eae3-4635-bbea-149529ef1a3f")
 		)
 		(instances
 			(project "KiCAD"
@@ -13453,7 +13688,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
 			(at 214.3252 135.89 0)
 			(hide yes)
 			(show_name no)
@@ -14850,7 +15085,7 @@
 	)
 	(symbol
 		(lib_id "xmitter:xTP")
-		(at 106.68 135.89 270)
+		(at 109.22 135.89 270)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -14861,7 +15096,7 @@
 		(fields_autoplaced yes)
 		(uuid "c7f3513a-f262-4989-81cb-1811acc11519")
 		(property "Reference" "TP3"
-			(at 111.76 134.6199 90)
+			(at 114.3 134.6199 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -14872,7 +15107,7 @@
 			)
 		)
 		(property "Value" "SCL"
-			(at 111.76 137.1599 90)
+			(at 114.3 137.1599 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -14883,7 +15118,7 @@
 			)
 		)
 		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
-			(at 106.68 140.97 0)
+			(at 109.22 140.97 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -14894,7 +15129,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 106.68 140.97 0)
+			(at 109.22 140.97 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -14905,7 +15140,7 @@
 			)
 		)
 		(property "Description" "xmitter project test point on broken-off 0.1 inch square pin header; put signal name in Value field so it becomes silk on the PCB"
-			(at 106.68 135.89 0)
+			(at 109.22 135.89 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -15357,7 +15592,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm"
 			(at 180.0352 140.97 0)
 			(hide yes)
 			(show_name no)
@@ -15556,7 +15791,7 @@
 			)
 		)
 		(pin "1"
-			(uuid "95ba50c1-6b8c-4f1e-812b-ecf465052df7")
+			(uuid "95ba50c1-6b8c-4f1e-812b-ecf465052df8")
 		)
 		(instances
 			(project "KiCAD"
@@ -15727,8 +15962,8 @@
 		)
 	)
 	(symbol
-		(lib_id "Connector:Conn_01x02_Pin")
-		(at 21.59 78.74 0)
+		(lib_id "power:GND")
+		(at 77.47 144.78 270)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -15737,9 +15972,10 @@
 		(in_pos_files yes)
 		(dnp no)
 		(fields_autoplaced yes)
-		(uuid "d4331b30-9639-4048-b96e-c391762cb39c")
-		(property "Reference" "J2"
-			(at 22.225 73.66 0)
+		(uuid "d4fe6327-fad2-4dfc-bc0f-95562a8f1430")
+		(property "Reference" "#PWR0141"
+			(at 71.12 144.78 0)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -15748,18 +15984,19 @@
 				)
 			)
 		)
-		(property "Value" "Conn_01x02_Pin"
-			(at 22.225 76.2 0)
+		(property "Value" "GND"
+			(at 73.66 144.7799 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify right)
 			)
 		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical"
-			(at 21.59 78.74 0)
+		(property "Footprint" ""
+			(at 77.47 144.78 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -15770,7 +16007,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 21.59 78.74 0)
+			(at 77.47 144.78 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -15780,8 +16017,8 @@
 				)
 			)
 		)
-		(property "Description" "Generic connector, single row, 01x02, script generated"
-			(at 21.59 78.74 0)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 77.47 144.78 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -15792,15 +16029,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "05b65078-5000-4127-9b46-8f270174541e")
-		)
-		(pin "2"
-			(uuid "3d430c99-7360-4197-b6d2-27174339cb56")
+			(uuid "843c303f-b66f-4d87-923e-735763c9c921")
 		)
 		(instances
 			(project "KiCAD"
 				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9b3a5939-c591-4389-8331-709ea54f36b7"
-					(reference "J2")
+					(reference "#PWR0141")
 					(unit 1)
 				)
 			)
@@ -16364,6 +16598,95 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector_Generic:Conn_01x05")
+		(at 82.55 149.86 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "e5ecbcbd-e72d-4790-8af8-ce6a6864b78f")
+		(property "Reference" "J16"
+			(at 82.55 153.67 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "Conn_01x05"
+			(at 82.55 156.21 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x05_P2.54mm_Vertical"
+			(at 82.55 149.86 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 82.55 149.86 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Generic connector, single row, 01x05, script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(at 82.55 149.86 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "3"
+			(uuid "1fdc1efb-8432-40eb-83e3-6a1b8be579c1")
+		)
+		(pin "2"
+			(uuid "8e1f0d76-aa8f-4bc8-867f-b62123f2b332")
+		)
+		(pin "1"
+			(uuid "a3e7a5b2-f463-45d2-b0dd-4a0fcf9dfb4b")
+		)
+		(pin "4"
+			(uuid "d26a399f-ff36-473d-99c9-11040d19f0f1")
+		)
+		(pin "5"
+			(uuid "38e0a77e-7482-480c-880b-c3e6d7f4a455")
+		)
+		(instances
+			(project "KiCAD"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9b3a5939-c591-4389-8331-709ea54f36b7"
+					(reference "J16")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R")
 		(at 190.5 128.27 90)
 		(unit 1)
@@ -16395,7 +16718,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Inductor_THT:L_Axial_L7.0mm_D3.3mm_P10.16mm_Horizontal_Fastron_MICC"
 			(at 190.5 130.048 90)
 			(hide yes)
 			(show_name no)
@@ -17454,7 +17777,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm"
 			(at 214.3252 124.46 0)
 			(hide yes)
 			(show_name no)
