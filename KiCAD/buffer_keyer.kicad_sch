@@ -3853,6 +3853,12 @@
 		(uuid "01b71c46-d84c-426d-895c-2838541759d6")
 	)
 	(junction
+		(at 209.55 128.27)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "0ad0e0a3-58b8-4513-8cb3-04bd4cf6d2c7")
+	)
+	(junction
 		(at 83.82 100.33)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -4021,6 +4027,12 @@
 		(uuid "71d294ea-6e8a-40ae-b2f9-97c98a0b6e8c")
 	)
 	(junction
+		(at 142.24 157.48)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "761d7a73-65b4-4394-9c8e-4431de057231")
+	)
+	(junction
 		(at 41.91 110.49)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -4135,6 +4147,12 @@
 		(uuid "c8896823-7e00-4658-a076-2043f6c47994")
 	)
 	(junction
+		(at 194.31 128.27)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "ca3c5788-1be3-4fc1-bbb6-e8e62e9eebf7")
+	)
+	(junction
 		(at 34.29 132.08)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -4145,12 +4163,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "e0b2de75-4c47-45d5-8513-9bc6975272b5")
-	)
-	(junction
-		(at 142.24 157.48)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "e2129a51-1cb8-45c1-83ca-e0df8d975f30")
 	)
 	(junction
 		(at 38.1 152.4)
@@ -4293,16 +4305,6 @@
 			(type default)
 		)
 		(uuid "09e9b89f-7cea-4596-90dd-bb15e4221ac8")
-	)
-	(wire
-		(pts
-			(xy 144.78 157.48) (xy 142.24 157.48)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "0a2b2ebd-28ca-403a-be69-3de0fec56405")
 	)
 	(wire
 		(pts
@@ -4716,6 +4718,16 @@
 	)
 	(wire
 		(pts
+			(xy 209.55 128.27) (xy 209.55 135.89)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5b38d352-e027-4856-bd01-a7477573d4cc")
+	)
+	(wire
+		(pts
 			(xy 187.96 90.17) (xy 196.85 90.17)
 		)
 		(stroke
@@ -4773,6 +4785,16 @@
 			(type default)
 		)
 		(uuid "6456d7be-067c-47a8-b04d-42f0057bfaf8")
+	)
+	(wire
+		(pts
+			(xy 194.31 128.27) (xy 194.31 135.89)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "65529ada-4a08-4fe3-8403-712224cce914")
 	)
 	(wire
 		(pts
@@ -5003,6 +5025,16 @@
 			(type default)
 		)
 		(uuid "93cb7002-70a1-42d4-a144-02283fae6c41")
+	)
+	(wire
+		(pts
+			(xy 142.24 157.48) (xy 153.67 157.48)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "96fd9c21-d229-447b-9cf6-de23533bb970")
 	)
 	(wire
 		(pts
@@ -6851,6 +6883,84 @@
 	)
 	(symbol
 		(lib_id "power:GND")
+		(at 209.55 143.51 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "0a4c5803-0533-46b9-87b7-4ae6f57b2c11")
+		(property "Reference" "#PWR013"
+			(at 209.55 149.86 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 209.55 148.59 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 209.55 143.51 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 209.55 143.51 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 209.55 143.51 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "0424d420-1476-4d66-890d-0341b7ac990e")
+		)
+		(instances
+			(project "KiCAD"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9b3a5939-c591-4389-8331-709ea54f36b7"
+					(reference "#PWR013")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
 		(at 236.22 81.28 0)
 		(unit 1)
 		(body_style 1)
@@ -7409,6 +7519,87 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:C")
+		(at 209.55 139.7 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "217c182f-2786-46a1-aff1-9301278d1b5c")
+		(property "Reference" "C17"
+			(at 202.946 137.668 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "0.33uF"
+			(at 202.946 140.208 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "xmitter:Kyocera_SR20_MLCC"
+			(at 210.5152 143.51 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 209.55 139.7 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Unpolarized capacitor"
+			(at 209.55 139.7 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "09579b09-fe9a-4933-a06d-e030ef4d0796")
+		)
+		(pin "2"
+			(uuid "35910d02-7514-479e-8785-3bc71b661928")
+		)
+		(instances
+			(project "KiCAD"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9b3a5939-c591-4389-8331-709ea54f36b7"
+					(reference "C17")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:VEE")
 		(at 57.15 118.11 0)
 		(mirror x)
@@ -7942,6 +8133,87 @@
 			(project "KiCAD"
 				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9b3a5939-c591-4389-8331-709ea54f36b7"
 					(reference "#PWR025")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 194.31 139.7 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "2b640772-4ca0-4a1a-8411-fd2c3a479534")
+		(property "Reference" "C18"
+			(at 187.706 137.668 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "0.33uF"
+			(at 187.706 140.208 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "xmitter:Kyocera_SR20_MLCC"
+			(at 195.2752 143.51 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 194.31 139.7 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Unpolarized capacitor"
+			(at 194.31 139.7 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "c8e86100-0c7b-4f97-b168-c47f55bff6ca")
+		)
+		(pin "2"
+			(uuid "481ddd03-af0a-4f9a-8cd8-67de9ce42e39")
+		)
+		(instances
+			(project "KiCAD"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9b3a5939-c591-4389-8331-709ea54f36b7"
+					(reference "C18")
 					(unit 1)
 				)
 			)
@@ -12684,7 +12956,7 @@
 	)
 	(symbol
 		(lib_id "power:+5V")
-		(at 144.78 157.48 270)
+		(at 153.67 157.48 270)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -12695,7 +12967,7 @@
 		(fields_autoplaced yes)
 		(uuid "92916499-fd48-4a22-854d-2fc512ccb253")
 		(property "Reference" "#PWR0137"
-			(at 140.97 157.48 0)
+			(at 149.86 157.48 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12706,7 +12978,7 @@
 			)
 		)
 		(property "Value" "+5V"
-			(at 148.59 157.4799 90)
+			(at 157.48 157.4799 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -12717,7 +12989,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 144.78 157.48 0)
+			(at 153.67 157.48 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12728,7 +13000,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 144.78 157.48 0)
+			(at 153.67 157.48 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12739,7 +13011,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+5V\""
-			(at 144.78 157.48 0)
+			(at 153.67 157.48 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -16592,6 +16864,84 @@
 			(project "KiCAD"
 				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9b3a5939-c591-4389-8331-709ea54f36b7"
 					(reference "R8")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 194.31 143.51 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "e40a3928-3cac-4b63-ab41-0802c325e2bb")
+		(property "Reference" "#PWR014"
+			(at 194.31 149.86 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 194.31 148.59 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 194.31 143.51 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 194.31 143.51 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 194.31 143.51 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "d47b1a90-461e-4bed-9cb5-203df5f79cb5")
+		)
+		(instances
+			(project "KiCAD"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9b3a5939-c591-4389-8331-709ea54f36b7"
+					(reference "#PWR014")
 					(unit 1)
 				)
 			)

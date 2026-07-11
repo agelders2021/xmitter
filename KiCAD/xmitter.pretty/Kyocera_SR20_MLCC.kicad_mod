@@ -1,0 +1,91 @@
+(footprint "Kyocera_SR20_MLCC"
+	(version 20240108)
+	(generator "manual")
+	(generator_version "9.0")
+	(layer "F.Cu")
+	(descr "Kyocera AVX SR20 radial multilayer ceramic capacitor, conformally coated (SkyCap SR-Series). Body 5.08 W x 3.175 T x 5.08 H mm max, lead spacing 2.54 mm, lead diameter 0.508 mm. Fits SR205E334MAR (0.33 uF Z5U 50 V) among others in the SR20 style.")
+	(tags "capacitor ceramic mlcc kyocera avx sr20 radial through-hole conformal")
+	(attr through_hole)
+	(property "Reference" "C**"
+		(at 0 -2.5 0)
+		(layer "F.SilkS")
+		(uuid "20000000-0000-0000-0000-000000000001")
+		(effects
+			(font (size 1 1) (thickness 0.15))
+		)
+	)
+	(property "Value" "SR20_MLCC"
+		(at 0 2.5 0)
+		(layer "F.Fab")
+		(uuid "20000000-0000-0000-0000-000000000002")
+		(effects
+			(font (size 1 1) (thickness 0.15))
+		)
+	)
+	(property "Datasheet" "https://www.kyocera-avx.com/products/capacitors/leaded/multilayer-ceramic/sr-series/"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "20000000-0000-0000-0000-000000000003")
+		(effects
+			(font (size 1 1) (thickness 0.15))
+		)
+	)
+	(property "Description" "Kyocera AVX SR20 MLCC radial, body 5.08 x 3.175 x 5.08 mm, 2.54 mm pitch"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "20000000-0000-0000-0000-000000000004")
+		(effects
+			(font (size 1 1) (thickness 0.15))
+		)
+	)
+
+	(fp_rect
+		(start -2.54 -1.5875)
+		(end 2.54 1.5875)
+		(stroke (width 0.12) (type solid))
+		(fill no)
+		(layer "F.SilkS")
+		(uuid "20000000-0000-0000-0000-000000000010")
+	)
+	(fp_rect
+		(start -2.54 -1.5875)
+		(end 2.54 1.5875)
+		(stroke (width 0.1) (type solid))
+		(fill no)
+		(layer "F.Fab")
+		(uuid "20000000-0000-0000-0000-000000000011")
+	)
+	(fp_rect
+		(start -2.79 -1.84)
+		(end 2.79 1.84)
+		(stroke (width 0.05) (type solid))
+		(fill no)
+		(layer "F.CrtYd")
+		(uuid "20000000-0000-0000-0000-000000000012")
+	)
+
+	(fp_text user "SR20"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(uuid "20000000-0000-0000-0000-000000000020")
+		(effects (font (size 0.7 0.7) (thickness 0.1))
+		)
+	)
+
+	(pad "1" thru_hole circle
+		(at -1.27 0)
+		(size 1.5 1.5)
+		(drill 0.7)
+		(layers "*.Cu" "*.Mask")
+		(uuid "20000000-0000-0000-0000-000000000100")
+	)
+	(pad "2" thru_hole circle
+		(at 1.27 0)
+		(size 1.5 1.5)
+		(drill 0.7)
+		(layers "*.Cu" "*.Mask")
+		(uuid "20000000-0000-0000-0000-000000000101")
+	)
+)
