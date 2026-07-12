@@ -4015,6 +4015,12 @@
 		(uuid "65f5e17e-92f8-4f13-9acc-a9e00c213e5a")
 	)
 	(junction
+		(at 243.84 114.3)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "6867fcac-9c4a-41e6-9088-ba42c8eb860d")
+	)
+	(junction
 		(at 177.8 90.17)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -4025,6 +4031,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "6bf7076b-18b9-4484-96ce-10940439f5b6")
+	)
+	(junction
+		(at 243.84 121.92)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "70bb6d8b-7741-4456-9772-1e108c3f2292")
 	)
 	(junction
 		(at 212.09 35.56)
@@ -4081,6 +4093,12 @@
 		(uuid "8fe1812f-334b-4232-b171-df7199dd3ded")
 	)
 	(junction
+		(at 243.84 143.51)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "8fe2ebaa-e385-43ae-8958-ee13faa5e7f4")
+	)
+	(junction
 		(at 64.77 105.41)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -4121,6 +4139,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "ae6c8df8-70df-4ba4-b4e3-976f35d25178")
+	)
+	(junction
+		(at 243.84 135.89)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "af9afb0a-947e-449d-a0d2-e6cc98fae954")
 	)
 	(junction
 		(at 91.44 92.71)
@@ -4480,6 +4504,16 @@
 	)
 	(wire
 		(pts
+			(xy 243.84 143.51) (xy 256.54 143.51)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "236eeecd-6187-4151-9285-af8cd6b5ddc3")
+	)
+	(wire
+		(pts
 			(xy 97.79 105.41) (xy 99.06 105.41)
 		)
 		(stroke
@@ -4637,6 +4671,16 @@
 			(type default)
 		)
 		(uuid "405d5022-f9f1-478e-8c46-4f4ec145ff02")
+	)
+	(wire
+		(pts
+			(xy 243.84 135.89) (xy 256.54 135.89)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4402f4fa-684d-4f0e-9c69-a218ac9ffa7a")
 	)
 	(wire
 		(pts
@@ -5110,6 +5154,16 @@
 	)
 	(wire
 		(pts
+			(xy 256.54 114.3) (xy 243.84 114.3)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9f28f7e6-63b7-439e-97dd-d979e527d031")
+	)
+	(wire
+		(pts
 			(xy 173.99 128.27) (xy 177.8 128.27)
 		)
 		(stroke
@@ -5317,6 +5371,16 @@
 			(type default)
 		)
 		(uuid "ca07c4dd-37b4-412c-914a-b272e6a90bcc")
+	)
+	(wire
+		(pts
+			(xy 243.84 121.92) (xy 256.54 121.92)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "cb154eeb-eac6-4eeb-8e48-e698d067a4ae")
 	)
 	(wire
 		(pts
@@ -7747,6 +7811,88 @@
 			(project "KiCAD"
 				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9b3a5939-c591-4389-8331-709ea54f36b7"
 					(reference "J13")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 256.54 118.11 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "1fab3d37-202b-4cb0-a8a1-7731910085f7")
+		(property "Reference" "C20"
+			(at 260.35 116.8399 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "100nF"
+			(at 260.35 119.3799 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+			(at 257.5052 121.92 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 256.54 118.11 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Unpolarized capacitor"
+			(at 256.54 118.11 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "a1703a55-2764-47c2-9e27-4100c004fff0")
+		)
+		(pin "1"
+			(uuid "63200a86-7ef0-4688-928e-fa455a0254ba")
+		)
+		(instances
+			(project "KiCAD"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9b3a5939-c591-4389-8331-709ea54f36b7"
+					(reference "C20")
 					(unit 1)
 				)
 			)
@@ -13181,6 +13327,88 @@
 			(project "KiCAD"
 				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9b3a5939-c591-4389-8331-709ea54f36b7"
 					(reference "#PWR035")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 256.54 139.7 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "8facc97e-f7e7-4505-ba52-fa8ef9593b45")
+		(property "Reference" "C21"
+			(at 260.35 138.4299 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "100nF"
+			(at 260.35 140.9699 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+			(at 257.5052 143.51 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 256.54 139.7 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Unpolarized capacitor"
+			(at 256.54 139.7 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "8ed3ae2c-6e25-442b-ab23-4b7b95c0eb7e")
+		)
+		(pin "1"
+			(uuid "5f3d58c3-92e1-4b29-b13f-4e06de8ca479")
+		)
+		(instances
+			(project "KiCAD"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9b3a5939-c591-4389-8331-709ea54f36b7"
+					(reference "C21")
 					(unit 1)
 				)
 			)
