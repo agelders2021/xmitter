@@ -516,14 +516,13 @@
         "bus_width": 12,
         "clearance": 0.25,
         "diff_pair_gap": 0.25,
-        "diff_pair_via_gap": 0.25,
         "diff_pair_width": 0.2,
         "line_style": 0,
         "microvia_diameter": 0.3,
         "microvia_drill": 0.1,
         "name": "HIZ",
         "pcb_color": "rgba(128, 255, 128, 0.502)",
-        "priority": 50,
+        "priority": 0,
         "schematic_color": "rgba(0, 0, 0, 0.000)",
         "track_width": 0.3,
         "tuning_profile": "",
@@ -535,14 +534,13 @@
         "bus_width": 12,
         "clearance": 0.2,
         "diff_pair_gap": 0.25,
-        "diff_pair_via_gap": 0.25,
         "diff_pair_width": 0.2,
         "line_style": 0,
         "microvia_diameter": 0.3,
         "microvia_drill": 0.1,
         "name": "Power",
         "pcb_color": "rgba(255, 128, 64, 0.502)",
-        "priority": 100,
+        "priority": 2,
         "schematic_color": "rgba(0, 0, 0, 0.000)",
         "track_width": 0.5,
         "tuning_profile": "",
@@ -554,14 +552,13 @@
         "bus_width": 12,
         "clearance": 0.2,
         "diff_pair_gap": 0.25,
-        "diff_pair_via_gap": 0.25,
         "diff_pair_width": 0.4,
         "line_style": 0,
         "microvia_diameter": 0.3,
         "microvia_drill": 0.1,
         "name": "RF",
         "pcb_color": "rgba(255, 64, 64, 0.502)",
-        "priority": 50,
+        "priority": 1,
         "schematic_color": "rgba(0, 0, 0, 0.000)",
         "track_width": 0.4,
         "tuning_profile": "",
@@ -607,6 +604,22 @@
       {
         "netclass": "RF",
         "pattern": "MOD_RF_OUT-"
+      },
+      {
+        "netclass": "Power",
+        "pattern": "Net-(U19-VI)"
+      },
+      {
+        "netclass": "Power",
+        "pattern": "Net-(U20-CAP+)"
+      },
+      {
+        "netclass": "Power",
+        "pattern": "Net-(U20-CAP-)"
+      },
+      {
+        "netclass": "Power",
+        "pattern": "Net-(U20-VOUT)"
       }
     ]
   },
@@ -780,7 +793,7 @@
         "uuid": "d3de40b8-856b-4fbd-829c-f45ffcd55742"
       }
     ],
-    "used_designators": "",
+    "used_designators": "C19,#PWR15",
     "variants": []
   },
   "sheets": [
