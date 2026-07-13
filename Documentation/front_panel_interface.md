@@ -285,10 +285,20 @@ Cross-sheet integration done on the Arduino sheet:
 - SDA, SCL, GRID_BLOCK_CRASH, LDAC_4728 labels all present and routed
   to their intended Metro pins.
 
-Still deferred (not blocking this fab pass):
+Relay drivers implemented on the arduino sheet (not the interface
+sheet):
 
-- [~] Filament / HV / T/R relay drivers — text-note placeholders on the
-      Interface sheet. Populate later as a daughtercard or hand-wire.
+- **Q4 / Q5 / Q7** — 2N7000 low-side drivers for the individual relay
+  coils (filament, HV, T/R).
+- **U17** — PCF8575 GPIO expander at 0x21 provides the drive lines to
+  the FETs.
+- **U18 (CD14538B monostable)** — mains-interlock heartbeat that gates
+  K_MAIN. Firmware pulses `MAINS_HEARTBEAT` continuously; the
+  monostable stays retriggered as long as pulses arrive. If firmware
+  halts, the monostable times out and the relay drops, killing AC to
+  the HV transformers. Test points TP11 (Heartbeat), TP18 (Inrush),
+  TP19 (HB trigger) verify each stage of the heartbeat chain.
+- **J6, J7, J8, J9** headers carry the relay + sense signals off-board.
 
 ### Control functions — not yet designed
 

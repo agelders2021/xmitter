@@ -136,10 +136,17 @@ copper is on the schematic. Text-note placeholders don't count.
 - [x] MBL_A_QUAD / MBL_B_QUAD labels present (implemented as global
       labels `MBL600_A` / `MBL600_B` — functionally equivalent to
       hierarchical, resolves cross-sheet at the root).
-- [~] Filament / HV / T/R relay drivers. Deferred — will populate the
-      Interface sheet in a later revision. Not required for this fab
-      pass. Text-note placeholder stays; leave board area clear for a
-      later daughtercard or hand-wire.
+- [x] Filament / HV / T/R relay drivers are on the **arduino sheet**,
+      not the interface sheet. Q4/Q5/Q7 (2N7000 low-side drivers) plus
+      U17 (PCF8575 GPIO expander at 0x21) handle these outputs. J6, J7,
+      J8, J9 connectors carry the relay + sense signals off-board.
+- [x] **Mains-interlock heartbeat** — U18 (CD14538B monostable) on the
+      arduino sheet gates K_MAIN via firmware heartbeat. Firmware
+      pulses `MAINS_HEARTBEAT`; monostable stays retriggered while
+      pulses arrive. If firmware halts (crash, watchdog timeout, USB
+      unplug), the monostable times out and drops the relay, killing
+      AC to the HV transformers. Test points TP11 (Heartbeat), TP18
+      (Inrush), TP19 (HB trigger) provide bench-verification hooks.
 
 ### Arduino sheet — `KiCAD/arduino.kicad_sch`
 
