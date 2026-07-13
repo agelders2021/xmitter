@@ -193,31 +193,36 @@ option exists and why it wasn't taken.
 Any of these can wait, but each must be resolved before the analog-board
 PCB gerbers ship to the fab house.
 
-### RJE1D-188 footprint verification
+### RJE1D-188 footprint verification — RESOLVED 2026-07-12
 
 `KiCAD/xmitter.pretty/Amphenol_RJE1D-188_Horizontal_Shielded.kicad_mod`
-was drafted from the datasheet text; only the signal-pin array was
-derivable exactly. Everything else needs a caliper or datasheet-drawing
-check.
+was reworked on 2026-07-12 after the builder read the actual datasheet
+drawing (`Documentation/Components/p-rje1d-188-x1x01.pdf`) and gave the
+exact coordinates directly. Original interpretation (extracted from
+datasheet OCR text) was wrong on multiple dimensions.
 
-- [x] **Signal pin array (P1–P8)** — exact from datasheet: 8.89 mm total
-      span, 1.27 mm row offset, 2.54 mm in-row pitch. No verification
-      required.
-- [ ] **Shield mount post X-spacing** — assumed 10.00 mm (posts at
-      x = ±5.00 mm). Verify against datasheet p.2 "RECOMMENDED PCB LAYOUT".
-- [ ] **Shield mount post Y-offset from pin array** — assumed +3.96 mm.
-      *Least confident dimension* — this is where the drawing's leader
-      lines are ambiguous from OCR text.
-- [ ] **Alignment peg X-spacing** — assumed 8.80 mm (pegs at x = ±4.40 mm).
-- [ ] **Alignment peg Y-offset from pin array** — assumed −3.96 mm. Also
-      only lightly grounded in the datasheet text.
-- [ ] **Four shield-tail hole positions** — placed at (±6.50, ±2.54) as
-      pure guess. Verify against the "12 PLCS Ø0.90" callout in the
-      datasheet drawing; likely at the shell's tab feet.
+Final layout, in order from PCB edge to pin block, along the Y axis:
 
-If any of these is wrong, open the footprint in KiCad's footprint editor
-and drag the offending pad to the right coordinate. It's ~1 minute per
-pad.
+- **PCB edge** at Y = −8.8 mm (dashed reference on Dwgs.User)
+- **2 Ø1.57 plated shield tails** at Y = −6.79 mm, X = ±7.425 mm
+  (14.85 mm spacing). Tied to GND — this is the shield ground.
+- **2 Ø3.00 NPTH plastic locating posts** at Y = 0, X = ±5.0 mm
+  (10.00 mm spacing). Housing alignment; no electrical connection.
+- **Front pin row (odd 1, 3, 5, 7)** at Y = +3.96 mm.
+- **Back pin row (even 2, 4, 6, 8)** at Y = +6.50 mm.
+- Rows staggered by 1.27 mm in X. Total pin 1 → pin 8 X span 8.89 mm.
+
+**Key correction from the original draft:**
+
+- Original interpretation had the Ø3.00 holes as shield ground (plated)
+  and the Ø1.57 holes as plastic pegs (NPTH). The datasheet actually
+  reverses these — Ø3.00 are the plastic housing pegs, Ø1.57 are the
+  metal shield tails. The current footprint has this right.
+- There are only 2 shield tails (not 4 as originally guessed).
+
+- [x] All footprint coordinates match datasheet dimensions.
+- [x] Ø3.00 marked NPTH.
+- [x] Ø1.57 marked plated, tied to GND for shield ground.
 
 ### PCF8575 breakout footprint verification
 
@@ -257,46 +262,33 @@ pad.
       breakout to fit the 1 × 1 in board. Confirm knob/shaft clearance and
       panel-cutout diameter (encoder shaft nut is standard M7).
 
-### Schematic — Interface sheet is not yet complete
+### Schematic — Interface sheet complete (2026-07-13)
 
-`interface.kicad_sch` currently has:
+`interface.kicad_sch` now has all the elements needed for the analog
+board fab pass:
 
-- Hierarchical labels (6): SDA, SCL, MBL_A_P/N, MBL_B_P/N.
-- Termination resistors R100 / R101.
-- Text notes with the T568B pin map and future-control-function
-  placeholders.
+- **RJ45 jack J4** — `Connector:8P8C_Shielded` symbol with
+  `xmitter:Amphenol_RJE1D-188_Horizontal_Shielded` footprint. Wired per
+  T568B: pins 1/2 = SDA/SCL, 3/6 = MBL_A_P/N, 4/5 = +5V/GND,
+  7/8 = MBL_B_P/N, shield tabs to GND.
+- **RS-422 receiver U16** — AM26LS32ACN in a DIP-16 socket. Enable
+  pins tied to GND (~G active-low). Bypass C34 100 nF + C35 10 µF.
+- **Termination R100 / R101 = 120 Ω** across the two differential
+  pairs.
+- **Level-shift dividers R26/R27 = 2.2 kΩ + R28/R29 = 10 kΩ** from
+  receiver outputs to Arduino inputs — brings 5 V TTL down to 3.3 V.
+- **Output labels** `MBL600_A` and `MBL600_B` (global) that reach the
+  Arduino sheet's PCNT inputs.
 
-**Still to add:**
+Cross-sheet integration done on the Arduino sheet:
 
-- [ ] The RJE1D-188 RJ45 jack symbol itself (currently a text-only
-      placeholder). Symbol lives in KiCad standard library as
-      `Connector:8P8C_Shielded` (already linter-injected into the sheet's
-      `lib_symbols` block, per the file's current state).
-- [ ] The RS-422 receiver — pick between:
-    - **AM26LS32ACN** (DIP-16 quad differential-line receiver). Legacy,
-      widely stocked, ±7 V common-mode range. Overkill (only 2 channels
-      used) but familiar.
-    - **74LVC2G17** (SOT-23-6 dual Schmitt buffer). Not a true RS-422
-      receiver but works fine if the MBL-600 line driver's common-mode is
-      near 3.3 V. Doesn't need a 5 V rail. Requires SMT — probably a
-      no-go for this builder (hand tremor).
-    - Default choice: AM26LS32ACN in a DIP-16 socket unless there's a
-      supply reason to skip 5 V.
-  Receiver inputs connect to MBL_A_P/N and MBL_B_P/N (across the 120 Ω
-  terminators R100/R101). Receiver outputs become two new hierarchical
-  labels (`MBL_A_QUAD`, `MBL_B_QUAD` — single-ended 3.3 V TTL) that route
-  up to the Arduino sheet and land on ESP32-S3 PCNT inputs.
-- [ ] Add **SDA** and **SCL** hierarchical labels to the Arduino sheet —
-      they exist on the Buffer/Keyer sheet and now on Interface, but not
-      yet on Arduino. Currently missing, per the summary of prior-session
-      pending items.
-- [ ] Add **GRID_BLOCK_CRASH** hierarchical label to the Arduino sheet
-      (already exposed by the Bias sheet). Enables firmware ADC-based
-      fault logging.
-- [ ] **MCP4728 LDAC pin** — wire to a spare Arduino GPIO. Required for
-      the one-time I²C EEPROM address-reprogram (0x60 → 0x62) to resolve
-      the Si5351 address collision. See `build_checklist.md` Phase 1 for
-      the collision rationale.
+- SDA, SCL, GRID_BLOCK_CRASH, LDAC_4728 labels all present and routed
+  to their intended Metro pins.
+
+Still deferred (not blocking this fab pass):
+
+- [~] Filament / HV / T/R relay drivers — text-note placeholders on the
+      Interface sheet. Populate later as a daughtercard or hand-wire.
 
 ### Control functions — not yet designed
 

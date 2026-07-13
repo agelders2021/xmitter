@@ -28,6 +28,29 @@ Status legend:
 
 ---
 
+## Current status snapshot (2026-07-13)
+
+Analog control board is functionally fab-ready. Board: 130 × 170 mm,
+2-layer FR4, all copper routed, GND pours filled, 4 corner M3 mounting
+holes at (11, 10), (131, 10), (11, 170), (131, 170).
+
+DRC clean of functional errors: 0 unconnected, 0 clearance, 0 hole-to-hole,
+0 starved-thermal, 0 track-dangling. 5 remaining warnings are all
+cosmetic silk (4 silk_over_copper auto-clipped by fab, 1 silk_overlap).
+
+Remaining pre-fab gates (small, listed under sections below):
+
+- 3 custom footprints still need physical verification when parts arrive
+  (PCF8575, QT rotary encoder, Si5351 breakout mounting holes)
+- RJE1D-188 panel cutout dimensions on a User.Drawings layer
+- BOM regeneration + Mouser cart cross-check
+- Fab-house-specific gerber / drill / stackup form-fill
+
+None are blockers for routing; they're just the last-mile items before
+gerber export.
+
+---
+
 ## 1. Custom footprint verification
 
 All four project-specific footprints were drafted from datasheet text or
@@ -41,14 +64,23 @@ datasheet drawing at proper zoom before fab.
 Detailed items in `front_panel_interface.md` "RJE1D-188 footprint
 verification" section.
 
+**Reworked 2026-07-12 against Amphenol datasheet `p-rje1d-188-x1x01.pdf`
+after builder read the drawing dimensions directly.** All coordinates
+now match the datasheet callouts.
+
 - [x] Signal pins P1-P8 (staggered 2×4, 8.89 mm span, 1.27 mm offset,
       2.54 mm in-row pitch) — exact from datasheet.
-- [ ] Shield mount post X-spacing (used 10.00 mm).
-- [ ] Shield mount post Y-offset from pin array (used +3.96 mm) —
-      *least confident dimension*.
-- [ ] Alignment peg X-spacing (used 8.80 mm).
-- [ ] Alignment peg Y-offset from pin array (used −3.96 mm).
-- [ ] Four shield-tail hole positions (guessed at ±6.50, ±2.54).
+- [x] Shield mount post X-spacing = 10.00 mm (Ø3.00 NPTH plastic
+      locating posts at ±5.0). Verified 2026-07-12.
+- [x] Shield mount post Y-offset = 0 (origin datum). Reinterpreted:
+      Ø3.00 holes are NOT shield ground, they're plastic locating
+      posts. Shield ground is via the small Ø1.57 plated tails.
+- [x] Alignment peg / shield-tail X-spacing = 14.85 mm (Ø1.57 plated,
+      at ±7.425). Verified 2026-07-12.
+- [x] Shield-tail Y-offset = −6.79 mm (6.79 mm toward PCB edge from
+      Ø3.00 locating posts). Verified 2026-07-12.
+- [x] ~~Four shield-tail hole positions~~ — verified there are only 2
+      shield tails (Ø1.57 plated), not 4. Original guesses removed.
 
 ### PCF8575 breakout
 
@@ -94,20 +126,16 @@ copper is on the schematic. Text-note placeholders don't count.
 
 ### Interface sheet — `KiCAD/interface.kicad_sch`
 
-- [ ] Instantiate the **RJE1D-188 RJ45 jack symbol** (currently only a
-      text note). Symbol `Connector:8P8C_Shielded` is already in the
-      sheet's `lib_symbols` block (linter-injected). Wire pins 1/2 to
-      SDA/SCL, 3/6 to MBL_A_P/N, 4/5 to +5V/GND, 7/8 to MBL_B_P/N,
-      shell tabs to GND.
-- [ ] Place the **RS-422 differential receiver**. Pick between
-      AM26LS32ACN (DIP-16, familiar) and 74LVC2G17 (SOT-23-6, tiny SMT
-      — probably ruled out by the builder's hand tremor). Default:
-      AM26LS32ACN in a DIP-16 socket. See front_panel_interface.md
-      "Schematic — Interface sheet is not yet complete" for the wiring
-      plan.
-- [ ] Add hierarchical labels `MBL_A_QUAD` and `MBL_B_QUAD`
-      (single-ended 3.3 V TTL outputs of the receiver) routing up to
-      the Arduino sheet.
+- [x] Instantiate the **RJE1D-188 RJ45 jack symbol** — J4 placed with
+      `Connector:8P8C_Shielded` symbol and `xmitter:Amphenol_RJE1D-188_Horizontal_Shielded`
+      footprint. Wired per T568B: SDA/SCL, MBL_A_P/N, +5V/GND,
+      MBL_B_P/N, shell tabs to GND.
+- [x] **RS-422 differential receiver placed** — U16 = AM26LS32ACN in a
+      DIP-16 socket. Terminations R100/R101 (120 Ω) + 2.2k/10k level-
+      shift dividers R26–R29 all present. Enable pins tied to GND.
+- [x] MBL_A_QUAD / MBL_B_QUAD labels present (implemented as global
+      labels `MBL600_A` / `MBL600_B` — functionally equivalent to
+      hierarchical, resolves cross-sheet at the root).
 - [~] Filament / HV / T/R relay drivers. Deferred — will populate the
       Interface sheet in a later revision. Not required for this fab
       pass. Text-note placeholder stays; leave board area clear for a
@@ -115,18 +143,11 @@ copper is on the schematic. Text-note placeholders don't count.
 
 ### Arduino sheet — `KiCAD/arduino.kicad_sch`
 
-- [ ] Add **SDA** and **SCL** as bidirectional hierarchical labels
-      (present on VFO, buffer_keyer, Interface sheets but not here).
-      Even though the Metro I²C physically exits via STEMMA QT
-      off-board, the schematic must show the electrical net for ERC to
-      pass.
-- [ ] Add **GRID_BLOCK_CRASH** as an input hierarchical label (already
-      exposed by the Bias sheet). Enables firmware ADC-based fault
-      logging.
-- [ ] Wire the **MCP4728 LDAC** signal (from the buffer_keyer sheet)
-      to a spare Metro GPIO. Required for the one-time I²C EEPROM
-      address reprogram (0x60 → 0x62) — see build_checklist.md Phase 1
-      and `project_i2c_bus.md` memory.
+- [x] **SDA** and **SCL** labels present (global labels — same
+      cross-sheet resolution as hierarchical).
+- [x] **GRID_BLOCK_CRASH** label present.
+- [x] **MCP4728 LDAC** signal wired to spare Metro GPIO (global label
+      `LDAC_4728` reaches Metro from buffer_keyer sheet).
 
 ### Front_Panel sheet — `KiCAD/front_panel.kicad_sch`
 
@@ -141,8 +162,10 @@ copper is on the schematic. Text-note placeholders don't count.
 
 - [x] Interface, Front_Panel sheets registered.
 - [x] SDA/SCL bidirectional shape on all sheet pins.
-- [ ] Once SDA/SCL labels are added to the Arduino sheet, wire the new
-      root sheet pin to the shared SDA/SCL net.
+- [x] SDA/SCL fully wired across the hierarchy (Arduino, VFO,
+      buffer_keyer, Interface all carry the same SDA/SCL globals).
+- [x] Bias sheet unlinked from root (moving to separate PCB —
+      2026-07-11).
 
 ---
 
@@ -193,14 +216,15 @@ that resolves in the installed libraries.
 Decisions from `2026-06-16-supply-and-pcb-strategy.md` that need to be
 committed to the project before routing.
 
-- [ ] **Board dimensions** — decided on paper but not yet in
-      `KiCAD.kicad_pcb`. Draw the board outline on Edge.Cuts before
-      routing.
-- [ ] **Layer stack** — 2-layer FR4, 1 oz outer copper for the control
-      board (per supply-strategy doc). Confirm in
-      `KiCAD.kicad_pro` → Board Setup → Physical Stackup.
-- [ ] **Mounting-hole plan** — 4 corner NPTH holes minimum, M3 clearance
-      (ø3.2 mm hole). Add them to Edge.Cuts.
+- [x] **Board dimensions** — Edge.Cuts drawn as 130 × 170 mm rectangle
+      (final size after 2026-07-13 expansion to make room for corner
+      mounting holes without conflicting with U1 Si5351 or L6 toroid).
+- [x] **Layer stack** — 2-layer FR4, 1.6 mm thickness, 1 oz outer
+      copper. Confirmed in `KiCAD.kicad_pcb` general.thickness = 1.6.
+- [x] **Mounting-hole plan** — 4 corner Ø3.2 mm NPTH holes placed at
+      (11, 10), (131, 10), (11, 170), (131, 170), 5 mm inset from
+      each edge. All have 8+ mm clearance to nearest component.
+      `MountingHole:MountingHole_3.2mm_M3` footprint.
 - [ ] **RJE1D-188 panel cutout** — 16.44 × 14.42 mm (datasheet page 1)
       if the RJ45 is intended to protrude through a panel. If it's
       internal only, skip.
@@ -212,39 +236,38 @@ committed to the project before routing.
 
 ## 6. Design rules (DRC) — set before routing
 
-- [ ] **Net classes** — the supply-strategy doc calls for HV_BIAS
-      (2 mm creepage), HV_SCREEN (3 mm), HV_PLATE (6 mm). None of
-      these are set up in `KiCAD.kicad_pro` yet. On the *control
-      board* only, HV_BIAS matters (the −90 V rail); the higher-voltage
-      classes apply to the PA module. Set at least HV_BIAS before
-      routing bias tracks.
-- [ ] **Minimum track width and clearance** — fab-house-specific;
-      confirm with the chosen manufacturer (JLCPCB or PCBWay) before
-      setting. Default 6 mil / 6 mil is safe for JLCPCB standard 2-layer.
-- [ ] **Minimum drill and annular ring** — 0.3 mm drill / 0.15 mm
-      annular is the JLCPCB standard 2-layer minimum. Confirm before
-      running DRC.
-- [ ] **Copper edge clearance** — 0.3 mm typical.
-- [ ] **Silk over pads / silk clearance** — set to warning, resolve on
-      a per-case basis.
+- [x] **Net classes** — Default (0.2 mm / 0.2 mm), Power (0.5 mm),
+      RF (0.4 mm), HIZ (0.3 mm) all set up in `KiCAD.kicad_pro` with
+      color coding and pattern-based net assignments.
+- [~] **HV_BIAS class** — no longer needed on this board. The bias
+      circuit was moved to a separate PCB on 2026-07-11 (bias sheet
+      unlinked from root schematic). HV_BIAS class will be set up on
+      the bias PCB project when that starts.
+- [x] **Minimum track width and clearance** — Default 0.2 mm / 0.2 mm
+      meets JLCPCB standard 2-layer (0.127 mm minimum).
+- [x] **Minimum drill and annular ring** — `min_through_hole_diameter`
+      = 0.3 mm, `min_via_annular_width` = 0.1 mm. Meets JLCPCB standard.
+- [x] **Copper edge clearance** — `min_copper_edge_clearance` = 0.5 mm.
+      Better than typical 0.3 mm requirement.
+- [x] **Silk over pads / silk clearance** — set to warning.
+      `min_text_height` reduced 0.8 → 0.5 mm on 2026-07-13 to accommodate
+      external breakout silk (U8 MCP4728, U17 PCF8575, J5, U1 Si5351)
+      whose vendor-supplied text is intentionally smaller.
 
 ---
 
-## 7. Two-board directory split — decision needed
+## 7. Two-board directory split — decided (deferred)
 
 Current KiCad project structure is flat: everything under `KiCAD/`. The
 supply-strategy doc calls for a two-board split (`control_board/` +
 `pa_module/`).
 
-- [ ] Decide **now** whether to split the project before this fab pass
-      or after. Splitting after means the current sheet UUIDs stay
-      stable; splitting before means the sheets get new instance paths.
-      Recommendation: **defer the split until the PA module design
-      starts** (Phase 3-5). The control board can ship as a
-      single-project fab on the current flat structure.
-
-If deferred: no action needed here, just don't accidentally place PA
-components on the control-board sheets.
+- [~] **Decision: defer the split** until the PA module design starts
+      (Phase 3-5). The control board ships as a single-project fab on
+      the current flat structure. Bias sheet (going to its own PCB) has
+      already been unlinked from the root schematic on 2026-07-11.
+- [ ] Don't accidentally place PA components on the control-board
+      sheets while working. (Ongoing discipline check, not a fab gate.)
 
 ---
 
