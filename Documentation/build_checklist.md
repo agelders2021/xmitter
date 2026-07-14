@@ -176,6 +176,21 @@ in each phase for power-supply items that gate that phase.
       `Documentation/front_panel_interface.md`). Continuity check each
       of the 8 conductors + shield-drain path before powering the front
       panel for the first time.
+- [ ] **RJ45 pin-numbering check before terminating the cable.** When
+      rev 1 board arrives, bench-fit the RJE1D-188 both top-side and
+      bottom-side to see which orientation the pin bends actually
+      accept. Then verify with a continuity meter which footprint pin
+      (SDA/SCL/MBL_*/+5V/GND) each physical connector pin ends up
+      connected to. Lightbox check on the plot PDF (2026-07-13)
+      confirmed drill positions match the datasheet; unknown whether
+      the pin numbering / T568B mapping is correct without physically
+      probing. Two possible outcomes:
+    - **Numbering matches T568B**: proceed with standard cable pinout,
+      done.
+    - **Numbering is mirrored**: either swap T568B → custom cable
+      pinout for rev 1 (works but non-standard), OR flag as rev-2
+      punch-list item to renumber the footprint pads and re-issue
+      gerbers next spin.
 - [ ] Aluminum shield can fabricated and mounted over the vector-board
       module WITHOUT touching the cable shield (single-point ground rule
       — grounding both ends creates a loop through the enclosure).
