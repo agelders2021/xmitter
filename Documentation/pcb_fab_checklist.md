@@ -28,26 +28,31 @@ Status legend:
 
 ---
 
-## Current status snapshot (2026-07-13)
+## Current status snapshot (2026-07-14)
 
-Analog control board is functionally fab-ready. Board: 130 × 170 mm,
-2-layer FR4, all copper routed, GND pours filled, 4 corner M3 mounting
-holes at (11, 10), (131, 10), (11, 170), (131, 170).
+**Rev 1 shipped to fab.** JLCPCB order **Y2-13077341A** placed
+2026-07-14 07:56:41. Board 130 × 170 mm, 2-layer FR4 TG135, 1.6 mm,
+1 oz copper, HASL, green mask / white silk, tented vias, 5 boards.
+Currently "Data Preparation" — production hasn't started yet, so
+last-minute rework is still theoretically possible if a fatal issue
+is caught before JLCPCB opens the panels.
 
-DRC clean of functional errors: 0 unconnected, 0 clearance, 0 hole-to-hole,
-0 starved-thermal, 0 track-dangling. 5 remaining warnings are all
-cosmetic silk (4 silk_over_copper auto-clipped by fab, 1 silk_overlap).
+DRC was clean of functional errors at submit time: 0 unconnected,
+0 clearance, 0 hole-to-hole, 0 starved-thermal, 0 track-dangling.
+5 remaining warnings were all cosmetic silk (4 silk_over_copper
+auto-clipped by fab via "Subtract soldermask from silkscreen"
+option, 1 silk_overlap accepted).
 
-Remaining pre-fab gates (small, listed under sections below):
+Rev-2 punch list (things to check when rev 1 arrives — see
+`build_checklist.md` Phase 2 for details):
 
-- 3 custom footprints still need physical verification when parts arrive
-  (PCF8575, QT rotary encoder, Si5351 breakout mounting holes)
-- RJE1D-188 panel cutout dimensions on a User.Drawings layer
-- BOM regeneration + Mouser cart cross-check
-- Fab-house-specific gerber / drill / stackup form-fill
+- RJ45 (J4) pin-numbering vs T568B verification via bench continuity
+  probe; top-mount vs bottom-mount decision based on physical pin-bend
+  fit.
+- Three external breakout footprints (PCF8575, QT rotary encoder,
+  Si5351) verify against physical parts on arrival.
 
-None are blockers for routing; they're just the last-mile items before
-gerber export.
+None blocking rev-1 assembly; all fixable in rev 2 if needed.
 
 ---
 

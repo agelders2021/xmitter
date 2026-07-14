@@ -158,6 +158,15 @@ in each phase for power-supply items that gate that phase.
       sheet (required for the one-time EEPROM address reprogram; see
       Phase 1 collision note).
 
+### PCB rev 1 fab order
+
+- [x] **Analog control board rev 1 ordered** — JLCPCB order
+      **Y2-13077341A**, placed 2026-07-14 07:56:41. 5 boards, standard
+      2-layer FR4 TG135, 1.6 mm, 1 oz outer copper, HASL, green mask,
+      white silk, tented vias. Board dimensions 130 × 170 mm. Current
+      status: "Data Preparation" (JLCPCB engineers reviewing before
+      production). Ship date TBD once production completes.
+
 ### Verify before declaring done
 
 - [ ] FREQ encoder direction matches user expectation (CW = up). If
