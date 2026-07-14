@@ -158,14 +158,19 @@ in each phase for power-supply items that gate that phase.
       sheet (required for the one-time EEPROM address reprogram; see
       Phase 1 collision note).
 
-### PCB rev 1 fab order
+### PCB Rev A fab order
 
-- [x] **Analog control board rev 1 ordered** — JLCPCB order
+- [x] **Analog control board Rev A ordered** — JLCPCB order
       **Y2-13077341A**, placed 2026-07-14 07:56:41. 5 boards, standard
       2-layer FR4 TG135, 1.6 mm, 1 oz outer copper, HASL, green mask,
       white silk, tented vias. Board dimensions 130 × 170 mm. Current
       status: "Data Preparation" (JLCPCB engineers reviewing before
-      production). Ship date TBD once production completes.
+      production). Ship date TBD once production completes. Board
+      silkscreen carries "Rev A".
+- [x] **Parts orders placed** (2026-07-14) for the components needed
+      to populate Rev A. One part is currently on backorder;
+      substitutes identified and on hand if the primary doesn't ship
+      in time.
 
 ### Verify before declaring done
 
@@ -186,7 +191,7 @@ in each phase for power-supply items that gate that phase.
       of the 8 conductors + shield-drain path before powering the front
       panel for the first time.
 - [ ] **RJ45 pin-numbering check before terminating the cable.** When
-      rev 1 board arrives, bench-fit the RJE1D-188 both top-side and
+      Rev A board arrives, bench-fit the RJE1D-188 both top-side and
       bottom-side to see which orientation the pin bends actually
       accept. Then verify with a continuity meter which footprint pin
       (SDA/SCL/MBL_*/+5V/GND) each physical connector pin ends up
@@ -197,7 +202,7 @@ in each phase for power-supply items that gate that phase.
     - **Numbering matches T568B**: proceed with standard cable pinout,
       done.
     - **Numbering is mirrored**: either swap T568B → custom cable
-      pinout for rev 1 (works but non-standard), OR flag as rev-2
+      pinout for Rev A (works but non-standard), OR flag as Rev B
       punch-list item to renumber the footprint pads and re-issue
       gerbers next spin.
 - [ ] Aluminum shield can fabricated and mounted over the vector-board

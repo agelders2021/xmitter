@@ -30,7 +30,7 @@ Status legend:
 
 ## Current status snapshot (2026-07-14)
 
-**Rev 1 shipped to fab.** JLCPCB order **Y2-13077341A** placed
+**Rev A shipped to fab.** JLCPCB order **Y2-13077341A** placed
 2026-07-14 07:56:41. Board 130 × 170 mm, 2-layer FR4 TG135, 1.6 mm,
 1 oz copper, HASL, green mask / white silk, tented vias, 5 boards.
 Currently "Data Preparation" — production hasn't started yet, so
@@ -43,7 +43,7 @@ DRC was clean of functional errors at submit time: 0 unconnected,
 auto-clipped by fab via "Subtract soldermask from silkscreen"
 option, 1 silk_overlap accepted).
 
-Rev-2 punch list (things to check when rev 1 arrives — see
+Rev B punch list (things to check when Rev A arrives — see
 `build_checklist.md` Phase 2 for details):
 
 - RJ45 (J4) pin-numbering vs T568B verification via bench continuity
@@ -52,7 +52,7 @@ Rev-2 punch list (things to check when rev 1 arrives — see
 - Three external breakout footprints (PCF8575, QT rotary encoder,
   Si5351) verify against physical parts on arrival.
 
-None blocking rev-1 assembly; all fixable in rev 2 if needed.
+None blocking Rev A assembly; all fixable in Rev B if needed.
 
 ---
 
