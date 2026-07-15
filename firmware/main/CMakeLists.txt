@@ -11,6 +11,8 @@ idf_component_register(
         "encoders.cpp"
         "power_supply.cpp"
         "console_shell.cpp"
+        "i2c_scan.cpp"
+        "mcp4728.cpp"
     INCLUDE_DIRS "."
     REQUIRES
         driver

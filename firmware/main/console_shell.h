@@ -13,9 +13,12 @@
 #pragma once
 
 #include "esp_err.h"
+#include "driver/i2c_master.h"
 
 namespace shell {
 
-esp_err_t init();
+// Pass in the shared I2C bus handle so commands like `i2c scan` and
+// `mcp4728 reprogram` can talk to devices on the bus.
+esp_err_t init(i2c_master_bus_handle_t bus);
 
 }

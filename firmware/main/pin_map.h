@@ -56,53 +56,69 @@ constexpr int               ENV_DAC_HZ   = 20000000;      // MCP4921 max ~20 MHz
 
 // ---------------------------------------------------------------------------
 //  Peripheral I2C addresses
+//
+//  Address plan for the Rev A analog control board (confirmed 2026-07-14):
+//    0x20  PCF8575 (front panel, on vector board — factory default)
+//    0x21  PCF8575 (main board — A0 jumper closed on breakout back)
+//    0x36  I2C QT Rotary Encoder (STEP; factory default)
+//    0x37  I2C QT Rotary Encoder (FUNC; A0 jumper closed on breakout back)
+//    0x48  MAX17048 fuel gauge (on-board on the Metro; do not use)
+//    0x60  Si5351A VFO (hardwired — no ADDR jumper accessible)
+//    0x67  MCP4728 null DAC (reprogrammed from factory 0x60; see below)
+//
+//  Slot 0x62 / 0x63 are held in reserve for the two MCP4725 grid-bias DACs
+//  that will live on the (not-yet-designed) separate bias board.  0x62 is
+//  the MCP4725 factory default; 0x63 is its single-jumper option.  Do not
+//  put anything else there.
 // ---------------------------------------------------------------------------
-constexpr uint8_t I2C_ADDR_SI5351   = 0x60;   // Adafruit Si5351A breakout
-constexpr uint8_t I2C_ADDR_ADS1115  = 0x48;   // ADDR pin tied to GND
-constexpr uint8_t I2C_ADDR_MAX17048 = 0x36;   // on-board Metro battery monitor
-
-// MCP4728 ships at 0x60 too — same as Si5351.  The grid-bias board must use
-// a factory-programmed alternate address (e.g. 0x61) or sit on a second I2C
-// peripheral.  Placeholder until resolved:
-constexpr uint8_t I2C_ADDR_BIAS_DAC = 0x61;   // TODO confirm after MCP4728 program
+constexpr uint8_t I2C_ADDR_SI5351            = 0x60;
+constexpr uint8_t I2C_ADDR_MCP4728           = 0x67;  // post-reprogram target
+constexpr uint8_t I2C_ADDR_MCP4728_FACTORY   = 0x60;  // out-of-box; must be moved
+constexpr uint8_t I2C_ADDR_PCF8575_PANEL     = 0x20;
+constexpr uint8_t I2C_ADDR_PCF8575_MAIN      = 0x21;
+constexpr uint8_t I2C_ADDR_MAX17048          = 0x36;  // Metro on-board fuel gauge
+constexpr uint8_t I2C_ADDR_ENC_STEP          = 0x37;  // NOTE: default 0x36
+                                                      //  collides w/ MAX17048;
+                                                      //  jumper STEP to 0x37
+                                                      //  when the QT encoder
+                                                      //  breakouts get built.
+constexpr uint8_t I2C_ADDR_ENC_FUNC          = 0x38;  // FUNC: A1 jumper closed.
 
 // ---------------------------------------------------------------------------
 //  Front-panel rotary encoders
 //
-//  Three encoders total, all wired so the COMMON terminal is GND and A/B
-//  pull to GND when active.  The S3's internal pull-ups satisfy the "high"
-//  state — no external resistors required for the mechanical PEC11s.
+//  ENC_FREQ — optical MBL-600-100P-5L (100 PPR → 400 quadrature counts per
+//  revolution), +5 V AM26LS31 differential line-driver output.  A per-board
+//  AM26LS32ACN receiver + 2.2k/10k divider (Interface sheet) drops the
+//  differential pair to 3.3 V single-ended before it reaches these GPIOs.
+//  Do NOT connect the raw encoder outputs to the S3 — not 5 V tolerant.
 //
-//  ENC_FREQ — optical, MBL-600-100P-5L (100 PPR → 400 quadrature counts
-//  per revolution).  Per the spec sheet:
-//    Vcc:    +5 V ± 5 % (the "5" in the model code)
-//    Output: AM26LS31 differential line driver (the "L"), 6 wires:
-//            pin1=A, pin2=B, pin3=0V, pin4=Vcc, pin5=Ā, pin6=B̄
-//    High level ≥ 85 % × Vcc (≥ 4.25 V), low ≤ 0.3 V.
-//  The output is NOT 3.3-V CMOS, so ENC_FREQ_A / ENC_FREQ_B must be driven
-//  through a 5→3.3 V interface — RS-422 receiver (SN65HVD3082, DS26C32,
-//  MAX3094) on the A/Ā and B/B̄ pairs is the clean choice; a 74LVC2G17
-//  level shifter on just A & B works for short on-board wiring.  Do NOT
-//  connect the encoder outputs straight to the GPIOs — the S3 is not
-//  5 V tolerant.
-//
-//  ENC_STEP — mechanical Bourns PEC11-4 (24 detents / 24 pulses, push
-//  momentary switch).  Selects the per-tick frequency step.
-//
-//  ENC_FUNC — mechanical Bourns PEC11-4 (same), reserved for future
-//  function selection (mode, audio level, key memory slot, …).
+//  ENC_STEP and ENC_FUNC — mechanical Bourns PEC11-4s that hang off the
+//  Adafruit I2C QT Rotary Encoder breakouts (seesaw SAMD09 handles the
+//  quadrature decode + button debounce on-board).  They are on the I2C
+//  bus at ENC_STEP / ENC_FUNC addresses above — no dedicated GPIOs.
 // ---------------------------------------------------------------------------
-constexpr gpio_num_t ENC_FREQ_A    = GPIO_NUM_2;    // Arduino D2
-constexpr gpio_num_t ENC_FREQ_B    = GPIO_NUM_3;    // Arduino D3
+constexpr gpio_num_t ENC_FREQ_A    = GPIO_NUM_2;    // Arduino D2 (MBL600_A)
+constexpr gpio_num_t ENC_FREQ_B    = GPIO_NUM_3;    // Arduino D3 (MBL600_B)
 constexpr gpio_num_t ENC_FREQ_SW   = GPIO_NUM_NC;   // optical encoder has no switch
 
-constexpr gpio_num_t ENC_STEP_A    = GPIO_NUM_5;    // Arduino D5
-constexpr gpio_num_t ENC_STEP_B    = GPIO_NUM_6;    // Arduino D6
-constexpr gpio_num_t ENC_STEP_SW   = GPIO_NUM_7;    // Arduino D7
+// STEP / FUNC now live on I2C QT breakouts.  These constants are kept as
+// GPIO_NUM_NC so encoders.cpp (which still references them) compiles cleanly
+// while the polling rewrite is pending.
+constexpr gpio_num_t ENC_STEP_A    = GPIO_NUM_NC;
+constexpr gpio_num_t ENC_STEP_B    = GPIO_NUM_NC;
+constexpr gpio_num_t ENC_STEP_SW   = GPIO_NUM_NC;
 
-constexpr gpio_num_t ENC_FUNC_A    = GPIO_NUM_8;    // Arduino D8
-constexpr gpio_num_t ENC_FUNC_B    = GPIO_NUM_9;    // Arduino D9
-constexpr gpio_num_t ENC_FUNC_SW   = GPIO_NUM_10;   // Arduino D10
+constexpr gpio_num_t ENC_FUNC_A    = GPIO_NUM_NC;
+constexpr gpio_num_t ENC_FUNC_B    = GPIO_NUM_NC;
+constexpr gpio_num_t ENC_FUNC_SW   = GPIO_NUM_NC;
+
+// ---------------------------------------------------------------------------
+//  MCP4728 LDAC — needed for the one-time EEPROM address reprogram
+//  (Microchip DS22187 §5.4.3).  Firmware normally drives this HIGH; the
+//  reprogram sequence pulls it LOW around the write.  See mcp4728.cpp.
+// ---------------------------------------------------------------------------
+constexpr gpio_num_t MCP4728_LDAC  = GPIO_NUM_7;    // Arduino D7
 
 // ---------------------------------------------------------------------------
 //  Fault / fail-safe — hardware screen-voltage gate
@@ -134,10 +150,13 @@ constexpr gpio_num_t PSU_READY_IN   = GPIO_NUM_40;   // Arduino TX/D1 — TODO
 constexpr gpio_num_t MAINS_HEARTBEAT = GPIO_NUM_4;   // Arduino D4 — TODO confirm
 
 // ---------------------------------------------------------------------------
-//  WinKey paddle inputs (DIT / DAH closures, momentary key = GND)
+//  WinKey paddle inputs (DIT / DAH closures, momentary key = GND).
+//  Rev A schematic (arduino.kicad_sch) wires PADDLE_A/B directly to D5/D6.
+//  (Earlier plan had them on the front-panel PCF8575; that change was
+//  reverted before the fab pass so the paddle latency is deterministic.)
 // ---------------------------------------------------------------------------
-constexpr gpio_num_t PADDLE_DIT     = GPIO_NUM_18;   // Arduino A4 — TODO
-constexpr gpio_num_t PADDLE_DAH     = GPIO_NUM_1;    // Arduino A5 — TODO
+constexpr gpio_num_t PADDLE_DIT     = GPIO_NUM_5;    // Arduino D5 (PADDLE_A)
+constexpr gpio_num_t PADDLE_DAH     = GPIO_NUM_6;    // Arduino D6 (PADDLE_B)
 
 // ---------------------------------------------------------------------------
 //  On-board indicators (no hardware wiring needed)
@@ -146,11 +165,26 @@ constexpr gpio_num_t NEOPIXEL_LED   = GPIO_NUM_46;   // Metro on-board NeoPixel
 constexpr gpio_num_t STATUS_LED     = GPIO_NUM_NC;   // L LED not broken out
 
 // ---------------------------------------------------------------------------
-//  Spares available on the Arduino headers
-// ---------------------------------------------------------------------------
-//  D0  = GPIO41  (RX, unused — UART debug runs on GPIO44 instead)
-//  Total unused: GPIO 41.  D4 (GPIO4) now reserved for MAINS_HEARTBEAT
-//  above.  All other Arduino-header pins are claimed.
+//  Metro-pin usage on the Rev A analog control board (arduino.kicad_sch):
+//    D0  = GPIO41  — RX (unused; UART debug runs on GPIO44)
+//    D1  = GPIO40  — TX (unused)
+//    D2  = GPIO2   — MBL600_A       (VFO tuning encoder, quadrature A)
+//    D3  = GPIO3   — MBL600_B       (VFO tuning encoder, quadrature B)
+//    D4  = GPIO4   — ENC_INT (reserved for future front-panel INT cable;
+//                    J50 header unpopulated on Rev A build)
+//    D5  = GPIO5   — PADDLE_A / DIT
+//    D6  = GPIO6   — PADDLE_B / DAH
+//    D7  = GPIO7   — LDAC_4728      (MCP4728 EEPROM reprogram; see above)
+//    D8  = GPIO8   — I_CATHODE_A    (per-tube cathode current, ADC1)
+//    D9  = GPIO9   — I_CATHODE_B    (per-tube cathode current, ADC1)
+//    D10 = GPIO10  — CS_DAC         (SPI CS for envelope MCP4921)
+//    D11 = GPIO11  — MOSI           (envelope DAC MOSI)
+//    D12 = GPIO12  — GRID_BLOCK_CRASH (firmware bias-slam trigger)
+//    D13 = GPIO13  — SCK            (envelope DAC clock)
+//    A0..A4 = GPIO14..18 — TODO (relay drivers, MAINS_HEARTBEAT, PSU
+//              sequencing; unresolved on the schematic — need to trace
+//              A0/A1/A2/A3/A4 net labels before assuming assignments)
+//    A5  = GPIO1   — TR_SENSE       (T/R relay contact confirmation)
 
 // ---------------------------------------------------------------------------
 //  RTOS core assignments

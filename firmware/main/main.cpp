@@ -107,7 +107,7 @@ extern "C" void app_main() {
     ESP_ERROR_CHECK(front_panel::init());
 
     // 4) USB-CDC shell.  Last so all the commands' targets are alive.
-    ESP_ERROR_CHECK(shell::init());
+    ESP_ERROR_CHECK(shell::init(s_i2c_bus));
 
     ESP_LOGI(TAG, "boot complete");
 
