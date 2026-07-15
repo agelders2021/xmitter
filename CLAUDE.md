@@ -15,7 +15,7 @@ otherwise have nowhere natural to live.
 | Directory | What's in it |
 |---|---|
 | `xmitter_prj/` | QUCS-S schematics (`.sch`) and SPICE libraries (`.lib`) |
-| `KiCAD/` | KiCad PCB design files |
+| `KiCAD/` | KiCad PCB design files. One project per board: `analog/` (fabricated Rev A, 2026-07-14), `bias/` (new), `frontpanel/` (new stub). Shared `xmitter.pretty/` footprints and `xmitter.kicad_sym` at `KiCAD/` root, referenced by each project via `${KIPRJMOD}/../`. Reversal recipe in `KiCAD/MULTIBOARD_REVERT.md`. |
 | `Documentation/` | Design docs, generated PDFs, sourcing spreadsheets, datasheets |
 | `tools/` | Python scripts: sweep_param, gen_*_pdf, gen_parts_list, etc. |
 | `firmware/` | ESP-IDF firmware (not yet scaffolded — first task this phase) |
@@ -43,23 +43,30 @@ finished items in place as history.
 
 ## Current focus
 
-Analog-board schematic is complete (2026-06-24): bias + cathode monitor
-on `KiCAD/bias.kicad_sch`, MC1496 keyer chain on `KiCAD/buffer_keyer.kicad_sch`,
-Si5351 VFO on `KiCAD/vfo.kicad_sch`, Metro carrier on `KiCAD/arduino.kicad_sch`.
-PA / driver / balun / LPF sheets are still empty stubs (Phase 3-5 work).
+Analog control board Rev A fabricated (JLCPCB order Y2-13077341A,
+submitted 2026-07-14). Project lives at `KiCAD/analog/`:
+`analog.kicad_sch` root, sub-sheets `buffer_keyer.kicad_sch` (MC1496
+keyer chain), `vfo.kicad_sch` (Si5351 VFO), `arduino.kicad_sch` (Metro
+carrier + control relays + heartbeat monostable), `interface.kicad_sch`
+(RJ45 umbilical jack + RS-422 termination + PCF8575 placeholder).
+Empty stubs `pa/driver/balun/lpf_output.kicad_sch` still linked at
+root — Phase 3-5 RF chain.
 
-Front-panel interface subsystem started 2026-07-02:
-`KiCAD/interface.kicad_sch` (RJ45 umbilical + RS-422 termination + PCF8575
-expander placeholder) and `KiCAD/xmitter.pretty/Amphenol_RJE1D-188_Horizontal_Shielded.kicad_mod`
-(custom footprint). Both are drafts — see `Documentation/front_panel_interface.md`
-"Open items" for the footprint verification checklist and remaining
-schematic work (RS-422 receiver placement, RJ45 jack symbol, control-
-function relays).
+Bias board split off to `KiCAD/bias/` (2026-07-15). Started from the
+existing `bias.kicad_sch` (OPA454 bias generator + LM393 cathode
+monitor + diode-OR + slam handoff). PCB layout not yet started.
+
+Front-panel display + encoders board at `KiCAD/frontpanel/` — empty
+stub project (2026-07-15). Other end of the RJ45 umbilical driven by
+the analog board's `interface.kicad_sch`. Schematic content to be
+drawn.
 
 Next likely work items:
-- PCB layout for the analog board (bias + cathode monitor + buffer_keyer
-  + arduino + vfo + interface sheets stitched at the root). Front-panel
-  interface open items must be resolved before gerbers ship.
+- PCB layout for `KiCAD/bias/` (HV clearances — analog board's
+  netclasses were copied over but should be tightened for the HV rails).
+- Schematic + PCB for `KiCAD/frontpanel/` — start from the umbilical
+  pin map in `Documentation/front_panel_interface.md`, mirror the
+  PCF8575 / RS-422 receiver pair on the front-panel side.
 - Scaffold `firmware/` (ESP-IDF project) — see
   `Documentation/cw_envelope_keyer.md` for the module breakdown:
   `main.cpp`, `keyer_envelope.cpp/h`, `keyer_winkey.cpp/h`,
@@ -118,7 +125,7 @@ python tools/sweep_param.py <netlist> --pattern <regex> --values <list> ...
 # Assign THT capacitor footprints by value (re-runnable; fills empty
 # Footprint fields only, never overwrites). Edit VALUE_TO_FOOTPRINT
 # at the top of the script when a new value gets ordered.
-python tools/assign_cap_footprints.py KiCAD/bias.kicad_sch \
-       KiCAD/buffer_keyer.kicad_sch KiCAD/vfo.kicad_sch KiCAD/arduino.kicad_sch \
-       KiCAD/interface.kicad_sch
+python tools/assign_cap_footprints.py KiCAD/analog/buffer_keyer.kicad_sch \
+       KiCAD/analog/vfo.kicad_sch KiCAD/analog/arduino.kicad_sch \
+       KiCAD/analog/interface.kicad_sch KiCAD/bias/bias.kicad_sch
 ```
