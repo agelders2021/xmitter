@@ -5,6 +5,17 @@
 	(uuid "ee8ebf10-f58c-4b1e-9881-a5464c055387")
 	(paper "A4")
 	(lib_symbols)
+	(text "Front-panel vector board.\n\nOff-PCB. Connects to the main board's RJ45 J1 (on the Interface sheet)\nthrough a shielded CAT6 umbilical (T568B). See\nDocumentation/front_panel_interface.md for wiring, grounding rules,\nand the open-items checklist.\n\nParts to add here (all mark exclude_from_board = yes so KiCad\ndoes not try to route them on the main PCB):\n  - Adafruit PCF8575 I2C 16-GPIO expander (I2C addr 0x20)\n  - Winstar WH2004A 20x4 character LCD (driven in 4-bit mode by the PCF8575)\n  - 2x Bourns PEC11-4 mechanical encoders (STEP, FUNC)\n  - MBL-600 optical encoder (RS-422 differential, wired straight to the RJ45)\n  - Paddle jack (dit / dah -> PCF8575 GPIO)\n  - Front-panel LEDs (TX, fault, VFO-lock -> PCF8575 GPIO)\n  - Bypass caps at LCD Vcc and PCF8575 Vcc (10 uF + 100 nF each)\n  - LCD contrast trim pot, backlight series resistor"
+		(exclude_from_sim no)
+		(at 25.4 25.4 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left top)
+		)
+		(uuid "49d1f564-416b-4fd5-ba36-02f42f4a41c1")
+	)
 	(sheet_instances
 		(path "/"
 			(page "1")
