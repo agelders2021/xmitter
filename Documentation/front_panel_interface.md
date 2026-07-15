@@ -13,7 +13,7 @@ Related docs:
 - `Documentation/cw_envelope_keyer.md` — firmware side of the paddle and
   console I/O.
 
-Related schematic: `KiCAD/interface.kicad_sch` (page 10 of the root
+Related schematic: `KiCAD/analog/interface.kicad_sch` (page 10 of the root
 schematic hierarchy). Was added 2026-07-02.
 
 Related footprints (all custom, in `KiCAD/xmitter.pretty/`):
@@ -34,10 +34,13 @@ Related symbols (in `KiCAD/xmitter.kicad_sym`):
 - **Front panel** holds: WH2004A 20×4 LCD, MBL-600 optical encoder (VFO
   tuning), 2× Bourns PEC11-4 mechanical encoders (STEP and FUNC), the
   paddle jack, and front-panel status LEDs.
-- **Vector-board module** mounts directly behind the LCD, inside a small
-  aluminum shield can that the builder will fabricate. Holds:
+- **Front-panel PCB** (`KiCAD/frontpanel/`) mounts directly behind the
+  LCD. An optional aluminum shield can may be added around it if bench
+  measurement shows RF pickup at the I²C bus — the PCB's own GND plane
+  is expected to handle it in the first build. Holds:
     - Adafruit PCF8575 I²C 16-GPIO expander (I²C addr 0x20) drives the LCD
-      in 4-bit mode and reads the paddle + front-panel LEDs. **No longer
+      in 4-bit mode, drives the front-panel LEDs, and optionally reads the
+      paddle (see "Paddle jack — two possible paths" below). **No longer
       handles the mechanical encoders** — see next item.
     - 2× Adafruit I²C QT Rotary Encoder breakouts (PID 4991), one for STEP
       and one for FUNC. Each carries a PEC11-pinout mechanical encoder
@@ -45,21 +48,34 @@ Related symbols (in `KiCAD/xmitter.kicad_sym`):
       onboard SAMD09 (seesaw firmware). This drops ~200 lines of
       quadrature/debounce/state-machine code in the ESP32-S3 firmware
       down to a couple of I²C reads per encoder. Addresses:
-        - STEP: **0x36** (default, no jumpers soldered)
-        - FUNC: **0x37** (A0 address jumper soldered closed on the back
-          of the breakout)
+        - STEP: **0x37** (A0 address jumper soldered closed on the back
+          of the breakout, to move off factory 0x36 which collides with
+          the Metro's on-board MAX17048 fuel gauge)
+        - FUNC: **0x38** (A1 address jumper soldered closed)
     - Bypass caps: 10 µF electrolytic + 100 nF ceramic on **LCD Vcc only**,
       physically close to the LCD's Vcc pin. The PCF8575 and both QT
       encoder breakouts already have VCC bypassing and 10 kΩ I²C pull-ups
       on-board (per each breakout's datasheet), so no additional caps at
       those parts.
-- **Cable**: shielded CAT6 (STP), one end factory-terminated in an RJ45
-  plug, the other end cut off and soldered directly into the vector
-  board. Cable shield is grounded only at the PCB end (see below).
-- **Main-PCB socket**: **Amphenol RJE1D-188-21401**
+- **Cable**: commercial shielded CAT6 (STP) patch cable, factory-terminated
+  with an RJ45 plug at **both** ends. Length TBD by enclosure geometry
+  (~0.3 – 1.0 m expected). No cable-end soldering.
+- **Sockets at both ends**: **Amphenol RJE1D-188-21401**
   (Mouser 523-RJE1D18821401). Shielded 8P8C, right-angle THT, tab-down,
   CAT5e-rated, 50 µ" gold contacts, no LEDs, no integrated magnetics.
-  2 pcs in the current Mouser cart.
+  2 pcs in the Mouser cart — one for the main board (`interface.kicad_sch`
+  J4), one for the front-panel PCB.
+    - **Both boards share the same footprint file**
+      `KiCAD/xmitter.pretty/Amphenol_RJE1D-188_Horizontal_Shielded.kicad_mod`
+      (via each project's `${KIPRJMOD}/../xmitter.pretty` reference). Any
+      correction to the footprint after physical fit check on the Rev A
+      analog board propagates to the front-panel PCB automatically —
+      re-run "Update PCB from schematic" on the front-panel project to
+      pick it up.
+    - **On the front-panel PCB**: pour a GND-isolated zone around the
+      connector body (no zone connection to the surrounding GND plane),
+      so cable-shield noise / ESD couples into the shield tie and doesn't
+      spread into the digital return.
 
 ## T568B pin map
 
@@ -90,11 +106,17 @@ Rationale for the pairing choices:
 ## Grounding rule (SINGLE-POINT)
 
 - Cable shield ties to chassis GND **only at the main-PCB end**, through
-  the RJE1D-188 shell tabs.
-- Do NOT connect the shield to the aluminum shield can at the vector-board
-  end — that would create a ground loop through the enclosure.
-- The vector-board module is grounded via pin 5 of the RJ45 (GND
-  conductor), NOT via the shield.
+  the RJE1D-188 shell tabs on `interface.kicad_sch` J4.
+- **At the front-panel end, the RJE1D-188 shield tabs are left floating**
+  (their footprint pads exist but are not net-tied to GND on the schematic).
+  This is what keeps the shield single-point-grounded even though there's
+  now a metal-shell socket at both ends of the cable.
+- If the front-panel PCB later ends up bolted directly to a metal
+  enclosure through the front-panel jack's ground tabs, cut the shield
+  tab pads off the PCB or leave the mounting standoffs plastic — do not
+  let the enclosure become a second ground path.
+- The front-panel PCB is powered/grounded via pins 4 / 5 of the RJ45
+  (+5 V / GND conductors), NOT via the shield.
 
 ## RS-422 termination
 
@@ -104,7 +126,7 @@ is at the **receiver end** (main PCB), not the source:
 - **R100 = 120 Ω** across MBL_A_P and MBL_A_N
 - **R101 = 120 Ω** across MBL_B_P and MBL_B_N
 
-Both live on `KiCAD/interface.kicad_sch`. Footprint
+Both live on `KiCAD/analog/interface.kicad_sch`. Footprint
 `R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal` (matches the axial
 resistor stock used elsewhere on the analog board).
 
@@ -130,8 +152,8 @@ Reserved on the analog board (added 2026-07-03):
   `ENC_INT_CABLE`. Pin 1 = ENC_INT signal, pin 2 = GND. **Leave
   unpopulated on first build.** When (if) the INT cable is added later,
   install the header, run a shielded 2-conductor cable from J50 to the
-  vector board, and tie both QT encoder INTs + the PCF8575 INT together
-  at the vector board end.
+  front-panel PCB, and tie both QT encoder INTs + the PCF8575 INT together
+  at the front-panel PCB end.
 - Footprint chosen: `PinHeader_1x02_P2.54mm_Vertical`. Standard 0.1" pin
   header slot. Fits any 2-pin plug or dupont wires or gets skipped and
   wired direct.
@@ -153,7 +175,8 @@ encoders and the PCF8575. Skipped because:
 - At 100 Hz poll rate, the worst-case knob-turn-to-VFO-update latency is
   10 ms — well below human perception (~50 ms feels instant).
 - I²C bandwidth cost is trivial: STEP + FUNC + PCF8575 reads total
-  ~400 µs per poll cycle; at 100 Hz that's 4 % bus utilization.
+  ~400 µs per poll cycle (unchanged when the addresses moved to 0x37 /
+  0x38); at 100 Hz that's 4 % bus utilization.
 - The Metro is USB-powered, so idle-CPU-load savings from interrupts
   don't matter here.
 - The RJ45 has no spare conductors; adding INT means either upgrading
@@ -176,7 +199,7 @@ compute `Δposition / Δtime` either way.
 If firmware measurement later shows polling isn't adequate (unlikely),
 adding INT is a small hardware change:
 
-- Add a wired-OR at the vector board (all three open-drain INTs
+- Add a wired-OR at the front-panel PCB (all three open-drain INTs
   tied together)
 - Add a second shielded 2-conductor cable (RG-174 or similar) with any
   small connector (RCA / 2.5 mm TRS / JST)
@@ -188,20 +211,53 @@ option exists and why it wasn't taken.
 
 ---
 
+## Paddle jack — two possible paths
+
+Where the paddle jack ends up physically depends on the enclosure and
+front-panel machining, which are not yet decided. Both wiring paths are
+supported so the choice can be made late.
+
+**Path 1 — analog board (as wired for Rev A).** Jack lives at connector
+J10 on the arduino sheet; DIT / DAH go directly to Metro D5 / D6 (labels
+`PADDLE_A` / `PADDLE_B`). No I²C latency; the Metro can hardware-interrupt
+on paddle edges if the firmware wants. This is the currently-populated
+path on the fabricated Rev A analog board.
+
+**Path 2 — front panel (reserved on the frontpanel sheet).** Jack wires
+DIT / DAH into two spare PCF8575 GPIOs on the front-panel PCB expander.
+Firmware polls the PCF8575 anyway (for LCD flags and panel LEDs), so
+paddle reads cost nothing extra. Worst-case latency at a 100 Hz poll
+rate is 10 ms — inside the debounce window of a mechanical paddle and
+well below what a CW operator can perceive. No spare CAT6 conductors
+are needed — the paddle signal travels back over the existing I²C pair
+along with everything else on the front-panel bus segment.
+
+**Only one path should be populated in any given build.** Wiring both
+simultaneously would produce double-key events on the firmware side
+(paddle press seen once via GPIO edge and again via PCF8575 poll).
+
+Firmware-side selection: a boot-time compile flag or NVS setting picks
+which source the WinKey scheduler reads. The unselected source is
+ignored; no runtime detection or auto-switching.
+
+---
+
 ## Open items (verify before PCB fab)
 
 Any of these can wait, but each must be resolved before the analog-board
 PCB gerbers ship to the fab house.
 
-### RJE1D-188 footprint verification — RESOLVED 2026-07-12
+### RJE1D-188 footprint verification — REOPENED, pending Rev A fit check
 
 `KiCAD/xmitter.pretty/Amphenol_RJE1D-188_Horizontal_Shielded.kicad_mod`
-was reworked on 2026-07-12 after the builder read the actual datasheet
-drawing (`Documentation/Components/p-rje1d-188-x1x01.pdf`) and gave the
-exact coordinates directly. Original interpretation (extracted from
-datasheet OCR text) was wrong on multiple dimensions.
+was drafted from the datasheet (`Documentation/Components/p-rje1d-188-x1x01.pdf`)
+on 2026-07-12 and provisionally marked "resolved" at the time. On
+2026-07-15 the current footprint was flagged as **wrong** (specifics TBD
+until the Rev A analog board arrives from JLCPCB and can be tested for
+fit with a physical RJE1D-188-21401 in hand). The footprint file has
+NOT been edited yet — do the physical fit check first, then correct.
 
-Final layout, in order from PCB edge to pin block, along the Y axis:
+Current file, in order from PCB edge to pin block along the Y axis:
 
 - **PCB edge** at Y = −8.8 mm (dashed reference on Dwgs.User)
 - **2 Ø1.57 plated shield tails** at Y = −6.79 mm, X = ±7.425 mm
@@ -212,17 +268,27 @@ Final layout, in order from PCB edge to pin block, along the Y axis:
 - **Back pin row (even 2, 4, 6, 8)** at Y = +6.50 mm.
 - Rows staggered by 1.27 mm in X. Total pin 1 → pin 8 X span 8.89 mm.
 
-**Key correction from the original draft:**
+**Why hold off on the fix:** the specific dimension(s) at fault aren't
+identified in isolation from the datasheet, and re-editing the footprint
+without a physical part to check against risks getting it wrong a second
+time. Rev A analog is already at the fab (order Y2-13077341A, submitted
+2026-07-14) — when it arrives, dry-fit a physical RJE1D-188-21401 to
+the analog board's J4 pads and measure whatever's off.
 
-- Original interpretation had the Ø3.00 holes as shield ground (plated)
-  and the Ø1.57 holes as plastic pegs (NPTH). The datasheet actually
-  reverses these — Ø3.00 are the plastic housing pegs, Ø1.57 are the
-  metal shield tails. The current footprint has this right.
-- There are only 2 shield tails (not 4 as originally guessed).
+**Shared file, single fix:** the same footprint file is referenced by
+both `KiCAD/analog/` and `KiCAD/frontpanel/` via
+`${KIPRJMOD}/../xmitter.pretty`. Correcting the file once and re-running
+"Update PCB from schematic" on both projects propagates the fix — no
+need to duplicate footprints per board.
 
-- [x] All footprint coordinates match datasheet dimensions.
-- [x] Ø3.00 marked NPTH.
-- [x] Ø1.57 marked plated, tied to GND for shield ground.
+- [ ] Dry-fit a physical RJE1D-188-21401 to the Rev A analog board's J4
+      pads once it arrives from JLCPCB. Record which dimension(s) are off.
+- [ ] Correct the shared footprint file. Any of pin-row Y offset, pin
+      spacing, shield-tail position, plastic-post position, or edge-clearance
+      is fair game — depends on the fit check.
+- [ ] Re-run "Update PCB from schematic" on both `KiCAD/analog/analog.kicad_pcb`
+      (if we ever spin analog Rev B) and `KiCAD/frontpanel/frontpanel.kicad_pcb`
+      (once created).
 
 ### PCF8575 breakout footprint verification
 
@@ -255,9 +321,13 @@ Final layout, in order from PCB edge to pin block, along the Y axis:
 - [ ] **Header row Y offset from board edge** — I placed the row at
       `y = +10.16 mm` (same Y as the bottom mounting holes). Verify from the
       physical part.
-- [ ] **FUNC encoder A0 jumper** — solder the A0 pad closed on the back of
-      the second breakout to move it from 0x36 to 0x37. Confirmed via I²C
-      scan before installing on the front panel.
+- [ ] **STEP encoder A0 jumper** — solder the A0 pad closed on the back of
+      the STEP breakout to move it from factory 0x36 to 0x37. Required to
+      dodge the Metro's on-board MAX17048 fuel gauge (also at 0x36 on the
+      shared bus). Confirmed via I²C scan before installing.
+- [ ] **FUNC encoder A1 jumper** — solder the A1 pad closed on the back of
+      the FUNC breakout to move it to 0x38. Confirmed via I²C scan before
+      installing on the front panel.
 - [ ] **Encoder body clearance** — the PEC11 encoder sits at 45° on the
       breakout to fit the 1 × 1 in board. Confirm knob/shaft clearance and
       panel-cutout diameter (encoder shaft nut is standard M7).
@@ -332,21 +402,31 @@ schematically drawn or wired.
       moved to dedicated I²C QT encoder breakouts. Removed from the
       working Mouser cart.
 - [ ] **2× Adafruit I²C QT Rotary Encoder breakout** — PID 4991, one for
-      STEP and one for FUNC. Solder the A0 jumper on the second unit to
-      move it from 0x36 to 0x37. Not yet ordered.
+      STEP and one for FUNC. Solder the **A0** jumper on the STEP unit
+      (to reach 0x37, dodging the Metro MAX17048 at 0x36) and the **A1**
+      jumper on the FUNC unit (to reach 0x38). Not yet ordered.
 - [ ] **2× Bourns PEC11-4 mechanical encoder** (with pushbutton, 24
       detents / 24 pulses) — solder onto the two QT breakouts. May already
       be on hand from the pre-QT-encoder plan; if not, order to match.
+- [ ] **Commercial CAT6 shielded (STP) patch cable** with RJ45 plugs
+      on both ends, length matched to the enclosure geometry. No
+      cable-cutting or terminator crimping required.
 
-### Fabrication (vector board + shield can)
+### Fabrication (front-panel PCB)
 
-- [ ] Cut and terminate the CAT6 cable to the vector-board end — solder
-      each conductor to a labelled pad on the perfboard.
-- [ ] Fabricate the aluminum shield can (~50 × 30 × 15 mm minimum) to
-      cover the vector-board module. Ensure it does NOT touch the cable
-      shield (grounding rule above).
-- [ ] Mount the vector board behind the LCD; route encoder + paddle wires
-      to the PCF8575 pins.
+- [ ] Lay out `KiCAD/frontpanel/frontpanel.kicad_pcb` with the RJE1D-188
+      socket, PCF8575 breakout footprint, 2× QT rotary encoder breakout
+      footprints, LCD header, paddle jack (option 2), and status-LED
+      pads. Mounting holes + connector locations FIRST (per project
+      convention), before component placement.
+- [ ] Pour a GND-isolated zone under and around the RJE1D-188 socket,
+      not connected to the main GND plane, so any cable-shield noise
+      / ESD couples into the shield tie and doesn't spread into the
+      digital return.
+- [ ] Route +5 V and GND from RJ45 pins 4 / 5 as the front-panel PCB's
+      power rails. No separate power connector needed.
+- [ ] Optional: aluminum shield can around the PCB if bench testing
+      shows RF pickup on the I²C bus. Not required for first build.
 
 ---
 
@@ -361,12 +441,14 @@ MBL-600 encoder (front panel, +5 V bus power)
   → 2× single-ended 3.3 V quadrature signals
   → ESP32-S3 PCNT peripheral inputs (Arduino sheet)
 
-LCD + paddle + panel LEDs (front panel, +5 V bus power)
-  → PCF8575 I²C GPIO expander on vector board (also +5 V)
+LCD + panel LEDs (front panel, +5 V bus power)
+  → PCF8575 I²C GPIO expander on the front-panel PCB (also +5 V)
+  → RJE1D-188 socket on front-panel PCB
   → 2 conductors through CAT6 (pair 2, SDA and SCL)
   → RJE1D-188 socket on main PCB
-  → I²C bus (shared with Si5351 at 0x60, MCP4728 at 0x62,
-    main-board PCF8575 at 0x21, STEP QT at 0x36, FUNC QT at 0x37)
+  → I²C bus (shared with Si5351 at 0x60, MCP4728 at 0x67,
+    main-board PCF8575 at 0x21, Metro MAX17048 at 0x36,
+    STEP QT at 0x37, FUNC QT at 0x38)
   → ESP32-S3 SDA/SCL pins (via MCP4728 STEMMA QT chain, see below)
 
 STEP + FUNC mechanical encoders (front panel, +5 V bus power)
@@ -374,7 +456,7 @@ STEP + FUNC mechanical encoders (front panel, +5 V bus power)
   → seesaw SAMD09 does quadrature decoding + button debounce on-board
   → same 2 I²C conductors through CAT6 (pair 2, SDA and SCL)
   → RJE1D-188 socket on main PCB
-  → I²C bus (STEP at 0x36, FUNC at 0x37; joins the shared bus)
+  → I²C bus (STEP at 0x37, FUNC at 0x38; joins the shared bus)
   → ESP32-S3 SDA/SCL pins
 
 I²C bus topology on the main board (2026-07-06):
