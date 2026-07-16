@@ -38,7 +38,7 @@ Related symbols (in `KiCAD/xmitter.kicad_sym`):
   LCD. An optional aluminum shield can may be added around it if bench
   measurement shows RF pickup at the I²C bus — the PCB's own GND plane
   is expected to handle it in the first build. Holds:
-    - Adafruit PCF8575 I²C 16-GPIO expander (I²C addr 0x20) drives the LCD
+    - Adafruit PCF8575 I²C 16-GPIO expander (I²C addr 0x21, A0 jumper closed) drives the LCD
       in 4-bit mode, drives the front-panel LEDs, and optionally reads the
       paddle (see "Paddle jack — two possible paths" below). **No longer
       handles the mechanical encoders** — see next item.
@@ -360,7 +360,7 @@ sheet):
 
 - **Q4 / Q5 / Q7** — 2N7000 low-side drivers for the individual relay
   coils (filament, HV, T/R).
-- **U17** — PCF8575 GPIO expander at 0x21 provides the drive lines to
+- **U17** — PCF8575 GPIO expander at 0x20 (A0 open, factory default) provides the drive lines to
   the FETs.
 - **U18 (CD14538B monostable)** — mains-interlock heartbeat that gates
   K_MAIN. Firmware pulses `MAINS_HEARTBEAT` continuously; the
@@ -447,7 +447,7 @@ LCD + panel LEDs (front panel, +5 V bus power)
   → 2 conductors through CAT6 (pair 2, SDA and SCL)
   → RJE1D-188 socket on main PCB
   → I²C bus (shared with Si5351 at 0x60, MCP4728 at 0x67,
-    main-board PCF8575 at 0x21, Metro MAX17048 at 0x36,
+    main-board PCF8575 at 0x20, Metro MAX17048 at 0x36,
     STEP QT at 0x37, FUNC QT at 0x38)
   → ESP32-S3 SDA/SCL pins (via MCP4728 STEMMA QT chain, see below)
 
@@ -467,10 +467,10 @@ I²C bus topology on the main board (2026-07-06):
                                                       │
                                                       PCB traces (SDA / SCL)
                                                       │
-                                                      ├── Main-board PCF8575 @ 0x21
+                                                      ├── Main-board PCF8575 @ 0x20
                                                       └── RJE1D-188 pins 1, 2 → CAT6 pair 2
                                                               │
-                                                              ├── Front-panel PCF8575 @ 0x20
+                                                              ├── Front-panel PCF8575 @ 0x21
                                                               ├── STEP QT rotary @ 0x36
                                                               └── FUNC QT rotary @ 0x37
 

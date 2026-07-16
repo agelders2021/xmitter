@@ -74,8 +74,8 @@ constexpr int               ENV_DAC_HZ   = 20000000;      // MCP4921 max ~20 MHz
 constexpr uint8_t I2C_ADDR_SI5351            = 0x60;
 constexpr uint8_t I2C_ADDR_MCP4728           = 0x67;  // post-reprogram target
 constexpr uint8_t I2C_ADDR_MCP4728_FACTORY   = 0x60;  // out-of-box; must be moved
-constexpr uint8_t I2C_ADDR_PCF8575_PANEL     = 0x20;
-constexpr uint8_t I2C_ADDR_PCF8575_MAIN      = 0x21;
+constexpr uint8_t I2C_ADDR_PCF8575_MAIN      = 0x20;  // A0 open (factory default) -- analog board, relay drives
+constexpr uint8_t I2C_ADDR_PCF8575_PANEL     = 0x21;  // A0 jumper closed (pulled high) -- front-panel PCB
 constexpr uint8_t I2C_ADDR_MAX17048          = 0x36;  // Metro on-board fuel gauge
 constexpr uint8_t I2C_ADDR_ENC_STEP          = 0x37;  // NOTE: default 0x36
                                                       //  collides w/ MAX17048;

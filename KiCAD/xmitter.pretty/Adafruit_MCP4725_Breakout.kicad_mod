@@ -1,0 +1,215 @@
+(footprint "Adafruit_MCP4725_Breakout"
+	(version 20240108)
+	(generator "manual")
+	(generator_version "9.0")
+	(layer "F.Cu")
+	(descr "Adafruit MCP4725 12-bit single-channel I2C DAC breakout. Board 25.4 x 17.78 mm (1.00 x 0.70 in), 4 corner mounting holes on 20.32 x 12.70 mm (0.80 x 0.50 in) spacing. Single 6-pin 0.1 in header along the bottom edge (0.10 in / 2.54 mm from board edge), labeled left-to-right: VIN, GND, SCL, SDA, A0, VOUT. The 'optional terminal' pads shown on the fab print (near the top center of the breakout) are for the user to solder in a small 2-pin screw terminal for the DAC output; they sit on the breakout PCB above the parent-board surface and are not represented here. A0 is the I2C address jumper (leave open = 0x62, tie high = 0x63). Dimensions verified against Adafruit fab print 2026-07-15.")
+	(tags "adafruit mcp4725 i2c dac breakout")
+	(attr through_hole)
+	(property "Reference" "U**"
+		(at 0 -11.5 0)
+		(layer "F.SilkS")
+		(uuid "f0000000-0000-0000-0000-000000010001")
+		(effects
+			(font (size 1 1) (thickness 0.15))
+		)
+	)
+	(property "Value" "Adafruit_MCP4725"
+		(at 0 11.5 0)
+		(layer "F.Fab")
+		(uuid "f0000000-0000-0000-0000-000000010002")
+		(effects
+			(font (size 1 1) (thickness 0.15))
+		)
+	)
+	(property "Datasheet" "Documentation/Components/MCP4725_2009.pdf"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "f0000000-0000-0000-0000-000000010003")
+		(effects
+			(font (size 1 1) (thickness 0.15))
+		)
+	)
+	(property "Description" "Adafruit MCP4725 12-bit I2C DAC breakout, 1x6 THT header"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "f0000000-0000-0000-0000-000000010004")
+		(effects
+			(font (size 1 1) (thickness 0.15))
+		)
+	)
+
+	(fp_rect
+		(start -12.7 -8.89)
+		(end 12.7 8.89)
+		(stroke (width 0.12) (type solid))
+		(fill no)
+		(layer "F.SilkS")
+		(uuid "f0000000-0000-0000-0000-000000010010")
+	)
+	(fp_rect
+		(start -13.5 -9.7)
+		(end 13.5 9.7)
+		(stroke (width 0.05) (type solid))
+		(fill no)
+		(layer "F.CrtYd")
+		(uuid "f0000000-0000-0000-0000-000000010011")
+	)
+	(fp_rect
+		(start -12.7 -8.89)
+		(end 12.7 8.89)
+		(stroke (width 0.1) (type solid))
+		(fill no)
+		(layer "F.Fab")
+		(uuid "f0000000-0000-0000-0000-000000010012")
+	)
+
+	(fp_text user "MCP4725 breakout mounts here on 1x 6-pin 0.1\" header"
+		(at 0 -1.4 0)
+		(layer "F.Fab")
+		(uuid "f0000000-0000-0000-0000-000000010013")
+		(effects
+			(font (size 0.7 0.7) (thickness 0.12))
+		)
+	)
+	(fp_text user "A0 jumper: open = 0x62, tie hi = 0x63"
+		(at 0 1.0 0)
+		(layer "F.Fab")
+		(uuid "f0000000-0000-0000-0000-000000010014")
+		(effects
+			(font (size 0.6 0.6) (thickness 0.1))
+		)
+	)
+
+	(fp_text user "VIN"
+		(at -6.35 7.87 0)
+		(layer "F.SilkS")
+		(uuid "f0000000-0000-0000-0000-000000010020")
+		(effects
+			(font (size 0.5 0.5) (thickness 0.08))
+		)
+	)
+	(fp_text user "GND"
+		(at -3.81 7.87 0)
+		(layer "F.SilkS")
+		(uuid "f0000000-0000-0000-0000-000000010021")
+		(effects
+			(font (size 0.5 0.5) (thickness 0.08))
+		)
+	)
+	(fp_text user "SCL"
+		(at -1.27 7.87 0)
+		(layer "F.SilkS")
+		(uuid "f0000000-0000-0000-0000-000000010022")
+		(effects
+			(font (size 0.5 0.5) (thickness 0.08))
+		)
+	)
+	(fp_text user "SDA"
+		(at 1.27 7.87 0)
+		(layer "F.SilkS")
+		(uuid "f0000000-0000-0000-0000-000000010023")
+		(effects
+			(font (size 0.5 0.5) (thickness 0.08))
+		)
+	)
+	(fp_text user "A0"
+		(at 3.81 7.87 0)
+		(layer "F.SilkS")
+		(uuid "f0000000-0000-0000-0000-000000010024")
+		(effects
+			(font (size 0.5 0.5) (thickness 0.08))
+		)
+	)
+	(fp_text user "VOUT"
+		(at 6.35 7.87 0)
+		(layer "F.SilkS")
+		(uuid "f0000000-0000-0000-0000-000000010025")
+		(effects
+			(font (size 0.5 0.5) (thickness 0.08))
+		)
+	)
+
+	(fp_text user "1"
+		(at -6.35 4.6 0)
+		(layer "F.SilkS")
+		(uuid "f0000000-0000-0000-0000-000000010030")
+		(effects
+			(font (size 0.5 0.5) (thickness 0.08))
+		)
+	)
+
+	(pad "" np_thru_hole circle
+		(at -10.16 -6.35)
+		(size 2.5 2.5)
+		(drill 2.5)
+		(layers "*.Cu" "*.Mask")
+		(uuid "f0000000-0000-0000-0000-000000010100")
+	)
+	(pad "" np_thru_hole circle
+		(at 10.16 -6.35)
+		(size 2.5 2.5)
+		(drill 2.5)
+		(layers "*.Cu" "*.Mask")
+		(uuid "f0000000-0000-0000-0000-000000010101")
+	)
+	(pad "" np_thru_hole circle
+		(at -10.16 6.35)
+		(size 2.5 2.5)
+		(drill 2.5)
+		(layers "*.Cu" "*.Mask")
+		(uuid "f0000000-0000-0000-0000-000000010102")
+	)
+	(pad "" np_thru_hole circle
+		(at 10.16 6.35)
+		(size 2.5 2.5)
+		(drill 2.5)
+		(layers "*.Cu" "*.Mask")
+		(uuid "f0000000-0000-0000-0000-000000010103")
+	)
+
+	(pad "1" thru_hole rect
+		(at -6.35 6.35)
+		(size 1.7 1.7)
+		(drill 1.0)
+		(layers "*.Cu" "*.Mask")
+		(uuid "f0000000-0000-0000-0000-000000010200")
+	)
+	(pad "2" thru_hole circle
+		(at -3.81 6.35)
+		(size 1.7 1.7)
+		(drill 1.0)
+		(layers "*.Cu" "*.Mask")
+		(uuid "f0000000-0000-0000-0000-000000010201")
+	)
+	(pad "3" thru_hole circle
+		(at -1.27 6.35)
+		(size 1.7 1.7)
+		(drill 1.0)
+		(layers "*.Cu" "*.Mask")
+		(uuid "f0000000-0000-0000-0000-000000010202")
+	)
+	(pad "4" thru_hole circle
+		(at 1.27 6.35)
+		(size 1.7 1.7)
+		(drill 1.0)
+		(layers "*.Cu" "*.Mask")
+		(uuid "f0000000-0000-0000-0000-000000010203")
+	)
+	(pad "5" thru_hole circle
+		(at 3.81 6.35)
+		(size 1.7 1.7)
+		(drill 1.0)
+		(layers "*.Cu" "*.Mask")
+		(uuid "f0000000-0000-0000-0000-000000010204")
+	)
+	(pad "6" thru_hole circle
+		(at 6.35 6.35)
+		(size 1.7 1.7)
+		(drill 1.0)
+		(layers "*.Cu" "*.Mask")
+		(uuid "f0000000-0000-0000-0000-000000010205")
+	)
+)
