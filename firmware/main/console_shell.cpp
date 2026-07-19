@@ -19,6 +19,7 @@
 #include "i2c_scan.h"
 #include "mcp4728.h"
 #include "pin_map.h"
+#include "vfo_knob.h"
 
 namespace shell {
 
@@ -217,6 +218,55 @@ int cmd_mcp4728(int argc, char **argv) {
     return 0;
 }
 
+// ---- `knob` command -------------------------------------------------------
+// Bench-test shim for the MBL-600 -> VFO path.  Reuses the same tier math
+// as a real knob turn -- lets you exercise the whole chain before the
+// encoder is physically wired.
+//   knob turn <N>   inject N ticks (signed; negative = counter-clockwise)
+//   knob stats      dump the internal counters
+struct {
+    arg_str_t *action;
+    arg_int_t *n;
+    arg_end_t *end;
+} knob_args;
+
+int cmd_knob(int argc, char **argv) {
+    int nerr = arg_parse(argc, argv, (void **)&knob_args);
+    if (nerr != 0) {
+        arg_print_errors(stderr, knob_args.end, argv[0]);
+        return 1;
+    }
+    const char *action = knob_args.action->sval[0];
+
+    if (std::strcmp(action, "turn") == 0) {
+        if (knob_args.n->count == 0) {
+            std::printf("usage: knob turn <N>   (N = signed ticks)\n");
+            return 1;
+        }
+        int n = knob_args.n->ival[0];
+        if (n < INT16_MIN || n > INT16_MAX) {
+            std::printf("knob turn: N out of int16 range\n");
+            return 1;
+        }
+        knob::g_vfo_knob.inject((int16_t)n);
+        std::printf("knob turn %+d -> vfo now %lu Hz\n",
+                    n, (unsigned long)vfo::current_freq());
+        return 0;
+    }
+    if (std::strcmp(action, "stats") == 0) {
+        auto s = knob::g_vfo_knob.stats();
+        std::printf("knob: polls=%lu last_delta=%lu last_mult=%lu total=%lu base_step=%lu Hz\n",
+                    (unsigned long)s.poll_count,
+                    (unsigned long)s.last_delta,
+                    (unsigned long)s.last_multiplier,
+                    (unsigned long)s.total_ticks_abs,
+                    (unsigned long)knob::g_vfo_knob.base_step_hz());
+        return 0;
+    }
+    std::printf("unknown action '%s' (try turn|stats)\n", action);
+    return 1;
+}
+
 // ---- `psu` command --------------------------------------------------------
 struct {
     arg_str_t *action;
@@ -275,6 +325,19 @@ void register_commands() {
     psu_cmd.func     = &cmd_psu;
     psu_cmd.argtable = &psu_args;
     ESP_ERROR_CHECK(esp_console_cmd_register(&psu_cmd));
+
+    // knob
+    knob_args.action = arg_str1(nullptr, nullptr, "ACTION", "turn|stats");
+    knob_args.n      = arg_int0(nullptr, nullptr, "N",
+                                "signed tick count (for `turn`)");
+    knob_args.end    = arg_end(2);
+    esp_console_cmd_t knob_cmd = {};
+    knob_cmd.command  = "knob";
+    knob_cmd.help     = "MBL-600 knob shim.  `knob turn <N>` injects ticks; "
+                        "`knob stats` prints internal counters.";
+    knob_cmd.func     = &cmd_knob;
+    knob_cmd.argtable = &knob_args;
+    ESP_ERROR_CHECK(esp_console_cmd_register(&knob_cmd));
 
     // i2c
     i2c_args.action = arg_str1(nullptr, nullptr, "ACTION", "scan");

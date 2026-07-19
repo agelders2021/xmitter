@@ -1,14 +1,22 @@
 // =============================================================================
 //  encoders.cpp — PCNT-based quadrature decode for the three front-panel
-//  encoders.  Pinned polling task on core 0 reads counters every 10 ms,
+//  encoders.  Pinned polling task on core 0 reads counters every 20 ms,
 //  computes deltas, and dispatches to the VFO / step table / func channel.
 //
 //  Why poll rather than use PCNT watchpoint callbacks:
 //    - Bookkeeping is simpler (one place that owns delta → action).
-//    - 10 ms tick is fast enough for the operator (100 updates/sec) while
+//    - 20 ms tick is fast enough for the operator (50 updates/sec, 20 ms
+//      worst-case latency below the ~50 ms human-perception floor) while
 //      coalescing multi-step spins into single VFO writes.
 //    - Mechanical PEC11 bounce (5 ms max) gets debounced by the period
 //      itself + the PCNT glitch filter (~12.8 µs).
+//
+//  NOTE (2026-07-16): this module is still PCNT-based from before the
+//  encoder pivot to I²C QT rotary breakouts.  Rewrite pending; see
+//  Documentation/front_panel_interface.md "Physical topology" for the
+//  current design (STEP 0x37, FUNC 0x38 on the shared I²C bus).  Until
+//  then, the poll-period constant below is the correct place to change
+//  the rate.
 // =============================================================================
 #include "encoders.h"
 
@@ -33,8 +41,8 @@ namespace {
 constexpr char TAG[] = "enc";
 
 // PCNT counter wraps at this magnitude — well within the int16 range of the
-// counter.  Big enough that a fast spin between 10 ms polls won't saturate
-// (100 PPR × 6 rev/s × 4 quad transitions × 10 ms = 24 counts/tick).
+// counter.  Big enough that a fast spin between 20 ms polls won't saturate
+// (100 PPR × 6 rev/s × 4 quad transitions × 20 ms = 48 counts/tick).
 constexpr int PCNT_LIMIT = 10000;
 
 // Glitch-filter span.  PCNT source clock on the S3 is APB = 80 MHz; 1000 ns
@@ -138,10 +146,12 @@ esp_err_t setup_button(gpio_num_t pin, std::atomic<bool> *flag, const char *tag)
 }
 
 // ---- Polling task ----------------------------------------------------------
-//  10 ms tick.  Drain PCNT counters, convert to deltas, apply to outputs.
+//  20 ms tick (50 Hz).  Drain PCNT counters, convert to deltas, apply to
+//  outputs.  Rate lowered from 10 ms on 2026-07-16 to reserve I²C headroom
+//  once this module is rewritten for the QT rotary breakouts.
 void poll_task(void *) {
     ESP_LOGI(TAG, "encoder poll task running on core %d", xPortGetCoreID());
-    const TickType_t period = pdMS_TO_TICKS(10);
+    const TickType_t period = pdMS_TO_TICKS(20);
     TickType_t last_wake = xTaskGetTickCount();
 
     for (;;) {

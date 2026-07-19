@@ -13,6 +13,10 @@ idf_component_register(
         "console_shell.cpp"
         "i2c_scan.cpp"
         "mcp4728.cpp"
+        "vfo_knob.cpp"
+        "pcf8575.cpp"
+        "lcd_hd44780.cpp"
+        "display.cpp"
     INCLUDE_DIRS "."
     REQUIRES
         driver

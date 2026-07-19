@@ -26,6 +26,7 @@
 
 #include "pin_map.h"
 #include "vfo_si5351.h"
+#include "vfo_knob.h"
 #include "keyer_envelope.h"
 #include "keyer_winkey.h"
 #include "grid_bias_dac.h"
@@ -34,6 +35,7 @@
 #include "front_panel.h"
 #include "power_supply.h"
 #include "console_shell.h"
+#include "display.h"
 
 namespace {
 
@@ -98,6 +100,19 @@ extern "C" void app_main() {
         }
     }
 
+    // 3a) MBL-600 frequency knob.  PCNT hardware set up here; polling task
+    //     pinned to CORE_KEYING so the knob -> VFO path runs alongside the
+    //     envelope keyer.  If the pins are NC (Rev A analog board still on
+    //     the bench without a receiver chip installed), begin() logs a
+    //     warning and both begin/start become no-ops.
+    if (esp_err_t e = knob::g_vfo_knob.begin(pins::ENC_FREQ_A,
+                                             pins::ENC_FREQ_B);
+        e != ESP_OK) {
+        ESP_LOGE(TAG, "vfo_knob begin failed: %s", esp_err_to_name(e));
+    } else {
+        ESP_ERROR_CHECK(knob::g_vfo_knob.start(pins::CORE_KEYING));
+    }
+
     ESP_ERROR_CHECK(bias::init(s_i2c_bus));
     ESP_ERROR_CHECK(cathode::init(s_i2c_bus));
 
@@ -105,6 +120,15 @@ extern "C" void app_main() {
     ESP_ERROR_CHECK(winkey::init());
 
     ESP_ERROR_CHECK(front_panel::init());
+
+    // 3b) Front-panel LCD.  Own PCF8575 (0x21) + HD44780 4-bit driver.
+    //     Task pinned to CORE_MONITOR -- I2C-heavy, non-real-time.
+    if (esp_err_t e = display::g_display.begin(s_i2c_bus); e != ESP_OK) {
+        ESP_LOGE(TAG, "display begin failed: %s (LCD not on bus?)",
+                 esp_err_to_name(e));
+    } else {
+        ESP_ERROR_CHECK(display::g_display.start(pins::CORE_MONITOR));
+    }
 
     // 4) USB-CDC shell.  Last so all the commands' targets are alive.
     ESP_ERROR_CHECK(shell::init(s_i2c_bus));
