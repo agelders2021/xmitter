@@ -42,6 +42,20 @@ Related symbols (in `KiCAD/xmitter.kicad_sym`):
       in 4-bit mode, drives the front-panel LEDs, and optionally reads the
       paddle (see "Paddle jack — two possible paths" below). **No longer
       handles the mechanical encoders** — see next item.
+    - PCF8575 → LCD pin allocation:
+        - `P0..P3` → LCD `DB0..DB3` (physically wired on the PCB but
+          electrically ignored in 4-bit mode; per-pin jumpers at the LCD
+          header let you drop each connection later if `P0..P3` need to be
+          reallocated for other GPIO uses). Wiring them cost one via and
+          left an escape hatch: 8-bit mode is available with a firmware
+          change if the LCD write cadence ever proves too slow.
+        - `P4..P7` → LCD `DB4..DB7` (active in 4-bit mode).
+        - `P8, P9, P10` → RGB backlight FET gates (Q1 red, Q2 green,
+          Q3 blue; 1 = LED on via 2N7000 low-side switch).
+        - `P11` → LCD `E` (chip enable strobe).
+        - `P12` → LCD `RS` (register select).
+        - `P13..P15` → spare (front-panel status LEDs, or paddle inputs
+          if Path 2 is chosen — see below).
     - 2× Adafruit I²C QT Rotary Encoder breakouts (PID 4991), one for STEP
       and one for FUNC. Each carries a PEC11-pinout mechanical encoder
       whose quadrature decoding + button debounce lives on the breakout's
@@ -137,7 +151,7 @@ Schmitt buffer) is **not yet placed** on the schematic. See open items.
 
 ## Interrupt handling (decision: polling now, INT hardware reserved)
 
-**No INT cable on first build. Firmware polls at 100 Hz. Hardware
+**No INT cable on first build. Firmware polls at 50 Hz. Hardware
 provisions exist to add INT later without touching the PCB.**
 
 Reserved on the analog board (added 2026-07-03):
@@ -172,11 +186,15 @@ encoders and the PCF8575. Skipped because:
   decoder with an internal 32-bit accumulator**. Every tick is captured
   on the seesaw side regardless of when the Metro reads. Polling never
   misses ticks; it only delays the moment the Metro *notices* a change.
-- At 100 Hz poll rate, the worst-case knob-turn-to-VFO-update latency is
-  10 ms — well below human perception (~50 ms feels instant).
+- At 50 Hz poll rate, the worst-case knob-turn-to-VFO-update latency is
+  20 ms — still below human perception (~50 ms feels instant).
 - I²C bandwidth cost is trivial: STEP + FUNC + PCF8575 reads total
   ~400 µs per poll cycle (unchanged when the addresses moved to 0x37 /
-  0x38); at 100 Hz that's 4 % bus utilization.
+  0x38); at 50 Hz that's 2 % bus utilization. Rate revised down from
+  100 Hz on 2026-07-16 to reserve I²C headroom for the higher-priority
+  cathode monitor path (currently spec'd at 1 kHz per channel on the
+  ESP32-S3 ADC — see `pa_cathode_monitor.md`) and for fault-recovery
+  writes to the MCP4728 grid-bias DAC.
 - The Metro is USB-powered, so idle-CPU-load savings from interrupts
   don't matter here.
 - The RJ45 has no spare conductors; adding INT means either upgrading
@@ -226,11 +244,15 @@ path on the fabricated Rev A analog board.
 **Path 2 — front panel (reserved on the frontpanel sheet).** Jack wires
 DIT / DAH into two spare PCF8575 GPIOs on the front-panel PCB expander.
 Firmware polls the PCF8575 anyway (for LCD flags and panel LEDs), so
-paddle reads cost nothing extra. Worst-case latency at a 100 Hz poll
-rate is 10 ms — inside the debounce window of a mechanical paddle and
-well below what a CW operator can perceive. No spare CAT6 conductors
-are needed — the paddle signal travels back over the existing I²C pair
-along with everything else on the front-panel bus segment.
+paddle reads cost nothing extra at the shared 50 Hz rate. Worst-case
+latency at 50 Hz is 20 ms — inside the debounce window of a mechanical
+paddle, but starting to be perceptible on fast CW keying (~30 WPM has
+40 ms dits, so a 20 ms input jitter is meaningful). If Path 2 is
+chosen and keying feel matters, the firmware polls the paddle bits at
+a higher rate than the encoders (separate I²C read of just the paddle
+byte — cheap). No spare CAT6 conductors are needed — the paddle signal
+travels back over the existing I²C pair along with everything else on
+the front-panel bus segment.
 
 **Only one path should be populated in any given build.** Wiring both
 simultaneously would produce double-key events on the firmware side

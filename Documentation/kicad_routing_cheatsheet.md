@@ -65,6 +65,52 @@ immediately is way faster than untangling it later.
 │ Ctrl+Shift+B         │ Unfill all zones (shows outlines only, faster to edit)       │
 └──────────────────────┴──────────────────────────────────────────────────────────────┘
 
+### "B doesn't fill my pour" — troubleshooting
+
+Failure symptoms usually mean one of these five things.  Walk them in
+order; each takes ten seconds to check.
+
+1. **No zone exists yet.**  `B` refills what's already there — it does
+   not draw a new pour.  If you're on a freshly-started board and
+   haven't drawn a GND pour outline, `B` is a silent no-op.  Fix:
+   right toolbar → "Add filled zone" (solid-square icon) → click to
+   draw an outline just inside the board edge → first click pops the
+   Zone Properties dialog, set **Net = GND**, Layer = F.Cu (repeat
+   for B.Cu), OK → double-click to close the polygon.  Then `B`.
+
+2. **Zone exists but has no net assigned.**  If the Zone Properties
+   dialog was dismissed with Net = `<no net>` or blank, KiCad refuses
+   to fill because it doesn't know what net to attach the pour to.
+   Fix: click the zone outline (or its edge) → `E` → set Net to GND
+   in the "Net" field → OK → `B`.
+
+3. **Zone is a keepout / rule area, not a fillable zone.**  Keepouts
+   are drawn with the same "Add filled zone" tool but the "Keepout"
+   checkbox in the properties dialog was checked and "Allow copper
+   pour" was unchecked.  They will never fill — that's the point.
+   Fix: if you meant a real pour, `E` on the zone → uncheck Keepout →
+   OK → `B`.  Or delete and redraw as a normal zone.
+
+4. **Display setting is showing outlines only.**  If `B` completes
+   silently and you still see just hatched borders, the display mode
+   is set to "outline only."  Fix: right-side Appearance panel →
+   Objects tab → "Zones" section → set the display mode to
+   **Filled**.  (Alternate quick fix: press `Ctrl+Shift+B` to unfill
+   everything, then `B` again — sometimes forces a redraw.)
+
+5. **The shortcut got re-bound or is going to the wrong window.**
+   Uncommon but possible after a KiCad reinstall or preference reset.
+   Fix: `Preferences → Preferences → Hotkeys → PCB Editor` → search
+   for "Fill" → confirm `B` is bound to `Fill All Zones`.  If the
+   PCB canvas doesn't have focus, `B` may be eaten by whatever panel
+   does — click once on the canvas first, then `B`.
+
+If none of those describe the failure, from the menu use
+**Edit → Fill All Zones** instead of the shortcut.  That path always
+runs regardless of hotkey / focus state, so it's the ground-truth
+test.  If the menu action does nothing either, the problem is that
+there are no fillable zones in the file — go back to point 1 or 2.
+
 ## View & navigation
 
 ┌──────────────────────┬──────────────────────────────────────────────────────────────┐
