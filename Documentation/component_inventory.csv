@@ -1,0 +1,55 @@
+Category,Subcategory,Value,Qty,Sheet:Refs
+R,axial,0R,1,vfo: RS1
+R,axial,10R,1,vfo_buffer: R16
+R,axial,50R,1,vfo: RT1
+R,axial,51R,3,"vfo_buffer: R1,R3,R4"
+R,axial,62R,2,"vfo: RP1,RP3"
+R,axial,120R,4,"front_panel: R2,R3; interface: R100,R101"
+R,axial,200R,1,front_panel: R1
+R,axial,240R,1,vfo: RP2
+R,axial,270R,1,vfo: RD1
+R,axial,1k,2,"bias: R_PADA1,R_PADB1"
+R,axial,1.5k,1,vfo_buffer: R13
+R,axial,2k,1,vfo_buffer: Re1
+R,axial,2.2k,3,"bias: R_Z1; interface: R26,R27"
+R,axial,2.7k,2,"vfo_buffer: R6,R8"
+R,axial,3.9k,2,"vfo_buffer: RLA1,RLB1"
+R,axial,4.7k,2,"bias: R19,R25"
+R,axial,6.8k,1,vfo_buffer: R2
+R,axial,7.5k,2,"bias: R20,R22"
+R,axial,8.2k,4,"vfo_buffer: R10,R5,R7,R9"
+R,axial,10k,10,"arduino: R102; bias: R18,R_GA1,R_GATE1,R_GB1; interface: R28,R29; vfo: R17; vfo_buffer: RG_OP1,RG_OP2"
+R,axial,22k,4,"bias: R_GLA1,R_GLB1; vfo_buffer: R11,R12"
+R,axial,27k,1,bias: R17
+R,axial,30k,2,"vfo_buffer: RF_OP1,RF_OP2"
+R,axial,100k,3,"bias: R24; vfo_buffer: R14,R15"
+R,axial,170k,2,"bias: R_FA1,R_FB1"
+R,axial,330k,2,"vfo_buffer: R_INJ1,R_INJ2"
+R,axial,470k,3,"arduino: R30; bias: R21,R23"
+R,pot,10k,1,bias: RV1
+C,ceramic,220pF,2,"vfo: CF1,CF7"
+C,ceramic,330pF,1,vfo_buffer: C1
+C,ceramic,390pF,2,"vfo: CF3,CF5"
+C,ceramic,1nF,2,"bias: C28,C29"
+C,ceramic,10nF,2,"vfo: CC1,C_IN1"
+C,ceramic,100nF,39,"arduino: C36,C38,C42; bias: C19,C20,C22,C23,C24,C27,C31; front_panel: C12,C2,C4,C6; interface: C34; vfo: C44; vfo_buffer: C10,C12,C16,C2,C20,C21,C39,C40,C45,C46,C47,C5,C51,C53,C54,C55,C6,C8,C_IN2,C_IN3,C_OP_OUT1,C_OP_OUT2,Cx1"
+C,ceramic,330nF,4,"bias: C21; vfo_buffer: C17,C18,C52"
+C,ceramic,680nF,1,vfo_buffer: C3
+C,ceramic,1uF,4,"arduino: C41; bias: C17,C18; vfo_buffer: C14"
+C,electrolytic,1uF,2,"vfo_buffer: C13,C15"
+C,electrolytic,10uF,19,"arduino: C37,C43; bias: C25,C26,C30,C32,C33; front_panel: C1,C11,C3,C5; interface: C35; vfo_buffer: C11,C19,C4,C48,C50,C7,C9"
+C,electrolytic,100uF,1,vfo_buffer: C49
+Q,2N7000,2N7000,9,"arduino: Q4,Q5,Q6,Q7; bias: Q2,Q3; front_panel: Q1,Q2,Q3"
+Q,J310,J310,1,vfo: Q1
+U,IC,AM26LS32ACN,1,interface: U16
+U,IC,CD14538B,1,arduino: U18
+U,IC,ICL7660S,1,vfo_buffer: U20
+U,IC,L79L08_TO92,1,vfo_buffer: U19
+U,IC,LM393,3,"bias: U12,U12,U12"
+U,IC,LM4040LP-5,1,bias: U11
+U,IC,LM7171xIN,2,"vfo_buffer: U6,U7"
+U,IC,LM7805_TO220,2,bias: U9; vfo_buffer: U15
+U,IC,MC1496,1,vfo_buffer: U3
+U,IC,MCP4921,1,vfo_buffer: U4
+U,IC,OPA1641,2,"bias: U13,U14"
+U,IC,OPA454,4,"bias: U10,U10,U5,U5"
