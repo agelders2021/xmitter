@@ -38,6 +38,13 @@ fp-info-cache
 KiCAD/ERC.rpt
 KiCAD/report.txt
 KiCAD/DRC.rpt
+# Same reports in per-board subdirectories
+KiCAD/**/ERC.rpt
+KiCAD/**/DRC.rpt
+KiCAD/**/report.txt
+# Gerber fabrication outputs -- regenerable from the .kicad_pcb source
+KiCAD/**/gerber/
+KiCAD/**/gerber.zip
 # KiCad ad-hoc plot output PDFs (redundant with gerbers; regenerable)
 KiCAD/KiCAD-*.pdf
 # Stray plot PDFs at repo root (accidental output path)
