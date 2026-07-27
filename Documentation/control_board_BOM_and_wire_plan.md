@@ -236,17 +236,16 @@ Option A (original spec, T50-6):
 - LF6 = 13 turns on T50-6 = ~647 nH
 
 Option B (T68-6 substitution, recommended since user has these on hand):
-- LF2 = 8 turns on T68-6 = ~736 nH
-- LF4 = 8 turns on T68-6 = ~736 nH
-- LF6 = 8 turns on T68-6 = ~736 nH
-- Cutoff shifts from 17.5 MHz to ~16.4 MHz; 14.2 MHz operating
+- LF2 = 12 turns on T68-6 = ~677 nH  (AL = 4.7 nH/t², Micrometals #6)
+- LF4 = 12 turns on T68-6 = ~677 nH
+- LF6 = 12 turns on T68-6 = ~677 nH
+- Cutoff shifts from 17.5 MHz to ~17.3 MHz (~1 %); 14.2 MHz operating
   frequency remains well in the passband; harmonic suppression
   unchanged. T68-6 is meaningfully easier to wind than T50-6.
 
 If using Option B and you want the original 17.5 MHz cutoff exactly,
-rescale the caps:
-- CF1 / CF7 - 220 pF down to 200 pF (or 195 pF if you have it)
-- CF3 / CF5 - 390 pF down to 360 pF
+the shift is small enough (~200 kHz) that cap rescaling isn't worth
+the schematic churn.
 
 Order 3 T68-6 cores + 2 spares (5 total) if going Option B, or
 3 T50-6 + 2 spares if going Option A.
@@ -277,7 +276,7 @@ schematic settles on a specific core.
 LPF_stage.md (300 ohm variant dropped). Full spec is in
 Documentation/LPF_stage.md.
 
-- L1, L2 = 540 nH each on T68-6, 7 turns each
+- L1, L2 = 540 nH each on T68-6, 11 turns each (AL = 4.7 nH/t²)
 - Order 4 x T68-6 (2 needed + 2 spare for redos)
 
 **PA plate tank** (air-core, NOT toroidal)
@@ -298,7 +297,7 @@ finer #24 is easier to wind on the small-signal VFO toroids, and
 
 **#24 AWG enameled - VFO LPF on the control board:**
 
-- VFO LPF inductors (3 toroids, 8 turns each on T68-6)
+- VFO LPF inductors (3 toroids, 12 turns each on T68-6)
 - Carrier current is a few mA after the 20 dB pi pad
 - Q penalty vs #22 is negligible at 14 MHz (~10% Q drop, lost in
   the T68-6 core-loss floor; translates to ~0.02 dB extra passband
@@ -307,14 +306,13 @@ finer #24 is easier to wind on the small-signal VFO toroids, and
 
 **#22 AWG enameled - driver and output LPF, future ATU:**
 
-- Driver output transformer (T68-6, 12+12/6+6 bifilar): 13% window
-  margin, fits with careful uniform winding
-- Output LPF inductors (8 turns on T68-6): trivial fit, ample current
+- Driver output transformer (T68-6, 12+12/6+6 bifilar as currently
+  spec'd; see the open item in `driver_stage.md` — the physical L
+  on T68-6 is ~7× lower than the SPICE model, so this transformer
+  may need to move to T94-6 or T106-6 before the driver is built)
+- Output LPF inductors (11 turns on T68-6): trivial fit, ample current
   capacity at 50 W output (1 A RMS)
 - ATU inductors when that board comes online
-- If the driver output transformer's 13% bifilar margin feels too
-  tight, that single transformer can move to a larger T94-6 core
-  without affecting any other inductor spec.
 
 **#18 AWG enameled - balun and PA parasitic suppressors:**
 
@@ -427,8 +425,7 @@ PA board).
 - DIP sockets: 28-pin x 2, 14-pin x 2, 8-pin x 8
 - Headers: full assortment per list above
 - Resistor 1% metal film kit (or individual values from list)
-- Silver mica caps: 220 pF x 4, 390 pF x 4 (200/360 pF if going
-  T68-6 retune option)
+- Silver mica caps: 220 pF x 4, 390 pF x 4
 - NPO ceramic caps: 10 nF x 5, 330 pF x 5, 1 nF x 5
 - X7R ceramic caps: 100 nF x 25, 10 uF x 10
 - Aluminum electrolytic 10 uF / 25V x 10

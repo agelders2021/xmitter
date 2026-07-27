@@ -73,16 +73,16 @@ L1 and L2 both 540 nH single-wound on a toroidal core.
 │ Core        │ Turns for   │ Notes                           │
 │             │ 540 nH      │                                 │
 ├─────────────┼─────────────┼─────────────────────────────────┤
-│ T68-6       │ 7 turns     │ AL ≈ 11.5 nH/t²; 7² × 11.5 =    │
-│             │             │ 564 nH (+4 %, within tolerance) │
+│ T68-6       │ 11 turns    │ AL ≈ 4.7 nH/t²; 11² × 4.7 =     │
+│             │             │ 569 nH (+5.4 %, within tol.)    │
 │ T50-6       │ 12 turns    │ AL ≈ 4.0 nH/t²; 12² × 4.0 =     │
 │             │             │ 576 nH (+7 %, edge of tolerance)│
 └─────────────┴─────────────┴─────────────────────────────────┘
 
-**Use T68-6 + 7 turns + #22 AWG enameled** per the project
-single-gauge wire plan. The +4 % L tolerance just shifts the
-filter cutoff from ~15 MHz to ~14.7 MHz — still well above
-14.2 MHz, harmonic suppression unchanged.
+**Use T68-6 + 11 turns + #22 AWG enameled** per the project
+single-gauge wire plan. The +5.4 % L tolerance just shifts the
+filter cutoff from ~15 MHz to ~14.6 MHz — still above 14.2 MHz,
+harmonic suppression unchanged.
 
 Mount L1 and L2 either on perpendicular axes or with ≥ 1"
 separation to prevent stray mutual coupling between them.

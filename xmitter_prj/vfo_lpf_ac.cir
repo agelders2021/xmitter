@@ -1,0 +1,49 @@
+* =============================================================
+* VFO LPF - AC sweep deck (Method B for the sensitivity study)
+* 7-pole Chebyshev 0.1 dB, CLCLCLC, 50 ohm source/load
+* -------------------------------------------------------------
+* Nominal component values (edit here for baseline changes):
+*   CF1 = CF7 = 220 pF   (std NPO/C0G, +2.3 % from ideal 215)
+*   CF3 = CF5 = 390 pF   (std, +2.4 % from ideal 381)
+*   LF2 = LF6 = 680 nH   (12 turns on T68-6, AL 4.7 nH/t^2)
+*   LF4       = 790 nH   (13 turns on T68-6)
+* Effective cutoff ~16.7 MHz with these values
+*   (vs ideal 17.5 MHz; L is ~7 % high on average -> fc drops).
+* -------------------------------------------------------------
+* Standalone use:
+*     python xmitter_prj\ngspice.py vfo_lpf_ac
+*   -> writes vfo_lpf_ac.dat.ngspice, open in gui_plot for the
+*      full frequency response.
+* Sensitivity driver:
+*     python tools\lpf_sensitivity.py xmitter_prj\vfo_lpf_ac.cir
+*   -> perturbs each .param below by +/- tolerance and reports
+*      delta IL at the four harmonic frequencies of interest.
+* =============================================================
+
+.param CF1 = 220p
+.param CF3 = 390p
+.param CF5 = 390p
+.param CF7 = 220p
+.param LF2 = 680n
+.param LF4 = 790n
+.param LF6 = 680n
+
+Vin in 0 AC 1
+RS  in n1 50
+CF1 n1 0  {CF1}
+LF2 n1 n2 {LF2}
+CF3 n2 0  {CF3}
+LF4 n2 n3 {LF4}
+CF5 n3 0  {CF5}
+LF6 n3 n4 {LF6}
+CF7 n4 0  {CF7}
+RL  n4 0  50
+
+.control
+ac dec 400 100k 300Meg
+write spice4qucs.ac1.plot v(in) v(n4)
+destroy all
+reset
+exit
+.endc
+.END

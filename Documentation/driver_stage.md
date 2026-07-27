@@ -114,19 +114,19 @@ push-pull output transformer. The transformer simulation lives in
 `xmitter_prj/Driver_output_transformer_subcircuit.sch`; the
 component spec below is the build spec.
 
-**Core**: T68-6 iron powder (yellow, type 6, AL ≈ 11.5 nH/t²,
-useful to ~50 MHz)
+**Core**: T68-6 iron powder (yellow, type 6, AL ≈ 4.7 nH/t²
+per Micrometals #6 datasheet, L₁₀₀ = 47 µH, useful to ~40 MHz)
 
 **Windings** (all on the same core, bifilar pairs):
 
 ┌────────────────────┬──────────────┬──────────┬───────────────────────────┐
 │ Winding            │ Turns        │ L (each) │ Connection                │
 ├────────────────────┼──────────────┼──────────┼───────────────────────────┤
-│ Primary half A     │ 12 t bifilar │ 6.3 µH   │ Plate of lower tube       │
-│ Primary half B     │ 12 t bifilar │ 6.3 µH   │ Plate of upper tube       │
+│ Primary half A     │ 12 t bifilar │ 677 nH   │ Plate of lower tube       │
+│ Primary half B     │ 12 t bifilar │ 677 nH   │ Plate of upper tube       │
 │ Primary CT         │ —            │ —        │ B+ via plate RFC          │
-│ Secondary half A   │ 6 t bifilar  │ 1.5 µH   │ Grid 1 of 6146B (lower)   │
-│ Secondary half B   │ 6 t bifilar  │ 1.5 µH   │ Grid 2 of 6146B (upper)   │
+│ Secondary half A   │  6 t bifilar │ 169 nH   │ Grid 1 of 6146B (lower)   │
+│ Secondary half B   │  6 t bifilar │ 169 nH   │ Grid 2 of 6146B (upper)   │
 │ Secondary CT       │ —            │ —        │ PA grid bias return       │
 └────────────────────┴──────────────┴──────────┴───────────────────────────┘
 
@@ -135,6 +135,41 @@ useful to ~50 MHz)
 **Total turns on core**: 36 (12+12 primary, 6+6 secondary)
 **Wire**: #22 AWG enameled per the project single-gauge wire plan
 **Core power**: ~100-200 mW; far below T68-6 saturation/loss limits
+
+> **⚠ Open item — SPICE model L ≠ physical L on T68-6**
+>
+> The SPICE subcircuit sets `INPUT_L = 4.8 µH` and `OUTPUT_L = 1.14 µH`
+> per half. On T68-6 with 12 t / 6 t bifilar and the correct
+> AL = 4.7 nH/t², the physical L per half is only 677 nH / 169 nH —
+> about 7× lower than the sim.
+>
+> The 4.8 µH / 1.14 µH numbers date from an earlier legacy analysis
+> that used AL = 47 nH/t² for T68-6 — a 10× units confusion between
+> "L per 100 turns in µH" (47 µH) and "AL per turn² in nH" (4.7 nH).
+> With that (wrong) AL, 12 t gave ~6.8 µH per half; someone later
+> corrected the doc's stated AL to 11.5 nH/t² without recomputing
+> the L column, so the mismatch has been latent for a while.
+>
+> To physically achieve the sim's 4.8 µH per half on T68-6 needs
+> `N = √(4800/4.7) = 32 turns per half`. That's 64 turns of #22 AWG
+> bifilar around a T68 window — doesn't fit as a single layer.
+>
+> Real options, pick one before winding:
+>
+> 1. **Rewind physical only, keep the topology.** Move to a larger
+>    core (T94-6 needs ~26 t/half, T106-6 needs ~20 t/half) and hit
+>    4.8 µH/half.
+> 2. **Rerun the sim with realistic L for T68-6 / 12+12 build.** Set
+>    `INPUT_L = 0.68 µH`, `OUTPUT_L = 0.17 µH`, resweep to confirm
+>    driver performance and 6146B grid drive level still meet spec.
+> 3. **Confirm this is a tuned transformer, not broadband.** At
+>    14.2 MHz, X_L for 4.8 µH is ~430 Ω per half — well below any
+>    reasonable driver plate impedance. If the design intent is
+>    resonant with the reflected grid capacitance, that resonance
+>    should be explicit in the doc and the C values re-checked.
+>
+> Whichever direction, the driver stage should NOT be built until
+> the sim and the physical build spec agree.
 
 **Winding technique**:
 

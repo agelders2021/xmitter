@@ -10,10 +10,10 @@ are referenced for context but their specifics live in legacy docs.
 ## Block diagram
 
 ```
-Si5351 module          Pi pad (20 dB)         7-pole Chebyshev LPF
-3.3 V CMOS sq wave  →  62 / 240 / 62 Ω     →  CF1=220p, LF2=647nH,
-14.175 MHz, ~8 mA      sets level into        CF3=390p, LF4=715nH,
-push-pull output       the LPF                CF5=390p, LF6=647nH,
+Si5351 module          Pi pad (20 dB)         7-pole ladder LPF (as-built)
+3.3 V CMOS sq wave  →  62 / 240 / 62 Ω     →  CF1=220p, LF2=677nH,
+14.175 MHz, ~8 mA      sets level into        CF3=390p, LF4=677nH,
+push-pull output       the LPF                CF5=390p, LF6=677nH,
                                               CF7=220p
                                                 │
                                                 ▼
@@ -55,8 +55,8 @@ Signal flow, end to end:
 
 ### 7-pole low-pass filter (T68-6 inductors, original caps kept)
 
-Built with three identical T68-6 inductors at 8 turns each
-(uniform 736 nH). Capacitor values are kept at the original
+Built with three identical T68-6 inductors at 12 turns each
+(uniform 677 nH). Capacitor values are kept at the original
 Chebyshev 0.1 dB ripple design (220 / 390 / 390 / 220 pF) — both
 are E12 standard silver mica values for easy sourcing. The slight
 filter-shape consequence is intentional and documented below.
@@ -65,60 +65,68 @@ filter-shape consequence is intentional and documented below.
 │ Ref │ Value  │ Construction                                    │
 ├─────┼────────┼─────────────────────────────────────────────────┤
 │ CF1 │ 220 pF │ Silver mica E12, ≥ 500 V (CD15/CD19 series)     │
-│ LF2 │ 736 nH │ 8 turns #24 AWG enameled on T68-6               │
+│ LF2 │ 677 nH │ 12 turns #24 AWG enameled on T68-6              │
 │ CF3 │ 390 pF │ Silver mica E12, ≥ 500 V                        │
-│ LF4 │ 736 nH │ 8 turns #24 AWG enameled on T68-6               │
+│ LF4 │ 677 nH │ 12 turns #24 AWG enameled on T68-6              │
 │ CF5 │ 390 pF │ Silver mica E12, ≥ 500 V                        │
-│ LF6 │ 736 nH │ 8 turns #24 AWG enameled on T68-6               │
+│ LF6 │ 677 nH │ 12 turns #24 AWG enameled on T68-6              │
 │ CF7 │ 220 pF │ Silver mica E12, ≥ 500 V                        │
 └─────┴────────┴─────────────────────────────────────────────────┘
 
-#### Why uniform 736 nH (instead of a true 647 / 715 / 647 Chebyshev)
+#### Why uniform 677 nH (instead of a true 647 / 715 / 647 Chebyshev)
 
 The original Chebyshev design used T50-6 cores with L = 647 nH on
 the outer positions and 715 nH at the center — the asymmetric
 values come from the per-position Chebyshev coefficients
 (g₂ = g₆ ≈ 1.423, g₄ ≈ 1.573).
 
-On T68-6 (AL ≈ 11.5 nH/t²), the closest integer turn count for
-either target lands at 8 turns = 736 nH:
+On T68-6 (AL ≈ 4.7 nH/t², Micrometals #6 material, L₁₀₀ = 47 µH),
+the closest integer turn count for either target lands at 12 turns
+= 677 nH:
 
-- 7 turns = 564 nH (13 % low vs 647 nH target)
-- 8 turns = 736 nH (14 % high vs 647 nH, only 3 % high vs 715 nH)
+- 11 turns = 569 nH (12 % low vs 647 nH target)
+- 12 turns = 677 nH ( 5 % high vs 647 nH, 5 % low vs 715 nH)
+- 13 turns = 794 nH (23 % high vs 647 nH, 11 % high vs 715 nH)
 
-Eight turns at every position is the practical choice. Three
+Twelve turns at every position is the practical choice. Three
 identical windings are far easier to wind, count, and pack
-uniformly around the core than mixing 7 t and 8 t.
+uniformly around the core than mixing 11 t and 12 t, and 12 t is
+within 5 % of both target values — closer to the average target
+than any mixed scheme.
 
 #### Why the caps are NOT retuned to compensate
 
-The combined "all 736 nH + original caps" choice means the filter
+The combined "all 677 nH + original caps" choice means the filter
 is no longer a strict 7-pole 0.1 dB Chebyshev. It becomes an
-equivalent 7-element LC ladder with slightly different passband
-ripple and a cutoff shifted from 17.5 MHz down to ~16.4 MHz.
+equivalent 7-element LC ladder with a slight passband-ripple
+change and a cutoff shifted from 17.5 MHz down to ~17.3 MHz — a
+~1 % shift, essentially in the noise.
 
 For this application that's invisible:
 
-- **14.2 MHz operating frequency** sits at 87 % of the shifted
-  cutoff — still well in the passband; insertion loss < 0.4 dB
-- **2nd harmonic at 28.4 MHz** is still 1.7× the cutoff regardless
+- **14.2 MHz operating frequency** sits at 82 % of the shifted
+  cutoff — well in the passband; insertion loss < 0.3 dB
+- **2nd harmonic at 28.4 MHz** is still 1.64× the cutoff regardless
   of which exact tuning is used; stopband suppression here is
   governed by the ladder structure, not the exact Chebyshev shape
   (28+ dB rejection holds)
-- **MC1496 carrier input** doesn't care about an extra 0.1-0.2 dB
+- **MC1496 carrier input** doesn't care about an extra 0.1 dB
   ripple in the passband — its dynamic range absorbs it trivially
 
 Alternatives considered and rejected:
 
-- **Retune caps to 200 / 360 pF** (E24 values): would restore the
-  17.5 MHz cutoff but loses the E12 sourcing convenience and the
-  ~1 MHz of cutoff margin is academic at 14.2 MHz operation
-- **Redesign as true Chebyshev for 736 nH inductors**: would
+- **Retune caps to 200 / 390 pF** (E12 values): the ~200 kHz
+  cutoff shift is not worth the schematic churn
+- **Redesign as true Chebyshev for 677 nH inductors**: would
   require recomputing all cap values from the Chebyshev coefficients
   (not a simple scale) and gives no practical benefit
 - **Stick with T50-6 + original values**: gives exact original
   filter but requires winding 13/14/13 turns on the smaller, less
   finger-friendly core
+- **11 / 12 / 11 turns on T68-6** (mimic the original asymmetry):
+  gives 569 / 677 / 569 nH — closer to the g-coefficient pattern
+  but ~12 % low on the outer positions; uniform 12 t is simpler
+  and closer to the average target inductance
 
 The trade is **constructional uniformity over the last ounce of
 filter spec**. For a single-band VFO chain feeding a keyer, the
