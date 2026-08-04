@@ -1,6 +1,7 @@
 idf_component_register(
     SRCS
         "main.cpp"
+        "main_lcd_bringup.cpp"
         "vfo_si5351.cpp"
         "keyer_envelope.cpp"
         "keyer_winkey.cpp"
@@ -37,3 +38,12 @@ target_compile_options(${COMPONENT_LIB} PRIVATE
     -Wextra
     -Wno-unused-parameter
 )
+
+# LCD_BRINGUP swaps app_main() from main.cpp (full transmitter boot) to
+# main_lcd_bringup.cpp (front-panel LCD-only bench test).  Build with:
+#     idf.py -DLCD_BRINGUP=ON build flash monitor
+# Leave it off (default) for the normal firmware.
+option(LCD_BRINGUP "Build the front-panel LCD bring-up test entry point" OFF)
+if(LCD_BRINGUP)
+    target_compile_definitions(${COMPONENT_LIB} PRIVATE LCD_BRINGUP=1)
+endif()

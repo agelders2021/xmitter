@@ -68,6 +68,7 @@ void print_banner() {
 
 }  // namespace
 
+#ifndef LCD_BRINGUP
 extern "C" void app_main() {
     print_banner();
 
@@ -137,3 +138,4 @@ extern "C" void app_main() {
 
     // app_main returns; the shell REPL task + pinned modules keep running.
 }
+#endif  // !LCD_BRINGUP
