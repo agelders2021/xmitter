@@ -176,44 +176,38 @@ void render_percentages(int r, int g, int b) {
 }
 
 // --------------------------------------------------------------------------
-//  Bring-up task
+//  Bring-up task -- PWM DISABLED for flicker debug.
+//
+//  Holds all three backlight FETs steady ON at boot (white backlight), then
+//  cycles the word text every 5 s.  If text is stable in this mode the
+//  flicker was PWM-driven; if it still flickers, look at the LCD driver
+//  (contrast, E-strobe timing, or the RS/E lines coupling into DB4..7).
 // --------------------------------------------------------------------------
 void bringup_task(void *) {
     render_header();
 
+    // Backlight on, steady, all three channels.  Written once here; the LCD
+    // driver leaves P8/P9/P10 alone while it toggles P4..P7 / P11 / P12 for
+    // character writes, so this stays put.
+    s_lcd.backlight_rgb(true, true, true);
+
+    // Clear the percentages row (no longer meaningful with PWM off).
+    s_lcd.set_cursor(3, 0);
+    s_lcd.print("  PWM off (debug)   ");
+
     const int64_t t0 = esp_timer_get_time();
-    int  last_active = -1;
-    int  last_pcts[3] = { -1, -1, -1 };
-    int64_t last_text_us = 0;
+    int last_active = -1;
 
     while (true) {
-        const int64_t now      = esp_timer_get_time();
-        const int64_t elapsed  = now - t0;
-        const int     active   = (int)((elapsed / WORD_DURATION_US) % N_COLORS);
-        const int64_t phase_us = elapsed % WORD_DURATION_US;
+        const int64_t elapsed = esp_timer_get_time() - t0;
+        const int     active  = (int)((elapsed / WORD_DURATION_US) % N_COLORS);
 
         if (active != last_active) {
             render_word(active);
             last_active = active;
         }
 
-        // Percentages: active channel triangles 40..60; others held at 50.
-        int pct[3] = { 50, 50, 50 };
-        pct[active] = triangle_40_60(phase_us);
-
-        // Update the bottom-row percentages roughly 5x per second (avoid
-        // spamming the LCD every PWM frame).
-        if (now - last_text_us > 200'000 &&
-            (pct[0] != last_pcts[0] || pct[1] != last_pcts[1] ||
-             pct[2] != last_pcts[2])) {
-            render_percentages(pct[0], pct[1], pct[2]);
-            last_pcts[0] = pct[0]; last_pcts[1] = pct[1]; last_pcts[2] = pct[2];
-            last_text_us = now;
-        }
-
-        backlight_pwm_frame(pct_to_duty(pct[0]),
-                            pct_to_duty(pct[1]),
-                            pct_to_duty(pct[2]));
+        vTaskDelay(pdMS_TO_TICKS(100));
     }
 }
 
