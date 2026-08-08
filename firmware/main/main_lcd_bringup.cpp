@@ -47,6 +47,10 @@ namespace {
 
 constexpr char TAG[] = "lcd_bringup";
 
+// Bring-up firmware revision.  BUMP THIS on every code change so we can
+// tell which build is running on the bench without reading the serial log.
+constexpr int FW_REV = 0;
+
 // I2C addresses
 constexpr uint8_t  MCP4725_ADDR       = 0x62;
 constexpr uint8_t  ENCODER_ADDR       = 0x37;   // A0 jumper closed on breakout
@@ -161,9 +165,11 @@ SeesawEncoder s_encoder;
 //  LCD text
 // --------------------------------------------------------------------------
 void render_header() {
+    char buf[21];
     s_lcd.clear();
     s_lcd.set_cursor(0, 0);
-    s_lcd.print(" LCD bring-up test  ");
+    std::snprintf(buf, sizeof(buf), " Rev %-15d", FW_REV);
+    s_lcd.print(buf);
     s_lcd.set_cursor(1, 0);
     s_lcd.print(" Contrast (encoder) ");
 }
@@ -171,10 +177,13 @@ void render_header() {
 void render_contrast(uint16_t code) {
     // code / 4095 * 5.00 V
     const float volts = ((float)code) * (5.0f / 4095.0f);
-    char buf[21];
+    // Oversized buffer because -Wformat-truncation can't prove %f is bounded;
+    // hard-terminate at 20 chars for the LCD row.
+    char buf[32];
 
-    std::snprintf(buf, sizeof(buf), "  DAC:%4u = %1.2f V ",
+    std::snprintf(buf, sizeof(buf), "  DAC:%4u = %.2f V ",
                   (unsigned)code, (double)volts);
+    buf[20] = 0;
     s_lcd.set_cursor(2, 0);
     s_lcd.print(buf);
 
