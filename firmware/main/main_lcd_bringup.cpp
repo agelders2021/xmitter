@@ -5,34 +5,31 @@
 //  -DLCD_BRINGUP=ON.  Skips VFO, MCP4728, cathode monitor, faults, and shell
 //  so an unattached-hardware bench test doesn't spam init errors.
 //
-//  Stage 1b (encoder-controlled contrast):
-//    1. Bring up the shared I2C bus.
-//    2. Attach the front-panel PCF8575 at 0x21.
-//    3. Attach the MCP4725 (LCD contrast DAC) at 0x62 and set V0 = 0.7 V.
-//    4. Init the HD44780 4-bit driver.
-//    5. Backlight = steady WHITE (all three FETs on, no PWM).  Color cycling
-//       was proven working in stage 1a; not needed here.
-//    6. Attach an I2C QT rotary encoder at 0x37 (A0 jumper closed on the
-//       breakout to move off factory 0x36, which collides with the Metro's
-//       on-board MAX17048 fuel gauge).
-//    7. Encoder task: read delta, adjust MCP4725 code, redraw LCD with
-//       current DAC code + voltage.  Each detent = ~50 mV.
+//  This build:
+//    1. Bring up shared I2C bus.
+//    2. Front-panel PCF8575 at 0x21.
+//    3. MCP4725 (LCD contrast) at 0x62, fixed at DAC=493 (~0.6 V) --
+//       the sweet spot found on the bench.  Written once at startup.
+//    4. HD44780 4-bit driver.
+//    5. Backlight = uniform white via 5-bit BAM PWM (esp_timer + mutex).
+//    6. I2C QT rotary encoder at 0x37 controls the backlight duty
+//       (0..31); each detent = one duty level.
 //
 //  Bench wiring:
 //    - STEMMA QT: Metro -> front-panel PCF8575 breakout (SDA/SCL).
-//    - Front panel's STEMMA-out -> encoder breakout STEMMA-in.
-//    - Separate 5 V bench supply to the PCB's +5V rail.  Common the grounds.
+//    - Front-panel STEMMA-out -> encoder breakout STEMMA-in.
+//    - Bench 5 V supply to the PCB's +5V rail.  Common the grounds.
 // =============================================================================
 #include <cstdio>
 #include <cstring>
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
+#include "freertos/semphr.h"
 
 #include "esp_log.h"
 #include "esp_err.h"
 #include "esp_timer.h"
-#include "esp_chip_info.h"
 #include "esp_rom_sys.h"
 #include "nvs_flash.h"
 #include "driver/i2c_master.h"
@@ -49,28 +46,46 @@ constexpr char TAG[] = "lcd_bringup";
 
 // Bring-up firmware revision.  BUMP THIS on every code change so we can
 // tell which build is running on the bench without reading the serial log.
-constexpr int FW_REV = 0;
+constexpr int FW_REV = 1;
 
 // I2C addresses
 constexpr uint8_t  MCP4725_ADDR       = 0x62;
-constexpr uint8_t  ENCODER_ADDR       = 0x37;   // A0 jumper closed on breakout
+constexpr uint8_t  ENCODER_ADDR       = 0x37;
 
-// MCP4725
-constexpr uint16_t DAC_START_CODE     = 573;    // ~0.7 V at 5 V Vref
-constexpr int      DAC_CODES_PER_DETENT = 40;   // ~50 mV / detent
+// LCD contrast -- bench-tuned sweet spot, applied once at startup.
+constexpr uint16_t MCP4725_CODE_FIXED = 493;    // ~0.6 V at 5 V Vref
 
-// Adafruit QT encoder = 4 quadrature counts per mechanical detent
-constexpr int      ENCODER_COUNTS_PER_DETENT = 4;
+// PWM: 5-bit BAM, 500 us unit, frame = 15.5 ms (~65 Hz).
+constexpr int PWM_BITS      = 5;
+constexpr int PWM_LEVELS    = 1 << PWM_BITS;    // 32 levels (0..31)
+constexpr int PWM_UNIT_US   = 500;
+constexpr int PWM_FRAME_US  = (PWM_LEVELS - 1) * PWM_UNIT_US;
+
+// Backlight starting duty (middle of range).
+constexpr uint8_t BACKLIGHT_START_DUTY = PWM_LEVELS / 2;   // 16/31
+
+// Encoder: Adafruit QT rotary = 4 counts per mechanical detent.
+constexpr int ENCODER_COUNTS_PER_DETENT = 4;
+constexpr int DUTY_PER_DETENT           = 1;
 
 // --------------------------------------------------------------------------
-//  Shared handles
+//  Shared state
 // --------------------------------------------------------------------------
-i2c_master_bus_handle_t s_bus = nullptr;
+i2c_master_bus_handle_t s_bus       = nullptr;
 pcf8575::Device         s_pcf;
 lcd::HD44780            s_lcd;
+SemaphoreHandle_t       s_pcf_mutex = nullptr;
+esp_timer_handle_t      s_pwm_timer = nullptr;
+
+// Single common backlight duty for all three channels (white).  Byte-sized
+// so writes are atomic.  0..PWM_LEVELS-1.
+volatile uint8_t s_duty = BACKLIGHT_START_DUTY;
+
+// BAM sub-frame index; only touched from the timer callback.
+uint8_t s_bit_idx = 0;
 
 // --------------------------------------------------------------------------
-//  I2C bus + MCP4725 helpers
+//  I2C bus + MCP4725
 // --------------------------------------------------------------------------
 esp_err_t i2c_bus_init() {
     i2c_master_bus_config_t cfg = {};
@@ -85,7 +100,6 @@ esp_err_t i2c_bus_init() {
 
 esp_err_t mcp4725_set(uint8_t addr, uint16_t code_12bit) {
     if (code_12bit > 0x0FFF) code_12bit = 0x0FFF;
-
     i2c_device_config_t cfg = {};
     cfg.dev_addr_length = I2C_ADDR_BIT_LEN_7;
     cfg.device_address  = addr;
@@ -105,14 +119,10 @@ esp_err_t mcp4725_set(uint8_t addr, uint16_t code_12bit) {
 }
 
 // --------------------------------------------------------------------------
-//  Minimal Adafruit seesaw driver -- just what's needed to read the encoder
-//  delta register on a QT rotary encoder breakout.  Full driver will be
-//  extracted to seesaw_encoder.{h,cpp} once this works.
+//  Minimal Adafruit seesaw driver -- SW reset + read encoder delta only.
 // --------------------------------------------------------------------------
-// Seesaw register base + offset addresses (from Adafruit_seesaw firmware)
 constexpr uint8_t SEESAW_STATUS_BASE     = 0x00;
 constexpr uint8_t SEESAW_STATUS_SWRST    = 0x7F;
-
 constexpr uint8_t SEESAW_ENCODER_BASE    = 0x11;
 constexpr uint8_t SEESAW_ENCODER_DELTA   = 0x40;
 
@@ -126,24 +136,18 @@ class SeesawEncoder {
         esp_err_t e = i2c_master_bus_add_device(bus, &cfg, &dev_);
         if (e != ESP_OK) return e;
 
-        // Software reset
         const uint8_t rst[3] = { SEESAW_STATUS_BASE, SEESAW_STATUS_SWRST, 0xFF };
         e = i2c_master_transmit(dev_, rst, sizeof(rst), 100);
         if (e != ESP_OK) return e;
-        // Adafruit lib waits 500 ms; seesaw needs << that but be generous
         vTaskDelay(pdMS_TO_TICKS(500));
-
         return ESP_OK;
     }
 
-    // Read the accumulated encoder delta since the last read.  Big-endian
-    // int32 per seesaw protocol.
     esp_err_t read_delta(int32_t *delta) {
         if (!dev_ || !delta) return ESP_ERR_INVALID_ARG;
         const uint8_t reg[2] = { SEESAW_ENCODER_BASE, SEESAW_ENCODER_DELTA };
         esp_err_t e = i2c_master_transmit(dev_, reg, sizeof(reg), 100);
         if (e != ESP_OK) return e;
-        // Seesaw needs a moment to prep the response
         esp_rom_delay_us(500);
         uint8_t buf[4] = { 0 };
         e = i2c_master_receive(dev_, buf, sizeof(buf), 100);
@@ -162,34 +166,55 @@ class SeesawEncoder {
 SeesawEncoder s_encoder;
 
 // --------------------------------------------------------------------------
-//  LCD text
+//  PWM timer callback -- one BAM sub-frame per firing.
 // --------------------------------------------------------------------------
-void render_header() {
+void pwm_timer_cb(void *) {
+    const uint8_t bit  = s_bit_idx;
+    const uint8_t duty = s_duty;
+    const bool    on   = (duty >> bit) & 1;
+
+    if (xSemaphoreTake(s_pcf_mutex, pdMS_TO_TICKS(2)) == pdTRUE) {
+        s_pcf.shadow_bit(lcd::kDefaultPinMap.bl_r, on);
+        s_pcf.shadow_bit(lcd::kDefaultPinMap.bl_g, on);
+        s_pcf.shadow_bit(lcd::kDefaultPinMap.bl_b, on);
+        s_pcf.apply();
+        xSemaphoreGive(s_pcf_mutex);
+    }
+
+    const int slot_us = PWM_UNIT_US * (1u << bit);
+    s_bit_idx = (bit + 1) % PWM_BITS;
+    esp_timer_start_once(s_pwm_timer, slot_us);
+}
+
+// --------------------------------------------------------------------------
+//  LCD text -- all callers MUST hold s_pcf_mutex.
+// --------------------------------------------------------------------------
+void render_header_locked() {
     char buf[21];
     s_lcd.clear();
     s_lcd.set_cursor(0, 0);
     std::snprintf(buf, sizeof(buf), " Rev %-15d", FW_REV);
     s_lcd.print(buf);
     s_lcd.set_cursor(1, 0);
-    s_lcd.print(" Contrast (encoder) ");
+    s_lcd.print(" Backlight (encoder)");
 }
 
-void render_contrast(uint16_t code) {
-    // code / 4095 * 5.00 V
-    const float volts = ((float)code) * (5.0f / 4095.0f);
-    // Oversized buffer because -Wformat-truncation can't prove %f is bounded;
-    // hard-terminate at 20 chars for the LCD row.
-    char buf[32];
+void render_duty_locked(uint8_t duty) {
+    const unsigned pct = (unsigned)((duty * 100u + (PWM_LEVELS - 1) / 2)
+                                    / (PWM_LEVELS - 1));
 
-    std::snprintf(buf, sizeof(buf), "  DAC:%4u = %.2f V ",
-                  (unsigned)code, (double)volts);
-    buf[20] = 0;
+    char raw[32];
+    std::snprintf(raw, sizeof(raw), "  Level %u/%u  %u%%",
+                  (unsigned)duty, (unsigned)(PWM_LEVELS - 1), pct);
+    char buf[21];
+    std::snprintf(buf, sizeof(buf), "%-20.20s", raw);
     s_lcd.set_cursor(2, 0);
     s_lcd.print(buf);
 
-    // Simple bar on row 3: one asterisk per 5 % of code range.
+    // 20-cell bar graph on row 3
     char bar[21];
-    const int bars = (int)((code * 20 + 2047) / 4095);
+    const int bars = (int)((duty * 20 + (PWM_LEVELS - 1) / 2)
+                            / (PWM_LEVELS - 1));
     for (int i = 0; i < 20; ++i) bar[i] = (i < bars) ? '*' : ' ';
     bar[20] = 0;
     s_lcd.set_cursor(3, 0);
@@ -197,18 +222,16 @@ void render_contrast(uint16_t code) {
 }
 
 // --------------------------------------------------------------------------
-//  Bring-up task -- encoder poll + contrast adjust
+//  Bring-up task -- encoder poll + LCD text refresh
 // --------------------------------------------------------------------------
 void bringup_task(void *) {
-    render_header();
+    xSemaphoreTake(s_pcf_mutex, portMAX_DELAY);
+    render_header_locked();
+    render_duty_locked(s_duty);
+    xSemaphoreGive(s_pcf_mutex);
 
-    uint16_t dac_code   = DAC_START_CODE;
-    int32_t  accumulator = 0;
-    uint16_t last_shown  = 0xFFFF;
-
-    mcp4725_set(MCP4725_ADDR, dac_code);
-    render_contrast(dac_code);
-    last_shown = dac_code;
+    int32_t accumulator = 0;
+    uint8_t last_shown  = 0xFF;   // force initial draw
 
     while (true) {
         int32_t delta = 0;
@@ -218,12 +241,10 @@ void bringup_task(void *) {
             int32_t detents = accumulator / ENCODER_COUNTS_PER_DETENT;
             accumulator    -= detents * ENCODER_COUNTS_PER_DETENT;
 
-            int32_t new_code = (int32_t)dac_code + detents * DAC_CODES_PER_DETENT;
-            if (new_code <    0) new_code =    0;
-            if (new_code > 4095) new_code = 4095;
-            dac_code = (uint16_t)new_code;
-
-            mcp4725_set(MCP4725_ADDR, dac_code);
+            int32_t new_duty = (int32_t)s_duty + detents * DUTY_PER_DETENT;
+            if (new_duty < 0)                new_duty = 0;
+            if (new_duty > PWM_LEVELS - 1)   new_duty = PWM_LEVELS - 1;
+            s_duty = (uint8_t)new_duty;
         } else if (e != ESP_OK) {
             static int64_t last_log = 0;
             const int64_t now = esp_timer_get_time();
@@ -233,9 +254,11 @@ void bringup_task(void *) {
             }
         }
 
-        if (dac_code != last_shown) {
-            render_contrast(dac_code);
-            last_shown = dac_code;
+        if (s_duty != last_shown) {
+            xSemaphoreTake(s_pcf_mutex, portMAX_DELAY);
+            render_duty_locked(s_duty);
+            xSemaphoreGive(s_pcf_mutex);
+            last_shown = s_duty;
         }
 
         vTaskDelay(pdMS_TO_TICKS(50));
@@ -245,10 +268,12 @@ void bringup_task(void *) {
 }  // namespace
 
 extern "C" void app_main() {
-    std::printf("\n=== LCD bring-up: encoder contrast ===\n");
+    std::printf("\n=== LCD bring-up rev %d ===\n", FW_REV);
     std::printf(" build: %s %s\n", __DATE__, __TIME__);
-    std::printf(" PCF8575 @ 0x%02X, MCP4725 @ 0x%02X, encoder @ 0x%02X\n",
-                pins::I2C_ADDR_PCF8575_PANEL, MCP4725_ADDR, ENCODER_ADDR);
+    std::printf(" PCF8575 @ 0x%02X, MCP4725 @ 0x%02X (fixed %u),"
+                " encoder @ 0x%02X\n",
+                pins::I2C_ADDR_PCF8575_PANEL, MCP4725_ADDR,
+                (unsigned)MCP4725_CODE_FIXED, ENCODER_ADDR);
 
     ESP_ERROR_CHECK(nvs_flash_init());
     ESP_ERROR_CHECK(i2c_bus_init());
@@ -257,13 +282,24 @@ extern "C" void app_main() {
              (unsigned long)pins::I2C_HZ);
 
     ESP_ERROR_CHECK(s_pcf.begin(s_bus, pins::I2C_ADDR_PCF8575_PANEL));
+
+    // Contrast: set once, never touch again.
+    if (esp_err_t e = mcp4725_set(MCP4725_ADDR, MCP4725_CODE_FIXED); e != ESP_OK) {
+        ESP_LOGE(TAG, "MCP4725 set failed: %s", esp_err_to_name(e));
+    }
+
     ESP_ERROR_CHECK(s_lcd.begin(&s_pcf));
 
-    // Backlight = full white, steady.  No PWM this stage.
-    s_lcd.backlight_rgb(true, true, true);
+    s_pcf_mutex = xSemaphoreCreateMutex();
+    if (!s_pcf_mutex) { ESP_LOGE(TAG, "mutex alloc failed"); return; }
 
-    // Encoder.  If missing, log and continue -- LCD still shows starting
-    // contrast, just can't be adjusted.
+    esp_timer_create_args_t timer_args = {};
+    timer_args.callback        = &pwm_timer_cb;
+    timer_args.dispatch_method = ESP_TIMER_TASK;
+    timer_args.name            = "backlight_bam";
+    ESP_ERROR_CHECK(esp_timer_create(&timer_args, &s_pwm_timer));
+    ESP_ERROR_CHECK(esp_timer_start_once(s_pwm_timer, PWM_UNIT_US));
+
     if (esp_err_t e = s_encoder.begin(s_bus, ENCODER_ADDR); e != ESP_OK) {
         ESP_LOGE(TAG, "encoder begin failed at 0x%02X: %s",
                  ENCODER_ADDR, esp_err_to_name(e));
@@ -274,7 +310,8 @@ extern "C" void app_main() {
     xTaskCreatePinnedToCore(bringup_task, "lcd_bringup", 4096, nullptr,
                             3, nullptr, pins::CORE_MONITOR);
 
-    ESP_LOGI(TAG, "bring-up running -- turn encoder to adjust contrast");
+    ESP_LOGI(TAG, "bring-up rev %d running -- turn encoder to adjust backlight",
+             FW_REV);
 }
 
 #endif  // LCD_BRINGUP
