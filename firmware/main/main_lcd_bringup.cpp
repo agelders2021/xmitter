@@ -219,8 +219,12 @@ void bringup_task(void *) {
         const int64_t phase_us = elapsed % WORD_DURATION_US;
 
         // Compute target percentages.
-        int pct[3] = { 50, 50, 50 };
-        pct[active] = triangle_40_60(phase_us);
+        // SOLO TEST: active channel at 100%, others at 0%.  Isolates each
+        // color so we can see whether the channels themselves are vivid or
+        // whether the "always-50%-baseline" scheme was washing everything out.
+        (void)phase_us;
+        int pct[3] = { 0, 0, 0 };
+        pct[active] = 100;
 
         // Push new duty to the PWM state.  Single-byte writes are atomic.
         s_duty_r = pct_to_duty(pct[0]);
