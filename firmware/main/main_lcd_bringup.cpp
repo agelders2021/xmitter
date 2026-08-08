@@ -11,13 +11,18 @@
 //    3. Attach the MCP4725 (LCD contrast DAC) at 0x62 and set V0 = 0.7 V
 //       (12-bit code 573 at 5 V Vref).
 //    4. Init the HD44780 4-bit driver.
-//    5. Spawn a task that cycles "Red" -> "Green" -> "Blue" every 5 s, with
-//       the active color's backlight modulated 40 -> 60 -> 40 % across the
-//       5 s window while the two non-cycled channels hold at 50 %.
+//    5. Spawn a bit-angle-modulation PWM sub-frame timer that runs the R/G/B
+//       backlight FETs at independent duties, plus a task that cycles
+//       "Red" / "Green" / "Blue" every 5 s and moves the active channel's
+//       duty in a 40 -> 60 -> 40 % triangle over each 5 s window.
 //
-//  Backlight PWM is 6-bit bit-angle modulation at 60 Hz, driven from the
-//  same task.  ~3 % I2C bus utilization -- leaves plenty of room for the
-//  encoders in a later stage.
+//  PWM architecture:
+//    esp_timer one-shot fires at each BAM sub-frame boundary.  Callback
+//    runs on the esp_timer service task, takes a mutex, writes the three
+//    backlight bits via the PCF8575 shadow, releases the mutex, then
+//    re-arms itself for the next slot.  LCD text writes take the same
+//    mutex so an LCD row update never interrupts a sub-frame mid-write.
+//    Task never busy-waits, so nothing pins a CPU core.
 //
 //  Bench wiring:
 //    - STEMMA QT: Metro -> front-panel PCF8575 breakout (SDA/SCL).
@@ -29,12 +34,12 @@
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
+#include "freertos/semphr.h"
 
 #include "esp_log.h"
 #include "esp_err.h"
 #include "esp_timer.h"
 #include "esp_chip_info.h"
-#include "esp_rom_sys.h"      // esp_rom_delay_us
 #include "nvs_flash.h"
 #include "driver/i2c_master.h"
 
@@ -52,21 +57,40 @@ constexpr char TAG[] = "lcd_bringup";
 constexpr uint8_t  MCP4725_ADDR       = 0x62;
 constexpr uint16_t MCP4725_CODE_0V7   = 573;   // 0.7 V at 5 V Vref (0.7/5*4095)
 
-// PWM parameters
-constexpr int  PWM_BITS         = 6;        // 6-bit BAM -> 64 levels
-constexpr int  PWM_LEVELS       = 1 << PWM_BITS;   // 64
-constexpr int  PWM_FRAME_US     = 16667;    // 60 Hz frame period
-constexpr int  PWM_UNIT_US      = PWM_FRAME_US / (PWM_LEVELS - 1);  // ~264 us
+// PWM parameters -- 5-bit BAM (32 levels).  Slots run 500 us -> 8 ms.
+// Frame = (2^5 - 1) * 500 us = 15.5 ms  ->  ~65 Hz.  Well above flicker
+// threshold, and the longest slot (8 ms) is short enough that a delayed
+// LCD text update never darkens a whole frame.
+constexpr int PWM_BITS      = 5;
+constexpr int PWM_LEVELS    = 1 << PWM_BITS;      // 32
+constexpr int PWM_UNIT_US   = 500;
+constexpr int PWM_FRAME_US  = (PWM_LEVELS - 1) * PWM_UNIT_US;   // 15500
 
 // Color cycle timing
 constexpr int64_t WORD_DURATION_US = 5'000'000;   // 5 s per word
 constexpr int     N_COLORS         = 3;
 
-const char *kWords[N_COLORS] = { "Red  ", "Green", "Blue " };  // padded to 5 chars
+const char *kWords[N_COLORS] = { "Red  ", "Green", "Blue " };  // padded
 
-i2c_master_bus_handle_t s_bus = nullptr;
+// --------------------------------------------------------------------------
+//  Shared state
+// --------------------------------------------------------------------------
+i2c_master_bus_handle_t s_bus       = nullptr;
 pcf8575::Device         s_pcf;
 lcd::HD44780            s_lcd;
+SemaphoreHandle_t       s_pcf_mutex = nullptr;   // serializes PCF8575 shadow ops
+esp_timer_handle_t      s_pwm_timer = nullptr;
+
+// Backlight duty targets, 0..PWM_LEVELS-1.  Byte-sized so single-byte writes
+// are atomic; readers may briefly observe an old-then-new mix across channels,
+// which is invisible.
+volatile uint8_t s_duty_r = PWM_LEVELS / 2;
+volatile uint8_t s_duty_g = PWM_LEVELS / 2;
+volatile uint8_t s_duty_b = PWM_LEVELS / 2;
+
+// Current BAM sub-frame index (0..PWM_BITS-1).  Only touched from the timer
+// callback, so no synchronization needed.
+uint8_t s_bit_idx = 0;
 
 // --------------------------------------------------------------------------
 //  I2C bus + MCP4725 helpers
@@ -98,8 +122,8 @@ esp_err_t mcp4725_set(uint8_t addr, uint16_t code_12bit) {
     if (e != ESP_OK) return e;
 
     const uint8_t buf[2] = {
-        (uint8_t)((code_12bit >> 8) & 0x0F),   // C2..PD0 = 0, D11..D8
-        (uint8_t)(code_12bit & 0xFF),          // D7..D0
+        (uint8_t)((code_12bit >> 8) & 0x0F),
+        (uint8_t)(code_12bit & 0xFF),
     };
     e = i2c_master_transmit(dev, buf, sizeof(buf), 100);
     i2c_master_bus_rm_device(dev);
@@ -107,68 +131,68 @@ esp_err_t mcp4725_set(uint8_t addr, uint16_t code_12bit) {
 }
 
 // --------------------------------------------------------------------------
-//  6-bit bit-angle modulation on the three backlight FET gates.
+//  esp_timer PWM callback -- one BAM sub-frame per firing.
 //
-//  One call = one 16.7 ms frame; the task loops calling this back-to-back.
-//  Sub-frames are emitted in ascending bit order (weights 1, 2, 4, 8, 16, 32);
-//  each sub-frame does one PCF8575 write and then delays for weight * unit_us.
-//
-//  Argument duty_* is 0..63 (0 = off, 63 = full).
+//  Runs on the esp_timer service task (default dispatch = ESP_TIMER_TASK).
+//  Takes the shared PCF8575 mutex with a short timeout; if the mutex is
+//  held by an LCD write, we skip this sub-frame and re-arm normally.  The
+//  visible cost of a skipped sub-frame is at most one BAM bit's worth of
+//  brightness on one channel, invisible in practice.
 // --------------------------------------------------------------------------
-void backlight_pwm_frame(uint8_t duty_r, uint8_t duty_g, uint8_t duty_b) {
-    for (int bit = 0; bit < PWM_BITS; ++bit) {
-        const bool r_on = (duty_r >> bit) & 1;
-        const bool g_on = (duty_g >> bit) & 1;
-        const bool b_on = (duty_b >> bit) & 1;
-        s_pcf.shadow_bit(lcd::kDefaultPinMap.bl_r, r_on);
-        s_pcf.shadow_bit(lcd::kDefaultPinMap.bl_g, g_on);
-        s_pcf.shadow_bit(lcd::kDefaultPinMap.bl_b, b_on);
-        s_pcf.apply();
+void pwm_timer_cb(void *) {
+    const uint8_t bit = s_bit_idx;
+    const uint8_t r   = s_duty_r;
+    const uint8_t g   = s_duty_g;
+    const uint8_t b   = s_duty_b;
 
-        // Busy-wait -- we're in a dedicated task and the slot times (>= 264 us
-        // at bit 0, up to ~8.4 ms at bit 5) are shorter than a FreeRTOS tick
-        // at CONFIG_FREERTOS_HZ = 1000.  Sleeping the CPU would sacrifice
-        // timing precision for no bus benefit.
-        esp_rom_delay_us(PWM_UNIT_US * (1u << bit));
+    if (xSemaphoreTake(s_pcf_mutex, pdMS_TO_TICKS(2)) == pdTRUE) {
+        s_pcf.shadow_bit(lcd::kDefaultPinMap.bl_r, (r >> bit) & 1);
+        s_pcf.shadow_bit(lcd::kDefaultPinMap.bl_g, (g >> bit) & 1);
+        s_pcf.shadow_bit(lcd::kDefaultPinMap.bl_b, (b >> bit) & 1);
+        s_pcf.apply();
+        xSemaphoreGive(s_pcf_mutex);
     }
+    // If we couldn't get the mutex we just skip this slot; timing model
+    // still marches forward.
+
+    const int slot_us = PWM_UNIT_US * (1u << bit);
+    s_bit_idx = (bit + 1) % PWM_BITS;
+    esp_timer_start_once(s_pwm_timer, slot_us);
 }
 
 // --------------------------------------------------------------------------
 //  Duty helpers
 // --------------------------------------------------------------------------
-// Convert percent (0..100) to a 6-bit BAM duty (0..63).
 uint8_t pct_to_duty(int pct) {
     if (pct <   0) pct = 0;
     if (pct > 100) pct = 100;
     return (uint8_t)((pct * (PWM_LEVELS - 1) + 50) / 100);
 }
 
-// Triangular wave over a 5 s phase, output 40..60..40 (percent).
+// Triangular 40..60..40 percent over one WORD_DURATION_US window.
 int triangle_40_60(int64_t phase_us) {
-    // phase_us in [0, WORD_DURATION_US).  Map to 0..1..0.
-    const float x = (float)phase_us / (float)WORD_DURATION_US;   // 0..1
+    const float x = (float)phase_us / (float)WORD_DURATION_US;
     const float tri = (x < 0.5f) ? (2.0f * x) : (2.0f * (1.0f - x));
     return 40 + (int)(tri * 20.0f + 0.5f);
 }
 
 // --------------------------------------------------------------------------
-//  LCD text
+//  LCD text -- all callers MUST hold s_pcf_mutex.
 // --------------------------------------------------------------------------
-void render_header() {
+void render_header_locked() {
     s_lcd.clear();
     s_lcd.set_cursor(0, 0);
-    s_lcd.print(" LCD bring-up test  ");   // 20 chars
+    s_lcd.print(" LCD bring-up test  ");
 }
 
-void render_word(int active_idx) {
-    // Row 2, roughly centered ("Green" is 5 chars -> column 7 in a 20-wide row)
+void render_word_locked(int active_idx) {
     s_lcd.set_cursor(2, 0);
-    s_lcd.print("                    ");   // wipe line
+    s_lcd.print("                    ");
     s_lcd.set_cursor(2, 7);
     s_lcd.print(kWords[active_idx]);
 }
 
-void render_percentages(int r, int g, int b) {
+void render_percentages_locked(int r, int g, int b) {
     char buf[21];
     std::snprintf(buf, sizeof(buf), "R:%3d G:%3d B:%3d   ", r, g, b);
     s_lcd.set_cursor(3, 0);
@@ -176,38 +200,54 @@ void render_percentages(int r, int g, int b) {
 }
 
 // --------------------------------------------------------------------------
-//  Bring-up task -- PWM DISABLED for flicker debug.
-//
-//  Holds all three backlight FETs steady ON at boot (white backlight), then
-//  cycles the word text every 5 s.  If text is stable in this mode the
-//  flicker was PWM-driven; if it still flickers, look at the LCD driver
-//  (contrast, E-strobe timing, or the RS/E lines coupling into DB4..7).
+//  Bring-up task -- updates duty targets and LCD text.
 // --------------------------------------------------------------------------
 void bringup_task(void *) {
-    render_header();
-
-    // Backlight on, steady, all three channels.  Written once here; the LCD
-    // driver leaves P8/P9/P10 alone while it toggles P4..P7 / P11 / P12 for
-    // character writes, so this stays put.
-    s_lcd.backlight_rgb(true, true, true);
-
-    // Clear the percentages row (no longer meaningful with PWM off).
-    s_lcd.set_cursor(3, 0);
-    s_lcd.print("  PWM off (debug)   ");
+    xSemaphoreTake(s_pcf_mutex, portMAX_DELAY);
+    render_header_locked();
+    xSemaphoreGive(s_pcf_mutex);
 
     const int64_t t0 = esp_timer_get_time();
-    int last_active = -1;
+    int  last_active   = -1;
+    int  last_pct[3]   = { -1, -1, -1 };
+    int64_t last_txt_us = 0;
 
     while (true) {
-        const int64_t elapsed = esp_timer_get_time() - t0;
-        const int     active  = (int)((elapsed / WORD_DURATION_US) % N_COLORS);
+        const int64_t now      = esp_timer_get_time();
+        const int64_t elapsed  = now - t0;
+        const int     active   = (int)((elapsed / WORD_DURATION_US) % N_COLORS);
+        const int64_t phase_us = elapsed % WORD_DURATION_US;
 
-        if (active != last_active) {
-            render_word(active);
-            last_active = active;
+        // Compute target percentages.
+        int pct[3] = { 50, 50, 50 };
+        pct[active] = triangle_40_60(phase_us);
+
+        // Push new duty to the PWM state.  Single-byte writes are atomic.
+        s_duty_r = pct_to_duty(pct[0]);
+        s_duty_g = pct_to_duty(pct[1]);
+        s_duty_b = pct_to_duty(pct[2]);
+
+        // LCD writes: word row when it changes, percentages row at 1 Hz.
+        bool need_word = (active != last_active);
+        bool need_pcts = (now - last_txt_us > 1'000'000) &&
+                        (pct[0] != last_pct[0] ||
+                         pct[1] != last_pct[1] ||
+                         pct[2] != last_pct[2]);
+        if (need_word || need_pcts) {
+            xSemaphoreTake(s_pcf_mutex, portMAX_DELAY);
+            if (need_word) {
+                render_word_locked(active);
+                last_active = active;
+            }
+            if (need_pcts) {
+                render_percentages_locked(pct[0], pct[1], pct[2]);
+                last_pct[0] = pct[0]; last_pct[1] = pct[1]; last_pct[2] = pct[2];
+                last_txt_us = now;
+            }
+            xSemaphoreGive(s_pcf_mutex);
         }
 
-        vTaskDelay(pdMS_TO_TICKS(100));
+        vTaskDelay(pdMS_TO_TICKS(50));
     }
 }
 
@@ -227,10 +267,8 @@ extern "C" void app_main() {
 
     ESP_ERROR_CHECK(s_pcf.begin(s_bus, pins::I2C_ADDR_PCF8575_PANEL));
 
-    // Set LCD contrast BEFORE HD44780 init so characters are visible on the
-    // first frame.
-    esp_err_t e = mcp4725_set(MCP4725_ADDR, MCP4725_CODE_0V7);
-    if (e != ESP_OK) {
+    // Contrast DAC first so characters are legible on the first frame.
+    if (esp_err_t e = mcp4725_set(MCP4725_ADDR, MCP4725_CODE_0V7); e != ESP_OK) {
         ESP_LOGE(TAG, "MCP4725 set failed: %s (LCD contrast may be off)",
                  esp_err_to_name(e));
     } else {
@@ -240,13 +278,30 @@ extern "C" void app_main() {
 
     ESP_ERROR_CHECK(s_lcd.begin(&s_pcf));
 
-    // Kick off the cycle task.  Pinned to CORE_MONITOR (core 0) with priority
-    // just above idle -- we don't need real-time, and CORE_KEYING isn't in
-    // play in this bring-up.
+    // Serializes any code that touches the PCF8575 shadow (PWM timer +
+    // LCD text updates).  Created BEFORE the timer starts.
+    s_pcf_mutex = xSemaphoreCreateMutex();
+    if (!s_pcf_mutex) {
+        ESP_LOGE(TAG, "mutex alloc failed");
+        return;
+    }
+
+    // Kick off the PWM timer.  ESP_TIMER_TASK dispatch = callback runs on
+    // the esp_timer service task (safe to do I2C from there).
+    esp_timer_create_args_t timer_args = {};
+    timer_args.callback        = &pwm_timer_cb;
+    timer_args.arg             = nullptr;
+    timer_args.dispatch_method = ESP_TIMER_TASK;
+    timer_args.name            = "backlight_bam";
+    ESP_ERROR_CHECK(esp_timer_create(&timer_args, &s_pwm_timer));
+    ESP_ERROR_CHECK(esp_timer_start_once(s_pwm_timer, PWM_UNIT_US));
+
+    // Text/duty update task, low priority, pinned to CORE_MONITOR.
     xTaskCreatePinnedToCore(bringup_task, "lcd_bringup", 4096, nullptr,
                             3, nullptr, pins::CORE_MONITOR);
 
-    ESP_LOGI(TAG, "bring-up running");
+    ESP_LOGI(TAG, "bring-up running (%d-bit BAM, %d us unit, ~%d Hz frame)",
+             PWM_BITS, PWM_UNIT_US, 1'000'000 / PWM_FRAME_US);
 }
 
 #endif  // LCD_BRINGUP
