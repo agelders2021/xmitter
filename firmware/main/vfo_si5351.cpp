@@ -1,14 +1,17 @@
 // =============================================================================
-//  vfo_si5351.cpp — Si5351A driver, CLK0 only.
+//  vfo_si5351.cpp — Si5351A driver, CLK2 only.
+//
+//  CLK2 is the RF output routed to the analog board's buffer/keyer chain on
+//  Rev A.  CLK0 and CLK1 are left disabled.
 //
 //  Frequency planning strategy (see AN619):
-//    - CLK0 is driven by MS0 in INTEGER mode (best phase noise on a Si5351A).
-//    - MS0 divider is the smallest even integer that puts the PLLA VCO in
+//    - CLK2 is driven by MS2 in INTEGER mode (best phase noise on a Si5351A).
+//    - MS2 divider is the smallest even integer that puts the PLLA VCO in
 //      the 600–900 MHz band specified by the datasheet.
 //    - PLLA feedback divider (a + b/c) carries the fractional part, with
 //      c = 1,048,575 (max 20-bit denominator) for sub-Hz resolution.
 //
-//  For 14.200 MHz on a 25 MHz xtal: MS0=50 → PLLA=710 MHz → fb = 28.4 →
+//  For 14.200 MHz on a 25 MHz xtal: MS2=50 → PLLA=710 MHz → fb = 28.4 →
 //  a=28, b=419430, c=1048575.  Output is exact.
 //
 //  Register layout follows the Si5351A/B/C-B datasheet Rev. 1.0 and AN619.
@@ -32,22 +35,27 @@ constexpr char TAG[] = "vfo";
 // ---- Register addresses (Si5351 datasheet §10) -----------------------------
 constexpr uint8_t REG_DEVICE_STATUS    = 0;
 constexpr uint8_t REG_OUTPUT_ENABLE    = 3;     // bit n = 1 disables CLKn
-constexpr uint8_t REG_CLK0_CTRL        = 16;    // CLK0 control byte
+constexpr uint8_t REG_CLK2_CTRL        = 18;    // CLK2 control byte
 constexpr uint8_t REG_CLK_DISABLE_STATE = 24;   // state of CLKn when disabled
 constexpr uint8_t REG_MSNA_BASE        = 26;    // PLLA Multisynth registers (8)
-constexpr uint8_t REG_MS0_BASE         = 42;    // MS0 Multisynth registers  (8)
+constexpr uint8_t REG_MS2_BASE         = 58;    // MS2 Multisynth registers  (8)
 constexpr uint8_t REG_PLL_RESET        = 177;   // bit 5 = PLLA_RST, bit 7 = PLLB_RST
 constexpr uint8_t REG_XTAL_CAP         = 183;   // bits[7:6] = XTAL load cap
 
-// CLK0 control byte:
-//   bit7 CLK0_PDN  = 0  (powered up)
-//   bit6 MS0_INT   = 1  (integer-mode multisynth — quieter)
-//   bit5 MS0_SRC   = 0  (PLLA)
-//   bit4 CLK0_INV  = 0
-//   bit3-2 CLK0_SRC = 11 (MS0 output)
-//   bit1-0 CLK0_IDRV = 11 (8 mA)
-constexpr uint8_t CLK0_CTRL_ON  = 0b01001111;   // 0x4F
-constexpr uint8_t CLK0_CTRL_PDN = 0b10001100;   // PDN=1, drive irrelevant
+// CLK2 control byte:
+//   bit7 CLK2_PDN  = 0  (powered up)
+//   bit6 MS2_INT   = 1  (integer-mode multisynth — quieter)
+//   bit5 MS2_SRC   = 0  (PLLA)
+//   bit4 CLK2_INV  = 0
+//   bit3-2 CLK2_SRC = 11 (MS2 output)
+//   bit1-0 CLK2_IDRV = 11 (8 mA)
+constexpr uint8_t CLK2_CTRL_ON  = 0b01001111;   // 0x4F
+constexpr uint8_t CLK2_CTRL_PDN = 0b10001100;   // PDN=1, drive irrelevant
+
+// REG_OUTPUT_ENABLE masks (1 = disabled).  CLK2-only mode leaves bits 0,1
+// set (CLK0/CLK1 disabled) and clears bit 2.
+constexpr uint8_t OE_ALL_OFF     = 0xFF;
+constexpr uint8_t OE_CLK2_ON     = 0xFB;   // 0b11111011
 
 // XTAL load cap = 10 pF (Adafruit Si5351A breakout uses 10 pF crystal cap).
 // Bits[7:6] = 11 (10 pF); bits[5:0] = 0b010010 (reserved, must be written).
@@ -189,14 +197,14 @@ esp_err_t set_freq(uint32_t f_hz) {
     ESP_RETURN_ON_ERROR(write_burst(REG_MSNA_BASE, buf, 8), TAG, "PLLA write");
 
     pack_msynth_block(buf, ms_p1, ms_p2, ms_p3, /*r_div=*/0, /*divby4=*/false);
-    ESP_RETURN_ON_ERROR(write_burst(REG_MS0_BASE, buf, 8), TAG, "MS0 write");
+    ESP_RETURN_ON_ERROR(write_burst(REG_MS2_BASE, buf, 8), TAG, "MS2 write");
 
     // Reset PLLA so the new feedback divider takes effect from a known phase.
     ESP_RETURN_ON_ERROR(write_reg(REG_PLL_RESET, 0x20), TAG, "PLLA reset");
 
-    // Apply CLK0 control (8 mA, PLLA src, integer multisynth) — does not yet
+    // Apply CLK2 control (8 mA, PLLA src, integer multisynth) — does not yet
     // enable the output pin; that's vfo::on().
-    ESP_RETURN_ON_ERROR(write_reg(REG_CLK0_CTRL, CLK0_CTRL_ON), TAG, "CLK0 ctrl");
+    ESP_RETURN_ON_ERROR(write_reg(REG_CLK2_CTRL, CLK2_CTRL_ON), TAG, "CLK2 ctrl");
 
     ESP_LOGI(TAG, "freq=%lu Hz  (MS=%lu, PLLA=%llu Hz, fb=%lu+%lu/%lu)",
              (unsigned long)f_hz, (unsigned long)ms_div,
@@ -207,21 +215,21 @@ esp_err_t set_freq(uint32_t f_hz) {
 
 esp_err_t on() {
     if (s_dev == nullptr) return ESP_ERR_INVALID_STATE;
-    // Make sure the CLK0 control byte is in the powered-up state, then drop
-    // the output-disable bit for CLK0.
-    ESP_RETURN_ON_ERROR(write_reg(REG_CLK0_CTRL, CLK0_CTRL_ON), TAG, "clk0 ctrl");
-    ESP_RETURN_ON_ERROR(write_reg(REG_OUTPUT_ENABLE, 0xFE),     TAG, "clk0 enable");
+    // Make sure the CLK2 control byte is in the powered-up state, then drop
+    // the output-disable bit for CLK2.
+    ESP_RETURN_ON_ERROR(write_reg(REG_CLK2_CTRL,     CLK2_CTRL_ON), TAG, "clk2 ctrl");
+    ESP_RETURN_ON_ERROR(write_reg(REG_OUTPUT_ENABLE, OE_CLK2_ON),   TAG, "clk2 enable");
     s_on = true;
-    ESP_LOGI(TAG, "CLK0 on  (%lu Hz)", (unsigned long)s_freq_hz);
+    ESP_LOGI(TAG, "CLK2 on  (%lu Hz)", (unsigned long)s_freq_hz);
     return ESP_OK;
 }
 
 esp_err_t off() {
     if (s_dev == nullptr) return ESP_ERR_INVALID_STATE;
-    ESP_RETURN_ON_ERROR(write_reg(REG_OUTPUT_ENABLE, 0xFF),     TAG, "clk0 disable");
-    ESP_RETURN_ON_ERROR(write_reg(REG_CLK0_CTRL,   CLK0_CTRL_PDN), TAG, "clk0 powerdown");
+    ESP_RETURN_ON_ERROR(write_reg(REG_OUTPUT_ENABLE, OE_ALL_OFF),    TAG, "clk2 disable");
+    ESP_RETURN_ON_ERROR(write_reg(REG_CLK2_CTRL,   CLK2_CTRL_PDN),   TAG, "clk2 powerdown");
     s_on = false;
-    ESP_LOGI(TAG, "CLK0 off");
+    ESP_LOGI(TAG, "CLK2 off");
     return ESP_OK;
 }
 
