@@ -2,25 +2,29 @@
 //  main_lcd_bringup.cpp — front-panel + analog-board bring-up entry point.
 //
 //  Built INSTEAD OF the normal main.cpp when the project is configured with
-//  -DLCD_BRINGUP=ON.  Skips MCP4728, cathode monitor, faults, and shell so
-//  a partially-populated bench build doesn't spam init errors.
+//  -DLCD_BRINGUP=ON.  Skips cathode monitor, faults, and shell so a
+//  partially-populated bench build doesn't spam init errors.
 //
-//  Rev 2: analog-board VFO bring-up
-//    1. Bring up shared I2C bus.
-//    2. Front-panel PCF8575 (0x21) + HD44780 4-bit driver.
-//    3. MCP4725 (0x62) fixed at DAC=493 (~0.6 V) contrast.
-//    4. Backlight held steady at 17/31 duty via 5-bit BAM PWM.
-//    5. Si5351A (0x60) on the analog board -- CLK0 at 14.200000 MHz,
-//       output enabled so a scope sees RF into the Chebyshev LPF.
-//    6. I2C QT rotary encoder (0x37) now steps VFO frequency +/- 1 kHz
-//       per mechanical detent.  Clamped to 14.000-14.350 MHz.
+//  Boot ordering (Rev 5):
+//    1. Silence chatty log tags so the serial console isn't a firehose.
+//    2. I2C bus.
+//    3. Front-panel PCF8575 (0x21) + MCP4725 contrast (0x62) + HD44780.
+//    4. Turn backlight fully on and show " Rev N " on row 0.  Everything
+//       from here on updates row 1 with a short status string so the
+//       operator can see what boot step just failed even if the serial
+//       log scrolls off.
+//    5. Attach the QT rotary encoder at 0x37.
+//    6. Check MCP4728 -- probe 0x60/0x67, disambiguate Si5351 vs factory
+//       MCP4728 by a register write/read, reprogram if needed.
+//    7. Init the Si5351.  Program CLK2 to 14.200 MHz, enable output.
+//    8. Start backlight PWM (5-bit BAM, 17/31 duty).
+//    9. Spawn the encoder poll task.
 //
 //  Bench wiring:
-//    - STEMMA QT: Metro -> Si5351 breakout -> front-panel PCF8575 breakout
-//      (any order that reaches all four addresses is fine).
+//    - STEMMA QT: Metro -> Si5351 breakout -> front-panel PCF8575 breakout.
 //    - Front-panel STEMMA-out -> encoder breakout STEMMA-in.
-//    - 5 V bench supply to the front-panel +5V rail.  Common the grounds.
-//    - Si5351 CLK0 -> Chebyshev LPF input -> scope.
+//    - 5 V bench supply to the PCB's +5V rail.  Common the grounds.
+//    - Si5351 CLK2 -> Chebyshev LPF input -> attenuator -> scope / TinySA.
 // =============================================================================
 #include <cstdio>
 #include <cstring>
@@ -46,16 +50,16 @@
 
 namespace {
 
-constexpr char TAG[] = "lcd_bringup";
+constexpr char TAG[] = "bringup";
 
 // Bring-up firmware revision.  BUMP THIS on every code change so we can
 // tell which build is running on the bench without reading the serial log.
-constexpr int FW_REV = 4;
+constexpr int FW_REV = 5;
 
 // I2C addresses
 constexpr uint8_t  MCP4725_ADDR             = 0x62;
 constexpr uint8_t  ENCODER_ADDR             = 0x37;
-constexpr uint8_t  MCP4728_ADDR_FACTORY     = 0x60;  // also Si5351's address
+constexpr uint8_t  MCP4728_ADDR_FACTORY     = 0x60;   // also Si5351's address
 constexpr uint8_t  MCP4728_ADDR_TARGET      = 0x67;
 
 // LCD contrast -- bench-tuned; written once at startup.
@@ -63,13 +67,13 @@ constexpr uint16_t MCP4725_CODE_FIXED = 493;    // ~0.6 V at 5 V Vref
 
 // PWM: 5-bit BAM, 500 us unit, frame = 15.5 ms (~65 Hz).
 constexpr int PWM_BITS      = 5;
-constexpr int PWM_LEVELS    = 1 << PWM_BITS;    // 32 levels
+constexpr int PWM_LEVELS    = 1 << PWM_BITS;
 constexpr int PWM_UNIT_US   = 500;
 
 // Backlight duty -- fixed for this build.
 constexpr uint8_t BACKLIGHT_DUTY = 17;          // 17/31 = 55 %
 
-// Frequency limits (20 m CW band, per encoders.h).
+// Frequency limits (20 m CW band).
 constexpr uint32_t FREQ_MIN_HZ    = 14000000;
 constexpr uint32_t FREQ_MAX_HZ    = 14350000;
 constexpr uint32_t FREQ_START_HZ  = vfo::DEFAULT_FREQ_HZ;   // 14.200 MHz
@@ -87,10 +91,13 @@ lcd::HD44780            s_lcd;
 SemaphoreHandle_t       s_pcf_mutex = nullptr;
 esp_timer_handle_t      s_pwm_timer = nullptr;
 
-// Current VFO frequency, Hz.  Reads/writes are atomic on 32-bit ESP32.
 volatile uint32_t s_freq_hz = FREQ_START_HZ;
 
 uint8_t s_bit_idx = 0;
+
+// True once the PWM timer + task are running; before that, LCD writes need
+// no locking because app_main is the only writer.
+bool s_locking_active = false;
 
 // --------------------------------------------------------------------------
 //  I2C bus + MCP4725
@@ -174,31 +181,58 @@ class SeesawEncoder {
 SeesawEncoder s_encoder;
 
 // --------------------------------------------------------------------------
+//  LCD text helpers
+//
+//  Take the PCF8575 mutex when the caller is racing PWM / other threads
+//  (guarded by s_locking_active).  During app_main pre-PWM setup we skip
+//  the mutex -- no other task exists yet.
+// --------------------------------------------------------------------------
+void lcd_write_at(uint8_t row, uint8_t col, const char *s) {
+    if (s_locking_active) xSemaphoreTake(s_pcf_mutex, portMAX_DELAY);
+    s_lcd.set_cursor(row, col);
+    s_lcd.print(s);
+    if (s_locking_active) xSemaphoreGive(s_pcf_mutex);
+}
+
+// Row 1 is the boot-status / running-state line.  20 char field, always
+// padded so the whole row updates atomically (no leftover characters).
+void render_status(const char *msg) {
+    char buf[21];
+    std::snprintf(buf, sizeof(buf), "%-20.20s", msg);
+    lcd_write_at(1, 0, buf);
+}
+
+void render_header_and_footer() {
+    char buf[21];
+    if (s_locking_active) xSemaphoreTake(s_pcf_mutex, portMAX_DELAY);
+    s_lcd.clear();
+    s_lcd.set_cursor(0, 0);
+    std::snprintf(buf, sizeof(buf), " Rev %-15d", FW_REV);
+    s_lcd.print(buf);
+    s_lcd.set_cursor(3, 0);
+    s_lcd.print(" Step: 1 kHz        ");
+    if (s_locking_active) xSemaphoreGive(s_pcf_mutex);
+}
+
+void render_freq(uint32_t hz) {
+    char raw[32];
+    std::snprintf(raw, sizeof(raw), "   %u,%03u,%03u Hz",
+                  (unsigned)(hz / 1000000u),
+                  (unsigned)((hz / 1000u) % 1000u),
+                  (unsigned)(hz % 1000u));
+    char buf[21];
+    std::snprintf(buf, sizeof(buf), "%-20.20s", raw);
+    lcd_write_at(2, 0, buf);
+}
+
+// --------------------------------------------------------------------------
 //  MCP4728 / Si5351 sanity check + optional reprogram
-//
-//  Runs before vfo::init().  Reads the bus at 0x60 (factory MCP4728 =
-//  Si5351) and 0x67 (target MCP4728 address).  Four possible states:
-//
-//    0x67 ACK + 0x60 ACK   -> normal running config (MCP4728 reprogrammed
-//                             and Si5351 both present).  Nothing to do.
-//    0x67 ACK + 0x60 NAK   -> MCP4728 already reprogrammed, Si5351 not
-//                             on the bus yet.  Warn but continue.
-//    0x60 ACK + 0x67 NAK   -> ambiguous.  Identify by trying a Si5351
-//                             register write/readback.  If Si5351, no
-//                             MCP4728 to reprogram.  If not, assume
-//                             factory MCP4728 and reprogram to 0x67.
-//    both NAK              -> nothing on the bus at either address.
-//                             Warn; Si5351 init will fail loudly.
 // --------------------------------------------------------------------------
 
-// Distinguish Si5351 from factory MCP4728 at the same address.  Writes
-// 0xFF to Si5351 REG_OUTPUT_ENABLE (reg 3) then reads it back; Si5351
-// returns 0xFF, MCP4728 does not (0x03 is interpreted as fast-write
-// upper nibble = 3 and readback returns its status stream instead).
-// The Si5351 write is idempotent -- 0xFF disables all outputs, which
-// is chip default at boot, so no state disturbance.  The MCP4728 write
-// briefly nudges DAC A output; harmless with nothing wired to it in
-// bring-up.
+// Write 0xFF to Si5351 REG_OUTPUT_ENABLE (reg 3) then read it back.  A
+// Si5351 will echo 0xFF; a factory MCP4728 does not.  Idempotent for
+// Si5351 (0xFF is the reset default) and only temporarily nudges the
+// MCP4728's DAC A output if that's what's on the bus -- no EEPROM burn.
 bool device_at_addr_is_si5351(uint8_t addr) {
     i2c_device_config_t cfg = {};
     cfg.dev_addr_length = I2C_ADDR_BIT_LEN_7;
@@ -221,59 +255,48 @@ bool device_at_addr_is_si5351(uint8_t addr) {
     return is_si;
 }
 
-void mcp4728_check_and_reprogram() {
+// Returns a short status string suitable for LCD row 1.
+const char *mcp4728_check_and_reprogram() {
     const bool ack60 = (i2c_master_probe(s_bus, MCP4728_ADDR_FACTORY, 100) == ESP_OK);
     const bool ack67 = (i2c_master_probe(s_bus, MCP4728_ADDR_TARGET,  100) == ESP_OK);
 
-    if (ack67) {
-        if (ack60) {
-            ESP_LOGI(TAG, "MCP4728 @ 0x%02X and Si5351 @ 0x%02X -- normal",
-                     MCP4728_ADDR_TARGET, MCP4728_ADDR_FACTORY);
-        } else {
-            ESP_LOGW(TAG, "MCP4728 @ 0x%02X but Si5351 NOT on bus at 0x%02X",
-                     MCP4728_ADDR_TARGET, MCP4728_ADDR_FACTORY);
-        }
-        return;
+    if (ack67 && ack60) {
+        ESP_LOGI(TAG, "MCP4728 at 0x67, Si5351 at 0x60 -- normal");
+        return " Both @ 0x60/0x67   ";
+    }
+    if (ack67 && !ack60) {
+        ESP_LOGW(TAG, "MCP4728 at 0x67, Si5351 NOT on bus");
+        return " MCP4728 OK, no VFO ";
+    }
+    if (!ack60 && !ack67) {
+        ESP_LOGE(TAG, "No ACK at 0x60 or 0x67");
+        return " no chip @ 0x60/0x67";
     }
 
-    // 0x67 empty
-    if (!ack60) {
-        ESP_LOGW(TAG, "no ACK at 0x%02X or 0x%02X -- MCP4728 + Si5351 both absent?",
-                 MCP4728_ADDR_FACTORY, MCP4728_ADDR_TARGET);
-        return;
-    }
-
-    // 0x60 ACKs, 0x67 empty -- Si5351 or factory MCP4728?
-    ESP_LOGI(TAG, "0x%02X responds, 0x%02X empty -- identifying...",
-             MCP4728_ADDR_FACTORY, MCP4728_ADDR_TARGET);
+    // 0x60 ACKs, 0x67 empty -- identify.
     if (device_at_addr_is_si5351(MCP4728_ADDR_FACTORY)) {
-        ESP_LOGI(TAG, "0x%02X is Si5351; no factory MCP4728 to reprogram",
-                 MCP4728_ADDR_FACTORY);
-        return;
+        ESP_LOGI(TAG, "0x60 is Si5351; no factory MCP4728");
+        return " Si5351 only        ";
     }
 
-    // Looks like factory MCP4728.  Reprogram.
-    ESP_LOGI(TAG, "0x%02X appears to be factory MCP4728; reprogramming to 0x%02X",
-             MCP4728_ADDR_FACTORY, MCP4728_ADDR_TARGET);
+    // Factory MCP4728 -- reprogram.
+    ESP_LOGI(TAG, "reprogramming factory MCP4728 -> 0x67");
+    render_status(" Reprog MCP4728...  ");
     esp_err_t re = mcp4728::reprogram_address(s_bus,
                                               MCP4728_ADDR_FACTORY,
                                               MCP4728_ADDR_TARGET,
                                               pins::MCP4728_LDAC);
     if (re != ESP_OK) {
-        ESP_LOGE(TAG, "MCP4728 reprogram transaction failed: %s",
-                 esp_err_to_name(re));
-        return;
+        ESP_LOGE(TAG, "MCP4728 reprogram xfer failed: %s", esp_err_to_name(re));
+        return " Reprog xfer FAIL   ";
     }
-
-    // Give the EEPROM burn a moment to settle before verifying.
     vTaskDelay(pdMS_TO_TICKS(100));
-    if (i2c_master_probe(s_bus, MCP4728_ADDR_TARGET, 100) == ESP_OK) {
-        ESP_LOGI(TAG, "MCP4728 reprogrammed OK -- now at 0x%02X",
-                 MCP4728_ADDR_TARGET);
-    } else {
-        ESP_LOGE(TAG, "reprogram sent but 0x%02X still not responding",
-                 MCP4728_ADDR_TARGET);
+    if (i2c_master_probe(s_bus, MCP4728_ADDR_TARGET, 100) != ESP_OK) {
+        ESP_LOGE(TAG, "reprogram sent but 0x67 not responding");
+        return " Reprog no ACK @0x67";
     }
+    ESP_LOGI(TAG, "MCP4728 now at 0x67");
+    return " MCP4728 -> 0x67 OK ";
 }
 
 // --------------------------------------------------------------------------
@@ -297,44 +320,11 @@ void pwm_timer_cb(void *) {
 }
 
 // --------------------------------------------------------------------------
-//  LCD text -- all callers MUST hold s_pcf_mutex.
-// --------------------------------------------------------------------------
-void render_header_locked() {
-    char buf[21];
-    s_lcd.clear();
-    s_lcd.set_cursor(0, 0);
-    std::snprintf(buf, sizeof(buf), " Rev %-15d", FW_REV);
-    s_lcd.print(buf);
-    s_lcd.set_cursor(1, 0);
-    s_lcd.print(" VFO (Si5351)       ");
-    s_lcd.set_cursor(3, 0);
-    s_lcd.print(" Step: 1 kHz        ");
-}
-
-void render_freq_locked(uint32_t hz) {
-    // "14,200,000 Hz" = 13 chars; center in 20 with 3 + 4 padding
-    char raw[32];
-    std::snprintf(raw, sizeof(raw), "   %u,%03u,%03u Hz",
-                  (unsigned)(hz / 1000000u),
-                  (unsigned)((hz / 1000u) % 1000u),
-                  (unsigned)(hz % 1000u));
-    char buf[21];
-    std::snprintf(buf, sizeof(buf), "%-20.20s", raw);
-    s_lcd.set_cursor(2, 0);
-    s_lcd.print(buf);
-}
-
-// --------------------------------------------------------------------------
-//  Bring-up task -- encoder poll + LCD text refresh + VFO retune
+//  Bring-up task -- encoder poll + freq refresh + VFO retune
 // --------------------------------------------------------------------------
 void bringup_task(void *) {
-    xSemaphoreTake(s_pcf_mutex, portMAX_DELAY);
-    render_header_locked();
-    render_freq_locked(s_freq_hz);
-    xSemaphoreGive(s_pcf_mutex);
-
     int32_t  accumulator = 0;
-    uint32_t last_shown  = 0;
+    uint32_t last_shown  = s_freq_hz;
 
     while (true) {
         int32_t delta = 0;
@@ -351,24 +341,12 @@ void bringup_task(void *) {
             uint32_t hz = (uint32_t)new_hz;
             if (hz != s_freq_hz) {
                 s_freq_hz = hz;
-                if (esp_err_t ve = vfo::set_freq(hz); ve != ESP_OK) {
-                    ESP_LOGW(TAG, "vfo::set_freq(%u) failed: %s",
-                             (unsigned)hz, esp_err_to_name(ve));
-                }
-            }
-        } else if (e != ESP_OK) {
-            static int64_t last_log = 0;
-            const int64_t now = esp_timer_get_time();
-            if (now - last_log > 5'000'000) {
-                ESP_LOGW(TAG, "encoder read failed: %s", esp_err_to_name(e));
-                last_log = now;
+                (void)vfo::set_freq(hz);   // silent -- if VFO absent, LCD still tracks
             }
         }
 
         if (s_freq_hz != last_shown) {
-            xSemaphoreTake(s_pcf_mutex, portMAX_DELAY);
-            render_freq_locked(s_freq_hz);
-            xSemaphoreGive(s_pcf_mutex);
+            render_freq(s_freq_hz);
             last_shown = s_freq_hz;
         }
 
@@ -379,28 +357,90 @@ void bringup_task(void *) {
 }  // namespace
 
 extern "C" void app_main() {
-    std::printf("\n=== xmitter bring-up rev %d ===\n", FW_REV);
-    std::printf(" build: %s %s\n", __DATE__, __TIME__);
-    std::printf(" I2C: PCF8575 0x%02X | MCP4725 0x%02X (=%u fixed) |"
-                " encoder 0x%02X | Si5351 0x60\n",
-                pins::I2C_ADDR_PCF8575_PANEL, MCP4725_ADDR,
-                (unsigned)MCP4725_CODE_FIXED, ENCODER_ADDR);
+    // Silence the chatty tags so serial output is human-readable.  Our own
+    // TAG stays at the default INFO level.
+    esp_log_level_set("i2c.master", ESP_LOG_WARN);
+    esp_log_level_set("vfo",        ESP_LOG_WARN);
+    esp_log_level_set("mcp4728",    ESP_LOG_WARN);
+    esp_log_level_set("pcf8575",    ESP_LOG_WARN);
+    esp_log_level_set("lcd",        ESP_LOG_WARN);
+
+    std::printf("\n=== xmitter bring-up rev %d (build %s %s) ===\n",
+                FW_REV, __DATE__, __TIME__);
 
     ESP_ERROR_CHECK(nvs_flash_init());
     ESP_ERROR_CHECK(i2c_bus_init());
-    ESP_LOGI(TAG, "I2C up: SDA=GPIO%d SCL=GPIO%d",
-             (int)pins::I2C_SDA, (int)pins::I2C_SCL);
 
-    ESP_ERROR_CHECK(s_pcf.begin(s_bus, pins::I2C_ADDR_PCF8575_PANEL));
-
+    // ------- Stage A: display up ------------------------------------------
+    if (esp_err_t e = s_pcf.begin(s_bus, pins::I2C_ADDR_PCF8575_PANEL); e != ESP_OK) {
+        ESP_LOGE(TAG, "PCF8575 at 0x%02X missing (%s) -- front panel unwired?",
+                 pins::I2C_ADDR_PCF8575_PANEL, esp_err_to_name(e));
+        return;
+    }
     if (esp_err_t e = mcp4725_set(MCP4725_ADDR, MCP4725_CODE_FIXED); e != ESP_OK) {
-        ESP_LOGE(TAG, "MCP4725 set failed: %s", esp_err_to_name(e));
+        ESP_LOGW(TAG, "MCP4725 (contrast) missing at 0x%02X (%s)",
+                 MCP4725_ADDR, esp_err_to_name(e));
+    }
+    if (esp_err_t e = s_lcd.begin(&s_pcf); e != ESP_OK) {
+        ESP_LOGE(TAG, "HD44780 init failed: %s", esp_err_to_name(e));
+        return;
     }
 
-    ESP_ERROR_CHECK(s_lcd.begin(&s_pcf));
+    // Backlight fully on so the boot status is readable; PWM takes over later.
+    s_lcd.backlight_rgb(true, true, true);
 
+    render_header_and_footer();
+    render_status(" Booting Rev 5      ");
+    render_freq(FREQ_START_HZ);
+    ESP_LOGI(TAG, "display up");
+
+    // ------- Stage B: encoder ---------------------------------------------
+    render_status(" Encoder init...    ");
+    bool encoder_ok = false;
+    if (esp_err_t e = s_encoder.begin(s_bus, ENCODER_ADDR); e == ESP_OK) {
+        encoder_ok = true;
+        ESP_LOGI(TAG, "encoder attached at 0x%02X", ENCODER_ADDR);
+    } else {
+        ESP_LOGE(TAG, "encoder MISSING at 0x%02X (%s)",
+                 ENCODER_ADDR, esp_err_to_name(e));
+    }
+    render_status(encoder_ok ? " Encoder OK         "
+                             : " Encoder MISSING    ");
+    vTaskDelay(pdMS_TO_TICKS(400));   // let operator read the line
+
+    // ------- Stage C: MCP4728 address --------------------------------------
+    render_status(" MCP4728 check...   ");
+    const char *mcp_status = mcp4728_check_and_reprogram();
+    render_status(mcp_status);
+    vTaskDelay(pdMS_TO_TICKS(600));
+
+    // ------- Stage D: Si5351 VFO ------------------------------------------
+    render_status(" Si5351 init...     ");
+    bool vfo_ok = false;
+    if (esp_err_t e = vfo::init(s_bus); e != ESP_OK) {
+        ESP_LOGE(TAG, "Si5351: bus 0x60 not answering (%s)", esp_err_to_name(e));
+        render_status(" Si5351 NOT ON BUS  ");
+    } else if (esp_err_t e = vfo::set_freq(FREQ_START_HZ); e != ESP_OK) {
+        ESP_LOGE(TAG, "Si5351 set_freq: %s", esp_err_to_name(e));
+        render_status(" Si5351 tune FAIL   ");
+    } else if (esp_err_t e = vfo::on(); e != ESP_OK) {
+        ESP_LOGE(TAG, "Si5351 on: %s", esp_err_to_name(e));
+        render_status(" Si5351 output FAIL ");
+    } else {
+        vfo_ok = true;
+        ESP_LOGI(TAG, "Si5351 CLK2 = %u Hz, output enabled",
+                 (unsigned)FREQ_START_HZ);
+        render_status(" Si5351 CLK2 @ 14.2M");
+    }
+    vTaskDelay(pdMS_TO_TICKS(vfo_ok ? 800 : 3000));
+
+    // ------- Stage E: backlight PWM + encoder task ------------------------
     s_pcf_mutex = xSemaphoreCreateMutex();
-    if (!s_pcf_mutex) { ESP_LOGE(TAG, "mutex alloc failed"); return; }
+    if (!s_pcf_mutex) {
+        ESP_LOGE(TAG, "mutex alloc failed");
+        return;
+    }
+    s_locking_active = true;
 
     esp_timer_create_args_t timer_args = {};
     timer_args.callback        = &pwm_timer_cb;
@@ -409,39 +449,13 @@ extern "C" void app_main() {
     ESP_ERROR_CHECK(esp_timer_create(&timer_args, &s_pwm_timer));
     ESP_ERROR_CHECK(esp_timer_start_once(s_pwm_timer, PWM_UNIT_US));
 
-    // Encoder -- if missing, LCD still shows freq, just can't retune.
-    if (esp_err_t e = s_encoder.begin(s_bus, ENCODER_ADDR); e != ESP_OK) {
-        ESP_LOGE(TAG, "encoder begin failed at 0x%02X: %s",
-                 ENCODER_ADDR, esp_err_to_name(e));
-    } else {
-        ESP_LOGI(TAG, "encoder attached at 0x%02X", ENCODER_ADDR);
-    }
-
-    // MCP4728 address check + optional one-time reprogram from factory
-    // 0x60 to 0x67.  Must run before vfo::init() because the Si5351 also
-    // lives at 0x60 -- we need to disambiguate before touching either.
-    mcp4728_check_and_reprogram();
-
-    // VFO -- init, tune, enable.
-    if (esp_err_t e = vfo::init(s_bus); e != ESP_OK) {
-        ESP_LOGE(TAG, "vfo::init failed: %s (Si5351 wiring?)", esp_err_to_name(e));
-    } else {
-        if (esp_err_t se = vfo::set_freq(s_freq_hz); se != ESP_OK) {
-            ESP_LOGE(TAG, "vfo::set_freq failed: %s", esp_err_to_name(se));
-        }
-        if (esp_err_t oe = vfo::on(); oe != ESP_OK) {
-            ESP_LOGE(TAG, "vfo::on failed: %s", esp_err_to_name(oe));
-        } else {
-            ESP_LOGI(TAG, "VFO CLK2 = %u Hz, output enabled",
-                     (unsigned)s_freq_hz);
-        }
-    }
+    render_status(encoder_ok ? " Running            "
+                             : " Running, no knob   ");
 
     xTaskCreatePinnedToCore(bringup_task, "lcd_bringup", 4096, nullptr,
                             3, nullptr, pins::CORE_MONITOR);
 
-    ESP_LOGI(TAG, "bring-up rev %d running -- turn encoder to retune VFO",
-             FW_REV);
+    ESP_LOGI(TAG, "boot complete (rev %d)", FW_REV);
 }
 
 #endif  // LCD_BRINGUP
