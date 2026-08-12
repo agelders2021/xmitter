@@ -40,6 +40,7 @@
 #include "pcf8575.h"
 #include "lcd_hd44780.h"
 #include "vfo_si5351.h"
+#include "mcp4728.h"
 
 #ifdef LCD_BRINGUP
 
@@ -49,11 +50,13 @@ constexpr char TAG[] = "lcd_bringup";
 
 // Bring-up firmware revision.  BUMP THIS on every code change so we can
 // tell which build is running on the bench without reading the serial log.
-constexpr int FW_REV = 3;
+constexpr int FW_REV = 4;
 
 // I2C addresses
-constexpr uint8_t  MCP4725_ADDR       = 0x62;
-constexpr uint8_t  ENCODER_ADDR       = 0x37;
+constexpr uint8_t  MCP4725_ADDR             = 0x62;
+constexpr uint8_t  ENCODER_ADDR             = 0x37;
+constexpr uint8_t  MCP4728_ADDR_FACTORY     = 0x60;  // also Si5351's address
+constexpr uint8_t  MCP4728_ADDR_TARGET      = 0x67;
 
 // LCD contrast -- bench-tuned; written once at startup.
 constexpr uint16_t MCP4725_CODE_FIXED = 493;    // ~0.6 V at 5 V Vref
@@ -169,6 +172,109 @@ class SeesawEncoder {
 };
 
 SeesawEncoder s_encoder;
+
+// --------------------------------------------------------------------------
+//  MCP4728 / Si5351 sanity check + optional reprogram
+//
+//  Runs before vfo::init().  Reads the bus at 0x60 (factory MCP4728 =
+//  Si5351) and 0x67 (target MCP4728 address).  Four possible states:
+//
+//    0x67 ACK + 0x60 ACK   -> normal running config (MCP4728 reprogrammed
+//                             and Si5351 both present).  Nothing to do.
+//    0x67 ACK + 0x60 NAK   -> MCP4728 already reprogrammed, Si5351 not
+//                             on the bus yet.  Warn but continue.
+//    0x60 ACK + 0x67 NAK   -> ambiguous.  Identify by trying a Si5351
+//                             register write/readback.  If Si5351, no
+//                             MCP4728 to reprogram.  If not, assume
+//                             factory MCP4728 and reprogram to 0x67.
+//    both NAK              -> nothing on the bus at either address.
+//                             Warn; Si5351 init will fail loudly.
+// --------------------------------------------------------------------------
+
+// Distinguish Si5351 from factory MCP4728 at the same address.  Writes
+// 0xFF to Si5351 REG_OUTPUT_ENABLE (reg 3) then reads it back; Si5351
+// returns 0xFF, MCP4728 does not (0x03 is interpreted as fast-write
+// upper nibble = 3 and readback returns its status stream instead).
+// The Si5351 write is idempotent -- 0xFF disables all outputs, which
+// is chip default at boot, so no state disturbance.  The MCP4728 write
+// briefly nudges DAC A output; harmless with nothing wired to it in
+// bring-up.
+bool device_at_addr_is_si5351(uint8_t addr) {
+    i2c_device_config_t cfg = {};
+    cfg.dev_addr_length = I2C_ADDR_BIT_LEN_7;
+    cfg.device_address  = addr;
+    cfg.scl_speed_hz    = 400000;
+
+    i2c_master_dev_handle_t dev = nullptr;
+    if (i2c_master_bus_add_device(s_bus, &cfg, &dev) != ESP_OK) return false;
+
+    bool is_si = false;
+    const uint8_t write_buf[2] = { 0x03, 0xFF };
+    if (i2c_master_transmit(dev, write_buf, sizeof(write_buf), 100) == ESP_OK) {
+        const uint8_t reg = 0x03;
+        uint8_t readback = 0;
+        if (i2c_master_transmit_receive(dev, &reg, 1, &readback, 1, 100) == ESP_OK) {
+            if (readback == 0xFF) is_si = true;
+        }
+    }
+    i2c_master_bus_rm_device(dev);
+    return is_si;
+}
+
+void mcp4728_check_and_reprogram() {
+    const bool ack60 = (i2c_master_probe(s_bus, MCP4728_ADDR_FACTORY, 100) == ESP_OK);
+    const bool ack67 = (i2c_master_probe(s_bus, MCP4728_ADDR_TARGET,  100) == ESP_OK);
+
+    if (ack67) {
+        if (ack60) {
+            ESP_LOGI(TAG, "MCP4728 @ 0x%02X and Si5351 @ 0x%02X -- normal",
+                     MCP4728_ADDR_TARGET, MCP4728_ADDR_FACTORY);
+        } else {
+            ESP_LOGW(TAG, "MCP4728 @ 0x%02X but Si5351 NOT on bus at 0x%02X",
+                     MCP4728_ADDR_TARGET, MCP4728_ADDR_FACTORY);
+        }
+        return;
+    }
+
+    // 0x67 empty
+    if (!ack60) {
+        ESP_LOGW(TAG, "no ACK at 0x%02X or 0x%02X -- MCP4728 + Si5351 both absent?",
+                 MCP4728_ADDR_FACTORY, MCP4728_ADDR_TARGET);
+        return;
+    }
+
+    // 0x60 ACKs, 0x67 empty -- Si5351 or factory MCP4728?
+    ESP_LOGI(TAG, "0x%02X responds, 0x%02X empty -- identifying...",
+             MCP4728_ADDR_FACTORY, MCP4728_ADDR_TARGET);
+    if (device_at_addr_is_si5351(MCP4728_ADDR_FACTORY)) {
+        ESP_LOGI(TAG, "0x%02X is Si5351; no factory MCP4728 to reprogram",
+                 MCP4728_ADDR_FACTORY);
+        return;
+    }
+
+    // Looks like factory MCP4728.  Reprogram.
+    ESP_LOGI(TAG, "0x%02X appears to be factory MCP4728; reprogramming to 0x%02X",
+             MCP4728_ADDR_FACTORY, MCP4728_ADDR_TARGET);
+    esp_err_t re = mcp4728::reprogram_address(s_bus,
+                                              MCP4728_ADDR_FACTORY,
+                                              MCP4728_ADDR_TARGET,
+                                              pins::MCP4728_LDAC);
+    if (re != ESP_OK) {
+        ESP_LOGE(TAG, "MCP4728 reprogram transaction failed: %s",
+                 esp_err_to_name(re));
+        return;
+    }
+
+    // Give the EEPROM burn a moment to settle before verifying.
+    vTaskDelay(pdMS_TO_TICKS(100));
+    if (i2c_master_probe(s_bus, MCP4728_ADDR_TARGET, 100) == ESP_OK) {
+        ESP_LOGI(TAG, "MCP4728 reprogrammed OK -- now at 0x%02X",
+                 MCP4728_ADDR_TARGET);
+    } else {
+        ESP_LOGE(TAG, "reprogram sent but 0x%02X still not responding",
+                 MCP4728_ADDR_TARGET);
+    }
+}
 
 // --------------------------------------------------------------------------
 //  PWM timer callback -- one BAM sub-frame per firing.
@@ -311,6 +417,11 @@ extern "C" void app_main() {
         ESP_LOGI(TAG, "encoder attached at 0x%02X", ENCODER_ADDR);
     }
 
+    // MCP4728 address check + optional one-time reprogram from factory
+    // 0x60 to 0x67.  Must run before vfo::init() because the Si5351 also
+    // lives at 0x60 -- we need to disambiguate before touching either.
+    mcp4728_check_and_reprogram();
+
     // VFO -- init, tune, enable.
     if (esp_err_t e = vfo::init(s_bus); e != ESP_OK) {
         ESP_LOGE(TAG, "vfo::init failed: %s (Si5351 wiring?)", esp_err_to_name(e));
@@ -321,7 +432,7 @@ extern "C" void app_main() {
         if (esp_err_t oe = vfo::on(); oe != ESP_OK) {
             ESP_LOGE(TAG, "vfo::on failed: %s", esp_err_to_name(oe));
         } else {
-            ESP_LOGI(TAG, "VFO CLK0 = %u Hz, output enabled",
+            ESP_LOGI(TAG, "VFO CLK2 = %u Hz, output enabled",
                      (unsigned)s_freq_hz);
         }
     }
