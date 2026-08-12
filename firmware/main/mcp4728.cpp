@@ -36,19 +36,24 @@ esp_err_t plan_reprogram_bytes(uint8_t cur_addr,
     const uint8_t cur_bits = cur_addr & 0x07;   // A2 A1 A0 of current
     const uint8_t new_bits = new_addr & 0x07;   // A2 A1 A0 of new
 
-    // Byte 1: current I2C slave address, W=0.
-    //   Bits: [1][1][0][0][A2][A1][A0][0]
-    out_bytes[0] = (uint8_t)(0xC0 | (cur_bits << 1));
-
-    // Byte 2: "Write Address" command byte.
-    //   Bits: [0][1][1][0][1][A2n][A1n][A0n][0] — 9 bits notation, but the
-    //   trailing 0 is the low-nibble sentinel.  Pack as:
-    //     0110 1xxx 0  →  0x68 | (new_bits << 1) with the low bit 0
-    out_bytes[1] = (uint8_t)(0x68 | (new_bits << 1));
-
-    // Byte 3: "Confirm" byte, identical to byte 2 but with the low bit set.
-    //     0110 1xxx 1
-    out_bytes[2] = (uint8_t)(0x69 | (new_bits << 1));
+    // MCP4728 "Write I2C Address Bits" command -- Microchip DS22187 §5.6.6.
+    // Three command bytes follow the START + device-address-byte.  All three
+    // are of the form 0110_0AAA_R where AAA is a 3-bit address field and R
+    // is a role bit (1 = "Write Addr cmd" / confirm, 0 = "new address").
+    //
+    //   Byte 1 (write-addr command with CURRENT addr, prove we know it):
+    //       0 1 1 0 0 A2c A1c A0c  1    ->  0x61 | (cur_bits << 1)
+    //   Byte 2 (new address, R=0):
+    //       0 1 1 0 0 A2n A1n A0n  0    ->  0x60 | (new_bits << 1)
+    //   Byte 3 (confirm new address, R=1):
+    //       0 1 1 0 0 A2n A1n A0n  1    ->  0x61 | (new_bits << 1)
+    //
+    // (An earlier revision of this file used 0x68 as the base and only sent
+    // two bytes; that pattern gets decoded by the chip as a Multi-Write DAC
+    // command instead of an address change -- ACKs but no effect.)
+    out_bytes[0] = (uint8_t)(0x61 | (cur_bits << 1));
+    out_bytes[1] = (uint8_t)(0x60 | (new_bits << 1));
+    out_bytes[2] = (uint8_t)(0x61 | (new_bits << 1));
 
     return ESP_OK;
 }
@@ -92,18 +97,15 @@ esp_err_t reprogram_address(i2c_master_bus_handle_t bus,
     ESP_RETURN_ON_ERROR(i2c_master_bus_add_device(bus, &cfg, &dev),
                         TAG, "add MCP4728 device");
 
-    ESP_LOGI(TAG, "Reprogram: 0x%02X -> 0x%02X  (bytes: %02X %02X %02X)",
+    ESP_LOGI(TAG, "Reprogram: 0x%02X -> 0x%02X  (cmd bytes: %02X %02X %02X)",
              cur_addr, new_addr, bytes[0], bytes[1], bytes[2]);
 
     // Pull LDAC LOW before START and hold through the whole transaction.
     ESP_ERROR_CHECK(gpio_set_level(ldac_pin, 0));
 
-    // The 3-byte payload after the START/address is bytes[1..2]; the driver
-    // pushes bytes[0] (device address + W) automatically.  So we hand it
-    // bytes[1..2] as the payload.
-    uint8_t payload[2] = { bytes[1], bytes[2] };
-    esp_err_t xfer = i2c_master_transmit(dev, payload, sizeof(payload),
-                                         /*timeout_ms=*/200);
+    // All three command bytes go in the payload; the driver adds the START
+    // and device-address-byte automatically.
+    esp_err_t xfer = i2c_master_transmit(dev, bytes, 3, /*timeout_ms=*/200);
 
     // EEPROM burn time is ~50 ms per the datasheet.  Keep LDAC LOW through
     // the burn to be safe.
