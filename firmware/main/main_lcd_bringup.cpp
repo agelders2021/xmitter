@@ -54,7 +54,7 @@ constexpr char TAG[] = "bringup";
 
 // Bring-up firmware revision.  BUMP THIS on every code change so we can
 // tell which build is running on the bench without reading the serial log.
-constexpr int FW_REV = 7;
+constexpr int FW_REV = 8;
 
 // I2C addresses
 constexpr uint8_t  MCP4725_ADDR             = 0x62;

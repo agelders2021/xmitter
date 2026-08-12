@@ -100,20 +100,26 @@ esp_err_t reprogram_address(i2c_master_bus_handle_t bus,
     ESP_LOGI(TAG, "Reprogram: 0x%02X -> 0x%02X  (cmd bytes: %02X %02X %02X)",
              cur_addr, new_addr, bytes[0], bytes[1], bytes[2]);
 
-    // Pull LDAC LOW before START and hold through the whole transaction.
-    ESP_ERROR_CHECK(gpio_set_level(ldac_pin, 0));
+    // Diagnostic attempt: hold LDAC HIGH for the entire transaction.
+    // Per DS22187 §4.5.3.3 the chip requires LDAC HIGH -> LOW during the
+    // ACK of the slave address byte to recognise this as a reprogram
+    // command, and our previous "hold LOW throughout" approach was
+    // yielding ESP_ERR_INVALID_STATE (address NAK) on the bench.  If
+    // holding HIGH lets the transaction ACK (transmit returns ESP_OK),
+    // we've localized the problem to the LDAC-transition timing rather
+    // than a bus- or driver-level issue -- next fix will be a bit-bang
+    // implementation that pulses LDAC LOW during the address ACK.
+    ESP_ERROR_CHECK(gpio_set_level(ldac_pin, 1));
 
-    // All three command bytes go in the payload; the driver adds the START
-    // and device-address-byte automatically.
     esp_err_t xfer = i2c_master_transmit(dev, bytes, 3, /*timeout_ms=*/200);
 
-    // EEPROM burn time is ~50 ms per the datasheet.  Keep LDAC LOW through
-    // the burn to be safe.
-    vTaskDelay(pdMS_TO_TICKS(60));
-
-    // Restore LDAC HIGH (normal operating state — no channel updates
-    // triggered) and detach from the bus at the OLD address.
+    // Pulse LDAC LOW briefly after transmit -- with strict-timing chips
+    // this comes too late to arm the address change, but with permissive
+    // chip revisions it may still be honored.
+    ESP_ERROR_CHECK(gpio_set_level(ldac_pin, 0));
+    vTaskDelay(pdMS_TO_TICKS(60));   // EEPROM burn window if it took
     ESP_ERROR_CHECK(gpio_set_level(ldac_pin, 1));
+
     i2c_master_bus_rm_device(dev);
 
     if (xfer != ESP_OK) {
