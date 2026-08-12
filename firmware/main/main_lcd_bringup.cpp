@@ -54,7 +54,7 @@ constexpr char TAG[] = "bringup";
 
 // Bring-up firmware revision.  BUMP THIS on every code change so we can
 // tell which build is running on the bench without reading the serial log.
-constexpr int FW_REV = 6;
+constexpr int FW_REV = 7;
 
 // I2C addresses
 constexpr uint8_t  MCP4725_ADDR             = 0x62;
@@ -226,33 +226,53 @@ void render_freq(uint32_t hz) {
 }
 
 // --------------------------------------------------------------------------
-//  MCP4728 / Si5351 sanity check + optional reprogram
+//  MCP4728 / Si5351 startup check
+//
+//  Deliberately does NOT try to discriminate Si5351 vs factory MCP4728 when
+//  0x60 responds -- rev 5's discrimination step left the i2c_master driver
+//  in a state where the follow-up reprogram transaction NAK'd
+//  (ESP_ERR_INVALID_STATE from i2c_master_transmit).  Now we just probe
+//  the two addresses and pick a branch:
+//
+//    both ACK           -> normal (MCP4728 reprogrammed, Si5351 present)
+//    only 0x67 ACK      -> MCP4728 done, Si5351 not on bus
+//    only 0x60 ACK      -> ASSUME factory MCP4728, attempt reprogram
+//                          (safe even if it's actually a Si5351: any
+//                          registers we clobber get reset by vfo::init).
+//    neither            -> nothing on bus.
+//
+//  User's stated bench sequence is "install MCP4728 alone first, then add
+//  Si5351".  Under that plan the ambiguous case above unambiguously means
+//  factory MCP4728, so the discrimination step was never worth its cost.
 // --------------------------------------------------------------------------
 
-// Write 0xFF to Si5351 REG_OUTPUT_ENABLE (reg 3) then read it back.  A
-// Si5351 will echo 0xFF; a factory MCP4728 does not.  Idempotent for
-// Si5351 (0xFF is the reset default) and only temporarily nudges the
-// MCP4728's DAC A output if that's what's on the bus -- no EEPROM burn.
-bool device_at_addr_is_si5351(uint8_t addr) {
-    i2c_device_config_t cfg = {};
-    cfg.dev_addr_length = I2C_ADDR_BIT_LEN_7;
-    cfg.device_address  = addr;
-    cfg.scl_speed_hz    = 400000;
+// Try up to 3 times; delay between attempts to let the bus / chip settle.
+esp_err_t reprogram_with_retries() {
+    constexpr int MAX_ATTEMPTS = 3;
+    esp_err_t last_err = ESP_FAIL;
 
-    i2c_master_dev_handle_t dev = nullptr;
-    if (i2c_master_bus_add_device(s_bus, &cfg, &dev) != ESP_OK) return false;
-
-    bool is_si = false;
-    const uint8_t write_buf[2] = { 0x03, 0xFF };
-    if (i2c_master_transmit(dev, write_buf, sizeof(write_buf), 100) == ESP_OK) {
-        const uint8_t reg = 0x03;
-        uint8_t readback = 0;
-        if (i2c_master_transmit_receive(dev, &reg, 1, &readback, 1, 100) == ESP_OK) {
-            if (readback == 0xFF) is_si = true;
+    for (int attempt = 1; attempt <= MAX_ATTEMPTS; ++attempt) {
+        vTaskDelay(pdMS_TO_TICKS(50));   // let bus quiesce before each try
+        ESP_LOGI(TAG, "reprogram attempt %d/%d", attempt, MAX_ATTEMPTS);
+        last_err = mcp4728::reprogram_address(s_bus,
+                                              MCP4728_ADDR_FACTORY,
+                                              MCP4728_ADDR_TARGET,
+                                              pins::MCP4728_LDAC);
+        if (last_err != ESP_OK) {
+            ESP_LOGW(TAG, "attempt %d xfer failed: %s",
+                     attempt, esp_err_to_name(last_err));
+            continue;
         }
+        // Give the EEPROM burn 100 ms to settle, then probe 0x67.
+        vTaskDelay(pdMS_TO_TICKS(100));
+        if (i2c_master_probe(s_bus, MCP4728_ADDR_TARGET, 100) == ESP_OK) {
+            ESP_LOGI(TAG, "attempt %d SUCCESS -- 0x67 now responds", attempt);
+            return ESP_OK;
+        }
+        ESP_LOGW(TAG, "attempt %d: xfer OK but 0x67 still silent", attempt);
+        last_err = ESP_ERR_NOT_FOUND;
     }
-    i2c_master_bus_rm_device(dev);
-    return is_si;
+    return last_err;
 }
 
 // Returns a short status string suitable for LCD row 1.
@@ -260,43 +280,30 @@ const char *mcp4728_check_and_reprogram() {
     const bool ack60 = (i2c_master_probe(s_bus, MCP4728_ADDR_FACTORY, 100) == ESP_OK);
     const bool ack67 = (i2c_master_probe(s_bus, MCP4728_ADDR_TARGET,  100) == ESP_OK);
 
+    ESP_LOGI(TAG, "bus scan: 0x60 %s, 0x67 %s",
+             ack60 ? "ACK" : "---", ack67 ? "ACK" : "---");
+
     if (ack67 && ack60) {
-        ESP_LOGI(TAG, "MCP4728 at 0x67, Si5351 at 0x60 -- normal");
         return " Both @ 0x60/0x67   ";
     }
     if (ack67 && !ack60) {
-        ESP_LOGW(TAG, "MCP4728 at 0x67, Si5351 NOT on bus");
         return " MCP4728 OK, no VFO ";
     }
     if (!ack60 && !ack67) {
-        ESP_LOGE(TAG, "No ACK at 0x60 or 0x67");
+        ESP_LOGE(TAG, "nothing on bus at 0x60 or 0x67");
         return " no chip @ 0x60/0x67";
     }
 
-    // 0x60 ACKs, 0x67 empty -- identify.
-    if (device_at_addr_is_si5351(MCP4728_ADDR_FACTORY)) {
-        ESP_LOGI(TAG, "0x60 is Si5351; no factory MCP4728");
-        return " Si5351 only        ";
-    }
-
-    // Factory MCP4728 -- reprogram.
-    ESP_LOGI(TAG, "reprogramming factory MCP4728 -> 0x67");
+    // 0x60 ACKs, 0x67 empty -- assume factory MCP4728, reprogram.
     render_status(" Reprog MCP4728...  ");
-    esp_err_t re = mcp4728::reprogram_address(s_bus,
-                                              MCP4728_ADDR_FACTORY,
-                                              MCP4728_ADDR_TARGET,
-                                              pins::MCP4728_LDAC);
-    if (re != ESP_OK) {
-        ESP_LOGE(TAG, "MCP4728 reprogram xfer failed: %s", esp_err_to_name(re));
-        return " Reprog xfer FAIL   ";
+    esp_err_t re = reprogram_with_retries();
+    if (re == ESP_OK) {
+        return " MCP4728 -> 0x67 OK ";
     }
-    vTaskDelay(pdMS_TO_TICKS(100));
-    if (i2c_master_probe(s_bus, MCP4728_ADDR_TARGET, 100) != ESP_OK) {
-        ESP_LOGE(TAG, "reprogram sent but 0x67 not responding");
+    if (re == ESP_ERR_NOT_FOUND) {
         return " Reprog no ACK @0x67";
     }
-    ESP_LOGI(TAG, "MCP4728 now at 0x67");
-    return " MCP4728 -> 0x67 OK ";
+    return " Reprog xfer FAIL   ";
 }
 
 // --------------------------------------------------------------------------
@@ -361,9 +368,10 @@ extern "C" void app_main() {
     // TAG stays at the default INFO level.
     esp_log_level_set("i2c.master", ESP_LOG_WARN);
     esp_log_level_set("vfo",        ESP_LOG_WARN);
-    esp_log_level_set("mcp4728",    ESP_LOG_WARN);
     esp_log_level_set("pcf8575",    ESP_LOG_WARN);
     esp_log_level_set("lcd",        ESP_LOG_WARN);
+    // mcp4728 stays at INFO so we can see the reprogram byte log and any
+    // per-attempt failure messages during bring-up.
 
     std::printf("\n=== xmitter bring-up rev %d (build %s %s) ===\n",
                 FW_REV, __DATE__, __TIME__);
