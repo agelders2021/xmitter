@@ -40,6 +40,8 @@
 #include "nvs_flash.h"
 #include "driver/i2c_master.h"
 
+#include "driver/gpio.h"
+
 #include "pin_map.h"
 #include "pcf8575.h"
 #include "lcd_hd44780.h"
@@ -364,6 +366,34 @@ void bringup_task(void *) {
 }  // namespace
 
 extern "C" void app_main() {
+#ifdef LDAC_SCOPE_ONLY
+    // ---------- LDAC continuity diagnostic ----------
+    // Skip normal bring-up entirely.  Just configure GPIO 7 (Arduino D7 =
+    // MCP4728 LDAC) as an output and toggle it forever at ~100 Hz so a
+    // scope probe on the MCP4728 breakout's LDAC through-hole can confirm
+    // the jumper is intact.  Never returns.
+    gpio_config_t io = {};
+    io.pin_bit_mask = 1ULL << pins::MCP4728_LDAC;
+    io.mode         = GPIO_MODE_OUTPUT;
+    io.pull_up_en   = GPIO_PULLUP_DISABLE;
+    io.pull_down_en = GPIO_PULLDOWN_DISABLE;
+    io.intr_type    = GPIO_INTR_DISABLE;
+    ESP_ERROR_CHECK(gpio_config(&io));
+
+    std::printf("\n=== LDAC scope test ===\n");
+    std::printf(" toggling GPIO %d (Arduino D7 -> MCP4728 LDAC) at 100 Hz\n",
+                (int)pins::MCP4728_LDAC);
+    std::printf(" scope should see 3.3 V square wave at breakout LDAC pin\n");
+    std::printf(" no scope trace = wire is broken or wrong pin\n\n");
+
+    while (true) {
+        gpio_set_level(pins::MCP4728_LDAC, 1);
+        vTaskDelay(pdMS_TO_TICKS(5));
+        gpio_set_level(pins::MCP4728_LDAC, 0);
+        vTaskDelay(pdMS_TO_TICKS(5));
+    }
+#endif
+
     // Silence the chatty tags so serial output is human-readable.  Our own
     // TAG stays at the default INFO level.
     esp_log_level_set("i2c.master", ESP_LOG_WARN);

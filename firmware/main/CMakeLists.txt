@@ -47,3 +47,12 @@ option(LCD_BRINGUP "Build the front-panel LCD bring-up test entry point" OFF)
 if(LCD_BRINGUP)
     target_compile_definitions(${COMPONENT_LIB} PRIVATE LCD_BRINGUP=1)
 endif()
+
+# LDAC_SCOPE_ONLY skips the normal bring-up and just toggles the MCP4728
+# LDAC line (GPIO 7) at 100 Hz forever, so a scope on the breakout's LDAC
+# pin can confirm the D7 -> LDAC jumper is intact.  Requires LCD_BRINGUP.
+#     idf.py -DLCD_BRINGUP=ON -DLDAC_SCOPE_ONLY=ON build flash monitor
+option(LDAC_SCOPE_ONLY "LDAC continuity diagnostic (no MCP4728/Si5351 init)" OFF)
+if(LDAC_SCOPE_ONLY)
+    target_compile_definitions(${COMPONENT_LIB} PRIVATE LDAC_SCOPE_ONLY=1)
+endif()
