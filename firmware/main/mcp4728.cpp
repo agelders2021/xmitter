@@ -107,11 +107,13 @@ esp_err_t reprogram_address(i2c_master_bus_handle_t bus,
 
     // Probe with the newly-added device handle first, so we know the chip
     // is reachable at THIS handle before we try the 3-byte reprogram
-    // payload.  If probe fails, we get a clear "chip not on bus at 0x60"
-    // signal instead of the muddy INVALID_STATE from the reprogram write.
-    if (esp_err_t pr = i2c_master_probe(bus, cur_addr, 100); pr != ESP_OK) {
-        ESP_LOGE(TAG, "pre-reprogram probe of 0x%02X: %s",
-                 cur_addr, esp_err_to_name(pr));
+    // payload.  Log the result either way so the bench operator can see
+    // it in the serial output (rev 11 logged nothing on success, so it
+    // looked like the probe was silently skipped).
+    esp_err_t pr = i2c_master_probe(bus, cur_addr, 100);
+    ESP_LOGI(TAG, "pre-reprogram probe of 0x%02X: %s",
+             cur_addr, esp_err_to_name(pr));
+    if (pr != ESP_OK) {
         i2c_master_bus_rm_device(dev);
         return pr;
     }
