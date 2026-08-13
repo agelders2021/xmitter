@@ -87,13 +87,34 @@ esp_err_t reprogram_address(i2c_master_bus_handle_t bus,
     ESP_RETURN_ON_ERROR(gpio_set_level(ldac_pin, 1), TAG, "LDAC high");
     vTaskDelay(pdMS_TO_TICKS(2));
 
-    // Add the current MCP4728 to the bus so we can write to it.  Remove
-    // when done so re-init at the new address works cleanly.
+    // Send a General Call Reset (I2C address 0x00, data 0x06) so the
+    // MCP4728 is in POR state before we start.  Prior LDAC-LOW attempts
+    // could have left the chip half-armed in reprogram mode.  This is a
+    // best-effort call -- silent if it fails.
+    {
+        i2c_device_config_t gc = {};
+        gc.dev_addr_length = I2C_ADDR_BIT_LEN_7;
+        gc.device_address  = 0x00;    // General Call address
+        gc.scl_speed_hz    = 400000;
+        i2c_master_dev_handle_t gcd = nullptr;
+        if (i2c_master_bus_add_device(bus, &gc, &gcd) == ESP_OK) {
+            const uint8_t reset_cmd = 0x06;
+            (void)i2c_master_transmit(gcd, &reset_cmd, 1, 50);
+            i2c_master_bus_rm_device(gcd);
+            vTaskDelay(pdMS_TO_TICKS(10));   // let POR settle
+        }
+    }
+
+    // Wait for any leftover I2C traffic to finish and add the MCP4728 to
+    // the bus at the reprogram speed.  Match the 400 kHz used by every
+    // other device on the bus -- v5.4's i2c_master has known noise when
+    // devices at different speeds share the bus.
+    (void)i2c_master_bus_wait_all_done(bus, 100);
+
     i2c_device_config_t cfg = {};
     cfg.dev_addr_length = I2C_ADDR_BIT_LEN_7;
     cfg.device_address  = cur_addr;
-    cfg.scl_speed_hz    = 100000;   // 100 kHz — well below the 400 kHz max;
-                                    // gives the EEPROM cell plenty of time.
+    cfg.scl_speed_hz    = 400000;
 
     i2c_master_dev_handle_t dev = nullptr;
     ESP_RETURN_ON_ERROR(i2c_master_bus_add_device(bus, &cfg, &dev),
