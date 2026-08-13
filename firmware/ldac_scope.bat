@@ -43,6 +43,10 @@ echo === LDAC scope test (100 Hz on GPIO 7 / Arduino D7) ===
 echo (Ctrl+] to exit monitor when done)
 echo.
 
+REM ---- fullclean first, so switching modes (bringup.bat <-> ldac_scope.bat)
+REM      always produces a fresh binary.  ESP-IDF's build cache does not
+REM      always pick up -D flag changes without a real code diff.
+idf.py fullclean
 idf.py %PORT_ARG% -DLCD_BRINGUP=ON -DLDAC_SCOPE_ONLY=ON build flash monitor
 
 endlocal

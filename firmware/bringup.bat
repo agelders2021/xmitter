@@ -43,6 +43,10 @@ echo === Building LCD_BRINGUP=ON, then flash + monitor ===
 echo (Ctrl+] to exit monitor)
 echo.
 
+REM ---- fullclean first, so switching modes (bringup.bat <-> ldac_scope.bat)
+REM      always produces a fresh binary.  ESP-IDF's build cache does not
+REM      always pick up -D flag changes without a real code diff.
+idf.py fullclean
 idf.py %PORT_ARG% -DLCD_BRINGUP=ON build flash monitor
 
 endlocal
