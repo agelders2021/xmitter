@@ -56,7 +56,7 @@ constexpr char TAG[] = "bringup";
 
 // Bring-up firmware revision.  BUMP THIS on every code change so we can
 // tell which build is running on the bench without reading the serial log.
-constexpr int FW_REV = 14;
+constexpr int FW_REV = 15;
 
 // I2C addresses
 constexpr uint8_t  MCP4725_ADDR             = 0x62;
@@ -87,11 +87,12 @@ constexpr int ENCODER_COUNTS_PER_DETENT = 4;
 // --------------------------------------------------------------------------
 //  Shared state
 // --------------------------------------------------------------------------
-i2c_master_bus_handle_t s_bus       = nullptr;
+i2c_master_bus_handle_t s_bus         = nullptr;
 pcf8575::Device         s_pcf;
 lcd::HD44780            s_lcd;
-SemaphoreHandle_t       s_pcf_mutex = nullptr;
-esp_timer_handle_t      s_pwm_timer = nullptr;
+SemaphoreHandle_t       s_pcf_mutex   = nullptr;
+esp_timer_handle_t      s_pwm_timer   = nullptr;
+bool                    s_display_ok  = false;   // set true once PCF8575+LCD both up
 
 volatile uint32_t s_freq_hz = FREQ_START_HZ;
 
@@ -190,6 +191,7 @@ SeesawEncoder s_encoder;
 //  the mutex -- no other task exists yet.
 // --------------------------------------------------------------------------
 void lcd_write_at(uint8_t row, uint8_t col, const char *s) {
+    if (!s_display_ok) return;
     if (s_locking_active) xSemaphoreTake(s_pcf_mutex, portMAX_DELAY);
     s_lcd.set_cursor(row, col);
     s_lcd.print(s);
@@ -205,6 +207,7 @@ void render_status(const char *msg) {
 }
 
 void render_header_and_footer() {
+    if (!s_display_ok) return;
     char buf[21];
     if (s_locking_active) xSemaphoreTake(s_pcf_mutex, portMAX_DELAY);
     s_lcd.clear();
@@ -421,28 +424,34 @@ extern "C" void app_main() {
     ESP_ERROR_CHECK(nvs_flash_init());
     ESP_ERROR_CHECK(i2c_bus_init());
 
-    // ------- Stage A: display up ------------------------------------------
+    // ------- Stage A: display up (best-effort so the reprogram diagnostic
+    //  can run with only the MCP4728 breakout powered from the STEMMA QT
+    //  chain -- 5 V bench supply for the front-panel PCB can be off.  If
+    //  PCF8575 or LCD isn't reachable, s_display_ok stays false and every
+    //  render_*/lcd_write_at call becomes a no-op; rely on serial for
+    //  status.
     if (esp_err_t e = s_pcf.begin(s_bus, pins::I2C_ADDR_PCF8575_PANEL); e != ESP_OK) {
-        ESP_LOGE(TAG, "PCF8575 at 0x%02X missing (%s) -- front panel unwired?",
+        ESP_LOGW(TAG, "PCF8575 at 0x%02X missing (%s) -- no LCD status this boot",
                  pins::I2C_ADDR_PCF8575_PANEL, esp_err_to_name(e));
-        return;
+    } else if (esp_err_t e = s_lcd.begin(&s_pcf); e != ESP_OK) {
+        ESP_LOGW(TAG, "HD44780 init failed: %s -- no LCD status this boot",
+                 esp_err_to_name(e));
+    } else {
+        s_display_ok = true;
     }
+
     if (esp_err_t e = mcp4725_set(MCP4725_ADDR, MCP4725_CODE_FIXED); e != ESP_OK) {
         ESP_LOGW(TAG, "MCP4725 (contrast) missing at 0x%02X (%s)",
                  MCP4725_ADDR, esp_err_to_name(e));
     }
-    if (esp_err_t e = s_lcd.begin(&s_pcf); e != ESP_OK) {
-        ESP_LOGE(TAG, "HD44780 init failed: %s", esp_err_to_name(e));
-        return;
+
+    if (s_display_ok) {
+        s_lcd.backlight_rgb(true, true, true);
+        render_header_and_footer();
+        render_status(" Booting Rev 15     ");
+        render_freq(FREQ_START_HZ);
     }
-
-    // Backlight fully on so the boot status is readable; PWM takes over later.
-    s_lcd.backlight_rgb(true, true, true);
-
-    render_header_and_footer();
-    render_status(" Booting Rev 5      ");
-    render_freq(FREQ_START_HZ);
-    ESP_LOGI(TAG, "display up");
+    ESP_LOGI(TAG, "display %s", s_display_ok ? "up" : "SKIPPED (front-panel off)");
 
     // ------- Stage B: encoder ---------------------------------------------
     render_status(" Encoder init...    ");
