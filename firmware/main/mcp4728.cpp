@@ -87,28 +87,13 @@ esp_err_t reprogram_address(i2c_master_bus_handle_t bus,
     ESP_RETURN_ON_ERROR(gpio_set_level(ldac_pin, 1), TAG, "LDAC high");
     vTaskDelay(pdMS_TO_TICKS(2));
 
-    // Send a General Call Reset (I2C address 0x00, data 0x06) so the
-    // MCP4728 is in POR state before we start.  Prior LDAC-LOW attempts
-    // could have left the chip half-armed in reprogram mode.  This is a
-    // best-effort call -- silent if it fails.
-    {
-        i2c_device_config_t gc = {};
-        gc.dev_addr_length = I2C_ADDR_BIT_LEN_7;
-        gc.device_address  = 0x00;    // General Call address
-        gc.scl_speed_hz    = 400000;
-        i2c_master_dev_handle_t gcd = nullptr;
-        if (i2c_master_bus_add_device(bus, &gc, &gcd) == ESP_OK) {
-            const uint8_t reset_cmd = 0x06;
-            (void)i2c_master_transmit(gcd, &reset_cmd, 1, 50);
-            i2c_master_bus_rm_device(gcd);
-            vTaskDelay(pdMS_TO_TICKS(10));   // let POR settle
-        }
-    }
-
-    // Wait for any leftover I2C traffic to finish and add the MCP4728 to
-    // the bus at the reprogram speed.  Match the 400 kHz used by every
-    // other device on the bus -- v5.4's i2c_master has known noise when
-    // devices at different speeds share the bus.
+    // Wait for any leftover I2C traffic to finish, then add the MCP4728
+    // to the bus.  Match the 400 kHz used by every other device -- v5.4's
+    // i2c_master has known noise when devices at different speeds share
+    // the bus, and 400 kHz is well within the MCP4728's rated range.
+    // (Rev 10's General Call Reset was removed -- it appeared to leave
+    // the driver in a state where the follow-up transmit synchronously
+    // returned INVALID_STATE without ever hitting the wire.)
     (void)i2c_master_bus_wait_all_done(bus, 100);
 
     i2c_device_config_t cfg = {};
@@ -119,6 +104,17 @@ esp_err_t reprogram_address(i2c_master_bus_handle_t bus,
     i2c_master_dev_handle_t dev = nullptr;
     ESP_RETURN_ON_ERROR(i2c_master_bus_add_device(bus, &cfg, &dev),
                         TAG, "add MCP4728 device");
+
+    // Probe with the newly-added device handle first, so we know the chip
+    // is reachable at THIS handle before we try the 3-byte reprogram
+    // payload.  If probe fails, we get a clear "chip not on bus at 0x60"
+    // signal instead of the muddy INVALID_STATE from the reprogram write.
+    if (esp_err_t pr = i2c_master_probe(bus, cur_addr, 100); pr != ESP_OK) {
+        ESP_LOGE(TAG, "pre-reprogram probe of 0x%02X: %s",
+                 cur_addr, esp_err_to_name(pr));
+        i2c_master_bus_rm_device(dev);
+        return pr;
+    }
 
     ESP_LOGI(TAG, "Reprogram: 0x%02X -> 0x%02X  (cmd bytes: %02X %02X %02X)",
              cur_addr, new_addr, bytes[0], bytes[1], bytes[2]);
