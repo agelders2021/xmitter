@@ -7,9 +7,14 @@
 
 #include "esp_log.h"
 #include "esp_check.h"
+#include "esp_rom_gpio.h"
+#include "esp_rom_sys.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "driver/gpio.h"
+#include "soc/gpio_sig_map.h"
+
+#include "pin_map.h"
 
 namespace mcp4728 {
 
@@ -24,6 +29,90 @@ constexpr uint8_t ADDR_MAX = 0x67;
 
 bool valid(uint8_t addr) { return addr >= ADDR_MIN && addr <= ADDR_MAX; }
 
+// ---------------------------------------------------------------------------
+//  Bit-bang I2C for the MCP4728 address reprogram.
+//
+//  The MCP4728 requires LDAC to transition HIGH -> LOW during the ACK bit
+//  of the SLAVE ADDRESS byte to arm the "Write I2C Address" command
+//  (DS22187 §4.5.3.3).  ESP-IDF v5.4's i2c_master driver gives us no way
+//  to inject GPIO activity between address ACK and the following data
+//  bytes, so hardware I2C either sends LDAC LOW too early (chip NAKs the
+//  address) or LDAC never transitions (chip ACKs but ignores the
+//  reprogram command).  Bit-banging lets us hit the ACK-window LDAC edge.
+//
+//  Timing target: 100 kHz.  Each SCL half-cycle is 5 us, plenty of margin
+//  for even the slowest bench probe.  All delays are esp_rom_delay_us()
+//  busy-waits since we're in a tight synchronous transaction.
+// ---------------------------------------------------------------------------
+
+constexpr int BB_HALF_US = 5;
+
+inline void bb_delay() { esp_rom_delay_us(BB_HALF_US); }
+
+// While bit-banging we route SDA/SCL from the I2C0 peripheral matrix
+// signals to plain-GPIO output/input.  Restore them at the end so the
+// hardware I2C peripheral gets its pins back.
+void bb_take_pin(gpio_num_t pin) {
+    // Force pin's output signal to plain GPIO_OUT (index 256 on ESP32-S3).
+    esp_rom_gpio_connect_out_signal(pin, SIG_GPIO_OUT_IDX, false, false);
+    // Enable both input and output; open-drain so pull-ups can hold HIGH.
+    gpio_set_direction(pin, GPIO_MODE_INPUT_OUTPUT_OD);
+    gpio_set_pull_mode(pin, GPIO_PULLUP_ONLY);
+    gpio_set_level(pin, 1);          // idle HIGH
+}
+
+void bb_release_pin(gpio_num_t pin, uint32_t out_sig, uint32_t in_sig) {
+    esp_rom_gpio_connect_out_signal(pin, out_sig, false, false);
+    esp_rom_gpio_connect_in_signal(in_sig, pin, false);
+}
+
+inline void bb_scl_low(gpio_num_t scl)  { gpio_set_level(scl, 0); }
+inline void bb_scl_high(gpio_num_t scl) { gpio_set_level(scl, 1); }
+inline void bb_sda_low(gpio_num_t sda)  { gpio_set_level(sda, 0); }
+inline void bb_sda_high(gpio_num_t sda) { gpio_set_level(sda, 1); }
+inline int  bb_sda_read(gpio_num_t sda) { return gpio_get_level(sda); }
+
+void bb_start(gpio_num_t sda, gpio_num_t scl) {
+    bb_sda_high(sda); bb_scl_high(scl); bb_delay();
+    bb_sda_low(sda);  bb_delay();
+    bb_scl_low(scl);
+}
+
+void bb_stop(gpio_num_t sda, gpio_num_t scl) {
+    bb_scl_low(scl); bb_sda_low(sda); bb_delay();
+    bb_scl_high(scl); bb_delay();
+    bb_sda_high(sda); bb_delay();
+}
+
+// Send one byte MSB-first, return true if slave ACKed.
+// If `pulse_ldac_low_during_ack` is set, LDAC gets driven LOW during the
+// SCL-HIGH portion of the ACK bit -- this is the specific event that
+// arms the MCP4728 reprogram command sequence.
+bool bb_write_byte(gpio_num_t sda, gpio_num_t scl, uint8_t byte,
+                   bool pulse_ldac_low_during_ack, gpio_num_t ldac_pin) {
+    for (int i = 7; i >= 0; --i) {
+        if ((byte >> i) & 1) bb_sda_high(sda);
+        else                 bb_sda_low(sda);
+        esp_rom_delay_us(1);
+        bb_scl_high(scl); bb_delay();
+        bb_scl_low(scl);
+        esp_rom_delay_us(BB_HALF_US - 1);
+    }
+    // ACK bit: release SDA to let slave drive it.
+    bb_sda_high(sda);
+    esp_rom_delay_us(1);
+    bb_scl_high(scl);
+    if (pulse_ldac_low_during_ack) {
+        esp_rom_delay_us(1);         // let LDAC HIGH be stable a moment
+        gpio_set_level(ldac_pin, 0); // THE critical transition
+    }
+    esp_rom_delay_us(BB_HALF_US - 2);
+    const bool ack = (bb_sda_read(sda) == 0);
+    bb_scl_low(scl);
+    esp_rom_delay_us(BB_HALF_US);
+    return ack;
+}
+
 }  // namespace
 
 esp_err_t plan_reprogram_bytes(uint8_t cur_addr,
@@ -33,24 +122,14 @@ esp_err_t plan_reprogram_bytes(uint8_t cur_addr,
         return ESP_ERR_INVALID_ARG;
     }
 
-    const uint8_t cur_bits = cur_addr & 0x07;   // A2 A1 A0 of current
-    const uint8_t new_bits = new_addr & 0x07;   // A2 A1 A0 of new
+    const uint8_t cur_bits = cur_addr & 0x07;
+    const uint8_t new_bits = new_addr & 0x07;
 
     // MCP4728 "Write I2C Address Bits" command -- Microchip DS22187 §5.6.6.
-    // Three command bytes follow the START + device-address-byte.  All three
-    // are of the form 0110_0AAA_R where AAA is a 3-bit address field and R
-    // is a role bit (1 = "Write Addr cmd" / confirm, 0 = "new address").
-    //
-    //   Byte 1 (write-addr command with CURRENT addr, prove we know it):
-    //       0 1 1 0 0 A2c A1c A0c  1    ->  0x61 | (cur_bits << 1)
-    //   Byte 2 (new address, R=0):
-    //       0 1 1 0 0 A2n A1n A0n  0    ->  0x60 | (new_bits << 1)
-    //   Byte 3 (confirm new address, R=1):
-    //       0 1 1 0 0 A2n A1n A0n  1    ->  0x61 | (new_bits << 1)
-    //
-    // (An earlier revision of this file used 0x68 as the base and only sent
-    // two bytes; that pattern gets decoded by the chip as a Multi-Write DAC
-    // command instead of an address change -- ACKs but no effect.)
+    // Three command bytes follow the START + device-address-byte:
+    //   Byte 1: 0110_0AAA_1   with AAA = CURRENT addr bits (prove we know it)
+    //   Byte 2: 0110_0AAA_0   with AAA = NEW     addr bits (data)
+    //   Byte 3: 0110_0AAA_1   with AAA = NEW     addr bits (confirm)
     out_bytes[0] = (uint8_t)(0x61 | (cur_bits << 1));
     out_bytes[1] = (uint8_t)(0x60 | (new_bits << 1));
     out_bytes[2] = (uint8_t)(0x61 | (new_bits << 1));
@@ -71,84 +150,67 @@ esp_err_t reprogram_address(i2c_master_bus_handle_t bus,
     }
 
     uint8_t bytes[3];
-    ESP_RETURN_ON_ERROR(plan_reprogram_bytes(cur_addr, new_addr, bytes),
-                        TAG, "plan_reprogram_bytes");
+    esp_err_t e = plan_reprogram_bytes(cur_addr, new_addr, bytes);
+    if (e != ESP_OK) return e;
 
-    // Configure LDAC as GPIO output, idle HIGH before we begin.  Call
-    // gpio_reset_pin() first -- proven necessary by the LDAC scope
-    // diagnostic (gpio_config alone left the pad refusing to be driven
-    // LOW on this hardware; reset_pin unbinds any peripheral matrix
-    // wiring and gives a truly blank slate).
-    ESP_RETURN_ON_ERROR(gpio_reset_pin(ldac_pin), TAG, "gpio_reset LDAC");
-    ESP_RETURN_ON_ERROR(gpio_set_pull_mode(ldac_pin, GPIO_FLOATING),
-                        TAG, "LDAC pull mode");
-    ESP_RETURN_ON_ERROR(gpio_set_direction(ldac_pin, GPIO_MODE_OUTPUT),
-                        TAG, "LDAC dir");
-    ESP_RETURN_ON_ERROR(gpio_set_level(ldac_pin, 1), TAG, "LDAC high");
-    vTaskDelay(pdMS_TO_TICKS(2));
+    const gpio_num_t SDA = pins::I2C_SDA;
+    const gpio_num_t SCL = pins::I2C_SCL;
 
-    // Wait for any leftover I2C traffic to finish, then add the MCP4728
-    // to the bus.  Match the 400 kHz used by every other device -- v5.4's
-    // i2c_master has known noise when devices at different speeds share
-    // the bus, and 400 kHz is well within the MCP4728's rated range.
-    // (Rev 10's General Call Reset was removed -- it appeared to leave
-    // the driver in a state where the follow-up transmit synchronously
-    // returned INVALID_STATE without ever hitting the wire.)
+    ESP_LOGI(TAG, "BIT-BANG reprogram: 0x%02X -> 0x%02X  (bytes: %02X %02X %02X)",
+             cur_addr, new_addr, bytes[0], bytes[1], bytes[2]);
+    ESP_LOGI(TAG, "  SDA=GPIO%d  SCL=GPIO%d  LDAC=GPIO%d",
+             (int)SDA, (int)SCL, (int)ldac_pin);
+
+    // Prep LDAC: clean pin, output, idle HIGH.
+    gpio_reset_pin(ldac_pin);
+    gpio_set_pull_mode(ldac_pin, GPIO_FLOATING);
+    gpio_set_direction(ldac_pin, GPIO_MODE_OUTPUT);
+    gpio_set_level(ldac_pin, 1);
+
+    // Make sure the hardware I2C peripheral is quiescent before we hijack
+    // its pins.
     (void)i2c_master_bus_wait_all_done(bus, 100);
 
-    i2c_device_config_t cfg = {};
-    cfg.dev_addr_length = I2C_ADDR_BIT_LEN_7;
-    cfg.device_address  = cur_addr;
-    cfg.scl_speed_hz    = 400000;
+    // Take pins from the peripheral.
+    bb_take_pin(SDA);
+    bb_take_pin(SCL);
+    esp_rom_delay_us(20);   // let pull-ups settle after matrix swap
 
-    i2c_master_dev_handle_t dev = nullptr;
-    ESP_RETURN_ON_ERROR(i2c_master_bus_add_device(bus, &cfg, &dev),
-                        TAG, "add MCP4728 device");
+    // 7-bit address with W=0 in LSB
+    const uint8_t addr_byte = (uint8_t)((cur_addr << 1) & 0xFE);
 
-    // Probe with the newly-added device handle first, so we know the chip
-    // is reachable at THIS handle before we try the 3-byte reprogram
-    // payload.  Log the result either way so the bench operator can see
-    // it in the serial output (rev 11 logged nothing on success, so it
-    // looked like the probe was silently skipped).
-    esp_err_t pr = i2c_master_probe(bus, cur_addr, 100);
-    ESP_LOGI(TAG, "pre-reprogram probe of 0x%02X: %s",
-             cur_addr, esp_err_to_name(pr));
-    if (pr != ESP_OK) {
-        i2c_master_bus_rm_device(dev);
-        return pr;
+    bb_start(SDA, SCL);
+    const bool ack_addr = bb_write_byte(SDA, SCL, addr_byte,
+                                        /*pulse_ldac_low_during_ack=*/true,
+                                        ldac_pin);
+    const bool ack1 = bb_write_byte(SDA, SCL, bytes[0], false, ldac_pin);
+    const bool ack2 = bb_write_byte(SDA, SCL, bytes[1], false, ldac_pin);
+    const bool ack3 = bb_write_byte(SDA, SCL, bytes[2], false, ldac_pin);
+    bb_stop(SDA, SCL);
+
+    // EEPROM burn (~50 ms per datasheet).  Keep LDAC LOW through it.
+    vTaskDelay(pdMS_TO_TICKS(60));
+    gpio_set_level(ldac_pin, 1);
+
+    // Give SDA/SCL back to the hardware I2C peripheral.  ESP32-S3 I2C0
+    // signals: SDA=I2CEXT0_SDA_OUT_IDX, SCL=I2CEXT0_SCL_OUT_IDX.
+    bb_release_pin(SDA, I2CEXT0_SDA_OUT_IDX, I2CEXT0_SDA_IN_IDX);
+    bb_release_pin(SCL, I2CEXT0_SCL_OUT_IDX, I2CEXT0_SCL_IN_IDX);
+
+    ESP_LOGI(TAG, "  ACKs -- addr:%d byte1:%d byte2:%d byte3:%d",
+             (int)ack_addr, (int)ack1, (int)ack2, (int)ack3);
+
+    if (!ack_addr) {
+        ESP_LOGE(TAG, "no ACK on slave address byte (chip not answering "
+                      "bit-bang)");
+        return ESP_ERR_NOT_FOUND;
     }
-
-    ESP_LOGI(TAG, "Reprogram: 0x%02X -> 0x%02X  (cmd bytes: %02X %02X %02X)",
-             cur_addr, new_addr, bytes[0], bytes[1], bytes[2]);
-
-    // Diagnostic attempt: hold LDAC HIGH for the entire transaction.
-    // Per DS22187 §4.5.3.3 the chip requires LDAC HIGH -> LOW during the
-    // ACK of the slave address byte to recognise this as a reprogram
-    // command, and our previous "hold LOW throughout" approach was
-    // yielding ESP_ERR_INVALID_STATE (address NAK) on the bench.  If
-    // holding HIGH lets the transaction ACK (transmit returns ESP_OK),
-    // we've localized the problem to the LDAC-transition timing rather
-    // than a bus- or driver-level issue -- next fix will be a bit-bang
-    // implementation that pulses LDAC LOW during the address ACK.
-    ESP_ERROR_CHECK(gpio_set_level(ldac_pin, 1));
-
-    esp_err_t xfer = i2c_master_transmit(dev, bytes, 3, /*timeout_ms=*/200);
-
-    // Pulse LDAC LOW briefly after transmit -- with strict-timing chips
-    // this comes too late to arm the address change, but with permissive
-    // chip revisions it may still be honored.
-    ESP_ERROR_CHECK(gpio_set_level(ldac_pin, 0));
-    vTaskDelay(pdMS_TO_TICKS(60));   // EEPROM burn window if it took
-    ESP_ERROR_CHECK(gpio_set_level(ldac_pin, 1));
-
-    i2c_master_bus_rm_device(dev);
-
-    if (xfer != ESP_OK) {
-        ESP_LOGE(TAG, "I2C transmit failed: %s", esp_err_to_name(xfer));
-        return xfer;
+    if (!(ack1 && ack2 && ack3)) {
+        ESP_LOGE(TAG, "chip NAK'd one of the reprogram command bytes");
+        return ESP_FAIL;
     }
-
-    ESP_LOGI(TAG, "Reprogram sequence sent OK. Rescan the bus to verify.");
+    ESP_LOGI(TAG, "reprogram sequence acknowledged; caller should probe "
+                  "0x%02X to verify", new_addr);
     return ESP_OK;
 }
 
