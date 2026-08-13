@@ -368,45 +368,40 @@ void bringup_task(void *) {
 extern "C" void app_main() {
 #ifdef LDAC_SCOPE_ONLY
     // ---------- LDAC continuity diagnostic ----------
-    // Previous attempt used gpio_config() alone; user reported D7 stuck HIGH
-    // with all adjacent pins LOW.  Their hypothesis is that ESP-IDF left
-    // GPIO 7 as an input somehow, and the MCP4728 breakout's 10K pull-up
-    // on LDAC held the wire HIGH.  Fix that possibility three ways:
-    //   1. gpio_reset_pin(): unbind ANY prior peripheral matrix wiring
-    //      and put the pin back to a known blank state.
-    //   2. Explicitly disable pull-up / pull-down after reset.
-    //   3. Use INPUT_OUTPUT mode so gpio_get_level() still reads the pad
-    //      value; that lets us log actual pin state as a sanity check.
-    // If D7 still stays HIGH after this, the pin has a real hardware
-    // fault (or Metro's D7 header isn't wired to U5.IO7 on this specific
-    // board rev).
-    const gpio_num_t LDAC = pins::MCP4728_LDAC;
-    ESP_ERROR_CHECK(gpio_reset_pin(LDAC));
-    ESP_ERROR_CHECK(gpio_set_pull_mode(LDAC, GPIO_FLOATING));
-    ESP_ERROR_CHECK(gpio_set_direction(LDAC, GPIO_MODE_INPUT_OUTPUT));
-    ESP_ERROR_CHECK(gpio_set_level(LDAC, 0));
+    // Bench sees D7 pulse briefly then stay HIGH, pattern repeating a few
+    // times before it stops -- classic ESP32 panic-reboot loop.  Something
+    // in the earlier ESP_ERROR_CHECK path was panicking on this hardware.
+    // Rewrite to:
+    //   * Remove all ESP_ERROR_CHECK (won't panic; log every err instead).
+    //   * Hardcode GPIO_NUM_7 (rule out pins:: namespace resolution).
+    //   * Simple GPIO_MODE_OUTPUT (skip INPUT_OUTPUT / readback complexity).
+    //   * Heartbeat print in the loop so we can tell if the loop is even
+    //     running vs. if it crashed before entering it.
+    // Small settling delay first so any ROM boot messages finish before
+    // our own printfs.
+    vTaskDelay(pdMS_TO_TICKS(500));
 
-    std::printf("\n=== LDAC scope test ===\n");
-    std::printf(" GPIO %d (Arduino D7 -> MCP4728 LDAC) toggling at 100 Hz\n",
-                (int)LDAC);
-    std::printf(" post-reset + INPUT_OUTPUT + set(0): actual pad reads %d\n",
-                gpio_get_level(LDAC));
-    std::printf(" scope should see 3.3 V square wave at D7 header pin\n\n");
+    const gpio_num_t PIN   = GPIO_NUM_7;
+    const esp_err_t e_rst  = gpio_reset_pin(PIN);
+    const esp_err_t e_pull = gpio_set_pull_mode(PIN, GPIO_FLOATING);
+    const esp_err_t e_dir  = gpio_set_direction(PIN, GPIO_MODE_OUTPUT);
+    const esp_err_t e_set  = gpio_set_level(PIN, 0);
 
-    int cycle = 0;
+    std::printf("\n=== LDAC scope diagnostic (GPIO 7) ===\n");
+    std::printf(" gpio_reset_pin       -> %s\n", esp_err_to_name(e_rst));
+    std::printf(" gpio_set_pull_mode   -> %s\n", esp_err_to_name(e_pull));
+    std::printf(" gpio_set_direction   -> %s\n", esp_err_to_name(e_dir));
+    std::printf(" gpio_set_level(0)    -> %s\n", esp_err_to_name(e_set));
+    std::printf(" now toggling at 100 Hz; expect \"tick N alive\" every ~5 s\n\n");
+
+    uint32_t tick = 0;
     while (true) {
-        gpio_set_level(LDAC, 1);
+        gpio_set_level(PIN, 1);
         vTaskDelay(pdMS_TO_TICKS(5));
-        gpio_set_level(LDAC, 0);
+        gpio_set_level(PIN, 0);
         vTaskDelay(pdMS_TO_TICKS(5));
-        // Every ~5 s, echo the readback level right after we've commanded 0.
-        // If this consistently reports 1, the pad is being pulled HIGH by
-        // something external -- ESP32 output isn't winning.  If it reports
-        // 0 but the scope still sees HIGH, the pad is not connected to
-        // the D7 header (broken PCB via / bad solder joint).
-        if ((++cycle % 500) == 0) {
-            std::printf(" cycle %d: readback after set(0) = %d\n",
-                        cycle, gpio_get_level(LDAC));
+        if ((++tick & 0x1FF) == 0) {           // every 512 cycles ~ 5 s
+            std::printf(" tick %lu alive\n", (unsigned long)tick);
         }
     }
 #endif
