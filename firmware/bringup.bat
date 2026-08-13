@@ -35,18 +35,16 @@ REM ---- cd into the firmware dir (where this .bat lives)
 cd /d "%~dp0"
 
 REM ---- Optional COM port arg
-set "PORT_ARG="
-if not "%~1"=="" set "PORT_ARG=-p %~1"
+REM ---- Metro's USB CDC always enumerates as COM11 on this bench.  Override
+REM      by passing another port name as the first arg.
+set "PORT=COM11"
+if not "%~1"=="" set "PORT=%~1"
 
 echo.
-echo === Building LCD_BRINGUP=ON, then flash + monitor ===
+echo === Building LCD_BRINGUP=ON, then flash + monitor on %PORT% ===
 echo (Ctrl+] to exit monitor)
 echo.
 
-REM ---- fullclean first, so switching modes (bringup.bat <-> ldac_scope.bat)
-REM      always produces a fresh binary.  ESP-IDF's build cache does not
-REM      always pick up -D flag changes without a real code diff.
-idf.py fullclean
-idf.py %PORT_ARG% -DLCD_BRINGUP=ON build flash monitor
+idf.py -p %PORT% -DLCD_BRINGUP=ON build flash monitor
 
 endlocal

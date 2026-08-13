@@ -45,7 +45,7 @@ bool valid(uint8_t addr) { return addr >= ADDR_MIN && addr <= ADDR_MAX; }
 //  busy-waits since we're in a tight synchronous transaction.
 // ---------------------------------------------------------------------------
 
-constexpr int BB_HALF_US = 5;
+constexpr int BB_HALF_US = 20;   // 25 kHz -- slow enough for weak pullups
 
 inline void bb_delay() { esp_rom_delay_us(BB_HALF_US); }
 
@@ -84,30 +84,26 @@ void bb_stop(gpio_num_t sda, gpio_num_t scl) {
     bb_sda_high(sda); bb_delay();
 }
 
-// Send one byte MSB-first, return true if slave ACKed.
-// If `pulse_ldac_low_during_ack` is set, LDAC gets driven LOW during the
-// SCL-HIGH portion of the ACK bit -- this is the specific event that
-// arms the MCP4728 reprogram command sequence.
-bool bb_write_byte(gpio_num_t sda, gpio_num_t scl, uint8_t byte,
-                   bool pulse_ldac_low_during_ack, gpio_num_t ldac_pin) {
+// Send one byte MSB-first, return true if slave ACKed.  Timing is
+// generous: 2 us setup after SDA change before SCL rise, ~half-cycle
+// during SCL HIGH, then wait for the pull-up to lift SDA before reading
+// during the ACK bit.
+bool bb_write_byte(gpio_num_t sda, gpio_num_t scl, uint8_t byte) {
     for (int i = 7; i >= 0; --i) {
         if ((byte >> i) & 1) bb_sda_high(sda);
         else                 bb_sda_low(sda);
-        esp_rom_delay_us(1);
+        esp_rom_delay_us(2);
         bb_scl_high(scl); bb_delay();
         bb_scl_low(scl);
-        esp_rom_delay_us(BB_HALF_US - 1);
+        esp_rom_delay_us(BB_HALF_US - 2);
     }
-    // ACK bit: release SDA to let slave drive it.
+    // ACK bit: release SDA, give the pull-up time, raise SCL, sample.
     bb_sda_high(sda);
-    esp_rom_delay_us(1);
+    esp_rom_delay_us(3);            // pull-up rise + slave decision time
     bb_scl_high(scl);
-    if (pulse_ldac_low_during_ack) {
-        esp_rom_delay_us(1);         // let LDAC HIGH be stable a moment
-        gpio_set_level(ldac_pin, 0); // THE critical transition
-    }
-    esp_rom_delay_us(BB_HALF_US - 2);
+    esp_rom_delay_us(BB_HALF_US / 2);
     const bool ack = (bb_sda_read(sda) == 0);
+    esp_rom_delay_us(BB_HALF_US / 2);
     bb_scl_low(scl);
     esp_rom_delay_us(BB_HALF_US);
     return ack;
@@ -174,18 +170,24 @@ esp_err_t reprogram_address(i2c_master_bus_handle_t bus,
     // Take pins from the peripheral.
     bb_take_pin(SDA);
     bb_take_pin(SCL);
-    esp_rom_delay_us(20);   // let pull-ups settle after matrix swap
+    esp_rom_delay_us(50);   // let pull-ups settle after matrix swap
+
+    // Adafruit-style LDAC sequencing: drive LDAC LOW while the bus is
+    // idle (both SDA and SCL HIGH), THEN issue START.  Chip sees the
+    // transition during bus-idle rather than during any particular ACK
+    // window; empirically this is what the Adafruit MCP4728 Arduino
+    // library does and it works reliably on Adafruit-supplied breakouts.
+    gpio_set_level(ldac_pin, 0);
+    esp_rom_delay_us(50);
 
     // 7-bit address with W=0 in LSB
     const uint8_t addr_byte = (uint8_t)((cur_addr << 1) & 0xFE);
 
     bb_start(SDA, SCL);
-    const bool ack_addr = bb_write_byte(SDA, SCL, addr_byte,
-                                        /*pulse_ldac_low_during_ack=*/true,
-                                        ldac_pin);
-    const bool ack1 = bb_write_byte(SDA, SCL, bytes[0], false, ldac_pin);
-    const bool ack2 = bb_write_byte(SDA, SCL, bytes[1], false, ldac_pin);
-    const bool ack3 = bb_write_byte(SDA, SCL, bytes[2], false, ldac_pin);
+    const bool ack_addr = bb_write_byte(SDA, SCL, addr_byte);
+    const bool ack1     = bb_write_byte(SDA, SCL, bytes[0]);
+    const bool ack2     = bb_write_byte(SDA, SCL, bytes[1]);
+    const bool ack3     = bb_write_byte(SDA, SCL, bytes[2]);
     bb_stop(SDA, SCL);
 
     // EEPROM burn (~50 ms per datasheet).  Keep LDAC LOW through it.

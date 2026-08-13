@@ -35,18 +35,16 @@ if errorlevel 1 (
 
 cd /d "%~dp0"
 
-set "PORT_ARG="
-if not "%~1"=="" set "PORT_ARG=-p %~1"
+REM ---- Metro's USB CDC always enumerates as COM11 on this bench.  Override
+REM      by passing another port name as the first arg.
+set "PORT=COM11"
+if not "%~1"=="" set "PORT=%~1"
 
 echo.
-echo === LDAC scope test (100 Hz on GPIO 7 / Arduino D7) ===
+echo === LDAC scope test (100 Hz on GPIO 7 / Arduino D7) on %PORT% ===
 echo (Ctrl+] to exit monitor when done)
 echo.
 
-REM ---- fullclean first, so switching modes (bringup.bat <-> ldac_scope.bat)
-REM      always produces a fresh binary.  ESP-IDF's build cache does not
-REM      always pick up -D flag changes without a real code diff.
-idf.py fullclean
-idf.py %PORT_ARG% -DLCD_BRINGUP=ON -DLDAC_SCOPE_ONLY=ON build flash monitor
+idf.py -p %PORT% -DLCD_BRINGUP=ON -DLDAC_SCOPE_ONLY=ON build flash monitor
 
 endlocal
