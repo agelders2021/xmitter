@@ -74,14 +74,16 @@ esp_err_t reprogram_address(i2c_master_bus_handle_t bus,
     ESP_RETURN_ON_ERROR(plan_reprogram_bytes(cur_addr, new_addr, bytes),
                         TAG, "plan_reprogram_bytes");
 
-    // Configure LDAC as GPIO output, idle HIGH before we begin.
-    gpio_config_t io = {};
-    io.pin_bit_mask = 1ULL << ldac_pin;
-    io.mode         = GPIO_MODE_OUTPUT;
-    io.pull_up_en   = GPIO_PULLUP_DISABLE;
-    io.pull_down_en = GPIO_PULLDOWN_DISABLE;
-    io.intr_type    = GPIO_INTR_DISABLE;
-    ESP_RETURN_ON_ERROR(gpio_config(&io), TAG, "gpio_config LDAC");
+    // Configure LDAC as GPIO output, idle HIGH before we begin.  Call
+    // gpio_reset_pin() first -- proven necessary by the LDAC scope
+    // diagnostic (gpio_config alone left the pad refusing to be driven
+    // LOW on this hardware; reset_pin unbinds any peripheral matrix
+    // wiring and gives a truly blank slate).
+    ESP_RETURN_ON_ERROR(gpio_reset_pin(ldac_pin), TAG, "gpio_reset LDAC");
+    ESP_RETURN_ON_ERROR(gpio_set_pull_mode(ldac_pin, GPIO_FLOATING),
+                        TAG, "LDAC pull mode");
+    ESP_RETURN_ON_ERROR(gpio_set_direction(ldac_pin, GPIO_MODE_OUTPUT),
+                        TAG, "LDAC dir");
     ESP_RETURN_ON_ERROR(gpio_set_level(ldac_pin, 1), TAG, "LDAC high");
     vTaskDelay(pdMS_TO_TICKS(2));
 
