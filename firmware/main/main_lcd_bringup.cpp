@@ -368,29 +368,46 @@ void bringup_task(void *) {
 extern "C" void app_main() {
 #ifdef LDAC_SCOPE_ONLY
     // ---------- LDAC continuity diagnostic ----------
-    // Skip normal bring-up entirely.  Just configure GPIO 7 (Arduino D7 =
-    // MCP4728 LDAC) as an output and toggle it forever at ~100 Hz so a
-    // scope probe on the MCP4728 breakout's LDAC through-hole can confirm
-    // the jumper is intact.  Never returns.
-    gpio_config_t io = {};
-    io.pin_bit_mask = 1ULL << pins::MCP4728_LDAC;
-    io.mode         = GPIO_MODE_OUTPUT;
-    io.pull_up_en   = GPIO_PULLUP_DISABLE;
-    io.pull_down_en = GPIO_PULLDOWN_DISABLE;
-    io.intr_type    = GPIO_INTR_DISABLE;
-    ESP_ERROR_CHECK(gpio_config(&io));
+    // Previous attempt used gpio_config() alone; user reported D7 stuck HIGH
+    // with all adjacent pins LOW.  Their hypothesis is that ESP-IDF left
+    // GPIO 7 as an input somehow, and the MCP4728 breakout's 10K pull-up
+    // on LDAC held the wire HIGH.  Fix that possibility three ways:
+    //   1. gpio_reset_pin(): unbind ANY prior peripheral matrix wiring
+    //      and put the pin back to a known blank state.
+    //   2. Explicitly disable pull-up / pull-down after reset.
+    //   3. Use INPUT_OUTPUT mode so gpio_get_level() still reads the pad
+    //      value; that lets us log actual pin state as a sanity check.
+    // If D7 still stays HIGH after this, the pin has a real hardware
+    // fault (or Metro's D7 header isn't wired to U5.IO7 on this specific
+    // board rev).
+    const gpio_num_t LDAC = pins::MCP4728_LDAC;
+    ESP_ERROR_CHECK(gpio_reset_pin(LDAC));
+    ESP_ERROR_CHECK(gpio_set_pull_mode(LDAC, GPIO_FLOATING));
+    ESP_ERROR_CHECK(gpio_set_direction(LDAC, GPIO_MODE_INPUT_OUTPUT));
+    ESP_ERROR_CHECK(gpio_set_level(LDAC, 0));
 
     std::printf("\n=== LDAC scope test ===\n");
-    std::printf(" toggling GPIO %d (Arduino D7 -> MCP4728 LDAC) at 100 Hz\n",
-                (int)pins::MCP4728_LDAC);
-    std::printf(" scope should see 3.3 V square wave at breakout LDAC pin\n");
-    std::printf(" no scope trace = wire is broken or wrong pin\n\n");
+    std::printf(" GPIO %d (Arduino D7 -> MCP4728 LDAC) toggling at 100 Hz\n",
+                (int)LDAC);
+    std::printf(" post-reset + INPUT_OUTPUT + set(0): actual pad reads %d\n",
+                gpio_get_level(LDAC));
+    std::printf(" scope should see 3.3 V square wave at D7 header pin\n\n");
 
+    int cycle = 0;
     while (true) {
-        gpio_set_level(pins::MCP4728_LDAC, 1);
+        gpio_set_level(LDAC, 1);
         vTaskDelay(pdMS_TO_TICKS(5));
-        gpio_set_level(pins::MCP4728_LDAC, 0);
+        gpio_set_level(LDAC, 0);
         vTaskDelay(pdMS_TO_TICKS(5));
+        // Every ~5 s, echo the readback level right after we've commanded 0.
+        // If this consistently reports 1, the pad is being pulled HIGH by
+        // something external -- ESP32 output isn't winning.  If it reports
+        // 0 but the scope still sees HIGH, the pad is not connected to
+        // the D7 header (broken PCB via / bad solder joint).
+        if ((++cycle % 500) == 0) {
+            std::printf(" cycle %d: readback after set(0) = %d\n",
+                        cycle, gpio_get_level(LDAC));
+        }
     }
 #endif
 
