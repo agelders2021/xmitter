@@ -39,6 +39,7 @@
 #include "esp_rom_sys.h"
 #include "nvs_flash.h"
 #include "driver/i2c_master.h"
+#include "driver/i2c.h"        // legacy driver, used only for one-shot MCP4728 reprogram
 
 #include "driver/gpio.h"
 
@@ -56,7 +57,7 @@ constexpr char TAG[] = "bringup";
 
 // Bring-up firmware revision.  BUMP THIS on every code change so we can
 // tell which build is running on the bench without reading the serial log.
-constexpr int FW_REV = 15;
+constexpr int FW_REV = 16;
 
 // I2C addresses
 constexpr uint8_t  MCP4725_ADDR             = 0x62;
@@ -228,6 +229,138 @@ void render_freq(uint32_t hz) {
     char buf[21];
     std::snprintf(buf, sizeof(buf), "%-20.20s", raw);
     lcd_write_at(2, 0, buf);
+}
+
+// --------------------------------------------------------------------------
+//  Legacy-driver (driver/i2c.h) MCP4728 reprogram attempt.
+//
+//  Runs BEFORE i2c_bus_init() installs the new driver/i2c_master.h stack.
+//  Legacy driver + new driver cannot coexist on the same I2C port, so we
+//  do this first, tear it down, then install the new driver as usual.
+//
+//  Rationale: bit-bang + new i2c_master both give addr:1 byte1:0 byte2:0
+//  byte3:0 on two different chips.  Different driver stack has a small
+//  but non-zero chance of hitting the right LDAC/timing corner the chip
+//  wants.  If this fails too, we've exhausted in-tree options.
+// --------------------------------------------------------------------------
+bool legacy_driver_reprogram_attempt() {
+    ESP_LOGI(TAG, "==== Legacy I2C driver reprogram attempt ====");
+
+    i2c_config_t conf = {};
+    conf.mode             = I2C_MODE_MASTER;
+    conf.sda_io_num       = pins::I2C_SDA;
+    conf.scl_io_num       = pins::I2C_SCL;
+    conf.sda_pullup_en    = GPIO_PULLUP_ENABLE;
+    conf.scl_pullup_en    = GPIO_PULLUP_ENABLE;
+    conf.master.clk_speed = 100000;
+
+    if (i2c_param_config(I2C_NUM_0, &conf) != ESP_OK) {
+        ESP_LOGE(TAG, "legacy i2c_param_config failed");
+        return false;
+    }
+    if (i2c_driver_install(I2C_NUM_0, I2C_MODE_MASTER, 0, 0, 0) != ESP_OK) {
+        ESP_LOGE(TAG, "legacy i2c_driver_install failed");
+        return false;
+    }
+
+    // Setup LDAC pin
+    gpio_reset_pin(pins::MCP4728_LDAC);
+    gpio_set_direction(pins::MCP4728_LDAC, GPIO_MODE_OUTPUT);
+    gpio_set_level(pins::MCP4728_LDAC, 1);
+
+    bool success = false;
+    do {
+        // Probe 0x67 first -- if already reprogrammed, skip.
+        {
+            i2c_cmd_handle_t cmd = i2c_cmd_link_create();
+            i2c_master_start(cmd);
+            i2c_master_write_byte(cmd, (MCP4728_ADDR_TARGET << 1) | 0, true);
+            i2c_master_stop(cmd);
+            esp_err_t e = i2c_master_cmd_begin(I2C_NUM_0, cmd, pdMS_TO_TICKS(50));
+            i2c_cmd_link_delete(cmd);
+            if (e == ESP_OK) {
+                ESP_LOGI(TAG, "legacy: 0x%02X already ACKs -- MCP4728 already "
+                              "reprogrammed", MCP4728_ADDR_TARGET);
+                success = true;
+                break;
+            }
+        }
+
+        // Probe 0x60 to confirm chip present at factory address.
+        {
+            i2c_cmd_handle_t cmd = i2c_cmd_link_create();
+            i2c_master_start(cmd);
+            i2c_master_write_byte(cmd, (MCP4728_ADDR_FACTORY << 1) | 0, true);
+            i2c_master_stop(cmd);
+            esp_err_t e = i2c_master_cmd_begin(I2C_NUM_0, cmd, pdMS_TO_TICKS(50));
+            i2c_cmd_link_delete(cmd);
+            if (e != ESP_OK) {
+                ESP_LOGW(TAG, "legacy: no ACK at 0x%02X (%s) -- nothing to "
+                              "reprogram", MCP4728_ADDR_FACTORY,
+                              esp_err_to_name(e));
+                break;
+            }
+            ESP_LOGI(TAG, "legacy: 0x%02X ACKs; attempting reprogram",
+                     MCP4728_ADDR_FACTORY);
+        }
+
+        // Reprogram bytes
+        uint8_t bytes[3];
+        mcp4728::plan_reprogram_bytes(MCP4728_ADDR_FACTORY,
+                                      MCP4728_ADDR_TARGET, bytes);
+        ESP_LOGI(TAG, "legacy: cmd bytes %02X %02X %02X",
+                 bytes[0], bytes[1], bytes[2]);
+
+        // LDAC LOW before START (Adafruit-style)
+        gpio_set_level(pins::MCP4728_LDAC, 0);
+        vTaskDelay(pdMS_TO_TICKS(1));
+
+        // Reprogram transaction
+        esp_err_t xfer_err;
+        {
+            i2c_cmd_handle_t cmd = i2c_cmd_link_create();
+            i2c_master_start(cmd);
+            i2c_master_write_byte(cmd, (MCP4728_ADDR_FACTORY << 1) | 0, true);
+            i2c_master_write_byte(cmd, bytes[0], true);
+            i2c_master_write_byte(cmd, bytes[1], true);
+            i2c_master_write_byte(cmd, bytes[2], true);
+            i2c_master_stop(cmd);
+            xfer_err = i2c_master_cmd_begin(I2C_NUM_0, cmd, pdMS_TO_TICKS(200));
+            i2c_cmd_link_delete(cmd);
+        }
+
+        vTaskDelay(pdMS_TO_TICKS(60));   // EEPROM burn
+        gpio_set_level(pins::MCP4728_LDAC, 1);
+
+        ESP_LOGI(TAG, "legacy: transaction result = %s",
+                 esp_err_to_name(xfer_err));
+        if (xfer_err != ESP_OK) break;
+
+        // Verify
+        vTaskDelay(pdMS_TO_TICKS(50));
+        i2c_cmd_handle_t vcmd = i2c_cmd_link_create();
+        i2c_master_start(vcmd);
+        i2c_master_write_byte(vcmd, (MCP4728_ADDR_TARGET << 1) | 0, true);
+        i2c_master_stop(vcmd);
+        esp_err_t verify_err = i2c_master_cmd_begin(I2C_NUM_0, vcmd,
+                                                    pdMS_TO_TICKS(100));
+        i2c_cmd_link_delete(vcmd);
+
+        if (verify_err == ESP_OK) {
+            ESP_LOGI(TAG, "legacy: SUCCESS -- 0x%02X now ACKs",
+                     MCP4728_ADDR_TARGET);
+            success = true;
+        } else {
+            ESP_LOGE(TAG, "legacy: reprogram xfer ACKed but 0x%02X still "
+                          "silent (%s)", MCP4728_ADDR_TARGET,
+                          esp_err_to_name(verify_err));
+        }
+    } while (false);
+
+    i2c_driver_delete(I2C_NUM_0);
+    ESP_LOGI(TAG, "==== Legacy driver attempt complete: %s ====",
+             success ? "SUCCESS" : "FAILED");
+    return success;
 }
 
 // --------------------------------------------------------------------------
@@ -422,6 +555,14 @@ extern "C" void app_main() {
                 FW_REV, __DATE__, __TIME__);
 
     ESP_ERROR_CHECK(nvs_flash_init());
+
+    // Attempt MCP4728 reprogram with the LEGACY i2c driver first.  Must run
+    // BEFORE i2c_bus_init() (which installs the new driver/i2c_master.h
+    // stack).  If the chip is already at 0x67 or nothing's on 0x60, this
+    // is a fast no-op.  Legacy driver uninstalls itself before returning
+    // so the new-driver install below works cleanly.
+    (void)legacy_driver_reprogram_attempt();
+
     ESP_ERROR_CHECK(i2c_bus_init());
 
     // ------- Stage A: display up (best-effort so the reprogram diagnostic
