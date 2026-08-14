@@ -137,14 +137,23 @@ esp_err_t plan_reprogram_bytes(uint8_t cur_addr,
     const uint8_t cur_bits = cur_addr & 0x07;
     const uint8_t new_bits = new_addr & 0x07;
 
-    // MCP4728 "Write I2C Address Bits" command -- Microchip DS22187 §5.6.6.
-    // Three command bytes follow the START + device-address-byte:
-    //   Byte 1: 0110_0AAA_1   with AAA = CURRENT addr bits (prove we know it)
-    //   Byte 2: 0110_0AAA_0   with AAA = NEW     addr bits (data)
-    //   Byte 3: 0110_0AAA_1   with AAA = NEW     addr bits (confirm)
-    out_bytes[0] = (uint8_t)(0x61 | (cur_bits << 1));
-    out_bytes[1] = (uint8_t)(0x60 | (new_bits << 1));
-    out_bytes[2] = (uint8_t)(0x61 | (new_bits << 1));
+    // MCP4728 "Write I2C Address Bits" command -- correct bit layout per
+    // jknipper's proven implementation and TrippyLighting's SoftI2cMaster
+    // ldacwrite():
+    //   Bits [7:5] = 011  (command family)
+    //   Bits [4:2] = A2 A1 A0  (address bits, shifted LEFT by 2)
+    //   Bits [1:0] = role code:
+    //     01 = byte 2 (arm command with CURRENT addr)
+    //     10 = byte 3 (data byte with NEW addr)
+    //     11 = byte 4 (confirm with NEW addr)
+    //
+    // Previous rev of this file used address bits in [3:1] and only bit 0
+    // as the role code -- that "Adafruit-style" encoding is a myth
+    // (Adafruit_MCP4728 doesn't even have a setAddress method) and
+    // consistently NAKed on real hardware.
+    out_bytes[0] = (uint8_t)(0x61 | (cur_bits << 2));
+    out_bytes[1] = (uint8_t)(0x62 | (new_bits << 2));
+    out_bytes[2] = (uint8_t)(0x63 | (new_bits << 2));
 
     return ESP_OK;
 }
@@ -206,10 +215,14 @@ esp_err_t reprogram_address(i2c_master_bus_handle_t bus,
     // 7-bit address with W=0 in LSB
     const uint8_t addr_byte = (uint8_t)((cur_addr << 1) & 0xFE);
 
+    // Datasheet + jknipper: LDAC drops LOW during the ACK bit of BYTE 2,
+    // which in "bytes on the wire" counting is the FIRST DATA byte after
+    // the address (bytes[0] here).  Earlier revs of this file put the
+    // drop on bytes[1] -- wrong data byte.
     bb_start(SDA, SCL);
     const bool ack_addr = bb_write_byte(SDA, SCL, addr_byte,   false, ldac_pin);
-    const bool ack1     = bb_write_byte(SDA, SCL, bytes[0],    false, ldac_pin);
-    const bool ack2     = bb_write_byte(SDA, SCL, bytes[1],    true,  ldac_pin);
+    const bool ack1     = bb_write_byte(SDA, SCL, bytes[0],    true,  ldac_pin);
+    const bool ack2     = bb_write_byte(SDA, SCL, bytes[1],    false, ldac_pin);
     const bool ack3     = bb_write_byte(SDA, SCL, bytes[2],    false, ldac_pin);
     bb_stop(SDA, SCL);
 
