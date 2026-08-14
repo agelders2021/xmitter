@@ -88,18 +88,34 @@ void bb_stop(gpio_num_t sda, gpio_num_t scl) {
 // generous: 2 us setup after SDA change before SCL rise, ~half-cycle
 // during SCL HIGH, then wait for the pull-up to lift SDA before reading
 // during the ACK bit.
-bool bb_write_byte(gpio_num_t sda, gpio_num_t scl, uint8_t byte) {
+//
+// If drop_ldac_at_lsb_low_time is set, drives LDAC LOW during the
+// SCL-LOW window after the 8th (LSB) data bit's SCL-HIGH sample -- this
+// is the MCP4728 datasheet requirement for the "Write I2C Address"
+// command: "LDAC pin makes a transition from High to Low at the low
+// time of the last bit (8th clock) of the second byte" (DS22187 §5.6.8).
+bool bb_write_byte(gpio_num_t sda, gpio_num_t scl, uint8_t byte,
+                   bool drop_ldac_at_lsb_low_time, gpio_num_t ldac_pin) {
     for (int i = 7; i >= 0; --i) {
         if ((byte >> i) & 1) bb_sda_high(sda);
         else                 bb_sda_low(sda);
         esp_rom_delay_us(2);
         bb_scl_high(scl); bb_delay();
         bb_scl_low(scl);
-        esp_rom_delay_us(BB_HALF_US - 2);
+        if (i == 0 && drop_ldac_at_lsb_low_time) {
+            // We're now in the "low time of the 8th clock" -- SCL just went
+            // LOW after the LSB was sampled, and we haven't started the
+            // ACK bit yet.  Wait a moment for SCL to settle, drop LDAC.
+            esp_rom_delay_us(2);
+            gpio_set_level(ldac_pin, 0);
+            esp_rom_delay_us(BB_HALF_US - 4);
+        } else {
+            esp_rom_delay_us(BB_HALF_US - 2);
+        }
     }
     // ACK bit: release SDA, give the pull-up time, raise SCL, sample.
     bb_sda_high(sda);
-    esp_rom_delay_us(3);            // pull-up rise + slave decision time
+    esp_rom_delay_us(3);
     bb_scl_high(scl);
     esp_rom_delay_us(BB_HALF_US / 2);
     const bool ack = (bb_sda_read(sda) == 0);
@@ -172,22 +188,29 @@ esp_err_t reprogram_address(i2c_master_bus_handle_t bus,
     bb_take_pin(SCL);
     esp_rom_delay_us(50);   // let pull-ups settle after matrix swap
 
-    // Adafruit-style LDAC sequencing: drive LDAC LOW while the bus is
-    // idle (both SDA and SCL HIGH), THEN issue START.  Chip sees the
-    // transition during bus-idle rather than during any particular ACK
-    // window; empirically this is what the Adafruit MCP4728 Arduino
-    // library does and it works reliably on Adafruit-supplied breakouts.
-    gpio_set_level(ldac_pin, 0);
+    // Datasheet-correct LDAC sequencing (DS22187 §5.6.8 "Write I2C Address
+    // Bits Command"):
+    //   * LDAC HIGH before START and through the address + first two
+    //     command bytes.
+    //   * LDAC transitions HIGH -> LOW during the SCL-LOW time of the LSB
+    //     (8th clock) of the SECOND command byte (bytes[1] = new-address
+    //     byte).  Chip samples this specific edge to arm the command.
+    //   * LDAC stays LOW through the third command byte (bytes[2] =
+    //     confirmation).
+    //   * Address change takes effect on STOP.  LDAC can return HIGH
+    //     after STOP.
+    // Ensure HIGH.
+    gpio_set_level(ldac_pin, 1);
     esp_rom_delay_us(50);
 
     // 7-bit address with W=0 in LSB
     const uint8_t addr_byte = (uint8_t)((cur_addr << 1) & 0xFE);
 
     bb_start(SDA, SCL);
-    const bool ack_addr = bb_write_byte(SDA, SCL, addr_byte);
-    const bool ack1     = bb_write_byte(SDA, SCL, bytes[0]);
-    const bool ack2     = bb_write_byte(SDA, SCL, bytes[1]);
-    const bool ack3     = bb_write_byte(SDA, SCL, bytes[2]);
+    const bool ack_addr = bb_write_byte(SDA, SCL, addr_byte,   false, ldac_pin);
+    const bool ack1     = bb_write_byte(SDA, SCL, bytes[0],    false, ldac_pin);
+    const bool ack2     = bb_write_byte(SDA, SCL, bytes[1],    true,  ldac_pin);
+    const bool ack3     = bb_write_byte(SDA, SCL, bytes[2],    false, ldac_pin);
     bb_stop(SDA, SCL);
 
     // EEPROM burn (~50 ms per datasheet).  Keep LDAC LOW through it.
