@@ -48,7 +48,7 @@
 #include "vfo_si5351.h"
 #include "mcp4728.h"
 
-#ifdef LCD_BRINGUP
+#if defined(LCD_BRINGUP) && !defined(REPROGRAM_ONLY)
 
 namespace {
 
@@ -518,4 +518,4 @@ extern "C" void app_main() {
     ESP_LOGI(TAG, "boot complete (rev %d)", FW_REV);
 }
 
-#endif  // LCD_BRINGUP
+#endif  // LCD_BRINGUP && !REPROGRAM_ONLY

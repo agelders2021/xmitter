@@ -37,7 +37,7 @@
 #include "console_shell.h"
 #include "display.h"
 
-#ifndef LCD_BRINGUP
+#if !defined(LCD_BRINGUP) && !defined(REPROGRAM_ONLY)
 namespace {
 
 constexpr char TAG[] = "xmitter";
@@ -138,4 +138,4 @@ extern "C" void app_main() {
 
     // app_main returns; the shell REPL task + pinned modules keep running.
 }
-#endif  // !LCD_BRINGUP -- guards namespace + app_main together
+#endif  // !LCD_BRINGUP && !REPROGRAM_ONLY -- guards namespace + app_main
