@@ -2,49 +2,35 @@
 //  reprogram_mcp4728.ino
 //
 //  One-shot Arduino sketch to reprogram the MCP4728's I2C EEPROM address
-//  from factory 0x60 to target 0x67, using Adafruit's known-working
-//  MCP4728 library.  Flash this onto the Adafruit Metro ESP32-S3, watch
-//  the serial monitor for "SUCCESS: chip now at 0x67", then reflash the
-//  normal ESP-IDF bring-up (firmware/bringup.bat).
-//
-//  We fell back to this after every ESP-IDF variant we tried (new
-//  i2c_master driver, bit-bang, legacy i2c driver) failed to make the
-//  MCP4728 accept the "Write I2C Address" command.  The Adafruit Arduino
-//  library uses the same underlying I2C hardware but via a driver stack
-//  that empirically works on Adafruit-supplied breakouts.
+//  from factory 0x60 to target 0x67.  Uses only the built-in Wire library
+//  -- no external libraries needed.  Arduino ESP32's Wire runs on top of
+//  the ESP-IDF I2C driver but through a different code path than what
+//  our ESP-IDF firmware calls directly, so this is our last shot at
+//  hardware I2C working when ESP-IDF's own driver stack won't do it.
 //
 //  BENCH SETUP:
-//    * Metro on USB (COM11 per project memory)
-//    * MCP4728 breakout on STEMMA QT to Metro
+//    * Metro on USB (COM11)
+//    * MCP4728 breakout on STEMMA QT to Metro (3.3 V supply)
 //    * MCP4728 LDAC pin wired to Metro D7 (GPIO 7)
-//    * Nothing else on the I2C bus recommended (avoid Si5351 collision)
+//    * Nothing else on the I2C bus recommended
 //
-//  ARDUINO IDE SETUP (one-time):
-//    1. File -> Preferences -> Additional boards manager URLs, add:
-//       https://espressif.github.io/arduino-esp32/package_esp32_index.json
-//    2. Tools -> Board -> Boards Manager, search "esp32", install
-//       "esp32 by Espressif Systems" (any 3.x version).
-//    3. Tools -> Board -> ESP32 Arduino -> "Adafruit Metro ESP32-S3".
-//    4. Tools -> Manage Libraries, search "Adafruit MCP4728", install
-//       the Adafruit_MCP4728 library (pulls Adafruit_BusIO as dependency).
-//    5. Open this sketch, Tools -> Port -> COM11.
-//    6. Upload (arrow icon).  Open serial monitor at 115200 baud.
+//  ARDUINO IDE SETUP (one-time, see step-by-step in chat):
+//    1. Install Arduino IDE 2.x
+//    2. Add ESP32 board support (Preferences URL)
+//    3. Select "Adafruit Metro ESP32-S3" board, COM11 port
+//    4. Open this sketch, click Upload, open Serial Monitor at 115200
 // =============================================================================
-
 #include <Wire.h>
-#include <Adafruit_MCP4728.h>
 
-// Adafruit Metro ESP32-S3 STEMMA QT / on-header I2C pins
+// Adafruit Metro ESP32-S3 STEMMA QT / header I2C pins
 constexpr int I2C_SDA = 47;
 constexpr int I2C_SCL = 48;
 
-// MCP4728 LDAC control -- MUST be wired from Metro D7 to breakout LDAC pin
+// LDAC control -- MUST be wired from Metro D7 to breakout LDAC pin
 constexpr int LDAC_PIN = 7;
 
 constexpr uint8_t CUR_ADDR = 0x60;   // factory default
 constexpr uint8_t NEW_ADDR = 0x67;   // xmitter project target
-
-Adafruit_MCP4728 mcp;
 
 void setup() {
     Serial.begin(115200);
@@ -52,9 +38,10 @@ void setup() {
     delay(2000);
 
     Serial.println();
-    Serial.println("=== MCP4728 address reprogram (Arduino / Adafruit lib) ===");
+    Serial.println("=== MCP4728 address reprogram (raw Wire) ===");
     Serial.printf(" cur addr: 0x%02X    new addr: 0x%02X    LDAC: GPIO %d\n",
                   CUR_ADDR, NEW_ADDR, LDAC_PIN);
+    Serial.println();
 
     Wire.begin(I2C_SDA, I2C_SCL);
     Wire.setClock(100000);
@@ -63,7 +50,7 @@ void setup() {
     digitalWrite(LDAC_PIN, HIGH);
     delay(10);
 
-    // First check if chip is already reprogrammed.
+    // Check if already reprogrammed
     Wire.beginTransmission(NEW_ADDR);
     if (Wire.endTransmission() == 0) {
         Serial.println("INFO: 0x67 already ACKs -- chip already reprogrammed.");
@@ -71,40 +58,68 @@ void setup() {
         while (true) delay(1000);
     }
 
-    // Confirm chip is at factory 0x60.
-    if (!mcp.begin(CUR_ADDR, &Wire)) {
-        Serial.println("FAIL: no MCP4728 found at 0x60");
-        Serial.println("      check STEMMA QT cable + 5V/3.3V supply");
+    // Confirm chip at factory 0x60
+    Wire.beginTransmission(CUR_ADDR);
+    if (Wire.endTransmission() != 0) {
+        Serial.println("FAIL: no chip at 0x60");
+        Serial.println("  check STEMMA QT cable + 3.3V supply");
         while (true) delay(1000);
     }
-    Serial.println("Found MCP4728 at 0x60.");
+    Serial.println("Found chip at 0x60.");
 
-    // Adafruit's setAddress() does the LDAC toggle timing internally.  We
-    // just have to tell it which GPIO LDAC is wired to and what the new
-    // address should be.
-    Serial.println("Calling mcp.setAddress()...");
-    bool ok = mcp.setAddress(NEW_ADDR, LDAC_PIN);
-    Serial.printf("setAddress returned: %s\n", ok ? "true (success)" : "false (fail)");
+    // Prepare the 3 command bytes per DS22187 §5.6.8:
+    //   byte 0: 0110_0AAA_1  (Write Addr cmd + CURRENT addr bits)
+    //   byte 1: 0110_0AAA_0  (NEW addr bits)
+    //   byte 2: 0110_0AAA_1  (confirm NEW addr bits)
+    const uint8_t cur_bits = CUR_ADDR & 0x07;
+    const uint8_t new_bits = NEW_ADDR & 0x07;
+    const uint8_t b0 = 0x61 | (cur_bits << 1);
+    const uint8_t b1 = 0x60 | (new_bits << 1);
+    const uint8_t b2 = 0x61 | (new_bits << 1);
+    Serial.printf("Sending bytes: %02X %02X %02X\n", b0, b1, b2);
 
-    delay(100);
+    // Adafruit-style: LDAC HIGH -> LOW while bus is idle, BEFORE the START.
+    digitalWrite(LDAC_PIN, LOW);
+    delayMicroseconds(10);
 
-    // Verify the new address answers.
-    Wire.beginTransmission(NEW_ADDR);
-    uint8_t verify_err = Wire.endTransmission();
-    if (verify_err == 0) {
-        Serial.println();
-        Serial.println("=================================================");
-        Serial.printf(" SUCCESS: MCP4728 now responds at 0x%02X\n", NEW_ADDR);
-        Serial.println(" You can now reflash bringup.bat.");
-        Serial.println("=================================================");
-    } else {
-        Serial.println();
-        Serial.printf(" FAIL: 0x%02X did not ACK after reprogram (err %d)\n",
-                      NEW_ADDR, verify_err);
-        Serial.println(" LDAC wire connection?  D7 -> LDAC breakout pin?");
+    Wire.beginTransmission(CUR_ADDR);
+    Wire.write(b0);
+    Wire.write(b1);
+    Wire.write(b2);
+    uint8_t xfer_err = Wire.endTransmission();
+
+    delay(100);   // EEPROM burn
+    digitalWrite(LDAC_PIN, HIGH);
+
+    Serial.printf("Wire.endTransmission returned: %u\n", xfer_err);
+    if (xfer_err != 0) {
+        Serial.println("  (0=OK, 1=data too long, 2=NAK on address, 3=NAK on data)");
     }
+
+    // Verify
+    delay(50);
+    Wire.beginTransmission(NEW_ADDR);
+    uint8_t verify_new = Wire.endTransmission();
+    Wire.beginTransmission(CUR_ADDR);
+    uint8_t verify_old = Wire.endTransmission();
+
+    Serial.println();
+    Serial.println("=================================================");
+    if (verify_new == 0 && verify_old != 0) {
+        Serial.printf(" SUCCESS: MCP4728 now responds at 0x%02X (0x%02X silent)\n",
+                      NEW_ADDR, CUR_ADDR);
+        Serial.println(" Reflash bringup.bat to return to normal.");
+    } else if (verify_old == 0 && verify_new != 0) {
+        Serial.printf(" FAIL: chip still at 0x%02X\n", CUR_ADDR);
+        Serial.println(" LDAC wire from Metro D7 to breakout LDAC pin?");
+    } else if (verify_new == 0 && verify_old == 0) {
+        Serial.println(" WEIRD: both addresses ACK -- bus glitch?");
+    } else {
+        Serial.println(" WEIRD: neither address ACKs after reprogram.");
+    }
+    Serial.println("=================================================");
 }
 
 void loop() {
-    // Nothing -- this sketch is one-shot.  Reset the board to run again.
+    // Nothing -- one-shot.  Reset the board to run again.
 }
