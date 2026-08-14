@@ -41,6 +41,10 @@ echo === MCP4728 reprogram (legacy i2c driver only) on %PORT% ===
 echo (Ctrl+] to exit monitor when done)
 echo.
 
+REM ---- fullclean is REQUIRED here: switching to REPROGRAM_ONLY changes the
+REM      SRCS list in CMakeLists.txt, and ninja doesn't always pick up SRCS
+REM      changes without a fresh configure.
+idf.py fullclean
 idf.py -p %PORT% -DREPROGRAM_ONLY=ON build flash monitor
 
 endlocal

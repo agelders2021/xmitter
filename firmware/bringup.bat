@@ -45,6 +45,10 @@ echo === Building LCD_BRINGUP=ON, then flash + monitor on %PORT% ===
 echo (Ctrl+] to exit monitor)
 echo.
 
+REM ---- fullclean is REQUIRED when returning from reprogram_only.bat --
+REM      the SRCS list changed and ninja needs a fresh configure.  Cheap
+REM      insurance in general.
+idf.py fullclean
 idf.py -p %PORT% -DLCD_BRINGUP=ON build flash monitor
 
 endlocal

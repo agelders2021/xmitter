@@ -35,7 +35,6 @@
 #include "driver/gpio.h"
 
 #include "pin_map.h"
-#include "mcp4728.h"             // for plan_reprogram_bytes()
 
 #ifdef REPROGRAM_ONLY
 
@@ -115,12 +114,18 @@ extern "C" void app_main() {
     }
     ESP_LOGI(TAG, "chip found at 0x%02X, proceeding with reprogram", CUR_ADDR);
 
-    // ---- Compute the 3-byte command payload ----
-    uint8_t bytes[3];
-    if (mcp4728::plan_reprogram_bytes(CUR_ADDR, NEW_ADDR, bytes) != ESP_OK) {
-        ESP_LOGE(TAG, "plan_reprogram_bytes rejected the address pair");
-        while (true) vTaskDelay(pdMS_TO_TICKS(1000));
-    }
+    // ---- Compute the 3-byte command payload inline ----
+    // Per DS22187 §5.6.8 "Write I2C Address Bits":
+    //   byte 1: 0110_0AAA_1 with AAA = CURRENT addr bits (prove we know it)
+    //   byte 2: 0110_0AAA_0 with AAA = NEW     addr bits (data)
+    //   byte 3: 0110_0AAA_1 with AAA = NEW     addr bits (confirm)
+    const uint8_t cur_bits = CUR_ADDR & 0x07;
+    const uint8_t new_bits = NEW_ADDR & 0x07;
+    const uint8_t bytes[3] = {
+        (uint8_t)(0x61 | (cur_bits << 1)),
+        (uint8_t)(0x60 | (new_bits << 1)),
+        (uint8_t)(0x61 | (new_bits << 1)),
+    };
     ESP_LOGI(TAG, "cmd bytes: %02X %02X %02X", bytes[0], bytes[1], bytes[2]);
 
     // ---- Adafruit-style: LDAC HIGH -> LOW while bus is idle, before START.
