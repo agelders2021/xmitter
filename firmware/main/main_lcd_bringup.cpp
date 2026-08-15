@@ -47,6 +47,7 @@
 #include "lcd_hd44780.h"
 #include "vfo_si5351.h"
 #include "mcp4728.h"
+#include "i2c_scan.h"
 
 #if defined(LCD_BRINGUP) && !defined(REPROGRAM_ONLY)
 
@@ -56,7 +57,7 @@ constexpr char TAG[] = "bringup";
 
 // Bring-up firmware revision.  BUMP THIS on every code change so we can
 // tell which build is running on the bench without reading the serial log.
-constexpr int FW_REV = 18;
+constexpr int FW_REV = 19;
 
 // I2C addresses
 constexpr uint8_t  MCP4725_ADDR             = 0x62;
@@ -424,6 +425,10 @@ extern "C" void app_main() {
 
     ESP_ERROR_CHECK(nvs_flash_init());
     ESP_ERROR_CHECK(i2c_bus_init());
+
+    // ------- Full I2C bus scan -- shows every address that ACKs so the
+    //  bench operator can eyeball the whole bus at boot.  Read-only.
+    (void)i2c_scan::scan(s_bus);
 
     // ------- Stage A: display up (best-effort so the reprogram diagnostic
     //  can run with only the MCP4728 breakout powered from the STEMMA QT
