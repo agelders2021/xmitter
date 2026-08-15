@@ -33,11 +33,13 @@ if errorlevel 1 (
 
 cd /d "%~dp0"
 
-set "PORT=COM11"
-if not "%~1"=="" set "PORT=%~1"
+REM ---- COM port: auto-detect by default; override with first arg:
+REM        reprogram_only.bat COM12
+set "PORT_ARG="
+if not "%~1"=="" set "PORT_ARG=-p %~1"
 
 echo.
-echo === MCP4728 reprogram (legacy i2c driver only) on %PORT% ===
+echo === MCP4728 reprogram (legacy i2c driver only) ===
 echo (Ctrl+] to exit monitor when done)
 echo.
 
@@ -45,6 +47,6 @@ REM ---- fullclean is REQUIRED here: switching to REPROGRAM_ONLY changes the
 REM      SRCS list in CMakeLists.txt, and ninja doesn't always pick up SRCS
 REM      changes without a fresh configure.
 idf.py fullclean
-idf.py -p %PORT% -DREPROGRAM_ONLY=ON build flash monitor
+idf.py %PORT_ARG% -DREPROGRAM_ONLY=ON build flash monitor
 
 endlocal

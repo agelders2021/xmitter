@@ -35,13 +35,16 @@ REM ---- cd into the firmware dir (where this .bat lives)
 cd /d "%~dp0"
 
 REM ---- Optional COM port arg
-REM ---- Metro's USB CDC always enumerates as COM11 on this bench.  Override
-REM      by passing another port name as the first arg.
-set "PORT=COM11"
-if not "%~1"=="" set "PORT=%~1"
+REM ---- COM port: auto-detect by default.  The Metro's USB CDC has been
+REM      seen as COM11 and COM12 depending on Windows re-enumeration
+REM      history (Arduino sketches with different USB VID/PID cause the
+REM      shift).  Override by passing a port name as the first arg:
+REM        bringup.bat COM12
+set "PORT_ARG="
+if not "%~1"=="" set "PORT_ARG=-p %~1"
 
 echo.
-echo === Building LCD_BRINGUP=ON, then flash + monitor on %PORT% ===
+echo === Building LCD_BRINGUP=ON, then flash + monitor ===
 echo (Ctrl+] to exit monitor)
 echo.
 
@@ -49,6 +52,6 @@ REM ---- fullclean is REQUIRED when returning from reprogram_only.bat --
 REM      the SRCS list changed and ninja needs a fresh configure.  Cheap
 REM      insurance in general.
 idf.py fullclean
-idf.py -p %PORT% -DLCD_BRINGUP=ON build flash monitor
+idf.py %PORT_ARG% -DLCD_BRINGUP=ON build flash monitor
 
 endlocal
