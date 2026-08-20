@@ -57,7 +57,7 @@ constexpr char TAG[] = "bringup";
 
 // Bring-up firmware revision.  BUMP THIS on every code change so we can
 // tell which build is running on the bench without reading the serial log.
-constexpr int FW_REV = 19;
+constexpr int FW_REV = 20;
 
 // I2C addresses
 constexpr uint8_t  MCP4725_ADDR             = 0x62;
@@ -340,8 +340,15 @@ void bringup_task(void *) {
     uint32_t last_shown  = s_freq_hz;
 
     while (true) {
+        // Seesaw ATTINY occasionally NAKs during internal state flush; retry
+        // up to 3x before giving up on this poll cycle.  The seesaw accumulates
+        // counts internally so no detents are lost even when a cycle is skipped.
         int32_t delta = 0;
-        esp_err_t e = s_encoder.read_delta(&delta);
+        esp_err_t e = ESP_FAIL;
+        for (int retry = 0; retry < 3 && e != ESP_OK; ++retry) {
+            e = s_encoder.read_delta(&delta);
+            if (e != ESP_OK && retry < 2) vTaskDelay(pdMS_TO_TICKS(2));
+        }
         if (e == ESP_OK && delta != 0) {
             accumulator += delta;
             int32_t detents = accumulator / ENCODER_COUNTS_PER_DETENT;
