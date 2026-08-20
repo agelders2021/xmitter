@@ -57,7 +57,7 @@ constexpr char TAG[] = "bringup";
 
 // Bring-up firmware revision.  BUMP THIS on every code change so we can
 // tell which build is running on the bench without reading the serial log.
-constexpr int FW_REV = 20;
+constexpr int FW_REV = 21;
 
 // I2C addresses
 constexpr uint8_t  MCP4725_ADDR             = 0x62;
@@ -335,9 +335,15 @@ void pwm_timer_cb(void *) {
 // --------------------------------------------------------------------------
 //  Bring-up task -- encoder poll + freq refresh + VFO retune
 // --------------------------------------------------------------------------
+// How many consecutive all-retry-exhausted encoder poll failures before we
+// declare the bus locked and issue a recovery sequence.  At 50 ms/poll and
+// 3 retries each, 8 failures = ~400 ms of solid failure before reset.
+constexpr int ENC_FAIL_RESET_THRESH = 8;
+
 void bringup_task(void *) {
-    int32_t  accumulator = 0;
-    uint32_t last_shown  = s_freq_hz;
+    int32_t  accumulator    = 0;
+    uint32_t last_shown     = s_freq_hz;
+    int      enc_fail_streak = 0;
 
     while (true) {
         // Seesaw ATTINY occasionally NAKs during internal state flush; retry
@@ -349,6 +355,44 @@ void bringup_task(void *) {
             e = s_encoder.read_delta(&delta);
             if (e != ESP_OK && retry < 2) vTaskDelay(pdMS_TO_TICKS(2));
         }
+
+        if (e != ESP_OK) {
+            // Track consecutive failures.  If the seesaw ATTINY is holding SDA
+            // low (bus lockup), the PCF8575 LCD writes will start producing
+            // garbage.  Issue a bus reset + re-sync the PCF8575 shadow so the
+            // LCD recovers cleanly.
+            if (++enc_fail_streak >= ENC_FAIL_RESET_THRESH) {
+                ESP_LOGW(TAG, "encoder: %d consecutive failures -- I2C bus reset",
+                         enc_fail_streak);
+                enc_fail_streak = 0;
+
+                i2c_master_bus_reset(s_bus);
+                vTaskDelay(pdMS_TO_TICKS(100));   // let seesaw ATTINY re-init
+
+                // PCF8575 output register reset to 0xFFFF on power-cycle / reset;
+                // re-apply our shadow so backlight + LCD pins return to last
+                // known state.
+                if (xSemaphoreTake(s_pcf_mutex, pdMS_TO_TICKS(200)) == pdTRUE) {
+                    s_pcf.apply();
+                    xSemaphoreGive(s_pcf_mutex);
+                }
+
+                // Re-init the HD44780: the bus glitch may have clocked in a
+                // partial nibble, leaving the controller in an unknown state.
+                if (s_display_ok) {
+                    if (xSemaphoreTake(s_pcf_mutex, pdMS_TO_TICKS(200)) == pdTRUE) {
+                        s_lcd.begin(&s_pcf);   // full init sequence
+                        xSemaphoreGive(s_pcf_mutex);
+                    }
+                    render_header_and_footer();
+                    render_freq(s_freq_hz);
+                    render_status(" Running            ");
+                }
+            }
+        } else {
+            enc_fail_streak = 0;
+        }
+
         if (e == ESP_OK && delta != 0) {
             accumulator += delta;
             int32_t detents = accumulator / ENCODER_COUNTS_PER_DETENT;
