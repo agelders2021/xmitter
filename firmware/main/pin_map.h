@@ -143,7 +143,7 @@ constexpr gpio_num_t PSU_READY_IN   = GPIO_NUM_40;   // Arduino TX/D1 — TODO
 //  read_delta calls drain their count registers.
 //
 //  Hardware: R102 = 10 kΩ pull-up to +3.3 V on Rev A board (arduino sheet).
-//  J50 = 2-pin 0.1" header (ENC_INT_CABLE) — leave unpopulated until the
+//  J5 = 2-pin 0.1" header (ENC_INT_CABLE) — leave unpopulated until the
 //  front-panel INT cable is installed; R102 holds the pin idle-high.
 // ---------------------------------------------------------------------------
 constexpr gpio_num_t ENC_INT = GPIO_NUM_4;            // Arduino D4
@@ -187,7 +187,7 @@ constexpr gpio_num_t STATUS_LED     = GPIO_NUM_NC;   // L LED not broken out
 //    D2  = GPIO2   — MBL600_A       (VFO tuning encoder, quadrature A)
 //    D3  = GPIO3   — MBL600_B       (VFO tuning encoder, quadrature B)
 //    D4  = GPIO4   — ENC_INT (reserved for future front-panel INT cable;
-//                    J50 header unpopulated on Rev A build)
+//                    J5 header unpopulated on Rev A build)
 //    D5  = GPIO5   — PADDLE_A / DIT
 //    D6  = GPIO6   — PADDLE_B / DAH
 //    D7  = GPIO7   — LDAC_4728      (MCP4728 EEPROM reprogram; see above)

@@ -162,10 +162,10 @@ Reserved on the analog board (added 2026-07-03):
 - **R102 = 10 kΩ pull-up** from D4 to +3.3 V — makes D4 idle high when
   no cable is connected, so ERC/DRC and firmware bring-up are clean
   even without a cable installed.
-- **J50 = 2-pin 0.1"-pitch header** on the arduino sheet, labeled
+- **J5 = 2-pin 0.1"-pitch header** on the arduino sheet, labeled
   `ENC_INT_CABLE`. Pin 1 = ENC_INT signal, pin 2 = GND. **Leave
   unpopulated on first build.** When (if) the INT cable is added later,
-  install the header, run a shielded 2-conductor cable from J50 to the
+  install the header, run a shielded 2-conductor cable from J5 to the
   front-panel PCB, and tie both QT encoder INTs + the PCF8575 INT together
   at the front-panel PCB end.
 - Footprint chosen: `PinHeader_1x02_P2.54mm_Vertical`. Standard 0.1" pin

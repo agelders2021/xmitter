@@ -89,13 +89,13 @@ constexpr int ENCODER_COUNTS_PER_DETENT = 4;
 //  Encoder interrupt (ENC_INT = D4 = GPIO4)
 //
 //  All seesaw breakout INT pins are open-drain active-low and can be
-//  wired-OR'd together onto J50 → D4.  The ISR gives a binary semaphore;
+//  wired-OR'd together onto J5 → D4.  The ISR gives a binary semaphore;
 //  the bringup task blocks on it with a 100 ms timeout (display refresh).
 //
-//  If J50 is not wired (bench without INT cable), GPIO4 stays idle-high
+//  If J5 is not wired (bench without INT cable), GPIO4 stays idle-high
 //  via R102 (10 kΩ pull-up on board), the ISR never fires, the semaphore
 //  always times out, and enc_ready stays false -- encoder reads are skipped.
-//  Wire J50 to use the encoder; flash rev 22 beforehand.
+//  Wire J5 to use the encoder; flash rev 22 beforehand.
 // --------------------------------------------------------------------------
 static SemaphoreHandle_t s_enc_sem = nullptr;
 
@@ -373,7 +373,7 @@ void bringup_task(void *) {
         // the wired-OR produces one falling edge; after draining the first,
         // INT may still be low -- catch that without waiting for another ISR.
         //
-        // Without J50 wired: GPIO4 stays high (R102 pull-up), semaphore
+        // Without J5 wired: GPIO4 stays high (R102 pull-up), semaphore
         // never fires, enc_ready is always false, encoder reads are skipped.
         const bool enc_ready =
             (xSemaphoreTake(s_enc_sem, pdMS_TO_TICKS(100)) == pdTRUE)
@@ -557,7 +557,7 @@ extern "C" void app_main() {
     }
 
     // Set up interrupt-driven encoder reads.  ENC_INT (D4/GPIO4) is pulled
-    // high by R102 (10 kΩ) on the board.  Without J50 wired the pin stays
+    // high by R102 (10 kΩ) on the board.  Without J5 wired the pin stays
     // idle-high, the ISR never fires, and the task runs on the 100 ms timeout
     // only -- encoder reads are skipped until the cable is installed.
     s_enc_sem = xSemaphoreCreateBinary();
@@ -566,7 +566,7 @@ extern "C" void app_main() {
     gpio_set_intr_type(pins::ENC_INT, GPIO_INTR_NEGEDGE);
     gpio_install_isr_service(0);
     gpio_isr_handler_add(pins::ENC_INT, enc_int_isr, nullptr);
-    ESP_LOGI(TAG, "ENC_INT ISR armed on GPIO%d (J50 %s)",
+    ESP_LOGI(TAG, "ENC_INT ISR armed on GPIO%d (J5 %s)",
              (int)pins::ENC_INT,
              gpio_get_level(pins::ENC_INT) ? "NOT wired -- polling disabled"
                                            : "wired");
