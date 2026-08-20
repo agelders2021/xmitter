@@ -57,7 +57,7 @@ constexpr char TAG[] = "bringup";
 
 // Bring-up firmware revision.  BUMP THIS on every code change so we can
 // tell which build is running on the bench without reading the serial log.
-constexpr int FW_REV = 21;
+constexpr int FW_REV = 22;
 
 // I2C addresses
 constexpr uint8_t  MCP4725_ADDR             = 0x62;
@@ -84,6 +84,26 @@ constexpr int32_t  FREQ_STEP_HZ   = 1000;
 
 // Encoder: Adafruit QT rotary = 4 counts per mechanical detent.
 constexpr int ENCODER_COUNTS_PER_DETENT = 4;
+
+// --------------------------------------------------------------------------
+//  Encoder interrupt (ENC_INT = D4 = GPIO4)
+//
+//  All seesaw breakout INT pins are open-drain active-low and can be
+//  wired-OR'd together onto J50 → D4.  The ISR gives a binary semaphore;
+//  the bringup task blocks on it with a 100 ms timeout (display refresh).
+//
+//  If J50 is not wired (bench without INT cable), GPIO4 stays idle-high
+//  via R102 (10 kΩ pull-up on board), the ISR never fires, the semaphore
+//  always times out, and enc_ready stays false -- encoder reads are skipped.
+//  Wire J50 to use the encoder; flash rev 22 beforehand.
+// --------------------------------------------------------------------------
+static SemaphoreHandle_t s_enc_sem = nullptr;
+
+static void IRAM_ATTR enc_int_isr(void *) {
+    BaseType_t woken = pdFALSE;
+    xSemaphoreGiveFromISR(s_enc_sem, &woken);
+    portYIELD_FROM_ISR(woken);
+}
 
 // --------------------------------------------------------------------------
 //  Shared state
@@ -346,17 +366,33 @@ void bringup_task(void *) {
     int      enc_fail_streak = 0;
 
     while (true) {
-        // Seesaw ATTINY occasionally NAKs during internal state flush; retry
-        // up to 3x before giving up on this poll cycle.  The seesaw accumulates
-        // counts internally so no detents are lost even when a cycle is skipped.
+        // Block until INT asserts (ISR gives semaphore) or 100 ms timeout
+        // (keeps display refresh alive when encoder is idle).
+        //
+        // Secondary gpio_get_level check: if two encoders fire simultaneously
+        // the wired-OR produces one falling edge; after draining the first,
+        // INT may still be low -- catch that without waiting for another ISR.
+        //
+        // Without J50 wired: GPIO4 stays high (R102 pull-up), semaphore
+        // never fires, enc_ready is always false, encoder reads are skipped.
+        const bool enc_ready =
+            (xSemaphoreTake(s_enc_sem, pdMS_TO_TICKS(100)) == pdTRUE)
+            || (gpio_get_level(pins::ENC_INT) == 0);
+
         int32_t delta = 0;
         esp_err_t e = ESP_FAIL;
+
+        if (enc_ready) {
+        // Seesaw ATTINY occasionally NAKs during internal state flush; retry
+        // up to 3x before giving up on this poll cycle.  The seesaw accumulates
+        // counts internally so no detents are lost when a cycle is skipped.
         for (int retry = 0; retry < 3 && e != ESP_OK; ++retry) {
             e = s_encoder.read_delta(&delta);
             if (e != ESP_OK && retry < 2) vTaskDelay(pdMS_TO_TICKS(2));
         }
+        }
 
-        if (e != ESP_OK) {
+        if (enc_ready && e != ESP_OK) {
             // Track consecutive failures.  If the seesaw ATTINY is holding SDA
             // low (bus lockup), the PCF8575 LCD writes will start producing
             // garbage.  Issue a bus reset + re-sync the PCF8575 shadow so the
@@ -389,7 +425,7 @@ void bringup_task(void *) {
                     render_status(" Running            ");
                 }
             }
-        } else {
+        } else if (enc_ready) {
             enc_fail_streak = 0;
         }
 
@@ -413,8 +449,7 @@ void bringup_task(void *) {
             render_freq(s_freq_hz);
             last_shown = s_freq_hz;
         }
-
-        vTaskDelay(pdMS_TO_TICKS(50));
+        // No vTaskDelay here -- xSemaphoreTake with 100 ms timeout is the sleep.
     }
 }
 
@@ -510,7 +545,7 @@ extern "C" void app_main() {
     }
     ESP_LOGI(TAG, "display %s", s_display_ok ? "up" : "SKIPPED (front-panel off)");
 
-    // ------- Stage B: encoder ---------------------------------------------
+    // ------- Stage B: encoder + ENC_INT GPIO ---------------------------------
     render_status(" Encoder init...    ");
     bool encoder_ok = false;
     if (esp_err_t e = s_encoder.begin(s_bus, ENCODER_ADDR); e == ESP_OK) {
@@ -520,6 +555,22 @@ extern "C" void app_main() {
         ESP_LOGE(TAG, "encoder MISSING at 0x%02X (%s)",
                  ENCODER_ADDR, esp_err_to_name(e));
     }
+
+    // Set up interrupt-driven encoder reads.  ENC_INT (D4/GPIO4) is pulled
+    // high by R102 (10 kΩ) on the board.  Without J50 wired the pin stays
+    // idle-high, the ISR never fires, and the task runs on the 100 ms timeout
+    // only -- encoder reads are skipped until the cable is installed.
+    s_enc_sem = xSemaphoreCreateBinary();
+    gpio_set_direction(pins::ENC_INT, GPIO_MODE_INPUT);
+    gpio_set_pull_mode(pins::ENC_INT, GPIO_FLOATING);   // R102 is the pull-up
+    gpio_set_intr_type(pins::ENC_INT, GPIO_INTR_NEGEDGE);
+    gpio_install_isr_service(0);
+    gpio_isr_handler_add(pins::ENC_INT, enc_int_isr, nullptr);
+    ESP_LOGI(TAG, "ENC_INT ISR armed on GPIO%d (J50 %s)",
+             (int)pins::ENC_INT,
+             gpio_get_level(pins::ENC_INT) ? "NOT wired -- polling disabled"
+                                           : "wired");
+
     render_status(encoder_ok ? " Encoder OK         "
                              : " Encoder MISSING    ");
     vTaskDelay(pdMS_TO_TICKS(400));   // let operator read the line

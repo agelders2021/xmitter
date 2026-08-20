@@ -137,6 +137,18 @@ constexpr gpio_num_t PSU_MAIN_EN    = GPIO_NUM_17;   // Arduino A3 — TODO
 constexpr gpio_num_t PSU_READY_IN   = GPIO_NUM_40;   // Arduino TX/D1 — TODO
 
 // ---------------------------------------------------------------------------
+//  Encoder interrupt — open-drain wired-OR from all seesaw I²C QT encoder
+//  breakouts (STEP at 0x37, FUNC at 0x38).  Active-low; asserts when any
+//  encoder has new count data.  De-asserts after all pending encoder
+//  read_delta calls drain their count registers.
+//
+//  Hardware: R102 = 10 kΩ pull-up to +3.3 V on Rev A board (arduino sheet).
+//  J50 = 2-pin 0.1" header (ENC_INT_CABLE) — leave unpopulated until the
+//  front-panel INT cable is installed; R102 holds the pin idle-high.
+// ---------------------------------------------------------------------------
+constexpr gpio_num_t ENC_INT = GPIO_NUM_4;            // Arduino D4
+
+// ---------------------------------------------------------------------------
 //  Mains interlock — heartbeat to a 74HC4538 retriggerable monostable that
 //  drives the K_MAIN relay coil.  Firmware MUST pulse this at ≥5 Hz once
 //  boot is complete; the monostable's RC time-out (~200 ms) drops the relay
@@ -146,8 +158,12 @@ constexpr gpio_num_t PSU_READY_IN   = GPIO_NUM_40;   // Arduino TX/D1 — TODO
 //  application explicitly opts in.  External 10 kΩ pull-down to GND on the
 //  PCB makes "no MCU / no firmware" a guaranteed-off state — fail-safe by
 //  default, not by code.
+//
+//  TODO: pin table (bottom of this file) places MAINS_HEARTBEAT on one of
+//  A0..A4 (GPIO14..18); assignment unresolved pending schematic trace.
+//  GPIO_NUM_NC here until the A-pin assignment is confirmed.
 // ---------------------------------------------------------------------------
-constexpr gpio_num_t MAINS_HEARTBEAT = GPIO_NUM_4;   // Arduino D4 — TODO confirm
+constexpr gpio_num_t MAINS_HEARTBEAT = GPIO_NUM_NC;   // Arduino A? — TODO confirm
 
 // ---------------------------------------------------------------------------
 //  WinKey paddle inputs (DIT / DAH closures, momentary key = GND).
