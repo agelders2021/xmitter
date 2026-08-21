@@ -2021,16 +2021,6 @@
 	)
 	(wire
 		(pts
-			(xy 64.77 91.44) (xy 64.77 95.25)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "6bda3af2-4b71-4e85-b447-89deba39c402")
-	)
-	(wire
-		(pts
 			(xy 139.7 113.03) (xy 149.86 113.03)
 		)
 		(stroke
@@ -2148,16 +2138,6 @@
 			(type default)
 		)
 		(uuid "d1d1c066-457c-4b42-8401-5538198703ab")
-	)
-	(wire
-		(pts
-			(xy 35.56 91.44) (xy 64.77 91.44)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "da695def-277a-47f8-83b5-2a316120d27a")
 	)
 	(wire
 		(pts
@@ -2396,6 +2376,30 @@
 				(font
 					(size 1.27 1.27)
 				)
+			)
+		)
+	)
+	(global_label "ENC_INT"
+		(shape input)
+		(at 35.56 91.44 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "970bf83b-8afe-4974-bd18-4f39c6c1f37a")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 46.1652 91.44 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
 			)
 		)
 	)
@@ -3546,84 +3550,6 @@
 			(project "analog"
 				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/5c3f4a2b-7d1e-4f8b-9c6d-0e8a1b2c3d4e"
 					(reference "#PWR096")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 64.77 95.25 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "797c76ae-4d7a-493e-80a3-aeba3273b36f")
-		(property "Reference" "#PWR090"
-			(at 64.77 101.6 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 64.77 100.33 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 64.77 95.25 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 64.77 95.25 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 64.77 95.25 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "f64fcd13-379c-47f1-b992-a83d33992748")
-		)
-		(instances
-			(project "analog"
-				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/5c3f4a2b-7d1e-4f8b-9c6d-0e8a1b2c3d4e"
-					(reference "#PWR090")
 					(unit 1)
 				)
 			)
