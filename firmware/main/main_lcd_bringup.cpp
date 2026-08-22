@@ -163,6 +163,7 @@ esp_err_t mcp4725_set(uint8_t addr, uint16_t code_12bit) {
 constexpr uint8_t SEESAW_STATUS_BASE     = 0x00;
 constexpr uint8_t SEESAW_STATUS_SWRST    = 0x7F;
 constexpr uint8_t SEESAW_ENCODER_BASE    = 0x11;
+constexpr uint8_t SEESAW_ENCODER_INTENSET = 0x10;
 constexpr uint8_t SEESAW_ENCODER_DELTA   = 0x40;
 
 class SeesawEncoder {
@@ -179,6 +180,13 @@ class SeesawEncoder {
         e = i2c_master_transmit(dev_, rst, sizeof(rst), 100);
         if (e != ESP_OK) return e;
         vTaskDelay(pdMS_TO_TICKS(500));
+
+        // Enable encoder interrupt so the seesaw drives INT low on new counts.
+        // Without this the INT line never asserts regardless of encoder activity.
+        const uint8_t intenset[3] = { SEESAW_ENCODER_BASE, SEESAW_ENCODER_INTENSET, 0x01 };
+        e = i2c_master_transmit(dev_, intenset, sizeof(intenset), 100);
+        if (e != ESP_OK) return e;
+        ESP_LOGI("enc", "seesaw ENCODER_INTENSET armed at 0x%02X", addr);
         return ESP_OK;
     }
 
