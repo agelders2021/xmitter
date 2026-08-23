@@ -83,7 +83,7 @@ constexpr uint32_t FREQ_START_HZ  = vfo::DEFAULT_FREQ_HZ;   // 14.200 MHz
 constexpr int32_t  FREQ_STEP_HZ   = 1000;
 
 // Encoder: Adafruit QT rotary = 4 counts per mechanical detent.
-constexpr int ENCODER_COUNTS_PER_DETENT = 4;
+constexpr int ENCODER_COUNTS_PER_DETENT = 1;  // seesaw decodes quadrature internally
 
 // --------------------------------------------------------------------------
 //  Encoder interrupt (ENC_INT = D4 = GPIO4)
