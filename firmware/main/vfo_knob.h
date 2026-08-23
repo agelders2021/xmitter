@@ -28,6 +28,7 @@
 #include "esp_err.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
+#include "freertos/semphr.h"
 #include "driver/gpio.h"
 #include "driver/pulse_cnt.h"
 
@@ -40,12 +41,12 @@ class VfoKnob {
     // subsequent begin/start/inject calls become no-ops.
     esp_err_t begin(gpio_num_t a, gpio_num_t b);
 
-    // Spawn the polling task pinned to `core` at priority `prio`.  Choose
-    // `poll_period` in ticks (default 20 ms = 50 Hz).  Idempotent.
-    esp_err_t start(BaseType_t   core,
-                    UBaseType_t  prio        = 4,
-                    uint32_t     stack_words = 4096,
-                    TickType_t   poll_period = pdMS_TO_TICKS(20));
+    // Spawn the task pinned to `core` at priority `prio`.  The task blocks
+    // on the PCNT watchpoint semaphore and only runs when the encoder moves.
+    // Idempotent.
+    esp_err_t start(BaseType_t  core,
+                    UBaseType_t prio        = 4,
+                    uint32_t    stack_words = 4096);
 
     // STEP-button integration will call this once we implement it.  For
     // now the default is 10 Hz.  Values should come from
@@ -75,14 +76,21 @@ class VfoKnob {
     // Delta -> multiplier lookup.  Also used by inject().
     static uint32_t multiplier_for(int16_t delta);
 
+    // PCNT watchpoint ISR: fires when counter reaches ±1, gives semaphore.
+    static bool IRAM_ATTR on_reach_isr(pcnt_unit_handle_t,
+                                       const pcnt_watch_event_data_t *,
+                                       void *user_data);
+
     // Hardware
     pcnt_unit_handle_t    unit_   = nullptr;
     pcnt_channel_handle_t chan_a_ = nullptr;
     pcnt_channel_handle_t chan_b_ = nullptr;
 
+    // Interrupt-driven wake: semaphore given by on_reach_isr, taken in run().
+    SemaphoreHandle_t sem_ = nullptr;
+
     // Task
     TaskHandle_t handle_ = nullptr;
-    TickType_t   period_ = pdMS_TO_TICKS(20);
 
     // State (task-only after start())
     uint32_t base_step_hz_ = 10;

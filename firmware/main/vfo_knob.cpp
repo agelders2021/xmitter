@@ -25,10 +25,16 @@ constexpr char TAG[] = "knob";
 // RF-coupling / ESD-transient timescales.
 constexpr uint32_t GLITCH_NS  = 1000;
 
-// PCNT counter ceiling.  Worst-case knob spin is roughly 6 rev/s of a
-// 100 PPR encoder in 4x quadrature = 2400 counts/s.  At 20 ms poll
-// that's 48 counts per poll cycle, so 10 000 is a comfortable ceiling.
-constexpr int      PCNT_LIMIT = 10000;
+// PCNT counter ceiling.  At 100 PPR × 4x quadrature × 6 rev/s = 2400
+// counts/s; 10 000 is a comfortable ceiling that the counter will never
+// reach between ISR wake-ups.
+constexpr int PCNT_LIMIT = 10000;
+
+// Watchpoints that arm the ISR.  Any movement from 0 crosses ±1 and
+// gives the semaphore.  After the task reads and clears the counter, the
+// hardware counter is back at 0 and the watchpoints re-arm automatically.
+constexpr int WP_POS =  1;
+constexpr int WP_NEG = -1;
 
 // Tier thresholds: |delta counts per poll| -> multiplier.  See
 // Documentation/front_panel_interface.md for the derivation.
@@ -40,6 +46,17 @@ constexpr int16_t TIER3_MAX = 15;   // <= 15 -> 100x  (band-hopping)
 }  // namespace
 
 VfoKnob g_vfo_knob;
+
+// ISR: runs in interrupt context.  Gives the semaphore so run() unblocks.
+bool IRAM_ATTR VfoKnob::on_reach_isr(pcnt_unit_handle_t /*unit*/,
+                                      const pcnt_watch_event_data_t * /*edata*/,
+                                      void *user_data)
+{
+    SemaphoreHandle_t sem = static_cast<SemaphoreHandle_t>(user_data);
+    BaseType_t woken = pdFALSE;
+    xSemaphoreGiveFromISR(sem, &woken);
+    return woken == pdTRUE;
+}
 
 // ------------------------------------------------------------------------- //
 // Hardware bring-up                                                         //
@@ -97,6 +114,20 @@ esp_err_t VfoKnob::begin(gpio_num_t a, gpio_num_t b)
             PCNT_CHANNEL_LEVEL_ACTION_INVERSE),
         TAG, "chan B level");
 
+    // Watchpoints at ±1: any movement from 0 fires on_reach_isr, which gives
+    // sem_.  After the task reads and clears the counter, it returns to 0 and
+    // the watchpoints re-arm automatically for the next movement.
+    sem_ = xSemaphoreCreateBinary();
+    if (!sem_) return ESP_ERR_NO_MEM;
+
+    ESP_RETURN_ON_ERROR(pcnt_unit_add_watch_point(unit_, WP_POS), TAG, "wp +1");
+    ESP_RETURN_ON_ERROR(pcnt_unit_add_watch_point(unit_, WP_NEG), TAG, "wp -1");
+
+    pcnt_event_callbacks_t cbs = {};
+    cbs.on_reach = on_reach_isr;
+    ESP_RETURN_ON_ERROR(pcnt_unit_register_event_callbacks(unit_, &cbs, sem_),
+                        TAG, "register cb");
+
     ESP_RETURN_ON_ERROR(pcnt_unit_enable(unit_),      TAG, "unit enable");
     ESP_RETURN_ON_ERROR(pcnt_unit_clear_count(unit_), TAG, "clear count");
     ESP_RETURN_ON_ERROR(pcnt_unit_start(unit_),       TAG, "unit start");
@@ -109,13 +140,11 @@ esp_err_t VfoKnob::begin(gpio_num_t a, gpio_num_t b)
 // ------------------------------------------------------------------------- //
 // Task management                                                           //
 // ------------------------------------------------------------------------- //
-esp_err_t VfoKnob::start(BaseType_t   core,
-                        UBaseType_t  prio,
-                        uint32_t     stack_words,
-                        TickType_t   poll_period)
+esp_err_t VfoKnob::start(BaseType_t  core,
+                         UBaseType_t prio,
+                         uint32_t    stack_words)
 {
     if (handle_) return ESP_OK;   // already started
-    period_ = poll_period;
 
     BaseType_t r = xTaskCreatePinnedToCore(
         &VfoKnob::task_entry,
@@ -129,9 +158,8 @@ esp_err_t VfoKnob::start(BaseType_t   core,
         ESP_LOGE(TAG, "task create failed");
         return ESP_FAIL;
     }
-    ESP_LOGI(TAG, "task pinned to core %d, prio %u, period %u ms",
-             (int)core, (unsigned)prio,
-             (unsigned)(period_ * portTICK_PERIOD_MS));
+    ESP_LOGI(TAG, "task pinned to core %d, prio %u (interrupt-driven)",
+             (int)core, (unsigned)prio);
     return ESP_OK;
 }
 
@@ -142,18 +170,20 @@ void VfoKnob::task_entry(void *arg)
 
 void VfoKnob::run()
 {
-    ESP_LOGI(TAG, "knob task running on core %d", xPortGetCoreID());
-    TickType_t last_wake = xTaskGetTickCount();
+    ESP_LOGI(TAG, "knob task running on core %d (interrupt-driven)", xPortGetCoreID());
 
     for (;;) {
-        vTaskDelayUntil(&last_wake, period_);
+        // Block until the PCNT watchpoint ISR fires (any encoder movement).
+        xSemaphoreTake(sem_, portMAX_DELAY);
         stats_.poll_count++;
 
-        if (!unit_) continue;   // hardware not brought up
+        if (!unit_) continue;
 
         int cur = 0;
         pcnt_unit_get_count(unit_, &cur);
-        if (cur == 0) continue;
+        // Clear before applying so the watchpoints re-arm from 0.
+        // Any counts arriving in the tiny window between get and clear are
+        // absorbed into the next interrupt; acceptable for a VFO knob.
         pcnt_unit_clear_count(unit_);
 
         int16_t delta = (int16_t)cur;

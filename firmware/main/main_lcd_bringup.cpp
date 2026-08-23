@@ -46,6 +46,7 @@
 #include "pcf8575.h"
 #include "lcd_hd44780.h"
 #include "vfo_si5351.h"
+#include "vfo_knob.h"
 #include "mcp4728.h"
 #include "i2c_scan.h"
 
@@ -57,7 +58,7 @@ constexpr char TAG[] = "bringup";
 
 // Bring-up firmware revision.  BUMP THIS on every code change so we can
 // tell which build is running on the bench without reading the serial log.
-constexpr int FW_REV = 22;
+constexpr int FW_REV = 23;
 
 // I2C addresses
 constexpr uint8_t  MCP4725_ADDR             = 0x62;
@@ -453,6 +454,13 @@ void bringup_task(void *) {
             }
         }
 
+        // Pick up frequency changes from the MBL-600 PCNT knob (which calls
+        // vfo::set_freq directly, bypassing s_freq_hz).  Syncing here keeps
+        // the display current and ensures the next seesaw detent steps from
+        // the correct base.
+        uint32_t cur = vfo::current_freq();
+        if (cur != s_freq_hz) s_freq_hz = cur;
+
         if (s_freq_hz != last_shown) {
             render_freq(s_freq_hz);
             last_shown = s_freq_hz;
@@ -510,6 +518,7 @@ extern "C" void app_main() {
     esp_log_level_set("vfo",        ESP_LOG_WARN);
     esp_log_level_set("pcf8575",    ESP_LOG_WARN);
     esp_log_level_set("lcd",        ESP_LOG_WARN);
+    esp_log_level_set("knob",       ESP_LOG_WARN);
     // mcp4728 stays at INFO so we can see the reprogram byte log and any
     // per-attempt failure messages during bring-up.
 
@@ -582,6 +591,22 @@ extern "C" void app_main() {
     render_status(encoder_ok ? " Encoder OK         "
                              : " Encoder MISSING    ");
     vTaskDelay(pdMS_TO_TICKS(400));   // let operator read the line
+
+    // ------- Stage B2: MBL-600 optical encoder (PCNT, GPIO2/3) -------------
+    render_status(" MBL-600 init...    ");
+    if (esp_err_t e = knob::g_vfo_knob.begin(pins::ENC_FREQ_A, pins::ENC_FREQ_B);
+        e != ESP_OK) {
+        ESP_LOGE(TAG, "MBL-600 PCNT init failed: %s", esp_err_to_name(e));
+        render_status(" MBL-600 FAIL       ");
+    } else if (esp_err_t e = knob::g_vfo_knob.start(pins::CORE_KEYING); e != ESP_OK) {
+        ESP_LOGE(TAG, "MBL-600 task start failed: %s", esp_err_to_name(e));
+        render_status(" MBL-600 task FAIL  ");
+    } else {
+        ESP_LOGI(TAG, "MBL-600 PCNT up on GPIO%d/%d",
+                 (int)pins::ENC_FREQ_A, (int)pins::ENC_FREQ_B);
+        render_status(" MBL-600 OK         ");
+    }
+    vTaskDelay(pdMS_TO_TICKS(400));
 
     // ------- Stage C: MCP4728 address --------------------------------------
     render_status(" MCP4728 check...   ");
