@@ -574,10 +574,10 @@ extern "C" void app_main() {
     gpio_set_intr_type(pins::ENC_INT, GPIO_INTR_NEGEDGE);
     gpio_install_isr_service(0);
     gpio_isr_handler_add(pins::ENC_INT, enc_int_isr, nullptr);
-    ESP_LOGI(TAG, "ENC_INT ISR armed on GPIO%d (J5 %s)",
+    ESP_LOGI(TAG, "ENC_INT ISR armed on GPIO%d (INT %s)",
              (int)pins::ENC_INT,
-             gpio_get_level(pins::ENC_INT) ? "NOT wired -- polling disabled"
-                                           : "wired");
+             gpio_get_level(pins::ENC_INT) ? "idle-high (ok)"
+                                           : "asserted at boot");
 
     render_status(encoder_ok ? " Encoder OK         "
                              : " Encoder MISSING    ");
