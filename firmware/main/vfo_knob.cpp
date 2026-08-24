@@ -81,39 +81,32 @@ esp_err_t VfoKnob::begin(gpio_num_t a, gpio_num_t b)
     ESP_RETURN_ON_ERROR(pcnt_unit_set_glitch_filter(unit_, &filter),
                         TAG, "glitch filter");
 
-    // ---- Channel A: edges on pin A, direction gated by level of pin B -----
+    // 2x quadrature decode: count edges on the CW-lead signal (a), gate
+    // direction by the CW-lag signal (b).  When `a` edges fire, `b` is always
+    // mid-cycle (solidly HIGH or LOW), so the level gate is unambiguous.
+    //
+    // A second channel counting `b` edges (gated by `a`) would double the
+    // count rate (4x decode) but the `a` level at the moment `b` fires is the
+    // first transition of each half-cycle -- close enough to `b`'s own edge
+    // that signal skew through the RS-422 receive chain can put `a` in the
+    // wrong state.  Removing that channel eliminates the spurious ±1 pair
+    // that caused CCW to produce an increment followed immediately by a decrement.
     pcnt_chan_config_t chan_a_cfg = {};
-    chan_a_cfg.edge_gpio_num  = a;
-    chan_a_cfg.level_gpio_num = b;
+    chan_a_cfg.edge_gpio_num  = a;   // CW-lead signal (GPIO3, encoder B)
+    chan_a_cfg.level_gpio_num = b;   // CW-lag signal  (GPIO2, encoder A)
     ESP_RETURN_ON_ERROR(pcnt_new_channel(unit_, &chan_a_cfg, &chan_a_),
                         TAG, "chan A");
     ESP_RETURN_ON_ERROR(
         pcnt_channel_set_edge_action(chan_a_,
-            PCNT_CHANNEL_EDGE_ACTION_DECREASE,   // A rising
-            PCNT_CHANNEL_EDGE_ACTION_INCREASE),  // A falling
+            PCNT_CHANNEL_EDGE_ACTION_DECREASE,   // `a` rising  → base DECREASE
+            PCNT_CHANNEL_EDGE_ACTION_INCREASE),  // `a` falling → base INCREASE
         TAG, "chan A edge");
     ESP_RETURN_ON_ERROR(
         pcnt_channel_set_level_action(chan_a_,
-            PCNT_CHANNEL_LEVEL_ACTION_KEEP,      // B high: keep as-is
-            PCNT_CHANNEL_LEVEL_ACTION_INVERSE),  // B low : invert
+            PCNT_CHANNEL_LEVEL_ACTION_KEEP,      // `b` high → keep base action
+            PCNT_CHANNEL_LEVEL_ACTION_INVERSE),  // `b` low  → invert base action
         TAG, "chan A level");
-
-    // ---- Channel B: edges on pin B, direction gated by level of pin A -----
-    pcnt_chan_config_t chan_b_cfg = {};
-    chan_b_cfg.edge_gpio_num  = b;
-    chan_b_cfg.level_gpio_num = a;
-    ESP_RETURN_ON_ERROR(pcnt_new_channel(unit_, &chan_b_cfg, &chan_b_),
-                        TAG, "chan B");
-    ESP_RETURN_ON_ERROR(
-        pcnt_channel_set_edge_action(chan_b_,
-            PCNT_CHANNEL_EDGE_ACTION_INCREASE,   // B rising
-            PCNT_CHANNEL_EDGE_ACTION_DECREASE),  // B falling
-        TAG, "chan B edge");
-    ESP_RETURN_ON_ERROR(
-        pcnt_channel_set_level_action(chan_b_,
-            PCNT_CHANNEL_LEVEL_ACTION_KEEP,
-            PCNT_CHANNEL_LEVEL_ACTION_INVERSE),
-        TAG, "chan B level");
+    // chan_b_ intentionally left unconfigured (2x decode -- see comment above).
 
     // Watchpoints at ±1: any movement from 0 fires on_reach_isr, which gives
     // sem_.  After the task reads and clears the counter, it returns to 0 and
@@ -133,7 +126,7 @@ esp_err_t VfoKnob::begin(gpio_num_t a, gpio_num_t b)
     ESP_RETURN_ON_ERROR(pcnt_unit_clear_count(unit_), TAG, "clear count");
     ESP_RETURN_ON_ERROR(pcnt_unit_start(unit_),       TAG, "unit start");
 
-    ESP_LOGI(TAG, "MBL-600 PCNT up on GPIO %d/%d, glitch %uns",
+    ESP_LOGI(TAG, "MBL-600 PCNT up, 2x decode: edge GPIO %d, gate GPIO %d, glitch %uns",
              (int)a, (int)b, (unsigned)GLITCH_NS);
     return ESP_OK;
 }
