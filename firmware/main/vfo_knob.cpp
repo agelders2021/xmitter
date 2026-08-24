@@ -81,32 +81,33 @@ esp_err_t VfoKnob::begin(gpio_num_t a, gpio_num_t b)
     ESP_RETURN_ON_ERROR(pcnt_unit_set_glitch_filter(unit_, &filter),
                         TAG, "glitch filter");
 
-    // 2x quadrature decode: count edges on the CW-lead signal (a), gate
-    // direction by the CW-lag signal (b).  When `a` edges fire, `b` is always
-    // mid-cycle (solidly HIGH or LOW), so the level gate is unambiguous.
+    // 2x quadrature decode: count edges on the CW-lag signal (b), gate
+    // direction by the CW-lead signal (a).
     //
-    // A second channel counting `b` edges (gated by `a`) would double the
-    // count rate (4x decode) but the `a` level at the moment `b` fires is the
-    // first transition of each half-cycle -- close enough to `b`'s own edge
-    // that signal skew through the RS-422 receive chain can put `a` in the
-    // wrong state.  Removing that channel eliminates the spurious ±1 pair
-    // that caused CCW to produce an increment followed immediately by a decrement.
+    // Counting `b` edges means the first event of each half-cycle is `b`
+    // rising/falling -- at that moment `a` is solidly mid-cycle (it
+    // transitioned one step earlier) and is the most stable possible level
+    // sample.  Counting `a` edges (the previous approach) fires the PCNT
+    // at the *last* event of each half-cycle for CW but the *first* event
+    // for CCW; at that first CCW transition `a` is just starting to
+    // settle, and signal skew through the RS-422 chain put the level gate
+    // in the wrong state (giving +1 instead of -1 for CCW).
     pcnt_chan_config_t chan_a_cfg = {};
-    chan_a_cfg.edge_gpio_num  = a;   // CW-lead signal (GPIO3, encoder B)
-    chan_a_cfg.level_gpio_num = b;   // CW-lag signal  (GPIO2, encoder A)
+    chan_a_cfg.edge_gpio_num  = b;   // CW-lag signal  (GPIO2, encoder A) -- count its edges
+    chan_a_cfg.level_gpio_num = a;   // CW-lead signal (GPIO3, encoder B) -- gate direction
     ESP_RETURN_ON_ERROR(pcnt_new_channel(unit_, &chan_a_cfg, &chan_a_),
                         TAG, "chan A");
     ESP_RETURN_ON_ERROR(
         pcnt_channel_set_edge_action(chan_a_,
-            PCNT_CHANNEL_EDGE_ACTION_DECREASE,   // `a` rising  → base DECREASE
-            PCNT_CHANNEL_EDGE_ACTION_INCREASE),  // `a` falling → base INCREASE
+            PCNT_CHANNEL_EDGE_ACTION_INCREASE,   // `b` rising  → base INCREASE
+            PCNT_CHANNEL_EDGE_ACTION_DECREASE),  // `b` falling → base DECREASE
         TAG, "chan A edge");
     ESP_RETURN_ON_ERROR(
         pcnt_channel_set_level_action(chan_a_,
-            PCNT_CHANNEL_LEVEL_ACTION_KEEP,      // `b` high → keep base action
-            PCNT_CHANNEL_LEVEL_ACTION_INVERSE),  // `b` low  → invert base action
+            PCNT_CHANNEL_LEVEL_ACTION_KEEP,      // `a` high → keep base action
+            PCNT_CHANNEL_LEVEL_ACTION_INVERSE),  // `a` low  → invert base action
         TAG, "chan A level");
-    // chan_b_ intentionally left unconfigured (2x decode -- see comment above).
+    // chan_b_ intentionally left unconfigured (2x decode).
 
     // Watchpoints at ±1: any movement from 0 fires on_reach_isr, which gives
     // sem_.  After the task reads and clears the counter, it returns to 0 and
@@ -193,10 +194,13 @@ void VfoKnob::run()
 
         if (delta == 0) continue;   // count cleared between WP and get_count
 
+        ESP_LOGW(TAG, "raw delta=%+d", (int)delta);  // TODO remove after CCW decode confirmed
+
         // Suppress a direction reversal that arrives within the debounce window.
         int8_t  dir = (delta > 0) ? 1 : -1;
         int64_t now = esp_timer_get_time();
         if (dir == -last_dir && (now - last_step_us) < DEBOUNCE_US) {
+            ESP_LOGW(TAG, "  suppressed (debounce)");
             continue;
         }
         last_dir     = dir;
