@@ -8,6 +8,7 @@
 
 #include "esp_log.h"
 #include "esp_check.h"
+#include "esp_timer.h"
 
 #include "pin_map.h"
 #include "vfo_si5351.h"
@@ -172,6 +173,13 @@ void VfoKnob::run()
 {
     ESP_LOGI(TAG, "knob task running on core %d (interrupt-driven)", xPortGetCoreID());
 
+    // Debounce state: suppress reversals within 20 ms of the last applied step.
+    // An optical encoder shouldn't bounce, but a single-tick overshoot on knob
+    // release would otherwise undo the previous step entirely.
+    constexpr int64_t DEBOUNCE_US = 20000;
+    int8_t  last_dir     = 0;
+    int64_t last_step_us = 0;
+
     for (;;) {
         // Block until the PCNT watchpoint ISR fires (any encoder movement).
         xSemaphoreTake(sem_, portMAX_DELAY);
@@ -189,6 +197,17 @@ void VfoKnob::run()
         int16_t delta = (int16_t)cur;
         stats_.last_delta       = std::abs((int)delta);
         stats_.total_ticks_abs += std::abs((int)delta);
+
+        if (delta == 0) continue;   // count cleared between WP and get_count
+
+        // Suppress a direction reversal that arrives within the debounce window.
+        int8_t  dir = (delta > 0) ? 1 : -1;
+        int64_t now = esp_timer_get_time();
+        if (dir == -last_dir && (now - last_step_us) < DEBOUNCE_US) {
+            continue;
+        }
+        last_dir     = dir;
+        last_step_us = now;
 
         uint32_t mult = multiplier_for(delta);
         stats_.last_multiplier = mult;

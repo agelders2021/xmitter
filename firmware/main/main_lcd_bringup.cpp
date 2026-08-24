@@ -58,7 +58,7 @@ constexpr char TAG[] = "bringup";
 
 // Bring-up firmware revision.  BUMP THIS on every code change so we can
 // tell which build is running on the bench without reading the serial log.
-constexpr int FW_REV = 23;
+constexpr int FW_REV = 24;
 
 // I2C addresses
 constexpr uint8_t  MCP4725_ADDR             = 0x62;
@@ -438,6 +438,13 @@ void bringup_task(void *) {
             enc_fail_streak = 0;
         }
 
+        // Sync from the MBL-600 PCNT knob before applying seesaw delta so the
+        // seesaw always steps from the current VFO frequency, not a stale base.
+        {
+            uint32_t cur = vfo::current_freq();
+            if (cur != s_freq_hz) s_freq_hz = cur;
+        }
+
         if (e == ESP_OK && delta != 0) {
             accumulator += delta;
             int32_t detents = accumulator / ENCODER_COUNTS_PER_DETENT;
@@ -453,13 +460,6 @@ void bringup_task(void *) {
                 (void)vfo::set_freq(hz);   // silent -- if VFO absent, LCD still tracks
             }
         }
-
-        // Pick up frequency changes from the MBL-600 PCNT knob (which calls
-        // vfo::set_freq directly, bypassing s_freq_hz).  Syncing here keeps
-        // the display current and ensures the next seesaw detent steps from
-        // the correct base.
-        uint32_t cur = vfo::current_freq();
-        if (cur != s_freq_hz) s_freq_hz = cur;
 
         if (s_freq_hz != last_shown) {
             render_freq(s_freq_hz);

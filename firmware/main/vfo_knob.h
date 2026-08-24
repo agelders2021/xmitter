@@ -43,6 +43,8 @@ class VfoKnob {
 
     // Spawn the task pinned to `core` at priority `prio`.  The task blocks
     // on the PCNT watchpoint semaphore and only runs when the encoder moves.
+    // A 20 ms direction-reversal debounce is applied inside run() so that
+    // a single-tick mechanical bounce-back does not undo the preceding step.
     // Idempotent.
     esp_err_t start(BaseType_t  core,
                     UBaseType_t prio        = 4,
@@ -93,7 +95,7 @@ class VfoKnob {
     TaskHandle_t handle_ = nullptr;
 
     // State (task-only after start())
-    uint32_t base_step_hz_ = 10;
+    uint32_t base_step_hz_ = 50;   // Hz/count; matches encoders::FREQ_STEP_HZ_TABLE[4] default
     Stats    stats_        = {};
 };
 
