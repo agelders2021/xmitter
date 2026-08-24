@@ -81,31 +81,28 @@ esp_err_t VfoKnob::begin(gpio_num_t a, gpio_num_t b)
     ESP_RETURN_ON_ERROR(pcnt_unit_set_glitch_filter(unit_, &filter),
                         TAG, "glitch filter");
 
-    // 2x quadrature decode: count edges on the CW-lag signal (b), gate
-    // direction by the CW-lead signal (a).
+    // 2x quadrature decode: count edges on `a` (encoder B, GPIO3), gate
+    // direction by `b` (encoder A, GPIO2).
     //
-    // Counting `b` edges means the first event of each half-cycle is `b`
-    // rising/falling -- at that moment `a` is solidly mid-cycle (it
-    // transitioned one step earlier) and is the most stable possible level
-    // sample.  Counting `a` edges (the previous approach) fires the PCNT
-    // at the *last* event of each half-cycle for CW but the *first* event
-    // for CCW; at that first CCW transition `a` is just starting to
-    // settle, and signal skew through the RS-422 chain put the level gate
-    // in the wrong state (giving +1 instead of -1 for CCW).
+    // Rev 28 attempted A-edge counting but produced zero ISR fires, indicating
+    // GPIO2 (encoder A) is not toggling -- likely a wiring or receiver issue on
+    // the bench.  Reverting to B-edge (GPIO3) counting which is confirmed to
+    // generate edges.  The `knob gpio` console command will show both GPIO levels
+    // and the raw delta log will show what the A level gate reads on each fire.
     pcnt_chan_config_t chan_a_cfg = {};
-    chan_a_cfg.edge_gpio_num  = b;   // CW-lag signal  (GPIO2, encoder A) -- count its edges
-    chan_a_cfg.level_gpio_num = a;   // CW-lead signal (GPIO3, encoder B) -- gate direction
+    chan_a_cfg.edge_gpio_num  = a;   // encoder B (GPIO3) -- confirmed toggling
+    chan_a_cfg.level_gpio_num = b;   // encoder A (GPIO2) -- suspected stuck; diagnose via log
     ESP_RETURN_ON_ERROR(pcnt_new_channel(unit_, &chan_a_cfg, &chan_a_),
                         TAG, "chan A");
     ESP_RETURN_ON_ERROR(
         pcnt_channel_set_edge_action(chan_a_,
-            PCNT_CHANNEL_EDGE_ACTION_INCREASE,   // `b` rising  → base INCREASE
-            PCNT_CHANNEL_EDGE_ACTION_DECREASE),  // `b` falling → base DECREASE
+            PCNT_CHANNEL_EDGE_ACTION_DECREASE,   // `a` (B) rising  → base DECREASE
+            PCNT_CHANNEL_EDGE_ACTION_INCREASE),  // `a` (B) falling → base INCREASE
         TAG, "chan A edge");
     ESP_RETURN_ON_ERROR(
         pcnt_channel_set_level_action(chan_a_,
-            PCNT_CHANNEL_LEVEL_ACTION_KEEP,      // `a` high → keep base action
-            PCNT_CHANNEL_LEVEL_ACTION_INVERSE),  // `a` low  → invert base action
+            PCNT_CHANNEL_LEVEL_ACTION_KEEP,      // `b` (A) high → keep
+            PCNT_CHANNEL_LEVEL_ACTION_INVERSE),  // `b` (A) low  → invert
         TAG, "chan A level");
     // chan_b_ intentionally left unconfigured (2x decode).
 
@@ -194,7 +191,13 @@ void VfoKnob::run()
 
         if (delta == 0) continue;   // count cleared between WP and get_count
 
-        ESP_LOGW(TAG, "raw delta=%+d", (int)delta);  // TODO remove after CCW decode confirmed
+        // Diagnostic: log raw PCNT delta + both GPIO levels.
+        // A(GPIO2) should toggle; if it always reads 0 the encoder A signal
+        // is disconnected or the AM26LS32 channel A is not working.
+        ESP_LOGW(TAG, "ISR: delta=%+d  A(GPIO2)=%d  B(GPIO3)=%d",
+                 (int)delta,
+                 gpio_get_level(pins::ENC_FREQ_A),
+                 gpio_get_level(pins::ENC_FREQ_B));
 
         // Suppress a direction reversal that arrives within the debounce window.
         int8_t  dir = (delta > 0) ? 1 : -1;

@@ -10,6 +10,7 @@
 #include "esp_log.h"
 #include "esp_console.h"
 #include "argtable3/argtable3.h"
+#include "driver/gpio.h"
 
 #include "vfo_si5351.h"
 #include "front_panel.h"
@@ -263,7 +264,23 @@ int cmd_knob(int argc, char **argv) {
                     (unsigned long)knob::g_vfo_knob.base_step_hz());
         return 0;
     }
-    std::printf("unknown action '%s' (try turn|stats)\n", action);
+    if (std::strcmp(action, "gpio") == 0) {
+        // Diagnostic: read both encoder GPIO levels directly.
+        // A(GPIO2) should toggle with the encoder; if it always reads 0 or 1
+        // regardless of knob position, the signal is stuck -- check wiring
+        // and the AM26LS32 channel A receiver.
+        int a = gpio_get_level(pins::ENC_FREQ_A);
+        int b = gpio_get_level(pins::ENC_FREQ_B);
+        auto s = knob::g_vfo_knob.stats();
+        std::printf("ENC_FREQ_A GPIO2 = %d\n", a);
+        std::printf("ENC_FREQ_B GPIO3 = %d\n", b);
+        std::printf("ISR fires since boot: %lu\n", (unsigned long)s.poll_count);
+        std::printf("Total |ticks|: %lu\n", (unsigned long)s.total_ticks_abs);
+        if (s.poll_count == 0)
+            std::printf("  ** poll_count=0: no encoder edges detected (PCNT not firing)\n");
+        return 0;
+    }
+    std::printf("unknown action '%s' (try turn|stats|gpio)\n", action);
     return 1;
 }
 
@@ -327,14 +344,15 @@ void register_commands() {
     ESP_ERROR_CHECK(esp_console_cmd_register(&psu_cmd));
 
     // knob
-    knob_args.action = arg_str1(nullptr, nullptr, "ACTION", "turn|stats");
+    knob_args.action = arg_str1(nullptr, nullptr, "ACTION", "turn|stats|gpio");
     knob_args.n      = arg_int0(nullptr, nullptr, "N",
                                 "signed tick count (for `turn`)");
     knob_args.end    = arg_end(2);
     esp_console_cmd_t knob_cmd = {};
     knob_cmd.command  = "knob";
     knob_cmd.help     = "MBL-600 knob shim.  `knob turn <N>` injects ticks; "
-                        "`knob stats` prints internal counters.";
+                        "`knob stats` prints internal counters; "
+                        "`knob gpio` reads GPIO2/3 levels and ISR count.";
     knob_cmd.func     = &cmd_knob;
     knob_cmd.argtable = &knob_args;
     ESP_ERROR_CHECK(esp_console_cmd_register(&knob_cmd));
