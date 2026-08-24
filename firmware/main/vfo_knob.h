@@ -39,6 +39,9 @@ class VfoKnob {
     // Bring up the PCNT unit + both channels.  Idempotent.  If either
     // pin is GPIO_NUM_NC the knob logs a warning and stays disabled --
     // subsequent begin/start/inject calls become no-ops.
+    // `a` = the signal that leads for CW rotation (positive count).
+    // `b` = the lagging signal.  Pass them in the wrong order and both
+    // directions will decrease the frequency.
     esp_err_t begin(gpio_num_t a, gpio_num_t b);
 
     // Spawn the task pinned to `core` at priority `prio`.  The task blocks

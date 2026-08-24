@@ -58,7 +58,7 @@ constexpr char TAG[] = "bringup";
 
 // Bring-up firmware revision.  BUMP THIS on every code change so we can
 // tell which build is running on the bench without reading the serial log.
-constexpr int FW_REV = 24;
+constexpr int FW_REV = 25;
 
 // I2C addresses
 constexpr uint8_t  MCP4725_ADDR             = 0x62;
@@ -594,7 +594,7 @@ extern "C" void app_main() {
 
     // ------- Stage B2: MBL-600 optical encoder (PCNT, GPIO2/3) -------------
     render_status(" MBL-600 init...    ");
-    if (esp_err_t e = knob::g_vfo_knob.begin(pins::ENC_FREQ_A, pins::ENC_FREQ_B);
+    if (esp_err_t e = knob::g_vfo_knob.begin(pins::ENC_FREQ_B, pins::ENC_FREQ_A);
         e != ESP_OK) {
         ESP_LOGE(TAG, "MBL-600 PCNT init failed: %s", esp_err_to_name(e));
         render_status(" MBL-600 FAIL       ");

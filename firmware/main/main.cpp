@@ -106,8 +106,8 @@ extern "C" void app_main() {
     //     envelope keyer.  If the pins are NC (Rev A analog board still on
     //     the bench without a receiver chip installed), begin() logs a
     //     warning and both begin/start become no-ops.
-    if (esp_err_t e = knob::g_vfo_knob.begin(pins::ENC_FREQ_A,
-                                             pins::ENC_FREQ_B);
+    if (esp_err_t e = knob::g_vfo_knob.begin(pins::ENC_FREQ_B,
+                                             pins::ENC_FREQ_A);
         e != ESP_OK) {
         ESP_LOGE(TAG, "vfo_knob begin failed: %s", esp_err_to_name(e));
     } else {

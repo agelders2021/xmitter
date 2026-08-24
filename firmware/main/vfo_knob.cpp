@@ -176,7 +176,7 @@ void VfoKnob::run()
     // Debounce state: suppress reversals within 20 ms of the last applied step.
     // An optical encoder shouldn't bounce, but a single-tick overshoot on knob
     // release would otherwise undo the previous step entirely.
-    constexpr int64_t DEBOUNCE_US = 20000;
+    constexpr int64_t DEBOUNCE_US = 5000;
     int8_t  last_dir     = 0;
     int64_t last_step_us = 0;
 
