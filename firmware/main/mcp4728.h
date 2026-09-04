@@ -48,4 +48,13 @@ esp_err_t plan_reprogram_bytes(uint8_t cur_addr,
                                uint8_t new_addr,
                                uint8_t out_bytes[3]);
 
+// Write a single DAC channel register (Multi-Write command, no EEPROM burn).
+// channel: 0=A, 1=B, 2=C, 3=D.  code12: 0..4095 (clamped if out of range).
+// Uses VDD as Vref, PD=normal, gain=1×, UDAC=0 (output updates immediately).
+// Returns ESP_ERR_INVALID_ARG if channel > 3 or bus is null.
+esp_err_t write_channel_dac(i2c_master_bus_handle_t bus,
+                             uint8_t addr,
+                             uint8_t channel,
+                             uint16_t code12);
+
 }  // namespace mcp4728

@@ -252,4 +252,39 @@ esp_err_t reprogram_address(i2c_master_bus_handle_t bus,
     return ESP_OK;
 }
 
+esp_err_t write_channel_dac(i2c_master_bus_handle_t bus,
+                             uint8_t                 addr,
+                             uint8_t                 channel,
+                             uint16_t                code12) {
+    if (!bus || channel > 3) return ESP_ERR_INVALID_ARG;
+    if (code12 > 0x0FFFu) code12 = 0x0FFFu;
+
+    // Multi-Write DAC Register (DS22187 §5.6.2).
+    // Byte 0: 0b01000000 | (channel << 1) | UDAC(0)  [CMD=010, UDAC=0]
+    // Byte 1: VREF=0(VDD) PD=00(normal) Gx=0(1×) D11:D8
+    // Byte 2: D7:D0
+    const uint8_t buf[3] = {
+        (uint8_t)(0x40u | ((uint8_t)channel << 1u)),
+        (uint8_t)((code12 >> 8u) & 0x0Fu),
+        (uint8_t)(code12 & 0xFFu),
+    };
+
+    i2c_device_config_t cfg = {};
+    cfg.dev_addr_length = I2C_ADDR_BIT_LEN_7;
+    cfg.device_address  = addr;
+    cfg.scl_speed_hz    = 400000;
+
+    i2c_master_dev_handle_t dev = nullptr;
+    esp_err_t e = i2c_master_bus_add_device(bus, &cfg, &dev);
+    if (e != ESP_OK) return e;
+    e = i2c_master_transmit(dev, buf, sizeof(buf), 100);
+    i2c_master_bus_rm_device(dev);
+
+    if (e == ESP_OK) {
+        ESP_LOGI(TAG, "ch %c -> %u (0x%03X)",
+                 'A' + (char)channel, (unsigned)code12, (unsigned)code12);
+    }
+    return e;
+}
+
 }  // namespace mcp4728

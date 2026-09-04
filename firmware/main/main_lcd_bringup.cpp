@@ -48,6 +48,7 @@
 #include "vfo_si5351.h"
 #include "vfo_knob.h"
 #include "mcp4728.h"
+#include "keyer_envelope.h"
 #include "i2c_scan.h"
 
 #if defined(LCD_BRINGUP) && !defined(REPROGRAM_ONLY)
@@ -58,7 +59,7 @@ constexpr char TAG[] = "bringup";
 
 // Bring-up firmware revision.  BUMP THIS on every code change so we can
 // tell which build is running on the bench without reading the serial log.
-constexpr int FW_REV = 29;
+constexpr int FW_REV = 30;
 
 // I2C addresses
 constexpr uint8_t  MCP4725_ADDR             = 0x62;
@@ -469,6 +470,21 @@ void bringup_task(void *) {
     }
 }
 
+// --------------------------------------------------------------------------
+//  keyer_dash_task — continuous dashes at 20 WPM for U3 (MC1496) bringup.
+//
+//  At 20 WPM: 1 unit = 60 ms, dash = 3 units = 180 ms.
+//  Inter-element gap = 1 unit = 60 ms; add 5 ms for envelope tail ramp-down.
+// --------------------------------------------------------------------------
+void keyer_dash_task(void *) {
+    for (;;) {
+        keyer::key_down();
+        vTaskDelay(pdMS_TO_TICKS(180));   // dash on
+        keyer::key_up();
+        vTaskDelay(pdMS_TO_TICKS(65));    // inter-element + envelope tail
+    }
+}
+
 }  // namespace
 
 extern "C" void app_main() {
@@ -634,7 +650,40 @@ extern "C" void app_main() {
     }
     vTaskDelay(pdMS_TO_TICKS(vfo_ok ? 800 : 3000));
 
-    // ------- Stage E: backlight PWM + encoder task ------------------------
+    // ------- Stage E: MCP4728 null DAC — ch A+B to mid-scale (2048) --------
+    //  Sets VA_INJ and VB_INJ to ~2.5 V (mid-scale with VDD ref), putting
+    //  T1 and T2 at approximately midline before any null trim is applied.
+    render_status(" Null DAC...        ");
+    {
+        esp_err_t ea = mcp4728::write_channel_dac(
+                           s_bus, pins::I2C_ADDR_MCP4728, 0, 2048);
+        esp_err_t eb = mcp4728::write_channel_dac(
+                           s_bus, pins::I2C_ADDR_MCP4728, 1, 2048);
+        if (ea == ESP_OK && eb == ESP_OK) {
+            render_status(" NullDAC A+B=2048   ");
+        } else {
+            ESP_LOGW(TAG, "NullDAC chA:%s chB:%s",
+                     esp_err_to_name(ea), esp_err_to_name(eb));
+            render_status(" NullDAC WARN       ");
+        }
+    }
+    vTaskDelay(pdMS_TO_TICKS(600));
+
+    // ------- Stage F: keyer envelope + 20 WPM continuous dash test ----------
+    render_status(" Keyer init...      ");
+    bool keyer_ok = false;
+    if (esp_err_t e = keyer::envelope_init(); e != ESP_OK) {
+        ESP_LOGE(TAG, "keyer envelope init: %s", esp_err_to_name(e));
+        render_status(" Keyer FAIL         ");
+    } else {
+        keyer::set_wpm(20.0f);
+        ESP_LOGI(TAG, "keyer up -- continuous dashes @ 20 WPM through U3");
+        render_status(" Keyer 20 WPM       ");
+        keyer_ok = true;
+    }
+    vTaskDelay(pdMS_TO_TICKS(400));
+
+    // ------- Stage G (was E): backlight PWM + encoder task ------------------
     s_pcf_mutex = xSemaphoreCreateMutex();
     if (!s_pcf_mutex) {
         ESP_LOGE(TAG, "mutex alloc failed");
@@ -649,8 +698,12 @@ extern "C" void app_main() {
     ESP_ERROR_CHECK(esp_timer_create(&timer_args, &s_pwm_timer));
     ESP_ERROR_CHECK(esp_timer_start_once(s_pwm_timer, PWM_UNIT_US));
 
-    render_status(encoder_ok ? " Running            "
-                             : " Running, no knob   ");
+    render_status(keyer_ok      ? " Keyer 20WPM dashes "
+                  : encoder_ok ? " Running            "
+                               : " Running, no knob   ");
+
+    if (keyer_ok)
+        xTaskCreate(keyer_dash_task, "cw_dash", 2048, nullptr, 4, nullptr);
 
     xTaskCreatePinnedToCore(bringup_task, "lcd_bringup", 4096, nullptr,
                             3, nullptr, pins::CORE_MONITOR);
