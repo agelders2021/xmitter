@@ -146,6 +146,13 @@ void playout_task(void *) {
             if (kd) {
                 phase += inc;
                 if (phase > 1.0f) phase = 1.0f;
+                if (phase >= 1.0f) {
+                    // Park: DAC holds CODE_FULL; yield so the core-1 idle
+                    // task runs and the TWDT does not fire during CarrierHigh.
+                    while (s_key_down.load(std::memory_order_relaxed))
+                        vTaskDelay(pdMS_TO_TICKS(1));
+                    next_us = esp_timer_get_time();   // re-sync after yield
+                }
             } else {
                 phase -= inc;
                 if (phase < 0.0f) phase = 0.0f;

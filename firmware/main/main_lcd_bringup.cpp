@@ -59,7 +59,7 @@ constexpr char TAG[] = "bringup";
 
 // Bring-up firmware revision.  BUMP THIS on every code change so we can
 // tell which build is running on the bench without reading the serial log.
-constexpr int FW_REV = 31;
+constexpr int FW_REV = 32;
 
 // I2C addresses
 constexpr uint8_t  MCP4725_ADDR             = 0x62;
@@ -642,6 +642,7 @@ extern "C" void app_main() {
         ESP_LOGE(TAG, "MBL-600 task start failed: %s", esp_err_to_name(e));
         render_status(" MBL-600 task FAIL  ");
     } else {
+        knob::g_vfo_knob.set_base_step_hz(1000);
         ESP_LOGI(TAG, "MBL-600 PCNT up on GPIO%d/%d",
                  (int)pins::ENC_FREQ_A, (int)pins::ENC_FREQ_B);
         render_status(" MBL-600 OK         ");
