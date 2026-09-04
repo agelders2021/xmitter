@@ -59,7 +59,7 @@ constexpr char TAG[] = "bringup";
 
 // Bring-up firmware revision.  BUMP THIS on every code change so we can
 // tell which build is running on the bench without reading the serial log.
-constexpr int FW_REV = 30;
+constexpr int FW_REV = 31;
 
 // I2C addresses
 constexpr uint8_t  MCP4725_ADDR             = 0x62;
@@ -471,17 +471,41 @@ void bringup_task(void *) {
 }
 
 // --------------------------------------------------------------------------
-//  keyer_dash_task — continuous dashes at 20 WPM for U3 (MC1496) bringup.
+//  keyer_dash_task — frequency-controlled keyer for U3 (MC1496) bringup.
 //
-//  At 20 WPM: 1 unit = 60 ms, dash = 3 units = 180 ms.
-//  Inter-element gap = 1 unit = 60 ms; add 5 ms for envelope tail ramp-down.
+//  Three zones selected by the current VFO frequency:
+//    < 14.200 MHz  : carrier high  (key_down held, envelope at full)
+//    14.200–14.225 : continuous dashes at 20 WPM (180 ms on / 65 ms off)
+//    > 14.225 MHz  : carrier low   (key_up held, envelope at null)
+//
+//  Use the MBL-600 knob to sweep through zones.  State transitions fire
+//  at the end of the current dash/space cycle (≤ 245 ms latency).
 // --------------------------------------------------------------------------
 void keyer_dash_task(void *) {
+    enum class Mode { Dash, CarrierHigh, CarrierLow };
+    Mode mode = Mode::CarrierLow;   // matches playout task boot state (nulled)
+
     for (;;) {
-        keyer::key_down();
-        vTaskDelay(pdMS_TO_TICKS(180));   // dash on
-        keyer::key_up();
-        vTaskDelay(pdMS_TO_TICKS(65));    // inter-element + envelope tail
+        const uint32_t freq = vfo::current_freq();
+        const Mode want = (freq < 14200000u) ? Mode::CarrierHigh :
+                          (freq > 14225000u) ? Mode::CarrierLow  :
+                                               Mode::Dash;
+
+        if (want != mode) {
+            mode = want;
+            if      (mode == Mode::CarrierHigh) keyer::key_down();
+            else if (mode == Mode::CarrierLow)  keyer::key_up();
+            // Mode::Dash: no immediate action; dash cycle picks up below.
+        }
+
+        if (mode == Mode::Dash) {
+            keyer::key_down();
+            vTaskDelay(pdMS_TO_TICKS(180));   // dash = 3 × 60 ms
+            keyer::key_up();
+            vTaskDelay(pdMS_TO_TICKS(65));    // inter-element + envelope tail
+        } else {
+            vTaskDelay(pdMS_TO_TICKS(50));    // poll frequency
+        }
     }
 }
 
