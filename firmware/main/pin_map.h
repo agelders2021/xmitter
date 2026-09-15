@@ -49,9 +49,9 @@ constexpr uint32_t       I2C_HZ   = 400000;        // 400 kHz fast mode
 //  owns the line timing).  Bus is FSPI on the S3.  MUST NOT share the
 //  monitoring I2C bus (see Documentation/cw_envelope_keyer.md).
 constexpr spi_host_device_t DAC_SPI_HOST = SPI2_HOST;     // = FSPI
-constexpr gpio_num_t        ENV_DAC_SCK  = GPIO_NUM_12;   // Arduino D12
-constexpr gpio_num_t        ENV_DAC_MOSI = GPIO_NUM_11;   // Arduino D11
-constexpr gpio_num_t        ENV_DAC_CS   = GPIO_NUM_13;   // Arduino D13
+constexpr gpio_num_t        ENV_DAC_SCK  = GPIO_NUM_13;   // Arduino D13 (SCK)
+constexpr gpio_num_t        ENV_DAC_MOSI = GPIO_NUM_11;   // Arduino D11 (MOSI)
+constexpr gpio_num_t        ENV_DAC_CS   = GPIO_NUM_10;   // Arduino D10 (CS_DAC)
 constexpr int               ENV_DAC_HZ   = 20000000;      // MCP4921 max ~20 MHz
 
 // ---------------------------------------------------------------------------
@@ -195,7 +195,7 @@ constexpr gpio_num_t STATUS_LED     = GPIO_NUM_NC;   // L LED not broken out
 //    D9  = GPIO9   — I_CATHODE_B    (per-tube cathode current, ADC1)
 //    D10 = GPIO10  — CS_DAC         (SPI CS for envelope MCP4921)
 //    D11 = GPIO11  — MOSI           (envelope DAC MOSI)
-//    D12 = GPIO12  — GRID_BLOCK_CRASH (firmware bias-slam trigger)
+//    D12 = GPIO12  — ADC2           (spare analog input)
 //    D13 = GPIO13  — SCK            (envelope DAC clock)
 //    A0..A4 = GPIO14..18 — TODO (relay drivers, MAINS_HEARTBEAT, PSU
 //              sequencing; unresolved on the schematic — need to trace
