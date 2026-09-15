@@ -59,7 +59,7 @@ constexpr char TAG[] = "bringup";
 
 // Bring-up firmware revision.  BUMP THIS on every code change so we can
 // tell which build is running on the bench without reading the serial log.
-constexpr int FW_REV = 33;
+constexpr int FW_REV = 34;
 
 // I2C addresses
 constexpr uint8_t  MCP4725_ADDR             = 0x62;
@@ -371,9 +371,11 @@ void pwm_timer_cb(void *) {
 constexpr int ENC_FAIL_RESET_THRESH = 8;
 
 void bringup_task(void *) {
-    int32_t  accumulator    = 0;
-    uint32_t last_shown     = s_freq_hz;
+    int32_t  accumulator     = 0;
+    uint32_t last_shown      = s_freq_hz;
     int      enc_fail_streak = 0;
+    int32_t  balance         = 0;   // null-trim offset, DAC codes (±2048)
+    int32_t  last_balance    = -1;  // force first render
 
     while (true) {
         // Block until INT asserts (ISR gives semaphore) or 100 ms timeout
@@ -433,6 +435,7 @@ void bringup_task(void *) {
                     render_header_and_footer();
                     render_freq(s_freq_hz);
                     render_status(" Running            ");
+                    last_balance = balance - 1;   // row 3 was overwritten; force re-render
                 }
             }
         } else if (enc_ready) {
@@ -446,25 +449,33 @@ void bringup_task(void *) {
             if (cur != s_freq_hz) s_freq_hz = cur;
         }
 
+        // Seesaw encoder trims T1/T2 null balance; MBL-600 knob tunes VFO.
         if (e == ESP_OK && delta != 0) {
+            constexpr int32_t BALANCE_STEP = 8;   // DAC codes per detent
             accumulator += delta;
             int32_t detents = accumulator / ENCODER_COUNTS_PER_DETENT;
             accumulator    -= detents * ENCODER_COUNTS_PER_DETENT;
-
-            int64_t new_hz = (int64_t)s_freq_hz + (int64_t)detents * FREQ_STEP_HZ;
-            if (new_hz < (int64_t)FREQ_MIN_HZ) new_hz = FREQ_MIN_HZ;
-            if (new_hz > (int64_t)FREQ_MAX_HZ) new_hz = FREQ_MAX_HZ;
-
-            uint32_t hz = (uint32_t)new_hz;
-            if (hz != s_freq_hz) {
-                s_freq_hz = hz;
-                (void)vfo::set_freq(hz);   // silent -- if VFO absent, LCD still tracks
-            }
+            balance += detents * BALANCE_STEP;
+            if (balance >  2048) balance =  2048;
+            if (balance < -2048) balance = -2048;
+            const uint16_t code_a = (uint16_t)(2048 + balance);
+            const uint16_t code_b = (uint16_t)(2048 - balance);
+            (void)mcp4728::write_channel_dac(s_bus, pins::I2C_ADDR_MCP4728, 0, code_a);
+            (void)mcp4728::write_channel_dac(s_bus, pins::I2C_ADDR_MCP4728, 1, code_b);
         }
 
         if (s_freq_hz != last_shown) {
             render_freq(s_freq_hz);
             last_shown = s_freq_hz;
+        }
+        if (balance != last_balance) {
+            char buf[21];
+            std::snprintf(buf, sizeof(buf), "A:%4u B:%4u  %+5d",
+                          (unsigned)(2048 + balance),
+                          (unsigned)(2048 - balance),
+                          (int)balance);
+            lcd_write_at(3, 0, buf);
+            last_balance = balance;
         }
         // No vTaskDelay here -- xSemaphoreTake with 100 ms timeout is the sleep.
     }
