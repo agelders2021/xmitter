@@ -1,0 +1,58 @@
+* ===================================================================
+*  RCA 40673 Dual-Gate N-Channel Depletion MOSFET
+*  Cascode two-MOSFET model for ngspice / QUCS-S
+*  Node order: G1 G2 D S
+*  TO-72: Lead1=D  Lead2=G2  Lead3=G1  Lead4=S/Sub/Case
+*
+*  Datasheet parameters (TA=25 C):
+*    VG1S(off) = VG2S(off) = -2 V typ  (-4 V max)
+*    IDSS      = 15 mA typ  (VDS=+15V, VG2S=+4V, VG1S=0)
+*    gfs       = 12 mS typ  (VDS=+15V, ID=10mA, VG2S=+4V, f=1kHz)
+*    Ciss      = 6 pF  typ  (VDS=+15V, VG2S=+4V, f=1MHz)
+*    Crss      = 0.02 pF typ (G1-to-D, 3-terminal measurement)
+*    Coss      = 2.0 pF typ
+*    ross      = 2.8 kOhm typ
+*    VG2S(dc)  = -6 to 30% of VDS  VG2S(pk ac) = -6 to +6 V
+*    VDS max   = +20 V   ID max = 50 mA   PT max = 330 mW at 25 C
+*
+*  Parameter derivation:
+*    KP = 2*IDSS / VTO^2 = 2*15e-3 / 4 = 7.5 mA/V^2
+*    gm check at ID=10mA: sqrt(2*KP*ID) = 12.25 mS ≈ 12 mS  OK
+*    LAMBDA from ross=2.8 kOhm via cascode rout ≈ gm*r_o^2:
+*      0.20 V^-1 gives r_o=500 Ohm each ->
+*      12.25e-3 * 500^2 = 3.06 kOhm ≈ 2.8 kOhm  OK
+*    Coss 2.0 pF split: 1.5 pF drain-to-internal, 0.5 pF G2-to-drain
+*    G2-to-internal: 2.0 pF estimated (not directly given in datasheet)
+* ===================================================================
+.SUBCKT 40673 G1 G2 D S
+*
+*  Lower device: Gate 1 controls gm
+M1  INT G1 S S  M40673_1  W=1U L=1U
+*
+*  Upper device: Gate 2 cascode
+M2  D   G2 INT S  M40673_2  W=1U L=1U
+*
+*  Lumped capacitors (all intrinsic MOSFET caps zeroed in models below)
+*  Ciss = 6 pF  ->  CGS1 = Ciss - Crss = 5.98 pF
+C_G1S  G1  S    5.98P
+*  Crss = 0.02 pF (G1-to-drain, three-terminal typ)
+C_G1D  G1  D    0.02P
+*  Coss = 2.0 pF split at output node
+C_DS   D   INT  1.5P
+C_G2D  G2  D    0.5P
+*  G2-to-internal node (estimated, not stated in datasheet)
+C_G2I  G2  INT  2.0P
+*
+.MODEL M40673_1 NMOS LEVEL=1
++  VTO    = -2.0
++  KP     = 7.5E-3
++  LAMBDA = 0.20
++  CGSO=0 CGDO=0 CBD=0 CBS=0 CJ=0 CJSW=0
+*
+.MODEL M40673_2 NMOS LEVEL=1
++  VTO    = -2.0
++  KP     = 7.5E-3
++  LAMBDA = 0.20
++  CGSO=0 CGDO=0 CBD=0 CBS=0 CJ=0 CJSW=0
+*
+.ENDS 40673
