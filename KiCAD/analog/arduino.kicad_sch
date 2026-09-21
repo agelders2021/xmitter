@@ -1493,7 +1493,7 @@
 					(justify left)
 				)
 			)
-			(property "Footprint" "Package_TO_SOT_THT:TO-92_Inline"
+			(property "Footprint" "Package_TO_SOT_THT:TO-92_Inline_Wide"
 				(at 5.08 -1.905 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -2859,16 +2859,16 @@
 					)
 				)
 				(pin input inverted
-					(at -10.16 10.16 0)
+					(at -10.16 7.62 0)
 					(length 2.54)
-					(name "-TR_A"
+					(name "~{RST}_A"
 						(effects
 							(font
 								(size 1.27 1.27)
 							)
 						)
 					)
-					(number "5"
+					(number "3"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2895,16 +2895,16 @@
 					)
 				)
 				(pin input inverted
-					(at -10.16 7.62 0)
+					(at -10.16 10.16 0)
 					(length 2.54)
-					(name "~{RST}_A"
+					(name "-TR_A"
 						(effects
 							(font
 								(size 1.27 1.27)
 							)
 						)
 					)
-					(number "3"
+					(number "5"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -3003,16 +3003,16 @@
 					)
 				)
 				(pin input inverted
-					(at -10.16 -7.62 0)
+					(at -10.16 -5.08 0)
 					(length 2.54)
-					(name "~{RST}_B"
+					(name "-TR_B"
 						(effects
 							(font
 								(size 1.27 1.27)
 							)
 						)
 					)
-					(number "13"
+					(number "11"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -3039,16 +3039,16 @@
 					)
 				)
 				(pin input inverted
-					(at -10.16 -5.08 0)
+					(at -10.16 -7.62 0)
 					(length 2.54)
-					(name "-TR_B"
+					(name "~{RST}_B"
 						(effects
 							(font
 								(size 1.27 1.27)
 							)
 						)
 					)
-					(number "11"
+					(number "13"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -4018,10 +4018,6 @@
 		(uuid "a84efa26-046c-4b78-8109-5ab2e9e2d416")
 	)
 	(no_connect
-		(at 175.26 86.36)
-		(uuid "aa8c917d-e7c6-4655-b02b-48343e25f4db")
-	)
-	(no_connect
 		(at 175.26 81.28)
 		(uuid "b5eb2970-e5c6-4fe4-b8e7-dc65c175f0d0")
 	)
@@ -4166,6 +4162,16 @@
 			(type default)
 		)
 		(uuid "40ad2c70-747d-4734-9650-24d06f19f5dc")
+	)
+	(wire
+		(pts
+			(xy 170.18 86.36) (xy 175.26 86.36)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4446d980-6e8e-4c71-a277-2a25085284e9")
 	)
 	(wire
 		(pts
@@ -4568,6 +4574,30 @@
 				(font
 					(size 1.27 1.27)
 				)
+			)
+		)
+	)
+	(global_label "KeyUp"
+		(shape output)
+		(at 170.18 86.36 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "6e07684f-0408-41bd-8627-7127f4e1afb3")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 161.3891 86.36 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
 			)
 		)
 	)
@@ -5745,7 +5775,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Package_TO_SOT_THT:TO-92_Inline"
+		(property "Footprint" "Package_TO_SOT_THT:TO-92_Inline_Wide"
 			(at 256.54 99.695 0)
 			(hide yes)
 			(show_name no)
@@ -5911,7 +5941,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Package_TO_SOT_THT:TO-92_Inline"
+		(property "Footprint" "Package_TO_SOT_THT:TO-92_Inline_Wide"
 			(at 227.33 70.485 0)
 			(hide yes)
 			(show_name no)
@@ -6156,7 +6186,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Package_TO_SOT_THT:TO-92_Inline"
+		(property "Footprint" "Package_TO_SOT_THT:TO-92_Inline_Wide"
 			(at 227.33 120.015 0)
 			(hide yes)
 			(show_name no)
@@ -8411,7 +8441,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Package_TO_SOT_THT:TO-92_Inline"
+		(property "Footprint" "Package_TO_SOT_THT:TO-92_Inline_Wide"
 			(at 256.54 141.605 0)
 			(hide yes)
 			(show_name no)
