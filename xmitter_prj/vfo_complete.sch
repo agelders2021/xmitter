@@ -1,6 +1,6 @@
 <Qucs Schematic 26.1.1>
 <Properties>
-  <View=0,0,1,1,1,0,0>
+  <View=0,0,1573,875,1,0,0>
   <Grid=10,10,1>
   <DataSet=vfo_complete.dat>
   <DataDisplay=vfo_complete.dpl>
@@ -16,6 +16,7 @@
 <Symbol>
 </Symbol>
 <Components>
+  <SpLib X1 1 360 550 -29 -164 0 0 "C:/Users/AlAnd/Git Backed Projects/xmitter/xmitter_prj/40673.lib" 0 "40673" 1 "auto" 1 "" 1 "" 0>
 </Components>
 <Wires>
 </Wires>
