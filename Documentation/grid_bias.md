@@ -4,7 +4,7 @@ Per-tube negative grid-bias generation for the push-pull 6146B PA, with a
 DAC-controlled OPERATE/IDLE bias point and a hardware crash-bar that
 slams both grids to deep cutoff on a cathode-current fault.
 
-Schematic: `KiCAD/bias.kicad_sch` (sheet name "Bias"). Simulation:
+Schematic: `KiCAD/bias/bias.kicad_sch` (sheet name "Bias"). Simulation:
 `xmitter_prj/grid_bias.sch`.
 
 ## Why this matters
@@ -50,12 +50,12 @@ Specifically the subsystem does four things:
                        │
                        └──── R_GB(10k) ───→ U10A IN-   (Tube B summing junction)
 
-                                                R_FA / R_FB  (170k)
+                                                R_FA / R_FB  (140k)
                                           ┌────[========]──────┐
                                           │                    │
    GRID_CTL_A_IN ─── R_PADA(1k) ──┬─→ U5A IN+        U5A OUT ──┴─── R_GLA(22k) ── GRID_BIAS_A_OUT
    (from DAC #1)                  │                                                 (to Tube A grid,
-                                  │                                                  −85 V IDLE to
+                                  │                                                  −70 V IDLE to
                                   Q3 drain                                          ~−25 V at full)
                                   (2N7000)
                                   Source → GND
@@ -174,17 +174,22 @@ With R_F = 140 kΩ, R_G = 10 kΩ, V_REF = +5 V, V+ = +12 V, and V− = −75 V:
 - V_DAC = 3.00 V  → V_out = −25 V   (firmware MUST cap below this —
                                      further forward-biases the grid)
 
-Per-tube OPERATE DAC code (~1092 of 4095 nominal) may differ by a few
-counts between tubes to balance plate current. Calibrated at bring-up
-via the cathode-current monitor.
+Both MCP4728 channels driving GRID_CTL use the internal 2.048 V bandgap
+reference (per-channel VREF bit set to 1, gain = ×1). OPERATE V_DAC =
+1.333 V → DAC code ~2667 of 4095. Per-tube OPERATE code may differ by a
+few counts between tubes to balance plate current. Calibrated at bring-up
+via the cathode-current monitor. The VREF register bits must be written to
+EEPROM during first bring-up (same session as the address reprogram —
+see build_checklist.md Phase 1).
 
 ## Power-up sequencing and fail-safes
 
 Three layers of bias-side safety:
 
-- **DAC EEPROM safe-park.** MCP4725 startup value = 0 → bias = −70 V
+- **DAC EEPROM safe-park.** MCP4728 startup value = 0 → bias = −70 V
   immediately on cold boot, before MCU initializes I²C or runs any
-  application code.
+  application code. Internal 2.048 V reference and VREF bits must be
+  stored to EEPROM during bring-up so the safe-park state survives power cycling.
 - **Hardware bias-slam (Q2/Q3 + R_GATE).** GRID_BLOCK_CRASH from the
   cathode-monitor OR-latch yanks both bias inputs to GND in ~600 ns,
   forcing V_out to −70 V regardless of DAC state. Independent of MCU.
@@ -260,9 +265,10 @@ orientation hazard for what's actually a non-polarized ceramic part.
 Hierarchical labels exported by / imported into this sheet:
 
 - **GRID_CTL_A_IN** (input) — Tube A bias DAC output, from off-sheet
-  MCP4725 #1 (I²C). 0–3.3 V range. Drives U5A IN+ via R_PADA.
+  MCP4728 ch A (I²C, 0x67). 0–2.048 V range (internal reference). Drives
+  U5A IN+ via R_PADA.
 - **GRID_CTL_B_IN** (input) — Tube B bias DAC output, from off-sheet
-  MCP4725 #2 (I²C). Drives U10A IN+ via R_PADB.
+  MCP4728 ch B (I²C, 0x67). Drives U10A IN+ via R_PADB.
 - **GRID_BLOCK_CRASH** (input) — Active-high fault signal from
   cathode-monitor OR-latch. Fires both Q2 and Q3 bias-slams
   simultaneously.
@@ -309,16 +315,17 @@ Total: 6 active devices, 10 resistors, 7 capacitors.
 ## Calibration procedure (bring-up)
 
 1. **Verify rails before powering up bias.** With +12 V applied and
-   +5 V and −90 V rails confirmed, check +5 V_REF reads 5.000 ±50 mV
+   +5 V and −75 V rails confirmed, check +5 V_REF reads 5.000 ±50 mV
    at the LM4040 cathode (TP_REF if added, or directly at U11).
 2. **Verify IDLE bias.** With both bias DACs at code 0, V_out at
    each grid should read −70 V ±2 V (the ±2 V slop is from R_F/R_G
    tolerance; tighten if needed for plate-current balance).
 3. **Sweep OPERATE DAC code.** With one tube at a time (other tube
-   blocked at −70 V), step the DAC from 0 toward 1500, watching
+   blocked at −70 V), step the DAC from 0 toward 2700, watching
    cathode current via the cathode-monitor ADC. Find the DAC code
    that produces target I_cathode = 100 mA. Record per tube as
-   `bias_code_operate[tube_id]`. Expect codes around 1000–1200.
+   `bias_code_operate[tube_id]`. Expect codes around 2500–2700
+   (internal 2.048 V reference, nominal 2667).
 4. **Verify bias-slam.** Manually pulse GRID_BLOCK_CRASH high while
    in OPERATE. Both grid outputs should snap to −70 V within
    < 5 µs (oscilloscope on each grid output).
@@ -346,7 +353,7 @@ Total: 6 active devices, 10 resistors, 7 capacitors.
 ## Related docs
 
 - `Documentation/cw_envelope_keyer.md` — envelope DAC, WinKey hook,
-  firmware bias control via MCP4725 (the DACs driving GRID_CTL_*_IN).
+  firmware bias control via MCP4728 (the DACs driving GRID_CTL_*_IN).
 - `Documentation/pa_cathode_monitor.md` — cathode-current monitor that
   generates GRID_BLOCK_CRASH. Shares the LM4040 +5 V_REF rail from
   this sheet (1.5 V comparator threshold from a 4.7 k / 1 k trim / 1.5 k
