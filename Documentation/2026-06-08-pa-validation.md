@@ -231,7 +231,7 @@ PA gets meaningfully safer plus cleaner.
 ┌────────────────────────┬───────────┬─────────────────────────┬───────────────┬─────────────────────┐
 │ State                  │ Bias      │ Tube state              │ Plate current │ Standby dissipation │
 ├────────────────────────┼───────────┼─────────────────────────┼───────────────┼─────────────────────┤
-│ **IDLE** (key-up)      │ **−90 V** │ Deep cutoff, fully off  │ 0 mA          │ 0 W per tube        │
+│ **IDLE** (key-up)      │ **−70 V** │ Deep cutoff, fully off  │ 0 mA          │ 0 W per tube        │
 │ **OPERATE** (key-down) │ **−50 V** │ Shallow class C         │ per envelope  │ per envelope        │
 └────────────────────────┴───────────┴─────────────────────────┴───────────────┴─────────────────────┘
 
@@ -272,23 +272,24 @@ the envelope doesn't have to traverse a conduction-onset nonlinearity.
 
 #### Hardware change
 
-The bias circuit drawn in `Grid_Bias_Schematic.pdf` was originally sized for
-the −70 V to −50 V range. For two-state operation we need the IDLE state to
-reach −90 V. Change one resistor:
+The KiCad bias circuit (Design A, OPA454) is sized for IDLE = −70 V and
+OPERATE = −50 V, with a −75 V supply rail. Changes from the earlier
+−85 V IDLE / −90 V supply design:
 
-┌──────────┬────────────────────────┬──────────────────────────┐
-│ Resistor │ Original (−70 V range) │ Two-state (−90 V range)  │
-├──────────┼────────────────────────┼──────────────────────────┤
-│ R_2      │ 3.57 kΩ                │ **2.78 kΩ**              │
-│ R_3      │ 1.00 kΩ                │ unchanged                │
-│ R_F      │ 50 kΩ                  │ unchanged                │
-│ R_in     │ 10 kΩ                  │ unchanged                │
-└──────────┴────────────────────────┴──────────────────────────┘
+┌─────────────┬───────────────────────────┬────────────────────────────────────────────┐
+│ Item        │ Earlier design            │ Current (−70 V IDLE / −75 V supply)        │
+├─────────────┼───────────────────────────┼────────────────────────────────────────────┤
+│ R_FA / R_FB │ 170 kΩ 1 %               │ **140 kΩ 1 %**                             │
+│ R_GA / R_GB │ 10 kΩ 1 %                │ unchanged                                  │
+│ V+ (OPA454) │ +5 V (via LM7805)        │ **+12 V** (directly from supply rail)      │
+│ V− (OPA454) │ −90 V                    │ **−75 V** (1N5372B 75 V/5 W + 5.6 kΩ/2 W, │
+│             │                          │  from 262F12 120 VAC secondary)             │
+└─────────────┴───────────────────────────┴────────────────────────────────────────────┘
 
-Same OPA454, same DAC, same supplies — just one resistor value. New range
-maps DAC code 0 → −90 V (IDLE) and code 4095 → −50 V (OPERATE). Per-tube
-trim around the operating point is still ~±2 V via the bottom 2-3 bits of
-the DAC near the high end.
+Transfer function: V_out = V_DAC × 15 − 70. DAC code 0 → −70 V (IDLE),
+code ~1092 → −50 V (OPERATE). Total OPA454 supply span: 87 V (13 V margin
+from 100 V abs max). CM high at +9 V gives 7.6 V headroom above the
+OPERATE V_DAC of 1.333 V. Per-tube trim still ~±2 V near the OPERATE code.
 
 #### Future direction: dynamic bias modulation
 

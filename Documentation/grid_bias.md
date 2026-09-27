@@ -19,14 +19,14 @@ faster than firmware can respond.
 
 Specifically the subsystem does four things:
 
-- **Generate −85 V IDLE on cold boot** before the MCU is even running.
-  DAC EEPROM startup = 0 V → V_out = −85 V → tubes cut off in standby.
+- **Generate −70 V IDLE on cold boot** before the MCU is even running.
+  DAC EEPROM startup = 0 V → V_out = −70 V → tubes cut off in standby.
 - **Switch to OPERATE bias (~−50 V) per tube on key-down**, with per-tube
   trim of a few DAC counts to balance plate current between the two
   6146Bs.
 - **Bias-slam to cutoff on GRID_BLOCK_CRASH trip** (from the cathode
   monitor's diode-OR; conceptually the "CT_FAULT" signal) via a 2N7000
-  that pulls the DAC control input to GND, forcing V_out back to −85 V
+  that pulls the DAC control input to GND, forcing V_out back to −70 V
   in < 1 µs. Independent of the MCU.
 - **Reference-grade precision**: bias point set by an LM4040 5 V shunt
   reference, not by the noisy +5 V supply rail.
@@ -72,7 +72,8 @@ Specifically the subsystem does four things:
         Supplies:
           +12V ──→ R_Z(2.2k) → LM4040 (precision +5 V_REF)
                 ──→ LM7805 (U9) → +5V supply rail
-                ──→ external negative DC-DC (Murata NMA0509 + LM431) → −90 V rail
+                ──→ Hammond 262F12 120 VAC secondary → bridge rectifier →
+                1N5372B (75 V/5 W zener) + 5.6 kΩ/2 W series resistor → −75 V rail
 ```
 
 ## Architecture decisions
@@ -82,9 +83,9 @@ Specifically the subsystem does four things:
 There are two distinct +5 V nets on this sheet:
 
 - **+5V** — power supply rail. Sourced by **U9 LM7805** from +12 V.
-  Drives OPA454 V+ pins, plus all the +5 V loads on the buffer_keyer
-  and cathode_monitor sheets (~30 mA total). Modest accuracy (~4 %),
-  decent regulation.
+  Drives all +5 V loads on the buffer_keyer and cathode_monitor sheets
+  (~30 mA total). Modest accuracy (~4 %), decent regulation.
+  OPA454 V+ connects directly to **+12 V** (not +5 V) — see Level 1 table.
 - **+5V_REF** — precision shunt reference. Sourced by **U11 LM4040DIZ-5.0**
   biased from +12 V through R_Z (2.2 kΩ). Drives only R_GA and R_GB
   (the two OPA454 summing-junction reference inputs), plus the
@@ -93,7 +94,7 @@ There are two distinct +5 V nets on this sheet:
   Total draw on +5V_REF: ~2 mA.
 
 These two nets share GND but never touch each other. **Why:** the LM4040
-sets the absolute bias point (V_out_IDLE = −V_REF × R_F/R_G = −85 V).
+sets the absolute bias point (V_out_IDLE = −V_REF × R_F/R_G = −70 V).
 Letting that depend on the LM7805's output would tie the IDLE bias to
 the LM7805's regulation accuracy and load-dependent voltage. Separating
 them costs one chip + one resistor + one cap; gains a precision floor.
@@ -164,16 +165,16 @@ no polarity concern, smaller footprint).
 The OPA454 acts as a non-inverting summing amp:
 
     V_out = V_DAC × (1 + R_F/R_G) − V_REF × R_F/R_G
-          = V_DAC × 18 − 85
+          = V_DAC × 15 − 70
 
-With R_F = 170 kΩ, R_G = 10 kΩ, V_REF = +5 V, and V− supply = −90 V:
+With R_F = 140 kΩ, R_G = 10 kΩ, V_REF = +5 V, V+ = +12 V, and V− = −75 V:
 
-- V_DAC = 0 V    → V_out = −85 V (IDLE: tubes deeply cut off)
-- V_DAC = 1.94 V → V_out = −50 V (OPERATE: shallow class C)
-- V_DAC = 3.30 V → V_out = −25.6 V (firmware MUST cap below this —
-                                    further forward-biases the grid)
+- V_DAC = 0 V     → V_out = −70 V   (IDLE: tubes deeply cut off)
+- V_DAC = 1.333 V → V_out = −50 V   (OPERATE: shallow class C)
+- V_DAC = 3.00 V  → V_out = −25 V   (firmware MUST cap below this —
+                                     further forward-biases the grid)
 
-Per-tube OPERATE DAC code (~2410 of 4095 nominal) may differ by a few
+Per-tube OPERATE DAC code (~1092 of 4095 nominal) may differ by a few
 counts between tubes to balance plate current. Calibrated at bring-up
 via the cathode-current monitor.
 
@@ -181,12 +182,12 @@ via the cathode-current monitor.
 
 Three layers of bias-side safety:
 
-- **DAC EEPROM safe-park.** MCP4725 startup value = 0 → bias = −85 V
+- **DAC EEPROM safe-park.** MCP4725 startup value = 0 → bias = −70 V
   immediately on cold boot, before MCU initializes I²C or runs any
   application code.
 - **Hardware bias-slam (Q2/Q3 + R_GATE).** GRID_BLOCK_CRASH from the
   cathode-monitor OR-latch yanks both bias inputs to GND in ~600 ns,
-  forcing V_out to −85 V regardless of DAC state. Independent of MCU.
+  forcing V_out to −70 V regardless of DAC state. Independent of MCU.
 - **Firmware-controlled IDLE↔OPERATE.** Per-tube DAC writes manage the
   normal key-up/key-down bias change. WinKey signals trigger the DAC
   transitions in the firmware (see cw_envelope_keyer.md).
@@ -214,10 +215,10 @@ Three layers of bias-side safety:
 ┌───────────┬──────────────────────────────────┬──────────────────────────────────────────────────────┐
 │ Component │ Value                            │ Notes                                                │
 ├───────────┼──────────────────────────────────┼──────────────────────────────────────────────────────┤
-│ U5 / U10  │ OPA454AIDA (SOIC-8 on DIP-8 adp) │ High-voltage op-amp; V+ = +5 V, V− = −90 V (95 V     │
-│           │                                  │ total, 5 V under 100 V op-max). U5 = Tube A, U10 = B │
-│ R_FA/R_FB │ 170 kΩ 1 %                       │ Feedback from OUT → IN−. Sets gain × 18 and the      │
-│           │                                  │ −85 V IDLE offset (with V_REF on R_G)                │
+│ U5 / U10  │ OPA454AIDA (SOIC-8 on DIP-8 adp) │ High-voltage op-amp; V+ = +12 V, V− = −75 V (87 V    │
+│           │                                  │ total, 13 V under 100 V abs max). U5 = Tube A, U10 = B│
+│ R_FA/R_FB │ 140 kΩ 1 %                       │ Feedback from OUT → IN−. Sets gain × 15 and the      │
+│           │                                  │ −70 V IDLE offset (with V_REF on R_G)                │
 │ R_GA/R_GB │ 10 kΩ 1 %                        │ +5 V_REF → IN−. Lower-leg of the inverting summing  │
 │           │                                  │ junction                                              │
 │ R_PADA    │ 1 kΩ 5 %                         │ DAC #1 (Tube A) → IN+ series resistor (1 k impedance │
@@ -265,7 +266,7 @@ Hierarchical labels exported by / imported into this sheet:
 - **GRID_BLOCK_CRASH** (input) — Active-high fault signal from
   cathode-monitor OR-latch. Fires both Q2 and Q3 bias-slams
   simultaneously.
-- **GRID_BIAS_A_OUT** (output) — Tube A grid bias, −85 V to ~−25 V
+- **GRID_BIAS_A_OUT** (output) — Tube A grid bias, −70 V to ~−25 V
   swing through R_GLA.
 - **GRID_BIAS_B_OUT** (output) — Tube B grid bias, same swing through R_GLB.
 
@@ -274,8 +275,8 @@ Power port nets used:
 - **+12 V** — sourced off-sheet (Metro VIN or external 12 V supply)
 - **+5 V** — generated locally by U9, also exported via the +5 V power
   port to buffer_keyer and cathode_monitor sheets
-- **−90 V** — sourced off-sheet (per design PDF: isolated DC-DC + LM431
-  shunt regulator)
+- **−75 V** — sourced off-sheet (Hammond 262F12 120 VAC secondary,
+  bridge rectifier, 1N5372B 75 V/5 W zener + 5.6 kΩ/2 W series resistor)
 - **GND** — star-grounded to analog board
 
 ## BOM summary (this sheet)
@@ -289,7 +290,7 @@ Active components:
 
 Resistors (1/4 W; 1 % metal film for precision parts, 5 % carbon for others):
 
-- 2× 170 kΩ 1 % (R_FA, R_FB)
+- 2× 140 kΩ 1 % (R_FA, R_FB)
 - 2× 10 kΩ 1 % (R_GA, R_GB)
 - 1× 10 kΩ 5 % (R_GATE)
 - 2× 22 kΩ 5 % (R_GLA, R_GLB)
@@ -311,15 +312,15 @@ Total: 6 active devices, 10 resistors, 7 capacitors.
    +5 V and −90 V rails confirmed, check +5 V_REF reads 5.000 ±50 mV
    at the LM4040 cathode (TP_REF if added, or directly at U11).
 2. **Verify IDLE bias.** With both bias DACs at code 0, V_out at
-   each grid should read −85 V ±2 V (the ±2 V slop is from R_F/R_G
+   each grid should read −70 V ±2 V (the ±2 V slop is from R_F/R_G
    tolerance; tighten if needed for plate-current balance).
 3. **Sweep OPERATE DAC code.** With one tube at a time (other tube
-   blocked at −85 V), step the DAC from 0 toward 2500, watching
+   blocked at −70 V), step the DAC from 0 toward 1500, watching
    cathode current via the cathode-monitor ADC. Find the DAC code
    that produces target I_cathode = 100 mA. Record per tube as
-   `bias_code_operate[tube_id]`. Expect codes around 2400–2500.
+   `bias_code_operate[tube_id]`. Expect codes around 1000–1200.
 4. **Verify bias-slam.** Manually pulse GRID_BLOCK_CRASH high while
-   in OPERATE. Both grid outputs should snap to −85 V within
+   in OPERATE. Both grid outputs should snap to −70 V within
    < 5 µs (oscilloscope on each grid output).
 5. **Store calibration in NVS.** `bias_code_operate[tube_id]`,
    `bias_code_idle = 0`, calibration timestamp. Re-run every 100
@@ -337,8 +338,10 @@ Total: 6 active devices, 10 resistors, 7 capacitors.
 - [x] ~~Change C17 and C18 from `Device:C_Polarized` to `Device:C`.~~ Done 2026-06-23.
 - [ ] Confirm +12 V rail source on root sheet (Metro VIN passthrough vs
       dedicated 12 V supply input on this board).
-- [ ] Confirm −90 V rail topology decision: isolated DC-DC (Murata
-      NMA0509 + LM431 shunt) per the original PDF, or alternative.
+- [x] ~~Confirm V− supply topology.~~ Done 2026-09-26: Hammond 262F12
+      120 VAC secondary, bridge rectifier, 1N5372B (75 V/5 W, DO-27)
+      + 5.6 kΩ/2 W series resistor → −75 V rail. OPA454 V+ moves to
+      +12 V directly (total supply 87 V, 13 V margin from 100 V abs max).
 
 ## Related docs
 

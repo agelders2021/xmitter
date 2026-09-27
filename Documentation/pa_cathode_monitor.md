@@ -205,7 +205,7 @@ input. When V_sense exceeds the threshold:
 Total fault response time:
 - Op-amp slew + comparator decision + hysteresis settling: < 10 µs
 - Diode-OR forward + bias-slam Q gate drive: < 5 µs
-- OPA454 slew from operating bias (~−60 V) to negative rail (~−85 V) at
+- OPA454 slew from operating bias (~−50 V) to negative rail (~−70 V) at
   13 V/µs: < 2 µs
 - **Total cathode-to-tubes-cut-off latency: well under 100 µs**
 
@@ -468,7 +468,7 @@ This is implemented on the `bias.kicad_sch` sheet:
   the `GRID_BLOCK_CRASH` net (active HIGH).
 - When `GRID_BLOCK_CRASH` goes HIGH (via the diode-OR above), both MOSFETs
   turn ON simultaneously, pulling the OPA454 inverting inputs to GND through
-  R_PADA / R_PADB. The OPA454 outputs slam to their negative rail (~−85 V).
+  R_PADA / R_PADB. The OPA454 outputs slam to their negative rail (~−70 V).
 - Both tubes go to deep cutoff in <100 µs (see Level 5 timing budget).
 
 **Why grid bias instead of screen, plate, or filament?**
