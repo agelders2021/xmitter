@@ -5093,12 +5093,6 @@
 		(uuid "48936f91-a98e-48ab-9d41-abd53c30c952")
 	)
 	(junction
-		(at 76.2 156.21)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "52810344-b8ac-4d19-94df-83a3557519e9")
-	)
-	(junction
 		(at 39.37 36.83)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -5114,7 +5108,7 @@
 		(at 76.2 115.57)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "7c11c937-1651-4b8e-8f87-e63618e2adcf")
+		(uuid "739f2975-c457-48ac-9143-ed29209482c4")
 	)
 	(junction
 		(at 175.26 149.86)
@@ -5127,6 +5121,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "b4821e56-1b11-4e6d-9c4a-f8a7aca624f5")
+	)
+	(junction
+		(at 76.2 157.48)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "dbfa3961-139d-481f-b1f8-edc408f9d89c")
 	)
 	(junction
 		(at 73.66 81.28)
@@ -5558,17 +5558,7 @@
 	)
 	(wire
 		(pts
-			(xy 76.2 156.21) (xy 77.47 156.21)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "ae70ff94-1e40-4e39-99a0-6b747164072b")
-	)
-	(wire
-		(pts
-			(xy 67.31 156.21) (xy 76.2 156.21)
+			(xy 67.31 157.48) (xy 76.2 157.48)
 		)
 		(stroke
 			(width 0)
@@ -5738,6 +5728,16 @@
 	)
 	(wire
 		(pts
+			(xy 82.55 157.48) (xy 81.28 157.48)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "fe6c87df-0583-4bdd-b073-66acc1ecb010")
+	)
+	(wire
+		(pts
 			(xy 165.1 58.42) (xy 175.26 58.42)
 		)
 		(stroke
@@ -5819,7 +5819,7 @@
 		)
 	)
 	(global_label "I_CATHODE_B"
-		(shape input)
+		(shape output)
 		(at 66.04 134.62 180)
 		(fields_autoplaced yes)
 		(effects
@@ -5830,7 +5830,7 @@
 		)
 		(uuid "3ee8d951-2a7a-42ba-bcb8-5f9418148e5e")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 66.04 134.62 0)
+			(at 50.8386 134.62 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5838,6 +5838,7 @@
 				(font
 					(size 1.27 1.27)
 				)
+				(justify right)
 			)
 		)
 	)
@@ -6149,8 +6150,8 @@
 		)
 	)
 	(global_label "GRID_BLOCK_CRASH"
-		(shape input)
-		(at 67.31 156.21 180)
+		(shape output)
+		(at 67.31 157.48 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -6160,7 +6161,7 @@
 		)
 		(uuid "b2d0568d-f409-4fcd-8dfa-650e4144ccbf")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 45.6376 156.21 0)
+			(at 45.6376 157.48 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6408,7 +6409,7 @@
 		)
 	)
 	(global_label "I_CATHODE_A"
-		(shape input)
+		(shape output)
 		(at 66.04 115.57 180)
 		(fields_autoplaced yes)
 		(effects
@@ -6419,7 +6420,7 @@
 		)
 		(uuid "eed99686-d5f7-41d7-9e5d-e013623f5c9f")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 66.04 115.57 0)
+			(at 51.02 115.57 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6427,6 +6428,7 @@
 				(font
 					(size 1.27 1.27)
 				)
+				(justify right)
 			)
 		)
 	)
@@ -7298,7 +7300,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 82.55 156.21 90)
+		(at 82.55 157.48 90)
 		(mirror x)
 		(unit 1)
 		(body_style 1)
@@ -7310,7 +7312,7 @@
 		(fields_autoplaced yes)
 		(uuid "14c56076-7d19-42fe-a913-08c634714859")
 		(property "Reference" "#PWR017"
-			(at 88.9 156.21 0)
+			(at 88.9 157.48 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7321,7 +7323,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 86.36 156.2099 90)
+			(at 86.36 157.4799 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -7332,7 +7334,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 82.55 156.21 0)
+			(at 82.55 157.48 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7343,7 +7345,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 82.55 156.21 0)
+			(at 82.55 157.48 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7354,7 +7356,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 82.55 156.21 0)
+			(at 82.55 157.48 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7706,7 +7708,7 @@
 	)
 	(symbol
 		(lib_id "Connector:Conn_Coaxial_Small")
-		(at 80.01 156.21 0)
+		(at 78.74 157.48 0)
 		(mirror x)
 		(unit 1)
 		(body_style 1)
@@ -7718,7 +7720,7 @@
 		(fields_autoplaced yes)
 		(uuid "1e67043f-ce08-4ef9-be7a-24b53fd51cad")
 		(property "Reference" "J19"
-			(at 79.4905 149.86 0)
+			(at 78.2205 151.13 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -7728,7 +7730,7 @@
 			)
 		)
 		(property "Value" "Conn_Coaxial_Small"
-			(at 79.4905 152.4 0)
+			(at 78.2205 153.67 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -7738,7 +7740,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 80.01 156.21 0)
+			(at 78.74 157.48 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7749,7 +7751,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 80.01 156.21 0)
+			(at 78.74 157.48 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7760,7 +7762,7 @@
 			)
 		)
 		(property "Description" "small coaxial connector (BNC, SMA, SMB, SMC, Cinch/RCA, LEMO, ...)"
-			(at 80.01 156.21 0)
+			(at 78.74 157.48 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8202,7 +8204,7 @@
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 76.2 160.02 0)
+		(at 76.2 161.29 0)
 		(mirror y)
 		(unit 1)
 		(body_style 1)
@@ -8213,7 +8215,7 @@
 		(dnp no)
 		(uuid "295ec284-9533-40ec-b237-6be8063221b3")
 		(property "Reference" "C44"
-			(at 85.09 164.084 0)
+			(at 85.09 165.354 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8224,7 +8226,7 @@
 			)
 		)
 		(property "Value" "100nF"
-			(at 86.36 161.798 0)
+			(at 86.36 163.068 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8235,7 +8237,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
-			(at 75.2348 163.83 0)
+			(at 75.2348 165.1 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8246,7 +8248,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 76.2 160.02 0)
+			(at 76.2 161.29 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8257,7 +8259,7 @@
 			)
 		)
 		(property "Description" "Unpolarized capacitor"
-			(at 76.2 160.02 0)
+			(at 76.2 161.29 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9961,7 +9963,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 76.2 163.83 0)
+		(at 76.2 165.1 0)
 		(mirror y)
 		(unit 1)
 		(body_style 1)
@@ -9972,7 +9974,7 @@
 		(dnp no)
 		(uuid "6a60aef5-2eee-40dd-ac63-35a73aabcc0d")
 		(property "Reference" "#PWR033"
-			(at 76.2 170.18 0)
+			(at 76.2 171.45 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9983,7 +9985,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 73.66 167.894 0)
+			(at 73.66 169.164 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -9993,7 +9995,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 76.2 163.83 0)
+			(at 76.2 165.1 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10004,7 +10006,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 76.2 163.83 0)
+			(at 76.2 165.1 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10015,7 +10017,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 76.2 163.83 0)
+			(at 76.2 165.1 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
