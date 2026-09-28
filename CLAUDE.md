@@ -15,7 +15,7 @@ otherwise have nowhere natural to live.
 | Directory | What's in it |
 |---|---|
 | `xmitter_prj/` | QUCS-S schematics (`.sch`) and SPICE libraries (`.lib`) |
-| `KiCAD/` | KiCad PCB design files. One project per board: `analog/` (fabricated Rev A, 2026-07-14), `bias/` (new), `frontpanel/` (new stub). Shared `xmitter.pretty/` footprints and `xmitter.kicad_sym` at `KiCAD/` root, referenced by each project via `${KIPRJMOD}/../`. Reversal recipe in `KiCAD/MULTIBOARD_REVERT.md`. |
+| `KiCAD/` | KiCad PCB design files. One project per board: `analog/` (fabricated Rev A, 2026-07-14), `bias/` (schematic done, PCB not started), `frontpanel/` (stub), `power/` (stub — bridge supply + HV rectifier/filter), `protoshield/` (stub — Metro-mounted protoboard: bypass caps, series R, pull-ups). Shared `xmitter.pretty/` footprints and `xmitter.kicad_sym` at `KiCAD/` root, referenced by each project via `${KIPRJMOD}/../`. Reversal recipe in `KiCAD/MULTIBOARD_REVERT.md`. |
 | `Documentation/` | Design docs, generated PDFs, sourcing spreadsheets, datasheets |
 | `tools/` | Python scripts: sweep_param, gen_*_pdf, gen_parts_list, etc. |
 | `firmware/` | ESP-IDF firmware (not yet scaffolded — first task this phase) |
@@ -61,6 +61,19 @@ stub project (2026-07-15). Other end of the RJ45 umbilical driven by
 the analog board's `interface.kicad_sch`. Schematic content to be
 drawn.
 
+Power board at `KiCAD/power/` — new stub (2026-09-27). Will hold the
+bridge rectifier + filter capacitor supply (moved from analog board)
+and the HV rectifier + filter for the PA B+ rail.
+
+Protoshield at `KiCAD/protoshield/` — new stub (2026-09-27). Adafruit
+Proto Shield (PID 2077) or Proto Screw Shield that mounts directly on
+the Metro ESP32-S3. Holds all Metro GPIO signal-conditioning: bypass
+caps, series resistors, and pull-up resistors for PADDLE_A/B,
+I_CATHODE_A/B, GRID_BLOCK_CRASH, ENC_INT, MBL600_A/B, RESET_N.
+Metro symbol (U2) and these components were removed from
+`arduino.kicad_sch`; screw terminals remain on the analog board as
+the board-boundary connectors.
+
 Next likely work items:
 - PCB layout for `KiCAD/bias/` (HV clearances — analog board's
   netclasses were copied over but should be tightened for the HV rails).
@@ -86,7 +99,7 @@ The design docs are the source of truth for both firmware and PCB work:
 | `Documentation/2026-06-08-pa-validation.md` | PA operating point (V6 = 180 V, bias = −60 V, R17 = 300 Ω) that determines firmware bias DAC code |
 | `Documentation/Cathode_Monitor_Schematic.pdf` | Generated PDF render of the cathode monitor + diode-OR + bias-slam path |
 | `Documentation/front_panel_interface.md` | RJ45 (Amphenol RJE1D-188-21401) umbilical, T568B pin map, PCF8575 expander, MBL-600 RS-422 termination, RJE1D-188 footprint verification checklist |
-| `Documentation/i2c_bus.md` | **Single source of truth** for I²C device addresses across all three PCBs. Update this first when an address changes; other docs, firmware `pin_map.h`, and schematic text notes mirror. Includes bus topology, jumper config, expansion slots, and ruled-out configurations |
+| `Documentation/i2c_bus.md` | **Single source of truth** for I²C device addresses across all PCBs. Update this first when an address changes; other docs, firmware `pin_map.h`, and schematic text notes mirror. Includes bus topology, jumper config, expansion slots, and ruled-out configurations |
 | `Documentation/pcb_fab_checklist.md` | Consolidated pre-flight gate before analog-board gerbers ship: footprint verification, schematic completeness, ERC/DRC, physical, and BOM sign-offs |
 
 ## Conventions
