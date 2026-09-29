@@ -70,6 +70,27 @@ VALUE_TO_FOOTPRINT = {
     # Small body ~ 5 x 6 x 3 mm, LS=5.08 mm.
     '1nF':     'Capacitor_THT:C_Rect_L7.0mm_W3.5mm_P5.00mm',
     '1000pF':  'Capacitor_THT:C_Rect_L7.0mm_W3.5mm_P5.00mm',
+
+    # 4700 uF 50V radial electrolytic, KEMET ESK478M050AQ4AA (case Q4).
+    # D=22 mm, L=40 mm, P=10 mm lead pitch. Per Documentation/Components/
+    # KEM_A4004_ESK.pdf page 3 dimensions table. Custom footprint since
+    # KiCad stock library does not include D22.0/P10.0 as of 2026-09.
+    '4700uF':  'xmitter:CP_Radial_Kemet_ESK_D22.0mm_P10.00mm',
+
+    # 220 nF ceramic disc, D6 mm body, LS=5.08 mm.
+    '220nF':   'Capacitor_THT:C_Disc_D6.0mm_W2.5mm_P5.00mm',
+
+    # 2 pF axial C0G, KEMET Aximax C41X style (L=4.32 max, D=2.41 max).
+    # Axial leads bent to 7.62 mm (0.3") pitch for horizontal PCB mount.
+    # Per Documentation/Components/KEM_C1040_AXIMAX_C0G.pdf page 2.
+    # Custom footprint since KiCad stock library does not include this
+    # dimension combination as of 2026-09.
+    '2pF':     'xmitter:C_Axial_Kemet_Aximax_C41X_L4.5mm_D2.6mm_P7.62mm_Horizontal',
+
+    # 100 uF 50V radial electrolytic, Vishay MAL203690113E3 (036 RSP series).
+    # Case D=8.2 mm (max 8.7), L=11 mm (max 12), pitch F=5.0 mm.
+    # Per Documentation/Components/036rsp.pdf page 3 Table 2.
+    '100uF':   'Capacitor_THT:CP_Radial_D8.0mm_P5.00mm',
 }
 
 CAP_LIB_IDS = (
