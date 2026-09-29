@@ -1069,6 +1069,121 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "power:PWR_FLAG"
+			(power global)
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "#FLG"
+				(at 0 1.905 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "PWR_FLAG"
+				(at 0 3.81 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Special symbol for telling ERC where power comes from"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "flag power"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "PWR_FLAG_0_0"
+				(pin power_out line
+					(at 0 0 90)
+					(length 0)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(symbol "PWR_FLAG_0_1"
+				(polyline
+					(pts
+						(xy 0 0) (xy 0 1.27) (xy -1.016 1.905) (xy 0 2.54) (xy 1.016 1.905) (xy 0 1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "xmitter:1N4728A"
 			(pin_names
 				(offset 1.016)
@@ -1806,6 +1921,18 @@
 		)
 	)
 	(junction
+		(at 55.88 161.29)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "00b42767-d75e-4269-b490-ed9a429888e0")
+	)
+	(junction
+		(at 227.33 72.39)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "0f7cd2cd-abda-41ec-88cf-da0c4eb6ecd2")
+	)
+	(junction
 		(at 58.42 55.88)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -1816,6 +1943,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "299af7f6-28de-4566-893f-b43128180946")
+	)
+	(junction
+		(at 43.18 161.29)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "4109b7ef-a258-4f01-a5ad-ed18027d5c74")
 	)
 	(junction
 		(at 41.91 35.56)
@@ -1842,10 +1975,10 @@
 		(uuid "5652fab4-b999-4605-b4c2-42115593a32e")
 	)
 	(junction
-		(at 227.33 74.93)
+		(at 33.02 125.73)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "75a07092-0f53-4e34-b93d-165eb6ddb771")
+		(uuid "68fe2a67-b2cc-415e-a93a-5e8b42889cfe")
 	)
 	(junction
 		(at 58.42 53.34)
@@ -1854,10 +1987,10 @@
 		(uuid "7973d935-4845-4c55-96a3-95ebb374fa5d")
 	)
 	(junction
-		(at 43.18 161.29)
+		(at 227.33 74.93)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "bd1e3f80-ebb4-4b59-9fc1-790192014a72")
+		(uuid "9809a7b2-fa89-4f53-b6f4-03b3b86fffb9")
 	)
 	(junction
 		(at 33.02 158.75)
@@ -1876,12 +2009,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "d567772a-0f38-4a1e-aab8-eaf770461d2b")
-	)
-	(junction
-		(at 227.33 72.39)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "e977aeb7-bb39-43eb-8166-c619ebba0911")
 	)
 	(junction
 		(at 44.45 55.88)
@@ -2027,6 +2154,16 @@
 	)
 	(wire
 		(pts
+			(xy 55.88 161.29) (xy 57.15 161.29)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8233c406-60d6-4f30-9c8d-ce94a576b4b6")
+	)
+	(wire
+		(pts
 			(xy 43.18 88.9) (xy 57.15 88.9)
 		)
 		(stroke
@@ -2087,6 +2224,16 @@
 	)
 	(wire
 		(pts
+			(xy 227.33 72.39) (xy 236.22 72.39)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "cd0fcbd2-b7e4-45f9-94c4-786eb5842123")
+	)
+	(wire
+		(pts
 			(xy 58.42 55.88) (xy 62.23 55.88)
 		)
 		(stroke
@@ -2097,7 +2244,17 @@
 	)
 	(wire
 		(pts
-			(xy 43.18 161.29) (xy 44.45 161.29)
+			(xy 227.33 74.93) (xy 236.22 74.93)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d41c3df7-5a2b-40cc-864a-22e562d60d92")
+	)
+	(wire
+		(pts
+			(xy 43.18 161.29) (xy 55.88 161.29)
 		)
 		(stroke
 			(width 0)
@@ -2228,7 +2385,7 @@
 	)
 	(global_label "GRID_BLOCK_CRASH"
 		(shape output)
-		(at 44.45 161.29 0)
+		(at 57.15 161.29 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2238,7 +2395,7 @@
 		)
 		(uuid "1fe3003a-31f4-4336-ac44-4d09e0fdd7d0")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 66.1224 161.29 0)
+			(at 78.8224 161.29 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2489,7 +2646,7 @@
 			)
 		)
 	)
-	(global_label "ENC_INT"
+	(global_label "ENC_INT_FINAL"
 		(shape output)
 		(at 50.8 123.19 0)
 		(fields_autoplaced yes)
@@ -2501,7 +2658,7 @@
 		)
 		(uuid "aba8d709-69af-46e8-a947-a57bf262549f")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 61.4052 123.19 0)
+			(at 67.5134 123.19 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2560,7 +2717,7 @@
 			)
 		)
 	)
-	(global_label "ENC_INT"
+	(global_label "ENC_INT_FINAL"
 		(shape input)
 		(at 130.81 92.71 180)
 		(fields_autoplaced yes)
@@ -2572,7 +2729,7 @@
 		)
 		(uuid "b2a60da6-bc0d-413d-9d4d-09f088192ebb")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 120.2048 92.71 0)
+			(at 114.0966 92.71 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2771,6 +2928,30 @@
 			)
 		)
 	)
+	(global_label "ENC_INT_CLEAN"
+		(shape input)
+		(at 33.02 123.19 90)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "f1f3977f-d84b-409a-b433-f5b5615ba1ab")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 33.02 105.751 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+	)
 	(global_label "MOSI"
 		(shape input)
 		(at 227.33 104.14 180)
@@ -2892,86 +3073,6 @@
 			(project "protoshield"
 				(path "/90f14230-179e-419d-8d57-3db6b8a7c39f"
 					(reference "J4")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Connector:Screw_Terminal_01x02")
-		(at 29.21 38.1 180)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "0c5a9807-9e81-4db9-aadb-38b96db2e64c")
-		(property "Reference" "J1"
-			(at 29.21 29.21 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "Screw_Terminal_01x02"
-			(at 29.21 31.75 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2_1x02_P5.00mm_Horizontal"
-			(at 29.21 38.1 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 29.21 38.1 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Generic screw terminal, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 29.21 38.1 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "2"
-			(uuid "056f74b9-5241-4a5d-91ed-4b5365d20d08")
-		)
-		(pin "1"
-			(uuid "7c5a040e-6519-4ff1-ac96-29070d335fdf")
-		)
-		(instances
-			(project "protoshield"
-				(path "/90f14230-179e-419d-8d57-3db6b8a7c39f"
-					(reference "J1")
 					(unit 1)
 				)
 			)
@@ -3460,7 +3561,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(in_pos_files yes)
-		(dnp no)
+		(dnp yes)
 		(fields_autoplaced yes)
 		(uuid "22edfceb-620c-406a-b4aa-8e69d96164d2")
 		(property "Reference" "R8"
@@ -3606,88 +3707,6 @@
 			(project "protoshield"
 				(path "/90f14230-179e-419d-8d57-3db6b8a7c39f"
 					(reference "#PWR07")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Connector:Screw_Terminal_01x02")
-		(at 232.41 72.39 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "28dfc03f-2319-40af-a99e-30f52f6376ad")
-		(property "Reference" "J6"
-			(at 234.95 72.3899 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "Screw_Terminal_01x02"
-			(at 234.95 74.9299 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2_1x02_P5.00mm_Horizontal"
-			(at 232.41 72.39 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 232.41 72.39 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Generic screw terminal, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 232.41 72.39 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "2"
-			(uuid "bf130dd7-01cd-4e9a-aca0-3091565b5000")
-		)
-		(pin "1"
-			(uuid "781a8bad-847b-443f-acdd-be463b3bddc0")
-		)
-		(instances
-			(project "protoshield"
-				(path "/90f14230-179e-419d-8d57-3db6b8a7c39f"
-					(reference "J6")
 					(unit 1)
 				)
 			)
@@ -4008,6 +4027,91 @@
 			(project "protoshield"
 				(path "/90f14230-179e-419d-8d57-3db6b8a7c39f"
 					(reference "C1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:Screw_Terminal_01x03")
+		(at 241.3 74.93 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "3138f691-5667-4418-baab-bdbbc05c04ae")
+		(property "Reference" "J6"
+			(at 243.84 73.6599 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Screw_Terminal_01x03"
+			(at 243.84 76.1999 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 241.3 74.93 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 241.3 74.93 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Generic screw terminal, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(at 241.3 74.93 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "10ad522a-5077-416f-80cf-23663e5eff08")
+		)
+		(pin "1"
+			(uuid "469a0edd-cf70-45d3-8327-36b9e78df4c1")
+		)
+		(pin "3"
+			(uuid "a9105a44-d898-4593-9406-84c45d67d492")
+		)
+		(instances
+			(project "protoshield"
+				(path "/90f14230-179e-419d-8d57-3db6b8a7c39f"
+					(reference "J6")
 					(unit 1)
 				)
 			)
@@ -4513,6 +4617,84 @@
 			(project "protoshield"
 				(path "/90f14230-179e-419d-8d57-3db6b8a7c39f"
 					(reference "R6")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 34.29 40.64 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "5294ab69-56fa-4fae-af00-f5136d0a4f94")
+		(property "Reference" "#PWR03"
+			(at 34.29 46.99 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 34.29 45.72 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 34.29 40.64 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 34.29 40.64 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 34.29 40.64 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "a42fd298-6909-48db-b79e-0a5d401da5ce")
+		)
+		(instances
+			(project "protoshield"
+				(path "/90f14230-179e-419d-8d57-3db6b8a7c39f"
+					(reference "#PWR03")
 					(unit 1)
 				)
 			)
@@ -5502,6 +5684,84 @@
 		)
 	)
 	(symbol
+		(lib_id "power:GND")
+		(at 236.22 77.47 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "b018a966-6dd7-45f8-853b-b918b99172f2")
+		(property "Reference" "#PWR04"
+			(at 236.22 83.82 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 236.22 82.55 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 236.22 77.47 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 236.22 77.47 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 236.22 77.47 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "faf26ac7-48c2-4f33-9a17-a890e1af430f")
+		)
+		(instances
+			(project "protoshield"
+				(path "/90f14230-179e-419d-8d57-3db6b8a7c39f"
+					(reference "#PWR04")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R_US")
 		(at 33.02 154.94 0)
 		(unit 1)
@@ -5745,6 +6005,163 @@
 		)
 	)
 	(symbol
+		(lib_id "power:GND")
+		(at 55.88 168.91 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "b8f6f153-4b85-453d-a370-03e753b7477c")
+		(property "Reference" "#PWR02"
+			(at 55.88 175.26 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 55.88 173.99 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 55.88 168.91 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 55.88 168.91 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 55.88 168.91 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "3e08de68-e6f4-4966-a27e-cb9095bb448c")
+		)
+		(instances
+			(project "protoshield"
+				(path "/90f14230-179e-419d-8d57-3db6b8a7c39f"
+					(reference "#PWR02")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:PWR_FLAG")
+		(at 33.02 125.73 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "ba338608-8fcb-42f8-abdb-8c05f9afec83")
+		(property "Reference" "#FLG01"
+			(at 34.925 125.73 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "PWR_FLAG"
+			(at 36.83 125.7299 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 33.02 125.73 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 33.02 125.73 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Special symbol for telling ERC where power comes from"
+			(at 33.02 125.73 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "c50c4706-d9d3-4c55-9622-e26b0d1b2e6d")
+		)
+		(instances
+			(project "protoshield"
+				(path "/90f14230-179e-419d-8d57-3db6b8a7c39f"
+					(reference "#FLG01")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:C_US")
 		(at 57.15 82.55 180)
 		(unit 1)
@@ -5906,6 +6323,89 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector:Screw_Terminal_01x03")
+		(at 29.21 38.1 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "c3360099-95e6-45bc-80df-16353ffbffa4")
+		(property "Reference" "J1"
+			(at 29.21 29.21 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "Screw_Terminal_01x03"
+			(at 29.21 31.75 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 29.21 38.1 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 29.21 38.1 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Generic screw terminal, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(at 29.21 38.1 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "3"
+			(uuid "e8ded777-2539-45a8-b769-1c68d5217df8")
+		)
+		(pin "2"
+			(uuid "cf1a0613-d923-4a08-9cef-42f98bcb676d")
+		)
+		(pin "1"
+			(uuid "341854b8-8dff-4ba8-abf3-5422ab4dd4c7")
+		)
+		(instances
+			(project "protoshield"
+				(path "/90f14230-179e-419d-8d57-3db6b8a7c39f"
+					(reference "J1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:GND")
 		(at 57.15 78.74 180)
 		(unit 1)
@@ -5978,6 +6478,110 @@
 			(project "protoshield"
 				(path "/90f14230-179e-419d-8d57-3db6b8a7c39f"
 					(reference "#PWR09")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "xmitter:1N4728A")
+		(at 55.88 165.1 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "c7d4c90b-0b19-4e65-beee-3ee3a3fc1fcd")
+		(property "Reference" "D5"
+			(at 58.42 163.8299 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "1N4728A"
+			(at 58.42 166.3699 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal"
+			(at 55.88 165.1 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "https://www.onsemi.com/pdf/datasheet/1n4736at-d.pdf"
+			(at 55.88 165.1 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "3.3V 1W Zener diode, DO-41"
+			(at 55.88 165.1 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "onsemi"
+			(at 55.88 165.1 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "1N4728A"
+			(at 55.88 165.1 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "f3de17ea-1388-4d35-a394-117babdda0ff")
+		)
+		(pin "1"
+			(uuid "1646654d-ba6d-4917-8104-38dc50198078")
+		)
+		(instances
+			(project "protoshield"
+				(path "/90f14230-179e-419d-8d57-3db6b8a7c39f"
+					(reference "D5")
 					(unit 1)
 				)
 			)

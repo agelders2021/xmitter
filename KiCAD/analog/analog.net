@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "C:\\Users\\AlAnd\\Git Backed Projects\\xmitter\\KiCAD\\analog\\analog.kicad_sch")
-		(date "2026-09-25T20:26:36")
+		(date "2026-09-29T11:04:53")
 		(tool "Eeschema 10.0.3")
 		(sheet
 			(number "1")
@@ -307,6 +307,120 @@
 			)
 		)
 		(comp
+			(ref "C5")
+			(value "10uF")
+			(description "Polarized capacitor")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Polarized capacitor")
+			)
+			(libsource
+				(lib "Device")
+				(part "C_Polarized")
+				(description "Polarized capacitor")
+			)
+			(property
+				(name "Sheetname")
+				(value "Arduino")
+			)
+			(property
+				(name "Sheetfile")
+				(value "arduino.kicad_sch")
+			)
+			(property
+				(name "dnp")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "CP_*")
+			)
+			(sheetpath
+				(names "/Arduino/")
+				(tstamps "/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72/")
+			)
+			(tstamps "e798699c-d343-4a72-bee8-3af986cc81f5")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C6")
+			(value "100nF")
+			(description "capacitor, US symbol")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "capacitor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "C_US")
+				(description "capacitor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "Arduino")
+			)
+			(property
+				(name "Sheetfile")
+				(value "arduino.kicad_sch")
+			)
+			(property
+				(name "dnp")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "C_*")
+			)
+			(sheetpath
+				(names "/Arduino/")
+				(tstamps "/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72/")
+			)
+			(tstamps "31785722-281d-4a92-be37-78bd019e2eb7")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
 			(ref "C36")
 			(value "100nF")
 			(footprint "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm")
@@ -400,60 +514,6 @@
 				(tstamps "/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72/")
 			)
 			(tstamps "c89fa88c-78ef-4a3b-b751-10cedc7d1d85")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "C38")
-			(value "100nF")
-			(footprint "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm")
-			(description "Unpolarized capacitor")
-			(fields
-				(field
-					(name "Footprint") "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "Unpolarized capacitor")
-			)
-			(libsource
-				(lib "Device")
-				(part "C")
-				(description "Unpolarized capacitor")
-			)
-			(property
-				(name "Sheetname")
-				(value "Arduino")
-			)
-			(property
-				(name "Sheetfile")
-				(value "arduino.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "cap capacitor")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "C_*")
-			)
-			(sheetpath
-				(names "/Arduino/")
-				(tstamps "/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72/")
-			)
-			(tstamps "4b248253-8339-4308-b138-9bc94d93a3da")
 			(units
 				(unit
 					(name "A")
@@ -1010,62 +1070,8 @@
 		)
 		(comp
 			(ref "J9")
-			(value "TR_SENSE")
-			(footprint "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical")
-			(description "Generic connector, single row, 01x02, script generated")
-			(fields
-				(field
-					(name "Footprint") "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "Generic connector, single row, 01x02, script generated")
-			)
-			(libsource
-				(lib "Connector")
-				(part "Conn_01x02_Pin")
-				(description "Generic connector, single row, 01x02, script generated")
-			)
-			(property
-				(name "Sheetname")
-				(value "Arduino")
-			)
-			(property
-				(name "Sheetfile")
-				(value "arduino.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "connector")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "Connector*:*_1x??_*")
-			)
-			(sheetpath
-				(names "/Arduino/")
-				(tstamps "/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72/")
-			)
-			(tstamps "ca6f870e-27c6-4498-a468-ef5b25b37d45")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "J11")
-			(value "Screw_Terminal_01x03")
-			(description "Generic screw terminal, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)")
+			(value "Screw_Terminal_01x02")
+			(description "Generic screw terminal, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)")
 			(fields
 				(field
 					(name "Footprint")
@@ -1074,12 +1080,12 @@
 					(name "Datasheet")
 				)
 				(field
-					(name "Description") "Generic screw terminal, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)")
+					(name "Description") "Generic screw terminal, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)")
 			)
 			(libsource
 				(lib "Connector")
-				(part "Screw_Terminal_01x03")
-				(description "Generic screw terminal, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)")
+				(part "Screw_Terminal_01x02")
+				(description "Generic screw terminal, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)")
 			)
 			(property
 				(name "Sheetname")
@@ -1101,7 +1107,7 @@
 				(names "/Arduino/")
 				(tstamps "/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72/")
 			)
-			(tstamps "13c0e91c-2dad-42ac-93f5-113444309040")
+			(tstamps "6337cb89-64ef-408c-b0ab-ae792ad17d86")
 			(units
 				(unit
 					(name "A")
@@ -1111,9 +1117,6 @@
 						)
 						(pin
 							(num "2")
-						)
-						(pin
-							(num "3")
 						)
 					)
 				)
@@ -1294,63 +1297,6 @@
 						)
 						(pin
 							(num "5")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "J16")
-			(value "Screw_Terminal_01x03")
-			(description "Generic screw terminal, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)")
-			(fields
-				(field
-					(name "Footprint")
-				)
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "Generic screw terminal, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)")
-			)
-			(libsource
-				(lib "Connector")
-				(part "Screw_Terminal_01x03")
-				(description "Generic screw terminal, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)")
-			)
-			(property
-				(name "Sheetname")
-				(value "Arduino")
-			)
-			(property
-				(name "Sheetfile")
-				(value "arduino.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "screw terminal")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "TerminalBlock*:*")
-			)
-			(sheetpath
-				(names "/Arduino/")
-				(tstamps "/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72/")
-			)
-			(tstamps "31c90b49-2956-4ee1-b94d-6a91c61777e1")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-						(pin
-							(num "3")
 						)
 					)
 				)
@@ -1633,6 +1579,174 @@
 			)
 		)
 		(comp
+			(ref "J22")
+			(value "Screw_Terminal_01x04")
+			(description "Generic screw terminal, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Generic screw terminal, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)")
+			)
+			(libsource
+				(lib "Connector")
+				(part "Screw_Terminal_01x04")
+				(description "Generic screw terminal, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)")
+			)
+			(property
+				(name "Sheetname")
+				(value "Arduino")
+			)
+			(property
+				(name "Sheetfile")
+				(value "arduino.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "screw terminal")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "TerminalBlock*:*")
+			)
+			(sheetpath
+				(names "/Arduino/")
+				(tstamps "/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72/")
+			)
+			(tstamps "b7b0b2a8-fc6d-4824-ba57-f678ce102716")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "4")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "J23")
+			(value "Conn_Coaxial_Small")
+			(description "small coaxial connector (BNC, SMA, SMB, SMC, Cinch/RCA, LEMO, ...)")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "small coaxial connector (BNC, SMA, SMB, SMC, Cinch/RCA, LEMO, ...)")
+			)
+			(libsource
+				(lib "Connector")
+				(part "Conn_Coaxial_Small")
+				(description "small coaxial connector (BNC, SMA, SMB, SMC, Cinch/RCA, LEMO, ...)")
+			)
+			(property
+				(name "Sheetname")
+				(value "Arduino")
+			)
+			(property
+				(name "Sheetfile")
+				(value "arduino.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "BNC SMA SMB SMC LEMO coaxial connector CINCH RCA MCX MMCX U.FL UMRF")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "*BNC* *SMA* *SMB* *SMC* *Cinch* *LEMO* *UMRF* *MCX* *U.FL*")
+			)
+			(sheetpath
+				(names "/Arduino/")
+				(tstamps "/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72/")
+			)
+			(tstamps "497194d9-8648-452e-8b10-da1e5646e9c3")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "J24")
+			(value "Conn_Coaxial_Small")
+			(description "small coaxial connector (BNC, SMA, SMB, SMC, Cinch/RCA, LEMO, ...)")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "small coaxial connector (BNC, SMA, SMB, SMC, Cinch/RCA, LEMO, ...)")
+			)
+			(libsource
+				(lib "Connector")
+				(part "Conn_Coaxial_Small")
+				(description "small coaxial connector (BNC, SMA, SMB, SMC, Cinch/RCA, LEMO, ...)")
+			)
+			(property
+				(name "Sheetname")
+				(value "Arduino")
+			)
+			(property
+				(name "Sheetfile")
+				(value "arduino.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "BNC SMA SMB SMC LEMO coaxial connector CINCH RCA MCX MMCX U.FL UMRF")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "*BNC* *SMA* *SMB* *SMC* *Cinch* *LEMO* *UMRF* *MCX* *U.FL*")
+			)
+			(sheetpath
+				(names "/Arduino/")
+				(tstamps "/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72/")
+			)
+			(tstamps "1615c0f6-a5f1-4899-99a5-c81edc69b6e8")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
 			(ref "Q4")
 			(value "2N7000")
 			(footprint "Package_TO_SOT_THT:TO-92_Inline_Wide")
@@ -1861,6 +1975,171 @@
 			)
 		)
 		(comp
+			(ref "R3")
+			(value "0R")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "Arduino")
+			)
+			(property
+				(name "Sheetfile")
+				(value "arduino.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/Arduino/")
+				(tstamps "/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72/")
+			)
+			(tstamps "af7103ff-734a-4e32-b840-5d540e310360")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R4")
+			(value "0R")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "Arduino")
+			)
+			(property
+				(name "Sheetfile")
+				(value "arduino.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/Arduino/")
+				(tstamps "/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72/")
+			)
+			(tstamps "80236998-0451-47b6-ac5e-506766a76a69")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R5")
+			(value "0R")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "Arduino")
+			)
+			(property
+				(name "Sheetfile")
+				(value "arduino.kicad_sch")
+			)
+			(property
+				(name "dnp")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/Arduino/")
+				(tstamps "/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72/")
+			)
+			(tstamps "b934c1e3-41f3-4fc7-a113-0b3f24530dbc")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
 			(ref "R30")
 			(value "470K")
 			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
@@ -1915,23 +2194,23 @@
 			)
 		)
 		(comp
-			(ref "R102")
-			(value "10K")
-			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
-			(description "Pull-up for future front-panel ENC_INT signal at Metro D4")
+			(ref "TP5")
+			(value "xTP")
+			(footprint "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical")
+			(description "xmitter project test point on broken-off 0.1 inch square pin header; put signal name in Value field so it becomes silk on the PCB")
 			(fields
 				(field
-					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
+					(name "Footprint") "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical")
 				(field
 					(name "Datasheet")
 				)
 				(field
-					(name "Description") "Pull-up for future front-panel ENC_INT signal at Metro D4")
+					(name "Description") "xmitter project test point on broken-off 0.1 inch square pin header; put signal name in Value field so it becomes silk on the PCB")
 			)
 			(libsource
-				(lib "Device")
-				(part "R_US")
-				(description "Resistor, US symbol")
+				(lib "xmitter")
+				(part "xTP")
+				(description "xmitter project test point on broken-off 0.1 inch square pin header; put signal name in Value field so it becomes silk on the PCB")
 			)
 			(property
 				(name "Sheetname")
@@ -1943,26 +2222,23 @@
 			)
 			(property
 				(name "ki_keywords")
-				(value "R res resistor")
+				(value "test point tp")
 			)
 			(property
 				(name "ki_fp_filters")
-				(value "R_*")
+				(value "Pin* Test*")
 			)
 			(sheetpath
 				(names "/Arduino/")
 				(tstamps "/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72/")
 			)
-			(tstamps "e0000004-0000-4000-8000-000000000001")
+			(tstamps "c83eecce-7314-4504-80bb-724173873d62")
 			(units
 				(unit
 					(name "A")
 					(pins
 						(pin
 							(num "1")
-						)
-						(pin
-							(num "2")
 						)
 					)
 				)
@@ -2275,6 +2551,92 @@
 						)
 						(pin
 							(num "3")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "U3")
+			(value "MCP4728")
+			(datasheet "https://learn.adafruit.com/adafruit-mcp4728-i2c-quad-dac")
+			(description "Adafruit MCP4728 4-channel 12-bit I2C DAC breakout (xmitter project symbol)")
+			(fields
+				(field
+					(name "Manufacturer") "Adafruit Industries")
+				(field
+					(name "MPN") "Adafruit 4470")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet") "https://learn.adafruit.com/adafruit-mcp4728-i2c-quad-dac")
+				(field
+					(name "Description") "Adafruit MCP4728 4-channel 12-bit I2C DAC breakout (xmitter project symbol)")
+			)
+			(libsource
+				(lib "xmitter")
+				(part "MCP4728")
+				(description "Adafruit MCP4728 4-channel 12-bit I2C DAC breakout (xmitter project symbol)")
+			)
+			(property
+				(name "Manufacturer")
+				(value "Adafruit Industries")
+			)
+			(property
+				(name "MPN")
+				(value "Adafruit 4470")
+			)
+			(property
+				(name "Sheetname")
+				(value "Arduino")
+			)
+			(property
+				(name "Sheetfile")
+				(value "arduino.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "MCP4728 I2C DAC Adafruit quad")
+			)
+			(sheetpath
+				(names "/Arduino/")
+				(tstamps "/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72/")
+			)
+			(tstamps "0087ab9b-9243-4d92-a4cb-527555ada627")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "4")
+						)
+						(pin
+							(num "5")
+						)
+						(pin
+							(num "6")
+						)
+						(pin
+							(num "7")
+						)
+						(pin
+							(num "8")
+						)
+						(pin
+							(num "9")
+						)
+						(pin
+							(num "10")
 						)
 					)
 				)
@@ -6547,6 +6909,114 @@
 			)
 		)
 		(comp
+			(ref "R8")
+			(value "0R")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "VFO_Complete")
+			)
+			(property
+				(name "Sheetfile")
+				(value "vfo_complete.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/VFO_Complete/")
+				(tstamps "/94bbc356-fa50-4d6f-b6f0-2ea7eca96dd3/")
+			)
+			(tstamps "78a22937-57b1-4c00-a190-c5ebdbf6b17d")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R9")
+			(value "0R")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "VFO_Complete")
+			)
+			(property
+				(name "Sheetfile")
+				(value "vfo_complete.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/VFO_Complete/")
+				(tstamps "/94bbc356-fa50-4d6f-b6f0-2ea7eca96dd3/")
+			)
+			(tstamps "383f20a2-b32d-4a3f-a661-24e3590b9d42")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
 			(ref "R18")
 			(value "50R")
 			(description "Resistor, US symbol")
@@ -10803,6 +11273,81 @@
 		)
 		(libpart
 			(lib "xmitter")
+			(part "MCP4728")
+			(description "Adafruit MCP4728 4-channel 12-bit I2C DAC breakout (xmitter project symbol)")
+			(docs "https://learn.adafruit.com/adafruit-mcp4728-i2c-quad-dac")
+			(fields
+				(field
+					(name "Reference") "U")
+				(field
+					(name "Value") "MCP4728")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet") "https://learn.adafruit.com/adafruit-mcp4728-i2c-quad-dac")
+				(field
+					(name "Description") "Adafruit MCP4728 4-channel 12-bit I2C DAC breakout (xmitter project symbol)")
+				(field
+					(name "Manufacturer") "Adafruit Industries")
+				(field
+					(name "MPN") "Adafruit 4470")
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "VIN")
+					(type "power_in")
+				)
+				(pin
+					(num "2")
+					(name "GND")
+					(type "power_in")
+				)
+				(pin
+					(num "3")
+					(name "SCL")
+					(type "input")
+				)
+				(pin
+					(num "4")
+					(name "SDA")
+					(type "bidirectional")
+				)
+				(pin
+					(num "5")
+					(name "LDAC")
+					(type "input")
+				)
+				(pin
+					(num "6")
+					(name "RDY")
+					(type "open_collector")
+				)
+				(pin
+					(num "7")
+					(name "VA")
+					(type "output")
+				)
+				(pin
+					(num "8")
+					(name "VB")
+					(type "output")
+				)
+				(pin
+					(num "9")
+					(name "VC")
+					(type "output")
+				)
+				(pin
+					(num "10")
+					(name "VD")
+					(type "output")
+				)
+			)
+		)
+		(libpart
+			(lib "xmitter")
 			(part "MCP4921")
 			(description "12-bit DAC, SPI, single channel, DIP-8")
 			(docs "https://ww1.microchip.com/downloads/en/DeviceDoc/22248a.pdf")
@@ -10862,156 +11407,6 @@
 					(num "8")
 					(name "VOUT")
 					(type "output")
-				)
-			)
-		)
-		(libpart
-			(lib "xmitter")
-			(part "Metro_ESP32S3")
-			(description "Adafruit Metro ESP32-S3 (xmitter project compact symbol)")
-			(docs "https://learn.adafruit.com/adafruit-metro-esp32-s3")
-			(fields
-				(field
-					(name "Reference") "U")
-				(field
-					(name "Value") "Metro_ESP32S3")
-				(field
-					(name "Footprint")
-				)
-				(field
-					(name "Datasheet") "https://learn.adafruit.com/adafruit-metro-esp32-s3")
-				(field
-					(name "Description") "Adafruit Metro ESP32-S3 (xmitter project compact symbol)")
-				(field
-					(name "Manufacturer") "Adafruit Industries")
-				(field
-					(name "MPN") "Adafruit #5500")
-			)
-			(pins
-				(pin
-					(num "3V3_L")
-					(name "3V3")
-					(type "power_out")
-				)
-				(pin
-					(num "5V")
-					(name "5V")
-					(type "power_out")
-				)
-				(pin
-					(num "A0")
-					(name "A0/ADC2")
-					(type "passive")
-				)
-				(pin
-					(num "A1")
-					(name "A1/ADC2")
-					(type "passive")
-				)
-				(pin
-					(num "A2")
-					(name "A2/ADC2")
-					(type "passive")
-				)
-				(pin
-					(num "A3")
-					(name "A3/ADC2")
-					(type "passive")
-				)
-				(pin
-					(num "A4")
-					(name "A4/ADC2")
-					(type "passive")
-				)
-				(pin
-					(num "A5")
-					(name "A5/ADC1")
-					(type "passive")
-				)
-				(pin
-					(num "AREF")
-					(name "AREF")
-					(type "passive")
-				)
-				(pin
-					(num "D0")
-					(name "D0/RX")
-					(type "input")
-				)
-				(pin
-					(num "D1")
-					(name "D1/TX")
-					(type "output")
-				)
-				(pin
-					(num "D2")
-					(name "D2/FREQ_A")
-					(type "input")
-				)
-				(pin
-					(num "D3")
-					(name "D3/FREQ_B")
-					(type "input")
-				)
-				(pin
-					(num "D4")
-					(name "D4/DIT")
-					(type "input")
-				)
-				(pin
-					(num "D5")
-					(name "D5/DAH")
-					(type "input")
-				)
-				(pin
-					(num "D6")
-					(name "D6/TX_LED")
-					(type "output")
-				)
-				(pin
-					(num "D7")
-					(name "D7/ADC1")
-					(type "passive")
-				)
-				(pin
-					(num "D8")
-					(name "D8/ADC1")
-					(type "passive")
-				)
-				(pin
-					(num "D9")
-					(name "D9/ADC1")
-					(type "passive")
-				)
-				(pin
-					(num "D10")
-					(name "D10/CS_DAC")
-					(type "output")
-				)
-				(pin
-					(num "D11")
-					(name "D11/MOSI")
-					(type "output")
-				)
-				(pin
-					(num "D12")
-					(name "D12/ADC2")
-					(type "passive")
-				)
-				(pin
-					(num "D13")
-					(name "D13/SCK")
-					(type "output")
-				)
-				(pin
-					(num "GND_L")
-					(name "GND")
-					(type "power_in")
-				)
-				(pin
-					(num "RESET")
-					(name "RESET")
-					(type "input")
 				)
 			)
 		)
@@ -11198,17 +11593,6 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "J9")
-				(pin "1")
-				(pinfunction "Pin_1_1")
-				(pintype "passive")
-			)
-			(node
-				(ref "R102")
-				(pin "1")
-				(pintype "passive")
-			)
-			(node
 				(ref "U1")
 				(pin "3")
 				(pinfunction "VO_3")
@@ -11275,7 +11659,17 @@
 				(pintype "passive")
 			)
 			(node
+				(ref "C5")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
 				(ref "C56")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "C6")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -11327,7 +11721,18 @@
 				(pintype "passive")
 			)
 			(node
+				(ref "R5")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
 				(ref "TP24")
+				(pin "1")
+				(pinfunction "1_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "TP5")
 				(pin "1")
 				(pinfunction "1_1")
 				(pintype "passive")
@@ -11630,28 +12035,23 @@
 			)
 		)
 		(net
-			(code "6")
-			(name "ENC_INT")
+			(code "7")
+			(name "ENC_INT_CLEAN")
 			(class "Default")
-			(node
-				(ref "J11")
-				(pin "1")
-				(pinfunction "Pin_1_1")
-				(pintype "passive")
-			)
 			(node
 				(ref "J4")
 				(pin "5")
 				(pintype "passive")
 			)
 			(node
-				(ref "R102")
+				(ref "J9")
 				(pin "2")
+				(pinfunction "Pin_2_2")
 				(pintype "passive")
 			)
 		)
 		(net
-			(code "7")
+			(code "8")
 			(name "GND")
 			(class "Power")
 			(node
@@ -11725,11 +12125,6 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "C38")
-				(pin "2")
-				(pintype "passive")
-			)
-			(node
 				(ref "C39")
 				(pin "2")
 				(pintype "passive")
@@ -11760,6 +12155,11 @@
 				(pintype "passive")
 			)
 			(node
+				(ref "C5")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
 				(ref "C56")
 				(pin "2")
 				(pintype "passive")
@@ -11776,6 +12176,11 @@
 			)
 			(node
 				(ref "C59")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C6")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -11969,15 +12374,9 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "J11")
-				(pin "3")
-				(pinfunction "Pin_3_3")
-				(pintype "passive")
-			)
-			(node
 				(ref "J12")
-				(pin "4")
-				(pinfunction "Pin_4_4")
+				(pin "1")
+				(pinfunction "Pin_1_1")
 				(pintype "passive")
 			)
 			(node
@@ -12011,19 +12410,7 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "J14")
-				(pin "5")
-				(pinfunction "Pin_5_5")
-				(pintype "passive")
-			)
-			(node
 				(ref "J15")
-				(pin "1")
-				(pinfunction "Pin_1_1")
-				(pintype "passive")
-			)
-			(node
-				(ref "J16")
 				(pin "1")
 				(pinfunction "Pin_1_1")
 				(pintype "passive")
@@ -12065,8 +12452,32 @@
 				(pintype "passive")
 			)
 			(node
+				(ref "J22")
+				(pin "1")
+				(pinfunction "Pin_1_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "J23")
+				(pin "2")
+				(pinfunction "Ext_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "J24")
+				(pin "2")
+				(pinfunction "Ext_2")
+				(pintype "passive")
+			)
+			(node
 				(ref "J4")
 				(pin "SH")
+				(pintype "passive")
+			)
+			(node
+				(ref "J9")
+				(pin "1")
+				(pinfunction "Pin_1_1")
 				(pintype "passive")
 			)
 			(node
@@ -12237,6 +12648,12 @@
 				(pintype "power_in")
 			)
 			(node
+				(ref "U3")
+				(pin "2")
+				(pinfunction "GND_2")
+				(pintype "power_in")
+			)
+			(node
 				(ref "U5")
 				(pin "GND")
 				(pinfunction "GND_GND")
@@ -12256,7 +12673,7 @@
 			)
 		)
 		(net
-			(code "8")
+			(code "9")
 			(name "GRID_BLOCK_CRASH")
 			(class "Default")
 			(node
@@ -12270,9 +12687,49 @@
 				(pinfunction "In_1")
 				(pintype "passive")
 			)
+			(node
+				(ref "J22")
+				(pin "2")
+				(pinfunction "Pin_2_2")
+				(pintype "passive")
+			)
 		)
 		(net
-			(code "9")
+			(code "10")
+			(name "GRID_CTL_A")
+			(class "Default")
+			(node
+				(ref "J23")
+				(pin "1")
+				(pinfunction "In_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "U3")
+				(pin "9")
+				(pinfunction "VC_9")
+				(pintype "output")
+			)
+		)
+		(net
+			(code "11")
+			(name "GRID_CTL_B")
+			(class "Default")
+			(node
+				(ref "J24")
+				(pin "1")
+				(pinfunction "In_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "U3")
+				(pin "10")
+				(pinfunction "VD_10")
+				(pintype "output")
+			)
+		)
+		(net
+			(code "12")
 			(name "Gate 2")
 			(class "Default")
 			(node
@@ -12299,7 +12756,7 @@
 			)
 		)
 		(net
-			(code "10")
+			(code "13")
 			(name "I_CATHODE_A")
 			(class "Default")
 			(node
@@ -12313,9 +12770,15 @@
 				(pinfunction "In_1")
 				(pintype "passive")
 			)
+			(node
+				(ref "J22")
+				(pin "4")
+				(pinfunction "Pin_4_4")
+				(pintype "passive")
+			)
 		)
 		(net
-			(code "11")
+			(code "14")
 			(name "I_CATHODE_B")
 			(class "Default")
 			(node
@@ -12329,11 +12792,23 @@
 				(pinfunction "In_1")
 				(pintype "passive")
 			)
+			(node
+				(ref "J22")
+				(pin "3")
+				(pinfunction "Pin_3_3")
+				(pintype "passive")
+			)
 		)
 		(net
-			(code "12")
+			(code "15")
 			(name "KeyUp")
 			(class "Default")
+			(node
+				(ref "J14")
+				(pin "5")
+				(pinfunction "Pin_5_5")
+				(pintype "passive")
+			)
 			(node
 				(ref "R22")
 				(pin "2")
@@ -12352,24 +12827,30 @@
 			)
 		)
 		(net
-			(code "13")
+			(code "16")
 			(name "LDAC_4728")
+			(class "Default")
+			(node
+				(ref "J12")
+				(pin "4")
+				(pinfunction "Pin_4_4")
+				(pintype "passive")
+			)
+			(node
+				(ref "U3")
+				(pin "5")
+				(pinfunction "LDAC_5")
+				(pintype "input")
+			)
+		)
+		(net
+			(code "17")
+			(name "MBL600_A")
 			(class "Default")
 			(node
 				(ref "J12")
 				(pin "3")
 				(pinfunction "Pin_3_3")
-				(pintype "passive")
-			)
-		)
-		(net
-			(code "14")
-			(name "MBL600_A")
-			(class "Default")
-			(node
-				(ref "J12")
-				(pin "2")
-				(pinfunction "Pin_2_2")
 				(pintype "passive")
 			)
 			(node
@@ -12390,13 +12871,13 @@
 			)
 		)
 		(net
-			(code "15")
+			(code "18")
 			(name "MBL600_B")
 			(class "Default")
 			(node
 				(ref "J12")
-				(pin "1")
-				(pinfunction "Pin_1_1")
+				(pin "2")
+				(pinfunction "Pin_2_2")
 				(pintype "passive")
 			)
 			(node
@@ -12417,7 +12898,7 @@
 			)
 		)
 		(net
-			(code "16")
+			(code "19")
 			(name "MBL_A_N")
 			(class "Default")
 			(node
@@ -12438,7 +12919,7 @@
 			)
 		)
 		(net
-			(code "17")
+			(code "20")
 			(name "MBL_A_P")
 			(class "Default")
 			(node
@@ -12459,7 +12940,7 @@
 			)
 		)
 		(net
-			(code "18")
+			(code "21")
 			(name "MBL_B_N")
 			(class "Default")
 			(node
@@ -12480,7 +12961,7 @@
 			)
 		)
 		(net
-			(code "19")
+			(code "22")
 			(name "MBL_B_P")
 			(class "Default")
 			(node
@@ -12501,7 +12982,7 @@
 			)
 		)
 		(net
-			(code "20")
+			(code "23")
 			(name "MOSI")
 			(class "Default")
 			(node
@@ -12518,7 +12999,7 @@
 			)
 		)
 		(net
-			(code "21")
+			(code "24")
 			(name "Net-(C1-Pad1)")
 			(class "Default")
 			(node
@@ -12549,7 +13030,7 @@
 			)
 		)
 		(net
-			(code "22")
+			(code "25")
 			(name "Net-(C2-Pad1)")
 			(class "Default")
 			(node
@@ -12580,7 +13061,7 @@
 			)
 		)
 		(net
-			(code "23")
+			(code "26")
 			(name "Net-(C24-Pad2)")
 			(class "Default")
 			(node
@@ -12601,7 +13082,7 @@
 			)
 		)
 		(net
-			(code "24")
+			(code "27")
 			(name "Net-(C26-Pad1)")
 			(class "Default")
 			(node
@@ -12621,7 +13102,7 @@
 			)
 		)
 		(net
-			(code "25")
+			(code "28")
 			(name "Net-(C71-Pad2)")
 			(class "Default")
 			(node
@@ -12651,7 +13132,7 @@
 			)
 		)
 		(net
-			(code "26")
+			(code "29")
 			(name "Net-(CF2-Pad1)")
 			(class "Default")
 			(node
@@ -12677,7 +13158,7 @@
 			)
 		)
 		(net
-			(code "27")
+			(code "30")
 			(name "Net-(CF4-Pad1)")
 			(class "Default")
 			(node
@@ -12699,7 +13180,7 @@
 			)
 		)
 		(net
-			(code "28")
+			(code "31")
 			(name "Net-(CF6-Pad1)")
 			(class "Default")
 			(node
@@ -12721,7 +13202,7 @@
 			)
 		)
 		(net
-			(code "29")
+			(code "32")
 			(name "Net-(C_IN4-Pad2)")
 			(class "Default")
 			(node
@@ -12741,7 +13222,7 @@
 			)
 		)
 		(net
-			(code "30")
+			(code "33")
 			(name "Net-(D1-A)")
 			(class "Default")
 			(node
@@ -12764,7 +13245,7 @@
 			)
 		)
 		(net
-			(code "31")
+			(code "34")
 			(name "Net-(D1-K)")
 			(class "Default")
 			(node
@@ -12825,7 +13306,7 @@
 			)
 		)
 		(net
-			(code "32")
+			(code "35")
 			(name "Net-(D2-K)")
 			(class "Default")
 			(node
@@ -12848,7 +13329,7 @@
 			)
 		)
 		(net
-			(code "33")
+			(code "36")
 			(name "Net-(D5-K)")
 			(class "Default")
 			(node
@@ -12892,7 +13373,7 @@
 			)
 		)
 		(net
-			(code "34")
+			(code "37")
 			(name "Net-(D6-A)")
 			(class "Default")
 			(node
@@ -12924,7 +13405,7 @@
 			)
 		)
 		(net
-			(code "35")
+			(code "38")
 			(name "Net-(J1-In)")
 			(class "Default")
 			(node
@@ -12962,7 +13443,7 @@
 			)
 		)
 		(net
-			(code "36")
+			(code "39")
 			(name "Net-(J2-In)")
 			(class "Default")
 			(node
@@ -12983,7 +13464,7 @@
 			)
 		)
 		(net
-			(code "37")
+			(code "40")
 			(name "Net-(J6-Pin_1)")
 			(class "Default")
 			(node
@@ -13000,7 +13481,7 @@
 			)
 		)
 		(net
-			(code "38")
+			(code "41")
 			(name "Net-(J7-Pin_1)")
 			(class "Default")
 			(node
@@ -13017,7 +13498,7 @@
 			)
 		)
 		(net
-			(code "39")
+			(code "42")
 			(name "Net-(J8-Pin_1)")
 			(class "Default")
 			(node
@@ -13034,23 +13515,7 @@
 			)
 		)
 		(net
-			(code "40")
-			(name "Net-(J9-Pin_2)")
-			(class "Default")
-			(node
-				(ref "C38")
-				(pin "1")
-				(pintype "passive")
-			)
-			(node
-				(ref "J9")
-				(pin "2")
-				(pinfunction "Pin_2_2")
-				(pintype "passive")
-			)
-		)
-		(net
-			(code "41")
+			(code "43")
 			(name "Net-(J10-In)")
 			(class "Default")
 			(node
@@ -13071,7 +13536,7 @@
 			)
 		)
 		(net
-			(code "42")
+			(code "44")
 			(name "Net-(J21-Pin_2)")
 			(class "Default")
 			(node
@@ -13087,7 +13552,7 @@
 			)
 		)
 		(net
-			(code "43")
+			(code "45")
 			(name "Net-(Q2-G1)")
 			(class "Default")
 			(node
@@ -13108,7 +13573,7 @@
 			)
 		)
 		(net
-			(code "44")
+			(code "46")
 			(name "Net-(Q3-B)")
 			(class "Default")
 			(node
@@ -13124,7 +13589,7 @@
 			)
 		)
 		(net
-			(code "45")
+			(code "47")
 			(name "Net-(Q3-E)")
 			(class "Default")
 			(node
@@ -13145,7 +13610,7 @@
 			)
 		)
 		(net
-			(code "46")
+			(code "48")
 			(name "Net-(Q4-G)")
 			(class "Default")
 			(node
@@ -13168,7 +13633,7 @@
 			)
 		)
 		(net
-			(code "47")
+			(code "49")
 			(name "Net-(Q5-G)")
 			(class "Default")
 			(node
@@ -13191,7 +13656,7 @@
 			)
 		)
 		(net
-			(code "48")
+			(code "50")
 			(name "Net-(Q5-S)")
 			(class "Default")
 			(node
@@ -13208,7 +13673,7 @@
 			)
 		)
 		(net
-			(code "49")
+			(code "51")
 			(name "Net-(Q6-G)")
 			(class "Default")
 			(node
@@ -13231,7 +13696,7 @@
 			)
 		)
 		(net
-			(code "50")
+			(code "52")
 			(name "Net-(Q7-G)")
 			(class "Default")
 			(node
@@ -13254,7 +13719,7 @@
 			)
 		)
 		(net
-			(code "51")
+			(code "53")
 			(name "Net-(Q8-B)")
 			(class "Default")
 			(node
@@ -13270,7 +13735,39 @@
 			)
 		)
 		(net
-			(code "52")
+			(code "54")
+			(name "Net-(R8-Pad2)")
+			(class "Default")
+			(node
+				(ref "R8")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "U5")
+				(pin "SCL")
+				(pinfunction "SCL_SCL")
+				(pintype "input")
+			)
+		)
+		(net
+			(code "55")
+			(name "Net-(R9-Pad2)")
+			(class "Default")
+			(node
+				(ref "R9")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "U5")
+				(pin "SDA")
+				(pinfunction "SDA_SDA")
+				(pintype "bidirectional")
+			)
+		)
+		(net
+			(code "56")
 			(name "Net-(RS2-Pad1)")
 			(class "Default")
 			(node
@@ -13286,7 +13783,55 @@
 			)
 		)
 		(net
-			(code "53")
+			(code "57")
+			(name "Net-(U3-SCL)")
+			(class "Default")
+			(node
+				(ref "R4")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "U3")
+				(pin "3")
+				(pinfunction "SCL_3")
+				(pintype "input")
+			)
+		)
+		(net
+			(code "58")
+			(name "Net-(U3-SDA)")
+			(class "Default")
+			(node
+				(ref "R3")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "U3")
+				(pin "4")
+				(pinfunction "SDA_4")
+				(pintype "bidirectional")
+			)
+		)
+		(net
+			(code "59")
+			(name "Net-(U3-VIN)")
+			(class "Default")
+			(node
+				(ref "R5")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "U3")
+				(pin "1")
+				(pinfunction "VIN_1")
+				(pintype "power_in")
+			)
+		)
+		(net
+			(code "60")
 			(name "Net-(U9-VOUT)")
 			(class "Default")
 			(node
@@ -13302,7 +13847,7 @@
 			)
 		)
 		(net
-			(code "54")
+			(code "61")
 			(name "Net-(U9-VREF)")
 			(class "Default")
 			(node
@@ -13323,7 +13868,7 @@
 			)
 		)
 		(net
-			(code "55")
+			(code "62")
 			(name "Net-(U10-+)")
 			(class "Default")
 			(node
@@ -13339,7 +13884,7 @@
 			)
 		)
 		(net
-			(code "56")
+			(code "63")
 			(name "Net-(U10--)")
 			(class "Default")
 			(node
@@ -13365,7 +13910,7 @@
 			)
 		)
 		(net
-			(code "57")
+			(code "64")
 			(name "Net-(U11-+)")
 			(class "Default")
 			(node
@@ -13381,7 +13926,7 @@
 			)
 		)
 		(net
-			(code "58")
+			(code "65")
 			(name "Net-(U11--)")
 			(class "Default")
 			(node
@@ -13407,7 +13952,7 @@
 			)
 		)
 		(net
-			(code "59")
+			(code "66")
 			(name "Net-(U12--)")
 			(class "Default")
 			(node
@@ -13433,7 +13978,7 @@
 			)
 		)
 		(net
-			(code "60")
+			(code "67")
 			(name "Net-(U16-1Y)")
 			(class "Default")
 			(node
@@ -13449,7 +13994,7 @@
 			)
 		)
 		(net
-			(code "61")
+			(code "68")
 			(name "Net-(U16-2Y)")
 			(class "Default")
 			(node
@@ -13465,7 +14010,7 @@
 			)
 		)
 		(net
-			(code "62")
+			(code "69")
 			(name "Net-(U18-+TR_A)")
 			(class "Default")
 			(node
@@ -13488,7 +14033,7 @@
 			)
 		)
 		(net
-			(code "63")
+			(code "70")
 			(name "Net-(U18-C_A)")
 			(class "Default")
 			(node
@@ -13504,7 +14049,7 @@
 			)
 		)
 		(net
-			(code "64")
+			(code "71")
 			(name "Net-(U18-RC_A)")
 			(class "Default")
 			(node
@@ -13525,7 +14070,7 @@
 			)
 		)
 		(net
-			(code "65")
+			(code "72")
 			(name "Net-(U21-CAP+)")
 			(class "Default")
 			(node
@@ -13541,7 +14086,7 @@
 			)
 		)
 		(net
-			(code "66")
+			(code "73")
 			(name "Net-(U21-CAP-)")
 			(class "Default")
 			(node
@@ -13557,40 +14102,7 @@
 			)
 		)
 		(net
-			(code "67")
-			(name "PADDLE_A")
-			(class "Default")
-			(node
-				(ref "J16")
-				(pin "3")
-				(pinfunction "Pin_3_3")
-				(pintype "passive")
-			)
-		)
-		(net
-			(code "68")
-			(name "PADDLE_B")
-			(class "Default")
-			(node
-				(ref "J16")
-				(pin "2")
-				(pinfunction "Pin_2_2")
-				(pintype "passive")
-			)
-		)
-		(net
-			(code "69")
-			(name "RESET_N")
-			(class "Default")
-			(node
-				(ref "J11")
-				(pin "2")
-				(pinfunction "Pin_2_2")
-				(pintype "passive")
-			)
-		)
-		(net
-			(code "70")
+			(code "74")
 			(name "Raw RF")
 			(class "Default")
 			(node
@@ -13611,7 +14123,7 @@
 			)
 		)
 		(net
-			(code "71")
+			(code "75")
 			(name "SCK")
 			(class "Default")
 			(node
@@ -13628,12 +14140,22 @@
 			)
 		)
 		(net
-			(code "72")
+			(code "76")
 			(name "SCL")
 			(class "Default")
 			(node
 				(ref "J4")
 				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "R4")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R8")
+				(pin "1")
 				(pintype "passive")
 			)
 			(node
@@ -13644,11 +14166,21 @@
 			)
 		)
 		(net
-			(code "73")
+			(code "77")
 			(name "SDA")
 			(class "Default")
 			(node
 				(ref "J4")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R3")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R9")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -13660,7 +14192,40 @@
 			)
 		)
 		(net
-			(code "84")
+			(code "78")
+			(name "unconnected-(U3-RDY-Pad6)")
+			(class "Default")
+			(node
+				(ref "U3")
+				(pin "6")
+				(pinfunction "RDY_6")
+				(pintype "open_collector+no_connect")
+			)
+		)
+		(net
+			(code "79")
+			(name "unconnected-(U3-VA-Pad7)")
+			(class "Default")
+			(node
+				(ref "U3")
+				(pin "7")
+				(pinfunction "VA_7")
+				(pintype "output+no_connect")
+			)
+		)
+		(net
+			(code "80")
+			(name "unconnected-(U3-VB-Pad8)")
+			(class "Default")
+			(node
+				(ref "U3")
+				(pin "8")
+				(pinfunction "VB_8")
+				(pintype "output+no_connect")
+			)
+		)
+		(net
+			(code "81")
 			(name "unconnected-(U5-PadCLK0)")
 			(class "Default")
 			(node
@@ -13671,7 +14236,7 @@
 			)
 		)
 		(net
-			(code "85")
+			(code "82")
 			(name "unconnected-(U5-PadCLK1)")
 			(class "Default")
 			(node
@@ -13682,29 +14247,7 @@
 			)
 		)
 		(net
-			(code "86")
-			(name "unconnected-(U5-PadSCL)")
-			(class "Default")
-			(node
-				(ref "U5")
-				(pin "SCL")
-				(pinfunction "SCL_SCL")
-				(pintype "input+no_connect")
-			)
-		)
-		(net
-			(code "87")
-			(name "unconnected-(U5-PadSDA)")
-			(class "Default")
-			(node
-				(ref "U5")
-				(pin "SDA")
-				(pinfunction "SDA_SDA")
-				(pintype "bidirectional+no_connect")
-			)
-		)
-		(net
-			(code "88")
+			(code "83")
 			(name "unconnected-(U10-NC-Pad1)")
 			(class "Default")
 			(node
@@ -13715,7 +14258,7 @@
 			)
 		)
 		(net
-			(code "89")
+			(code "84")
 			(name "unconnected-(U10-NC-Pad5)")
 			(class "Default")
 			(node
@@ -13726,7 +14269,7 @@
 			)
 		)
 		(net
-			(code "90")
+			(code "85")
 			(name "unconnected-(U10-NC-Pad8)")
 			(class "Default")
 			(node
@@ -13737,7 +14280,7 @@
 			)
 		)
 		(net
-			(code "91")
+			(code "86")
 			(name "unconnected-(U11-NC-Pad1)")
 			(class "Default")
 			(node
@@ -13748,7 +14291,7 @@
 			)
 		)
 		(net
-			(code "92")
+			(code "87")
 			(name "unconnected-(U11-NC-Pad5)")
 			(class "Default")
 			(node
@@ -13759,7 +14302,7 @@
 			)
 		)
 		(net
-			(code "93")
+			(code "88")
 			(name "unconnected-(U11-NC-Pad8)")
 			(class "Default")
 			(node
@@ -13770,7 +14313,7 @@
 			)
 		)
 		(net
-			(code "94")
+			(code "89")
 			(name "unconnected-(U12-NC-Pad1)")
 			(class "Default")
 			(node
@@ -13781,7 +14324,7 @@
 			)
 		)
 		(net
-			(code "95")
+			(code "90")
 			(name "unconnected-(U12-NC-Pad5)")
 			(class "Default")
 			(node
@@ -13792,7 +14335,7 @@
 			)
 		)
 		(net
-			(code "96")
+			(code "91")
 			(name "unconnected-(U12-NC-Pad8)")
 			(class "Default")
 			(node
@@ -13803,7 +14346,7 @@
 			)
 		)
 		(net
-			(code "97")
+			(code "92")
 			(name "unconnected-(U16-3A-Pad10)")
 			(class "Default")
 			(node
@@ -13814,7 +14357,7 @@
 			)
 		)
 		(net
-			(code "98")
+			(code "93")
 			(name "unconnected-(U16-3B-Pad9)")
 			(class "Default")
 			(node
@@ -13825,7 +14368,7 @@
 			)
 		)
 		(net
-			(code "99")
+			(code "94")
 			(name "unconnected-(U16-3Y-Pad11)")
 			(class "Default")
 			(node
@@ -13836,7 +14379,7 @@
 			)
 		)
 		(net
-			(code "100")
+			(code "95")
 			(name "unconnected-(U16-4A-Pad14)")
 			(class "Default")
 			(node
@@ -13847,7 +14390,7 @@
 			)
 		)
 		(net
-			(code "101")
+			(code "96")
 			(name "unconnected-(U16-4B-Pad15)")
 			(class "Default")
 			(node
@@ -13858,7 +14401,7 @@
 			)
 		)
 		(net
-			(code "102")
+			(code "97")
 			(name "unconnected-(U16-4Y-Pad13)")
 			(class "Default")
 			(node
@@ -13869,7 +14412,7 @@
 			)
 		)
 		(net
-			(code "103")
+			(code "98")
 			(name "unconnected-(U17-PadA0)")
 			(class "Default")
 			(node
@@ -13880,7 +14423,7 @@
 			)
 		)
 		(net
-			(code "104")
+			(code "99")
 			(name "unconnected-(U17-PadA1)")
 			(class "Default")
 			(node
@@ -13891,7 +14434,7 @@
 			)
 		)
 		(net
-			(code "105")
+			(code "100")
 			(name "unconnected-(U17-PadA2)")
 			(class "Default")
 			(node
@@ -13902,7 +14445,7 @@
 			)
 		)
 		(net
-			(code "106")
+			(code "101")
 			(name "unconnected-(U17-PadIRQ)")
 			(class "Default")
 			(node
@@ -13913,7 +14456,7 @@
 			)
 		)
 		(net
-			(code "107")
+			(code "102")
 			(name "unconnected-(U17-PadP0)")
 			(class "Default")
 			(node
@@ -13924,7 +14467,7 @@
 			)
 		)
 		(net
-			(code "108")
+			(code "103")
 			(name "unconnected-(U17-PadP1)")
 			(class "Default")
 			(node
@@ -13935,7 +14478,7 @@
 			)
 		)
 		(net
-			(code "109")
+			(code "104")
 			(name "unconnected-(U17-PadP2)")
 			(class "Default")
 			(node
@@ -13946,7 +14489,7 @@
 			)
 		)
 		(net
-			(code "110")
+			(code "105")
 			(name "unconnected-(U17-PadP3)")
 			(class "Default")
 			(node
@@ -13957,7 +14500,7 @@
 			)
 		)
 		(net
-			(code "111")
+			(code "106")
 			(name "unconnected-(U17-PadP4)")
 			(class "Default")
 			(node
@@ -13968,7 +14511,7 @@
 			)
 		)
 		(net
-			(code "112")
+			(code "107")
 			(name "unconnected-(U17-PadP5)")
 			(class "Default")
 			(node
@@ -13979,7 +14522,7 @@
 			)
 		)
 		(net
-			(code "113")
+			(code "108")
 			(name "unconnected-(U17-PadP6)")
 			(class "Default")
 			(node
@@ -13990,7 +14533,7 @@
 			)
 		)
 		(net
-			(code "114")
+			(code "109")
 			(name "unconnected-(U17-PadP8)")
 			(class "Default")
 			(node
@@ -14001,7 +14544,7 @@
 			)
 		)
 		(net
-			(code "115")
+			(code "110")
 			(name "unconnected-(U17-PadP9)")
 			(class "Default")
 			(node
@@ -14012,7 +14555,7 @@
 			)
 		)
 		(net
-			(code "116")
+			(code "111")
 			(name "unconnected-(U17-PadP10)")
 			(class "Default")
 			(node
@@ -14023,7 +14566,7 @@
 			)
 		)
 		(net
-			(code "117")
+			(code "112")
 			(name "unconnected-(U17-PadP11)")
 			(class "Default")
 			(node
@@ -14034,7 +14577,7 @@
 			)
 		)
 		(net
-			(code "118")
+			(code "113")
 			(name "unconnected-(U18-C_B-Pad15)")
 			(class "Default")
 			(node
@@ -14045,7 +14588,7 @@
 			)
 		)
 		(net
-			(code "119")
+			(code "114")
 			(name "unconnected-(U18-Q_B-Pad10)")
 			(class "Default")
 			(node
@@ -14056,7 +14599,7 @@
 			)
 		)
 		(net
-			(code "120")
+			(code "115")
 			(name "unconnected-(U18-RC_B-Pad14)")
 			(class "Default")
 			(node
@@ -14067,7 +14610,7 @@
 			)
 		)
 		(net
-			(code "121")
+			(code "116")
 			(name "unconnected-(U18-~{Q}_A-Pad7)")
 			(class "Default")
 			(node
@@ -14078,7 +14621,7 @@
 			)
 		)
 		(net
-			(code "122")
+			(code "117")
 			(name "unconnected-(U18-~{Q}_B-Pad9)")
 			(class "Default")
 			(node
@@ -14089,7 +14632,7 @@
 			)
 		)
 		(net
-			(code "123")
+			(code "118")
 			(name "unconnected-(U21-FB{slash}SHDN-Pad1)")
 			(class "Default")
 			(node
@@ -14100,7 +14643,7 @@
 			)
 		)
 		(net
-			(code "124")
+			(code "119")
 			(name "unconnected-(U21-OSC-Pad7)")
 			(class "Default")
 			(node
@@ -14111,7 +14654,7 @@
 			)
 		)
 		(net
-			(code "125")
+			(code "120")
 			(name "unconnected-(U21-VREF-Pad6)")
 			(class "Default")
 			(node
