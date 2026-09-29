@@ -72,7 +72,13 @@ VALUE_TO_FOOTPRINT = {
     '1000pF':  'Capacitor_THT:C_Rect_L7.0mm_W3.5mm_P5.00mm',
 }
 
-CAP_LIB_IDS = ('Device:C', 'Device:C_Polarized')
+CAP_LIB_IDS = (
+    'Device:C',
+    'Device:C_Polarized',
+    'Device:C_US',
+    'Device:C_Polarized_US',
+    'Device:C_Small',
+)
 
 
 def _find_block_end(text, paren_start):
