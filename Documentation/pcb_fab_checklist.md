@@ -122,6 +122,31 @@ now match the datasheet callouts.
       (VIN, GND, SDA, SCL, CLK0, CLK1, CLK2) against the physical
       breakout's header.
 
+### Vishay BFC2 808 5 mm trimmer capacitor (C8)
+
+`KiCAD/xmitter.pretty/Trimmer_Vishay_BFC2808_D5mm_P5.08mm.kicad_mod`.
+Custom footprint drafted from `Documentation/Components/vishay-trimmer-cap.pdf`.
+Vishay BFC2 808 has TWO available lead-pitch variants (5.08 mm and
+5.6 mm) depending on the ordering-code column; this footprint targets
+the **5.08 mm** pitch (top-adjustment-only version, part number
+20508 for 1.5-5 pF).
+
+- [x] Lead pitch 5.08 mm assumed (matches part number 20508). Drill
+      1.3 mm (0.05 mm above datasheet minimum 1.25 mm). Pad
+      Ø 2.4 mm.
+- [ ] **Paper-check against the physical part before fab.** The
+      datasheet dimension figure combines several mm-level dimensions
+      (5.6, 5.1, 3, 1.6) in one drawing — pin-center-vs-housing-center
+      inferred as coaxial but not visually unambiguous. Print the
+      footprint at 1:1 scale, slide the trimmer over the pads, confirm:
+      (a) both leads drop through the holes cleanly, (b) the Ø 5.5 mm
+      housing sits within the silkscreen circle, (c) the adjustment
+      slot is accessible from above.
+- [ ] Confirm the ordered part is the **20508** variant (5.08 mm
+      pitch, top adjustment) and not the 23508 variant (5.6 mm pitch,
+      top-and-bottom adjustment). A different pitch means a different
+      footprint.
+
 ---
 
 ## 2. Schematic completeness
