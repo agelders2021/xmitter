@@ -1,10 +1,20 @@
 # xmitter project — Claude Code project instructions
 
-20 m CW vacuum-tube transmitter. Push-pull 6146B PA, push-pull 12HG7 driver,
-MC1496-based VCA keyer with envelope shaping, Adafruit Metro ESP32-S3 control.
-Hardware design in QUCS-S schematics + KiCad PCBs. ESP-IDF v5.4.4 toolchain
-installed and verified on both dev machines (2026-06-12); ready to scaffold
-`firmware/`.
+20 m CW transmitter. **Current design (Rev B, 2026-09-29 pivot):** DGFET
+envelope keyer on the analog board (Si5351 → DGFET with G1=RF, G2=envelope
+DAC → Chebyshev LPF → op-amp follower → LM7171 PP inv/non-inv), driving
+a planned full-SS class-AB push-pull output stage (~5–10 W QRP, separate
+board TBD). Adafruit Metro ESP32-S3 control. Hardware design in QUCS-S
+schematics + KiCad PCBs. ESP-IDF v5.4.4 toolchain installed and verified
+on both dev machines (2026-06-12); firmware/ not yet scaffolded.
+
+**Shelved (kept as reference, may return if SS PA insufficient):** the
+original vacuum-tube design — push-pull 6146B PA, push-pull 12HG7 driver,
+MC1496-based VCA keyer, OPA454 grid bias generator, cathode monitor
+failsafe chain, HV supply. MC1496 keyer was retired after Rev A hardware
+failed (likely feedback path from the balance-trim network); tubes were
+shelved when the transformer spec for a 4-tube rig became untenable.
+See `[[project-revB-topology-pivot]]` memory for full context.
 
 This file is read on every session start. Keep it focused on stable project
 facts and one-time interactive flows (like fresh-machine onboarding) that
@@ -15,7 +25,7 @@ otherwise have nowhere natural to live.
 | Directory | What's in it |
 |---|---|
 | `xmitter_prj/` | QUCS-S schematics (`.sch`) and SPICE libraries (`.lib`) |
-| `KiCAD/` | KiCad PCB design files. One project per board: `analog/` (fabricated Rev A, 2026-07-14), `bias/` (schematic done, PCB not started), `frontpanel/` (stub), `power/` (stub — bridge supply + HV rectifier/filter), `protoshield/` (stub — Metro-mounted protoboard: bypass caps, series R, pull-ups). Shared `xmitter.pretty/` footprints and `xmitter.kicad_sym` at `KiCAD/` root, referenced by each project via `${KIPRJMOD}/../`. Reversal recipe in `KiCAD/MULTIBOARD_REVERT.md`. |
+| `KiCAD/` | KiCad PCB design files. **Active:** `analog/` (Rev A fabricated 2026-07-14 — MC1496 keyer stage failed; Rev B branch replaced it with DGFET keyer, awaiting SS PA design before next fab), `frontpanel/` (in development), `protoshield/` (Metro-mounted proto-shield). **Not yet designed:** SS output stage board (directory `ss_pa/` or similar TBD). **Shelved (tubes retired for first cut):** `bias/` (OPA454 grid bias generator), `power/` (HV rectifier + filter). Shared `xmitter.pretty/` footprints and `xmitter.kicad_sym` at `KiCAD/` root, referenced by each project via `${KIPRJMOD}/../`. Reversal recipe in `KiCAD/MULTIBOARD_REVERT.md`. |
 | `Documentation/` | Design docs, generated PDFs, sourcing spreadsheets, datasheets |
 | `tools/` | Python scripts: sweep_param, gen_*_pdf, gen_parts_list, etc. |
 | `firmware/` | ESP-IDF firmware (not yet scaffolded — first task this phase) |
@@ -43,49 +53,67 @@ finished items in place as history.
 
 ## Current focus
 
-Analog control board Rev A fabricated (JLCPCB order Y2-13077341A,
-submitted 2026-07-14). Project lives at `KiCAD/analog/`:
-`analog.kicad_sch` root, sub-sheets `buffer_keyer.kicad_sch` (MC1496
-keyer chain), `vfo.kicad_sch` (Si5351 VFO), `arduino.kicad_sch` (Metro
-carrier + control relays + heartbeat monostable), `interface.kicad_sch`
-(RJ45 umbilical jack + RS-422 termination + PCF8575 placeholder).
-Empty stubs `pa/driver/balun/lpf_output.kicad_sch` still linked at
-root — Phase 3-5 RF chain.
+Rev B branch — pivoted 2026-09-29 from tube PA to SS PA.
 
-Bias board split off to `KiCAD/bias/` (2026-07-15). Started from the
-existing `bias.kicad_sch` (OPA454 bias generator + LM393 cathode
-monitor + diode-OR + slam handoff). PCB layout not yet started.
+**Analog control board (`KiCAD/analog/`):** Rev A fabricated 2026-07-14
+(JLCPCB Y2-13077341A) — the MC1496 balanced-modulator keyer stage did
+not work on the built board (minimal output, unclean RF, suspected
+feedback path in the balance-trim network). Rev B branch removed
+`buffer_keyer.kicad_sch` entirely and replaced the keyer with a DGFET
+(dual-gate FET) VCA: G1 receives RF from Si5351, G2 receives the
+envelope voltage from the MCP4728 DAC. Current sub-sheets:
+`analog.kicad_sch` root, `vfo_complete.kicad_sch` (Si5351 → DGFET →
+Chebyshev LPF → op-amp follower → LM7171 PP inv/non-inv),
+`arduino.kicad_sch` (Metro carrier + control relays + heartbeat
+monostable), `interface.kicad_sch` (RJ45 umbilical + RS-422
+termination + PCF8575 placeholder). Rev B not yet fabricated —
+merge gate is a new fab order.
 
-Front-panel display + encoders board at `KiCAD/frontpanel/` — empty
-stub project (2026-07-15). Other end of the RJ45 umbilical driven by
-the analog board's `interface.kicad_sch`. Schematic content to be
-drawn.
+**Frontpanel (`KiCAD/frontpanel/`):** In development. Other end of the
+RJ45 umbilical driven by the analog board's `interface.kicad_sch`.
+Design carries forward unchanged from the tube-era plan (topology
+pivot only affects the RF chain, not the control umbilical).
 
-Power board at `KiCAD/power/` — new stub (2026-09-27). Will hold the
-bridge rectifier + filter capacitor supply (moved from analog board)
-and the HV rectifier + filter for the PA B+ rail.
+**Protoshield (`KiCAD/protoshield/`):** Metro-mounted Adafruit Proto
+Shield (PID 2077) or Proto Screw Shield. Holds Metro GPIO
+signal-conditioning: bypass caps, series R, pull-ups for PADDLE_A/B,
+I_CATHODE_A/B (unused post-pivot but wiring stays for later),
+ENC_INT, MBL600_A/B, RESET_N. Metro symbol (U2) and these components
+were removed from `arduino.kicad_sch`; screw terminals remain on the
+analog board as the board-boundary connectors.
 
-Protoshield at `KiCAD/protoshield/` — new stub (2026-09-27). Adafruit
-Proto Shield (PID 2077) or Proto Screw Shield that mounts directly on
-the Metro ESP32-S3. Holds all Metro GPIO signal-conditioning: bypass
-caps, series resistors, and pull-up resistors for PADDLE_A/B,
-I_CATHODE_A/B, GRID_BLOCK_CRASH, ENC_INT, MBL600_A/B, RESET_N.
-Metro symbol (U2) and these components were removed from
-`arduino.kicad_sch`; screw terminals remain on the analog board as
-the board-boundary connectors.
+**SS output stage — not yet designed.** Will be a new KiCad project
+(directory TBD, likely `KiCAD/ss_pa/`). Target: full-SS class-AB
+push-pull PA, IRF510 pair on 13.8 V, ~5–10 W into 50 Ω at 14 MHz,
+driven by the analog board's LM7171 PP outputs. Includes 7-element
+Chebyshev output LPF, bifilar output transformer, drain current
+sense, optional VSWR sense.
+
+**Shelved (tubes retired for first cut; may return if SS PA
+insufficient):**
+- `KiCAD/bias/` — OPA454 grid bias generator (needs tube grids)
+- `KiCAD/power/` — HV rectifier + filter for PA B+ rail
+- `Documentation/pa_cathode_monitor.md` — 7-layer failsafe (needs
+  tube cathodes)
+- `Documentation/grid_bias.md`, `Documentation/2026-06-08-pa-validation.md`
+  — tube PA operating-point and bias topology
+- Firmware modules planned in `Documentation/cw_envelope_keyer.md`
+  as tube-only: `grid_bias_dac.cpp`, `cathode_monitor.cpp`,
+  hardware fail-safe gate section
 
 Next likely work items:
-- PCB layout for `KiCAD/bias/` (HV clearances — analog board's
-  netclasses were copied over but should be tightened for the HV rails).
-- Schematic + PCB for `KiCAD/frontpanel/` — start from the umbilical
-  pin map in `Documentation/front_panel_interface.md`, mirror the
-  PCF8575 / RS-422 receiver pair on the front-panel side.
-- Scaffold `firmware/` (ESP-IDF project) — see
-  `Documentation/cw_envelope_keyer.md` for the module breakdown:
-  `main.cpp`, `keyer_envelope.cpp/h`, `keyer_winkey.cpp/h`,
-  `grid_bias_dac.cpp`, `cathode_monitor.cpp`, `fault_handler.cpp`, plus
-  `CMakeLists.txt` and `sdkconfig.defaults`. Set `IDF_TARGET=esp32s3`
-  per project (`idf.py set-target esp32s3` inside `firmware/`).
+- Design SS output stage board (schematic + PCB) — new KiCad project
+- Complete schematic + PCB for `KiCAD/frontpanel/` — start from the
+  umbilical pin map in `Documentation/front_panel_interface.md`,
+  mirror the PCF8575 / RS-422 receiver pair on the front-panel side
+- Scaffold `firmware/` (ESP-IDF project) around the DGFET envelope
+  chain — see `Documentation/cw_envelope_keyer.md` for the
+  envelope-generation logic (topology-agnostic parts still apply;
+  MC1496-specific hardware bits are historical, DGFET-adapted
+  equivalents TBD). Modules: `main.cpp`, `keyer_envelope.cpp/h`,
+  `keyer_winkey.cpp/h`, `fault_handler.cpp`, plus `CMakeLists.txt`
+  and `sdkconfig.defaults`. Set `IDF_TARGET=esp32s3` per project
+  (`idf.py set-target esp32s3` inside `firmware/`).
 
 ## Existing design references
 
@@ -93,14 +121,21 @@ The design docs are the source of truth for both firmware and PCB work:
 
 | Doc | What it specs |
 |---|---|
-| `Documentation/cw_envelope_keyer.md` | Envelope generation (raised cosine LUT, predistortion, 25 µs tick, core-1 pinning), WinKey emulation hook, MCP4921 SPI DAC, fail-safe gating |
-| `Documentation/grid_bias.md` | OPA454 bias generator topology, supply tree, transfer function, R/C values per tube |
-| `Documentation/pa_cathode_monitor.md` | 7-layer failsafe chain: clamps, OPA1641 buffer, LM393 comparator with hysteresis, diode-OR combiner, grid-bias slam handoff, ADC firmware thresholds, NVS fault log |
-| `Documentation/2026-06-08-pa-validation.md` | PA operating point (V6 = 180 V, bias = −60 V, R17 = 300 Ω) that determines firmware bias DAC code |
-| `Documentation/Cathode_Monitor_Schematic.pdf` | Generated PDF render of the cathode monitor + diode-OR + bias-slam path |
+| `Documentation/cw_envelope_keyer.md` | Envelope-generation firmware (raised cosine LUT, predistortion, 25 µs tick, core-1 pinning), WinKey emulation hook, MCP4921 SPI DAC. **NOTE:** written for the MC1496 keyer topology; the envelope-generation logic (firmware, DAC, LUT, WPM mapping) is topology-agnostic and still applies to the DGFET keyer, but the MC1496-specific hardware sections (PNP null injection, reconstruction filter values, post-keyer LM7171 gain) are historical. DGFET-specific hardware doc TBD. |
 | `Documentation/front_panel_interface.md` | RJ45 (Amphenol RJE1D-188-21401) umbilical, T568B pin map, PCF8575 expander, MBL-600 RS-422 termination, RJE1D-188 footprint verification checklist |
 | `Documentation/i2c_bus.md` | **Single source of truth** for I²C device addresses across all PCBs. Update this first when an address changes; other docs, firmware `pin_map.h`, and schematic text notes mirror. Includes bus topology, jumper config, expansion slots, and ruled-out configurations |
 | `Documentation/pcb_fab_checklist.md` | Consolidated pre-flight gate before analog-board gerbers ship: footprint verification, schematic completeness, ERC/DRC, physical, and BOM sign-offs |
+| `Documentation/control_board_functional_blocks.md` | Functional blocks on the analog control board: KeyUp→Gate 2 keying, relay assignments, CD14538B heartbeat watchdog, TR_SENSE interlock, J13 power-migration header |
+
+**Shelved design references** (tubes retired for first cut; retained
+for reference in case SS PA design proves insufficient):
+
+| Doc | What it specs |
+|---|---|
+| `Documentation/grid_bias.md` | OPA454 bias generator topology for tube grids |
+| `Documentation/pa_cathode_monitor.md` | 7-layer failsafe chain for tube cathode monitoring |
+| `Documentation/2026-06-08-pa-validation.md` | PA operating point for tube PA (V6 = 180 V, bias = −60 V, R17 = 300 Ω) |
+| `Documentation/Cathode_Monitor_Schematic.pdf` | PDF render of the cathode monitor + diode-OR + bias-slam path |
 
 ## Conventions
 
@@ -126,7 +161,11 @@ python tools/gen_resistor_sourcing_xlsx.py
 python tools/gen_capacitor_sourcing_xlsx.py
 
 # Schematic PDFs
+# NOTE: gen_mc1496_schematic_pdf.py generates a diagram of the retired
+# MC1496 keyer topology — historical only, do not use for current design
 python tools/gen_mc1496_schematic_pdf.py
+# gen_grid_bias_schematic_pdf.py and gen_cathode_monitor_schematic_pdf.py
+# generate diagrams for shelved tube-PA subsystems — historical only
 python tools/gen_grid_bias_schematic_pdf.py
 python tools/gen_cathode_monitor_schematic_pdf.py
 
@@ -139,7 +178,7 @@ python tools/sweep_param.py <netlist> --pattern <regex> --values <list> ...
 # Assign THT capacitor footprints by value (re-runnable; fills empty
 # Footprint fields only, never overwrites). Edit VALUE_TO_FOOTPRINT
 # at the top of the script when a new value gets ordered.
-python tools/assign_cap_footprints.py KiCAD/analog/buffer_keyer.kicad_sch \
-       KiCAD/analog/vfo.kicad_sch KiCAD/analog/arduino.kicad_sch \
-       KiCAD/analog/interface.kicad_sch KiCAD/bias/bias.kicad_sch
+python tools/assign_cap_footprints.py KiCAD/analog/vfo_complete.kicad_sch \
+       KiCAD/analog/arduino.kicad_sch KiCAD/analog/interface.kicad_sch \
+       KiCAD/bias/bias.kicad_sch
 ```

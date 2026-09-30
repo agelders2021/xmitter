@@ -1,8 +1,53 @@
 # CW Envelope Keyer — Context for Claude Code
 
-Companion document for `cw_envelope_keyer.cpp`. Read this before modifying the
-module. Several design choices look unusual and are **deliberate** — the notes
-below say which ones must not be "refactored away."
+> **⚠ TOPOLOGY PIVOT 2026-09-29 — READ THIS FIRST**
+>
+> This doc was written for the original **MC1496 balanced-modulator keyer**
+> topology. That topology was **retired** after the Rev A analog board
+> hardware did not work (minimal output, unclean RF, suspected feedback
+> path in the balance-trim network). Rev B analog board now uses a
+> **DGFET (dual-gate FET) VCA** as the keyer: G1 receives the Si5351 RF,
+> G2 receives the envelope voltage from the MCP4728 DAC. No MC1496, no
+> PNP null injection, no balance servo.
+>
+> The vacuum-tube PA (push-pull 6146B) and driver (push-pull 12HG7)
+> described here are also **shelved** — first-cut plan is a full-SS
+> class-AB push-pull output stage on a separate board (~5–10 W QRP).
+> The `grid_bias_dac.cpp` and `cathode_monitor.cpp` modules referenced
+> here become unnecessary when the tube PA is not present.
+>
+> **What still applies to the DGFET keyer + SS PA design:**
+> - Envelope-generation firmware logic (raised cosine LUT, predistortion
+>   concept, 25 µs tick, core-1 pinning) — topology-agnostic
+> - Public API (`keyer_envelope_init`, `keyer_set_wpm`, `keyer_key_down`,
+>   `keyer_key_up`) — unchanged
+> - RTOS / core model — unchanged
+> - WPM → edge-time mapping — unchanged
+> - Predistortion concept — DGFET transconductance also isn't perfectly
+>   linear, so the LUT-inversion calibration approach still applies;
+>   only the specific numbers change
+> - MCP4921 SPI DAC choice — could still be used, but Rev B uses the
+>   MCP4728 I²C DAC on the STEMMA chain for the envelope. Update TBD
+>   when firmware scaffolding starts.
+>
+> **What is HISTORICAL and does NOT apply to the current design:**
+> - Any MC1496 pin-by-pin discussion (pins 1/4/10 etc.)
+> - Reconstruction filter values (R_F = 1.5 kΩ, C_F = 680 nF) — sized
+>   for MC1496 input impedance, not DGFET G2
+> - PNP null injection (T1/T2 2N3906 + R5–R10 network) — solves an
+>   MC1496 balance problem that doesn't exist for a DGFET
+> - DAC-driven digital carrier null section — same, MC1496-specific
+> - Post-keyer LM7171 gain values (R_F = 47 kΩ, R_G = 10 kΩ, gain 5.8)
+>   — sized for MC1496 output to 12HG7 grid; DGFET / SS-PA numbers TBD
+> - Tube-PA-specific fail-safe requirement (independent hardware key-line
+>   gate that mutes driver bias / removes screen voltage) — becomes
+>   unnecessary when there are no tubes to protect. SS PA gets a
+>   different failsafe (drain current sense + firmware fault detect).
+>
+> A rewritten keyer doc targeting the DGFET + SS PA topology will be
+> written when the SS output stage design starts. Until then, treat this
+> doc as the source of truth for envelope-generation *firmware logic*
+> only, and ignore the hardware-specific detail.
 
 ---
 
@@ -18,16 +63,19 @@ is the WinKey-emulation layer, which lives elsewhere and calls into this module.
 
 ### Where it sits in the rig
 
-This is one subsystem of a homebrew 20 m CW vacuum-tube transmitter:
+**⚠ This section describes the HISTORICAL (retired) MC1496 + tube PA
+topology. Kept for context; not accurate for the current design. See
+banner at top of doc.**
 
-- **PA:** push-pull 6146B beam tetrodes
-- **Driver:** push-pull 12HG7 pentodes
-- **VFO buffer / level control:** **MC1496** balanced modulator — the RF carrier
-  passes through it, and its **modulating port sets the output amplitude**. That
-  port is this module's target.
-- **Controller:** Adafruit Metro ESP32-S3, FreeRTOS, dual-core.
+Historical topology (Rev A analog board, not fabricated in Rev B):
 
-Signal path this module drives:
+- **PA:** push-pull 6146B beam tetrodes *(shelved 2026-09-29)*
+- **Driver:** push-pull 12HG7 pentodes *(shelved 2026-09-29)*
+- **VFO buffer / level control:** **MC1496** balanced modulator
+  *(retired 2026-09-29 — replaced by DGFET VCA on Rev B)*
+- **Controller:** Adafruit Metro ESP32-S3, FreeRTOS, dual-core *(unchanged)*
+
+Historical signal path (does not reflect Rev B):
 
 ```
 WinKey layer --(key up/down edges)--> THIS MODULE
@@ -39,6 +87,17 @@ THIS MODULE  --(SPI)--> MCP4921 DAC --> R_F (1.5 kΩ) ──┬── MC1496 pin
              --> MC1496 modulating port --> MC1496 diff output (~2.5 V p-p)
              --> LM7171 post-keyer amp (G = 4) --> ~10 V p-p diff
              --> 12HG7 driver --> driver-output transformer --> 6146B grids
+```
+
+Current Rev B RF chain (envelope path only — DAC details TBD when firmware
+scaffolding starts):
+
+```
+WinKey layer --(key up/down edges)--> THIS MODULE
+THIS MODULE  --> envelope DAC (MCP4728 channel, I²C via STEMMA) --> [level shift TBD]
+             --> DGFET Gate 2 --> DGFET drain (RF envelope-shaped)
+             --> Chebyshev LPF --> op-amp follower --> LM7171 PP (inv/non-inv)
+             --> [SS output stage TBD: PP FET pair, output xfmr, LPF, 50 Ω]
 ```
 
 ---
