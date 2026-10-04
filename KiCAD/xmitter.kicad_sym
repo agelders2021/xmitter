@@ -2399,4 +2399,85 @@
       )
     )
   )
+  (symbol "Relay_SPST_RSS-SR042P"
+    (pin_names (offset 1.016))
+    (exclude_from_sim no)
+    (in_bom yes)
+    (on_board yes)
+    (property "Reference" "K"
+      (at 0 7.62 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Value" "Relay_RSS-SR042P"
+      (at 0 -10.16 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "xmitter:Relay_SPST_RelComm_RSS-SR042P"
+      (at 0 0 0)
+      (effects (font (size 1.27 1.27)) (hide yes))
+    )
+    (property "Datasheet" ""
+      (at 0 0 0)
+      (effects (font (size 1.27 1.27)) (hide yes))
+    )
+    (property "ki_keywords" "relay SPST reed RF RelComm RSS-SR042P 50ohm shielded junkbox"
+      (at 0 0 0)
+      (effects (font (size 1.27 1.27)) (hide yes))
+    )
+    (property "ki_description" "RelComm RSS-SR042P SPST RF reed relay, 50 ohm, 28 V coil, metal body = SHIELD/GND.  Coil connects via separate screw terminal elsewhere on PCB; not represented in this symbol."
+      (at 0 0 0)
+      (effects (font (size 1.27 1.27)) (hide yes))
+    )
+    (property "Manufacturer" "RelComm"
+      (at 0 0 0)
+      (effects (font (size 1.27 1.27)) (hide yes))
+    )
+    (property "MPN" "RSS-SR042P"
+      (at 0 0 0)
+      (effects (font (size 1.27 1.27)) (hide yes))
+    )
+    (symbol "Relay_SPST_RSS-SR042P_0_1"
+      (rectangle
+        (start -10.16 5.08)
+        (end 10.16 -5.08)
+        (stroke (width 0.254) (type default))
+        (fill (type background))
+      )
+      (polyline
+        (pts (xy -10.16 2.54) (xy -2.54 2.54))
+        (stroke (width 0.254) (type default))
+        (fill (type none))
+      )
+      (polyline
+        (pts (xy 2.54 2.54) (xy 10.16 2.54))
+        (stroke (width 0.254) (type default))
+        (fill (type none))
+      )
+      (polyline
+        (pts (xy -2.54 2.54) (xy 0 3.81))
+        (stroke (width 0.254) (type default))
+        (fill (type none))
+      )
+      (text "coil: ext screw terminal"
+        (at 0 -2 0)
+        (effects
+          (font (size 0.8 0.8))
+        )
+      )
+    )
+    (symbol "Relay_SPST_RSS-SR042P_1_1"
+      (pin passive line (at -12.7 2.54 0) (length 2.54)
+        (name "RF_A" (effects (font (size 1.27 1.27))))
+        (number "1" (effects (font (size 1.27 1.27))))
+      )
+      (pin passive line (at 12.7 2.54 180) (length 2.54)
+        (name "RF_B" (effects (font (size 1.27 1.27))))
+        (number "2" (effects (font (size 1.27 1.27))))
+      )
+      (pin passive line (at 0 -7.62 90) (length 2.54)
+        (name "SHIELD" (effects (font (size 1.27 1.27))))
+        (number "3" (effects (font (size 1.27 1.27))))
+      )
+    )
+  )
 )
