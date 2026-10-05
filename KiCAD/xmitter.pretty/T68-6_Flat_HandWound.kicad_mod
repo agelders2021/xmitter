@@ -3,7 +3,7 @@
 	(generator "manual")
 	(generator_version "9.0")
 	(layer "F.Cu")
-	(descr "T68-6 iron powder toroid (Micrometals/Amidon mix 6, yellow, A_L=47 nH/N^2), hand-wound, laying flat on PCB with axis perpendicular to board. Both leads exit on the same radial side; outer lead sits just outside the OD (17.53 mm), inner lead sits inside the ID hole (9.40 mm). Pitch center-to-center 7.5 mm. Suits 4-turn 22/24 AWG magnet wire winding for 20 m LPF (nominal 752 nH). Silk shows OD and ID circles.")
+	(descr "T68-6 iron powder toroid (Micrometals/Amidon mix 6, yellow, A_L = 4.7 nH/N^2 = 47 microH per 100 turns-squared -- catalogs typically list the latter form; use 4.7 in the N = sqrt(L_nH / A_L) formula), hand-wound, laying flat on PCB with axis perpendicular to board. Both leads exit on the same radial side; outer lead sits just outside the OD (17.53 mm), inner lead sits inside the ID hole (9.40 mm). Pitch center-to-center 7.5 mm. Suits 4-turn 22/24 AWG magnet wire winding for 20 m LPF (nominal 752 nH). Silk shows OD and ID circles. Courtyard is tight: 0.2 mm beyond OD on three sides and 0.3 mm past the outer pad on the lead-exit side -- fine for hand assembly, allows tight packing against adjacent toroids.")
 	(tags "toroid iron powder t68-6 amidon micrometals hand wound flat")
 	(attr through_hole)
 	(property "Reference" "L**"
@@ -58,8 +58,8 @@
 		(uuid "10000000-0000-0000-0000-000000000011")
 	)
 	(fp_rect
-		(start -11 -12)
-		(end 11 11)
+		(start -9 -11.2)
+		(end 9 9)
 		(stroke (width 0.05) (type solid))
 		(fill no)
 		(layer "F.CrtYd")
