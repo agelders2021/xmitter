@@ -1,0 +1,107 @@
+(footprint "T50-6_Vertical_HandWound"
+	(version 20240108)
+	(generator "manual")
+	(generator_version "10.0")
+	(layer "F.Cu")
+	(descr "T50-6 iron powder toroid (Micrometals/Amidon mix 6, yellow, A_L = 4.0 nH/N^2 = 40 microH per 100 turns-squared -- catalogs typically list the latter form; use 4.0 in the N = sqrt(L_nH / A_L) formula), hand-wound, standing on edge with axis parallel to PCB. Top-down projection = rectangle OD (12.70 mm) x HT (4.83 mm).  The toroid rotation axis projects onto the PCB as the Y axis at X=0.  Two 3.1 mm NPTH zip-tie holes sit on this midline at (0, +-3.5), one on each face-side of the standing disc; a single zip tie wraps over the top of the disc in the Y direction (crossing the thin H dimension, not the wide OD).  Hole-to-hole spacing in Y = H + 2x(24 AWG) + 0.3 mm margin = 7.0 mm.  Wire pads at (+-3.0, +-4.5) -- moved laterally and inward from the midline tie holes to allow tighter Y-direction packing of multiple toroids in a bank.  Pad 1 south (-3, -4.5), pad 2 north (+3, +4.5), each offset in X for the natural lead-exit angle after a 9-13 turn 24 AWG winding (e.g. 13 T for 20 m LPF nominal 676 nH).  Vertical mount reduces magnetic coupling to adjacent horizontal toroids.  Rotate the footprint 90 deg on the PCB if you want the toroid axis along the signal direction (hole facing a neighboring flat toroid).")
+	(tags "toroid iron powder t50-6 amidon micrometals hand wound vertical edge ziptie")
+	(attr through_hole)
+	(property "Reference" "L**"
+		(at 0 -7 0)
+		(layer "F.SilkS")
+		(uuid "40000000-0000-0000-0000-000000000001")
+		(effects
+			(font (size 1 1) (thickness 0.15))
+		)
+	)
+	(property "Value" "T50-6"
+		(at 0 7 0)
+		(layer "F.Fab")
+		(uuid "40000000-0000-0000-0000-000000000002")
+		(effects
+			(font (size 1 1) (thickness 0.15))
+		)
+	)
+	(property "Datasheet" "https://www.micrometals.com/design-and-applications/rf-catalog/"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "40000000-0000-0000-0000-000000000003")
+		(effects
+			(font (size 1 1) (thickness 0.15))
+		)
+	)
+	(property "Description" "T50-6 iron powder toroid, vertical (on-edge) mount, hand-wound, with zip-tie holes"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "40000000-0000-0000-0000-000000000004")
+		(effects
+			(font (size 1 1) (thickness 0.15))
+		)
+	)
+
+	(fp_rect
+		(start -6.35 -2.42)
+		(end 6.35 2.42)
+		(stroke (width 0.12) (type solid))
+		(fill no)
+		(layer "F.SilkS")
+		(uuid "40000000-0000-0000-0000-000000000010")
+	)
+	(fp_rect
+		(start -6.6 -5.6)
+		(end 6.6 5.6)
+		(stroke (width 0.05) (type solid))
+		(fill no)
+		(layer "F.CrtYd")
+		(uuid "40000000-0000-0000-0000-000000000011")
+	)
+	(fp_rect
+		(start -6.35 -2.42)
+		(end 6.35 2.42)
+		(stroke (width 0.1) (type solid))
+		(fill no)
+		(layer "F.Fab")
+		(uuid "40000000-0000-0000-0000-000000000012")
+	)
+
+	(fp_text user "T50-6 vert"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(uuid "40000000-0000-0000-0000-000000000020")
+		(effects (font (size 0.6 0.6) (thickness 0.1))
+		)
+	)
+
+	(pad "1" thru_hole circle
+		(at -3.0 -4.5)
+		(size 1.7 1.7)
+		(drill 0.9)
+		(layers "*.Cu" "*.Mask")
+		(uuid "40000000-0000-0000-0000-000000000100")
+	)
+	(pad "2" thru_hole circle
+		(at 3.0 4.5)
+		(size 1.7 1.7)
+		(drill 0.9)
+		(layers "*.Cu" "*.Mask")
+		(uuid "40000000-0000-0000-0000-000000000101")
+	)
+	(pad "" np_thru_hole circle
+		(at 0 -3.5)
+		(size 3.1 3.1)
+		(drill 3.1)
+		(layers "*.Cu" "*.Mask")
+		(uuid "40000000-0000-0000-0000-000000000200")
+	)
+	(pad "" np_thru_hole circle
+		(at 0 3.5)
+		(size 3.1 3.1)
+		(drill 3.1)
+		(layers "*.Cu" "*.Mask")
+		(uuid "40000000-0000-0000-0000-000000000201")
+	)
+	(fp_circle (center 0 -3.5) (end 1.7 -3.5) (stroke (width 0.12) (type solid)) (fill no) (layer "F.SilkS") (uuid "40000000-0000-0000-0000-000000000210"))
+	(fp_circle (center 0 3.5) (end 1.7 3.5) (stroke (width 0.12) (type solid)) (fill no) (layer "F.SilkS") (uuid "40000000-0000-0000-0000-000000000211"))
+)
