@@ -6,7 +6,7 @@
 		(thickness 1.6)
 		(legacy_teardrops no)
 	)
-	(paper "A4")
+	(paper "A3")
 	(layers
 		(0 "F.Cu" signal)
 		(2 "B.Cu" signal)
@@ -127,5 +127,410 @@
 		)
 	)
 	(net 0 "")
+
+	(gr_rect
+		(start 20 20)
+		(end 248.60 197.80)
+		(stroke
+			(width 0.15)
+			(type default)
+		)
+		(fill no)
+		(layer "Edge.Cuts")
+		(uuid "e0ec0001-0000-4000-a000-000000000001")
+	)
+
+	(gr_rect
+		(start 22 22)
+		(end 246.60 195.80)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(fill no)
+		(layer "Margin")
+		(uuid "e0ec0002-0000-4000-a000-000000000002")
+	)
+
+	(footprint "MountingHole:MountingHole_3.2mm_M3"
+		(layer "F.Cu")
+		(uuid "c2000000-0000-4000-a000-000000000001")
+		(at 25 25)
+		(descr "Mounting Hole 3.2mm, M3, no annular")
+		(tags "mountinghole M3")
+		(property "Reference" "H1"
+			(at 0 -3 0)
+			(layer "F.SilkS")
+			(uuid "c2000000-0000-4000-b000-000000000001")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Value" "MountingHole_3.2mm_M3"
+			(at 0 3 0)
+			(layer "F.Fab")
+			(uuid "c2000000-0000-4000-b001-000000000001")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "c2000000-0000-4000-b002-000000000001")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Mounting Hole 3.2mm, M3, no annular"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "c2000000-0000-4000-b003-000000000001")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(attr exclude_from_pos_files exclude_from_bom)
+		(duplicate_pad_numbers_are_jumpers no)
+		(fp_circle
+			(center 0 0)
+			(end 3.2 0)
+			(stroke
+				(width 0.15)
+				(type solid)
+			)
+			(fill no)
+			(layer "Cmts.User")
+			(uuid "c2000000-0000-4000-b004-000000000001")
+		)
+		(fp_circle
+			(center 0 0)
+			(end 3.45 0)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(fill no)
+			(layer "F.CrtYd")
+			(uuid "c2000000-0000-4000-b005-000000000001")
+		)
+		(fp_text user "${REFERENCE}"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(uuid "c2000000-0000-4000-b006-000000000001")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(pad "" np_thru_hole circle
+			(at 0 0)
+			(size 3.2 3.2)
+			(drill 3.2)
+			(layers "*.Cu" "*.Mask")
+			(uuid "c2000000-0000-4000-b007-000000000001")
+		)
+		(embedded_fonts no)
+	)
+
+	(footprint "MountingHole:MountingHole_3.2mm_M3"
+		(layer "F.Cu")
+		(uuid "c2000000-0000-4000-a000-000000000002")
+		(at 243.60 25)
+		(descr "Mounting Hole 3.2mm, M3, no annular")
+		(tags "mountinghole M3")
+		(property "Reference" "H2"
+			(at 0 -3 0)
+			(layer "F.SilkS")
+			(uuid "c2000000-0000-4000-b000-000000000002")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Value" "MountingHole_3.2mm_M3"
+			(at 0 3 0)
+			(layer "F.Fab")
+			(uuid "c2000000-0000-4000-b001-000000000002")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "c2000000-0000-4000-b002-000000000002")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Mounting Hole 3.2mm, M3, no annular"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "c2000000-0000-4000-b003-000000000002")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(attr exclude_from_pos_files exclude_from_bom)
+		(duplicate_pad_numbers_are_jumpers no)
+		(fp_circle
+			(center 0 0)
+			(end 3.2 0)
+			(stroke
+				(width 0.15)
+				(type solid)
+			)
+			(fill no)
+			(layer "Cmts.User")
+			(uuid "c2000000-0000-4000-b004-000000000002")
+		)
+		(fp_circle
+			(center 0 0)
+			(end 3.45 0)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(fill no)
+			(layer "F.CrtYd")
+			(uuid "c2000000-0000-4000-b005-000000000002")
+		)
+		(fp_text user "${REFERENCE}"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(uuid "c2000000-0000-4000-b006-000000000002")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(pad "" np_thru_hole circle
+			(at 0 0)
+			(size 3.2 3.2)
+			(drill 3.2)
+			(layers "*.Cu" "*.Mask")
+			(uuid "c2000000-0000-4000-b007-000000000002")
+		)
+		(embedded_fonts no)
+	)
+
+	(footprint "MountingHole:MountingHole_3.2mm_M3"
+		(layer "F.Cu")
+		(uuid "c2000000-0000-4000-a000-000000000003")
+		(at 25 192.80)
+		(descr "Mounting Hole 3.2mm, M3, no annular")
+		(tags "mountinghole M3")
+		(property "Reference" "H3"
+			(at 0 -3 0)
+			(layer "F.SilkS")
+			(uuid "c2000000-0000-4000-b000-000000000003")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Value" "MountingHole_3.2mm_M3"
+			(at 0 3 0)
+			(layer "F.Fab")
+			(uuid "c2000000-0000-4000-b001-000000000003")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "c2000000-0000-4000-b002-000000000003")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Mounting Hole 3.2mm, M3, no annular"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "c2000000-0000-4000-b003-000000000003")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(attr exclude_from_pos_files exclude_from_bom)
+		(duplicate_pad_numbers_are_jumpers no)
+		(fp_circle
+			(center 0 0)
+			(end 3.2 0)
+			(stroke
+				(width 0.15)
+				(type solid)
+			)
+			(fill no)
+			(layer "Cmts.User")
+			(uuid "c2000000-0000-4000-b004-000000000003")
+		)
+		(fp_circle
+			(center 0 0)
+			(end 3.45 0)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(fill no)
+			(layer "F.CrtYd")
+			(uuid "c2000000-0000-4000-b005-000000000003")
+		)
+		(fp_text user "${REFERENCE}"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(uuid "c2000000-0000-4000-b006-000000000003")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(pad "" np_thru_hole circle
+			(at 0 0)
+			(size 3.2 3.2)
+			(drill 3.2)
+			(layers "*.Cu" "*.Mask")
+			(uuid "c2000000-0000-4000-b007-000000000003")
+		)
+		(embedded_fonts no)
+	)
+
+	(footprint "MountingHole:MountingHole_3.2mm_M3"
+		(layer "F.Cu")
+		(uuid "c2000000-0000-4000-a000-000000000004")
+		(at 243.60 192.80)
+		(descr "Mounting Hole 3.2mm, M3, no annular")
+		(tags "mountinghole M3")
+		(property "Reference" "H4"
+			(at 0 -3 0)
+			(layer "F.SilkS")
+			(uuid "c2000000-0000-4000-b000-000000000004")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Value" "MountingHole_3.2mm_M3"
+			(at 0 3 0)
+			(layer "F.Fab")
+			(uuid "c2000000-0000-4000-b001-000000000004")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "c2000000-0000-4000-b002-000000000004")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Mounting Hole 3.2mm, M3, no annular"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "c2000000-0000-4000-b003-000000000004")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(attr exclude_from_pos_files exclude_from_bom)
+		(duplicate_pad_numbers_are_jumpers no)
+		(fp_circle
+			(center 0 0)
+			(end 3.2 0)
+			(stroke
+				(width 0.15)
+				(type solid)
+			)
+			(fill no)
+			(layer "Cmts.User")
+			(uuid "c2000000-0000-4000-b004-000000000004")
+		)
+		(fp_circle
+			(center 0 0)
+			(end 3.45 0)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(fill no)
+			(layer "F.CrtYd")
+			(uuid "c2000000-0000-4000-b005-000000000004")
+		)
+		(fp_text user "${REFERENCE}"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(uuid "c2000000-0000-4000-b006-000000000004")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(pad "" np_thru_hole circle
+			(at 0 0)
+			(size 3.2 3.2)
+			(drill 3.2)
+			(layers "*.Cu" "*.Mask")
+			(uuid "c2000000-0000-4000-b007-000000000004")
+		)
+		(embedded_fonts no)
+	)
+
 	(embedded_fonts no)
 )
