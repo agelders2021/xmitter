@@ -1,0 +1,69 @@
+* ============================================================================
+* LT1054 Figure 15 Regulated Inverter + LM2940CT-12 LDO
+*
+* Translated from KiCAD/power/power.net (xmitter revC)
+* Last regen: 2026-10-08
+*
+* Topology:
+*   - U7 LT1054: regulated inverter, 13.8V -> ~-13V (R16=20K, R17=220K)
+*       Flying cap C20 (10u) between CAP+ and CAP-
+*       Output bulk C19 (100u) at pin 5 to GND
+*       FB loop (series through FB per datasheet):
+*         VREF --R16(20K)-- FB --R17(220K)-- V_MINUS
+*         C18 (2.2nF) in parallel with R17 for loop comp
+*   - U8 LM2940CT-12: LDO, 13.8V -> +12V, modeled behaviorally
+*       Output stability: C110 (0.1u ceramic) + C111 (22u electrolytic)
+*   - V_IN bulk: C17 (2u per app note; recommend 10u on physical board)
+*                C108 (220nF) + C109 (0.47u) HF/MF bypass
+*
+* Setpoint predictions (R16=20K, R17=220K):
+*   My circuit analysis:   V_MINUS = 1.21 - 1.29*(220/20) = -13.0 V
+*   Datasheet formula:     V_OUT   = -1.21*(1+220/20)     = -14.5 V
+*   Previous sim with 180K gave ~-10V (matched my analysis), so expect ~-13V.
+*   For exact -12V use R17 = 200K (E24) or 180K for ~-10.4V.
+*
+* To run:  open LTspice -> File -> Open -> select this .cir -> Run (F5)
+* Add traces: V(V_PLUS), V(V_MINUS), V(V_IN), V(VREF), V(FB_SD)
+* ============================================================================
+
+* --- Supply ---
+V1 V_IN 0 DC 13.8
+
+* --- Loads (represents ~12 mA per rail, op-amp quiescent + a bit of overhead) ---
+R_LOADP V_PLUS  0 1K
+R_LOADN V_MINUS 0 1K
+
+* --- V_IN decoupling ---
+C17  V_IN 0 2u
+C108 V_IN 0 220n
+C109 V_IN 0 0.47u
+
+* --- LT1054 regulated inverter (Figure 15 topology, no external pump diodes) ---
+C20  CAP_PLUS CAP_MINUS 10u
+C19  0        V_MINUS   100u
+XU7  FB_SD CAP_PLUS 0 CAP_MINUS V_MINUS VREF OSC_NC V_IN LT1054
+
+* --- FB divider (series through FB) ---
+R16 VREF  FB_SD    20K
+R17 FB_SD V_MINUS  2K
+C18 FB_SD V_MINUS  2.2n
+
+* --- LM2940CT-12 LDO: behavioral model, V_PLUS = min(V_IN - 0.5V, 12V) ---
+* Simplification: ignores the ~8 mA quiescent that real LM2940 draws from V_IN
+* and ignores soft-start.  Fine for validating the LT1054 regulation --
+* the LM2940 just provides a stiff +12V reference rail.
+B_LM2940 V_PLUS 0 V = MIN(V(V_IN) - 0.5, 12)
+C110 V_PLUS 0 0.1u
+C111 V_PLUS 0 22u
+
+* --- LT1054 subcircuit (encrypted file shipped with LTspice) ---
+.include "C:\Users\AlAnd\AppData\Local\LTspice\lib\sub\LT1054.sub"
+
+* --- Analysis ---
+.ic V(V_PLUS)=0 V(V_MINUS)=0
+.tran 0 20m 0 10u uic
+
+* --- Save key nodes ---
+.save V(V_PLUS) V(V_MINUS) V(V_IN) V(VREF) V(FB_SD) V(CAP_PLUS) V(CAP_MINUS)
+
+.END
