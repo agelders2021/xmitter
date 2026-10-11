@@ -41,16 +41,23 @@ Source of truth: `KiCAD/ss_pa/`. Started 2026-10-09.
 
 ### To / from analog board — RJ45 umbilical (Cat5e, shielded)
 
-Pin mapping chosen so that every signal that benefits from a GND
-return gets one via a natural T568B twisted pair (pins 3-6 are the
-green pair, not adjacent on the connector but physically twisted):
+Pin mapping chosen so that every signal that benefits from a return
+gets one via a natural T568B twisted pair (pins 3-6 are the green
+pair, not adjacent on the connector but physically twisted). The
+green pair carries `FAULT_N` paired with `+3.3V` — the +3.3V rail
+acts as a quiet return for noise-rejection purposes (bypassed to
+GND on both board ends):
 
 - Pin 1 — `Source_Sense_A` (orange pair, paired with GND on pin 2)
 - Pin 2 — GND
-- Pin 3 — `FAULT` (green pair, paired with GND on pin 6)
+- Pin 3 — `FAULT_N` (green pair, paired with +3.3V on pin 6).
+  Active-low — normal state is +3.3V (via local pullup), latched
+  fault pulls to 0V. Also powers the V_REF divider on the PA board
+  (see fault_shutdown section)
 - Pin 4 — `Source_Sense_B` (blue pair, paired with GND on pin 5)
 - Pin 5 — GND
-- Pin 6 — GND
+- Pin 6 — `+3.3V` from analog board regulator. Powers LM393, U2
+  CD74HC4066, and the pullup/divider in fault_shutdown
 - Pin 7 — `Bias_A_Raw` (brown pair, two signals sharing one pair —
   OK because bias is low-impedance DC from the DAC)
 - Pin 8 — `Bias_B_Raw`
@@ -89,13 +96,20 @@ to avoid ground loops).
 
 ### Supply decoupling (at J2 power entry)
 
+- `L5` — 12 µH RFC (5-6 turns on FT50-43 ferrite toroid), in series
+  between J2 pin 1 and the +13.8 V bus. L201-equivalent — filters
+  the shack supply input, isolates the PA board's RF switching
+  currents from the shack bus. Everything downstream (bulk,
+  bypass, T2 CT) sits on the post-L5 node.
 - `C6` — 4700 µF 25 V electrolytic, radial THT, polarity: pin 1 (+)
   at +13.8 V, pin 2 (−) at GND. Sized for ~210 mV droop during a
   1 A keying step (10 W PA full-RF step)
 - `C1`, `C2` — 1 µF ceramic HF bypass pair, between +13.8 V and GND
-- No RFC between +13.8 V and the T2 CT. Matches the QRP Labs kit —
-  the kit's L201 is a supply-input RFC at the board edge, not a
-  dedicated drain-feed choke
+- No separate RFC between +13.8 V and T2 CT. T2 CT connects
+  directly to the +13.8 V bus (downstream of L5), matching the QRP
+  Labs kit's layout — the kit's L201 is a supply-input RFC at the
+  board edge, not a dedicated drain-feed choke, and ours plays the
+  same role
 
 ### Snubber
 
@@ -103,9 +117,14 @@ to avoid ground loops).
 
 ### Per-FET gate bias feed (mirrored A ↔ B)
 
-- Bias enters as `Bias_A` / `Bias_B` global labels (will come from
-  the fault_shutdown sheet once that is populated — until then,
-  tie directly to `Bias_A_Raw` / `Bias_B_Raw` from the umbilical)
+- Bias enters as `Bias_A` / `Bias_B` global labels — these come
+  from the fault_shutdown sheet (post-protection outputs of the
+  CD74HC4066 series-pass switches, which pass `Bias_X_Raw` from
+  the umbilical through to `Bias_X` when `FAULT_N` is HIGH)
+- Bias_A → Q3 gate chain, Bias_B → Q4 gate chain. (Note: A/B
+  naming is a wiring convention; both chains are electrically
+  identical, and A/B always refers to the same FET consistently
+  across Bias, Source_Sense, and feedback paths.)
 - `R8` / `R7` — 47 Ω series damping from bias feed
 - `C10` / `C9` — 0.1 µF decoupling at the post-R8/R7 junction to GND
 - `L4` / `L3` — 1 µH RFC between the junction and the IRF510 gate
@@ -132,36 +151,102 @@ to avoid ground loops).
 - AC bypass across each parallel pair planned at layout time
   (0.1 µF X7R + 100 pF C0G, short lead, component-side)
 
-## Component inventory — fault_shutdown sheet (planned, not yet populated)
+## Component inventory — fault_shutdown sheet (populated)
 
 Hardware overcurrent latch that shuts down bias when either FET's
-source current exceeds a threshold, independently of firmware:
+source current exceeds a threshold, independently of firmware.
+**`FAULT_N` is active low: +3.3 V = normal, 0 V = latched fault.**
 
-- `U1` — LM393 dual comparator, powered from +13.8 V on the PA
-  board (saves running +5 V across the umbilical)
-- `D2` — 1N4728A (3.3 V zener) + bias resistor, forms a stable
-  reference regardless of 13.8 V droops
-- Divider from the zener node sets threshold at ~300 mV (trips at
-  ~2.7 A per FET through the 0.11 Ω sense R; 4.5× the ~600 mA DC
-  average at full-RF normal operation)
-- Positive feedback (R12 / R13, 10 kΩ) from each LM393 output
-  back to its V+ input latches the comparator in the HIGH state
-  once tripped. No flip-flop needed
-- Two LM393 outputs wire-OR into a single `FAULT` bus (open-drain
-  on the PA board — no local pullup, relies on the Metro's
-  internal pullup on the far end at 3.3 V, which is Metro-input-safe)
-- `Q5`, `Q6` — 2N7000 (one per bias line). Gate = FAULT; drain
-  shorts `Bias_A` / `Bias_B` to GND when latched; source to GND
-- `R16`, `R17` — 1 kΩ series between `Bias_A_Raw` / `Bias_B_Raw`
-  (DAC side) and `Bias_A` / `Bias_B` (PA stage side). Limits the
-  current the Q5/Q6 short can draw from the DAC output
-- `SW1` — momentary SPST pushbutton; press to clear a latched
-  fault. Pulls `FAULT` bus to GND; if sense is below threshold the
-  latch stays low on release
-- `D1` + `R18` — fault indicator LED
+### Comparator and reference
 
-Response time end-to-end: <1 µs from Source_Sense exceeding
-threshold to IRF510 gates collapsing to 0 V.
+- `U1` — LM393 dual comparator, powered from +3.3 V (comes in on
+  RJ45 pin 6 from the analog board regulator). Open-collector
+  outputs on pins 1 and 7 wire-OR'd into the `FAULT_N` bus
+- `C14` — 0.1 µF ceramic bypass across U1's +3.3 V ↔ GND
+- Both comparator inputs wired as: `V+` = V_REF, `V−` = Source_Sense
+  for its channel. Normal (sense < V_REF) → output open → pullup
+  takes FAULT_N HIGH. Fault (sense > V_REF) → output pulls LOW
+- `R9` — 4.7 kΩ pullup on `FAULT_N` to +3.3 V. Wire-OR topology:
+  either channel pulling LOW triggers fault (true OR of two fault
+  sources, which is what we want)
+
+### Self-latching V_REF divider — the clever bit
+
+- `R11` (100 kΩ) + `R10` (10 kΩ) divider, powered **from the
+  FAULT_N bus**, generates V_REF for both comparator V+ inputs
+- Normal state: FAULT_N ≈ 3.165 V (slightly below rail because the
+  divider loads the pullup) → V_REF = 3.165 × 10/110 ≈ **288 mV**
+  (trip threshold)
+- Fault state: FAULT_N = 0 V → V_REF = 0 V → V+ = 0 and V− > 0
+  (even leakage keeps V− above 0) → comparator stays LOW →
+  **latched by circuit topology, no flip-flop needed**
+- Divider impedance (110 kΩ) chosen to be ≥ 10× the pullup (4.7 kΩ)
+  so FAULT_N normal voltage stays near +3.3 V
+
+### Power-on reset — avoids needing button press at every boot
+
+- `C12` (1 µF) + `D1` (1N4148, cathode toward V_REF) between
+  +3.3 V and V_REF. As +3.3 V rises during power-on, C12 couples
+  the rise through D1 to pump V_REF briefly up to ~2.6 V → V+ >
+  V− → comparator defaults HIGH → FAULT_N settles HIGH via pullup
+  → V_REF settles to its 288 mV steady state via the divider
+- After startup D1 is reverse-biased (anode ≈ 988 mV, cathode at
+  288 mV, cathode > anode − V_D). C12 holds its charge, doesn't
+  interfere with latching when a real fault occurs
+
+### Reset button
+
+- `J5` — 2-pin screw terminal. Pin 1 → +3.3 V, pin 2 → V_REF.
+  External momentary pushbutton wires to the screw terminals.
+  Pressing shorts +3.3 V to V_REF, forcing V+ > V− → comparator
+  un-trips → pullup takes FAULT_N back to +3.3 V → divider resumes
+  normal operation. Latch cleared if fault condition no longer
+  present
+
+### Noise suppression
+
+- `C11` (0.01 µF) ceramic bypass on FAULT_N bus to GND —
+  suppresses noise pickup on the fault line (which runs on an RJ45
+  pair back to the analog board)
+
+### Bias-line series switches
+
+- `U2` — CD74HC4066 quad bilateral analog switch (PDIP-14 TH),
+  custom symbol `xmitter:CD74HC4066`. Powered from +3.3 V
+- `C15` — 0.1 µF ceramic bypass across U2's +3.3 V ↔ GND
+- Switch 1: pin 1 (Bias_A_Raw) ↔ pin 2 (Bias_A), control = pin 13
+  (1E) → tied to FAULT_N
+- Switch 2: pin 4 (Bias_B_Raw) ↔ pin 3 (Bias_B), control = pin 5
+  (2E) → tied to FAULT_N
+- Switches 3 and 4 unused — their I/O pins (pins 8-11) and
+  control pins (pins 6, 12) tied to GND
+- CD74HC4066 enable is active HIGH: FAULT_N = +3.3 V → switch
+  closed → bias passes. FAULT_N = 0 V → switch open → bias blocked.
+  Direct polarity match with the `FAULT_N` active-low scheme
+
+### RJ45 umbilical connector
+
+- `J7` — Amphenol RJE1D-188 shielded 8P8C. Pins per the T568B
+  assignment in the Signal Interface section above. Shield (SH
+  terminal) tied to GND on the PA-board end
+
+### Why series-pass (not shunt-to-GND)
+
+Earlier design (not used) had 2N7000 N-channel MOSFETs shunting
+`Bias_A/B` to GND when fault asserted, with 1 kΩ series resistors
+protecting the DAC output. That worked but loaded the MCP4728 DAC
+output with ~5 mA continuously during a latched fault (near the
+chip's spec limit). The CD74HC4066 series-pass approach fully
+isolates the DAC from the gate network when latched — zero DAC
+loading. Also cleaner polarity match (switch native "HIGH enable"
+matches FAULT_N active-low scheme without needing an inverter).
+
+### Response time
+
+End-to-end: <1 µs from Source_Sense exceeding V_REF to IRF510 gates
+collapsing to 0 V (comparator transition + CD74HC4066 open +
+gate-network discharge through R7/R8 series resistance into any
+stray C).
 
 ## Operating point and design math
 
@@ -195,27 +280,30 @@ threshold to IRF510 gates collapsing to 0 V.
 
 ## Pending
 
-- Populate `fault_shutdown.kicad_sch` with the components spec'd
-  above
 - Populate `lpf.kicad_sch` by migrating the 4-band LPF bank out
   of `KiCAD/analog/` (and removing it from there)
-- Add RJ45 umbilical connector on the pa_stage (or a new interface
-  sub-sheet) and wire `Bias_A_Raw`, `Bias_B_Raw`, `Source_Sense_A`,
-  `Source_Sense_B`, `FAULT`, GND pins
 - Add corresponding RJ45 jack on the analog board, with firmware
-  wiring to MCP4728 DAC outputs for bias and Metro ADC pins
-  A0, A1 for the sense signals
+  wiring: MCP4728 VA/VB → `Bias_A_Raw`/`Bias_B_Raw`; Metro ADC
+  pins → `Source_Sense_A` (A0), `Source_Sense_B` (A1), `FAULT_N`
+  (A2); analog board +3.3V rail → RJ45 pin 6
+- Rename `Bias_A`/`Bias_B` DAC output global labels on the analog
+  board to `Bias_A_Raw`/`Bias_B_Raw` to match the PA-board side
+  (the "unraw" names are the post-protection outputs on the PA
+  board, downstream of the CD74HC4066)
 - AC bypass caps across the source-sense resistor pairs (0.1 µF
   X7R + 100 pF C0G, placed at layout time)
-- Analog board must be re-labeled: `Bias_A` / `Bias_B` DAC
-  outputs will become `Bias_A_Raw` / `Bias_B_Raw` once this
-  board's fault_shutdown is in place (the "unraw" names are the
-  post-protection outputs on the PA board)
 - PCB layout for the ss_pa board — mounting holes and board-edge
   connectors first per project convention
 - IRF510 heatsinking: TO-220 metal tab is the drain. Isolating
   silicone pad required for case-to-heatsink; thermal design per
   layout pass
+- Firmware: boot-time read of `FAULT_N` on Metro A2. If LOW
+  (latched from previous session), either prompt user to press
+  reset button, or optionally pulse a Metro GPIO wired to the
+  `V_REF` node (via a series resistor through J5) to auto-clear.
+  Also implement periodic BIST — briefly command Bias_X above
+  threshold, verify FAULT_N drops, restore normal bias; refuse to
+  key down if BIST fails
 
 ## References
 
@@ -228,8 +316,8 @@ threshold to IRF510 gates collapsing to 0 V.
 - `Documentation/QRP_Examples/pa_assembly_LT.pdf` — related 5 W kit
   with envelope shaping (informational)
 - `KiCAD/ss_pa/` — schematic + PCB
-- `KiCAD/xmitter.kicad_sym` — contains the `IRF510` and `+13.8V`
-  symbols added for this board
+- `KiCAD/xmitter.kicad_sym` — contains the `IRF510`, `+13.8V`,
+  and `CD74HC4066` symbols added for this board
 - `Documentation/i2c_bus.md` — MCP4728 address map (0x67)
 - `Documentation/PA_stage.md` — HISTORICAL shelved tube PA (6146B
   push-pull) kept for reference in case the SS PA proves

@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "C:\\Users\\AlAnd\\Git Backed Projects\\xmitter\\KiCAD\\ss_pa\\ss_pa.kicad_sch")
-		(date "2026-10-10T17:26:58")
+		(date "2026-10-11T16:22:21")
 		(tool "Eeschema 10.0.3")
 		(sheet
 			(number "1")
@@ -110,6 +110,54 @@
 				(rev)
 				(date)
 				(source "lpf.kicad_sch")
+				(comment
+					(number "1")
+					(value "")
+				)
+				(comment
+					(number "2")
+					(value "")
+				)
+				(comment
+					(number "3")
+					(value "")
+				)
+				(comment
+					(number "4")
+					(value "")
+				)
+				(comment
+					(number "5")
+					(value "")
+				)
+				(comment
+					(number "6")
+					(value "")
+				)
+				(comment
+					(number "7")
+					(value "")
+				)
+				(comment
+					(number "8")
+					(value "")
+				)
+				(comment
+					(number "9")
+					(value "")
+				)
+			)
+		)
+		(sheet
+			(number "4")
+			(name "/Fault_Shutdown/")
+			(tstamps "/7e6e5903-d9c4-4499-a3fb-6a30c021fada/")
+			(title_block
+				(title)
+				(company)
+				(rev)
+				(date)
+				(source "fault_shutdown.kicad_sch")
 				(comment
 					(number "1")
 					(value "")
@@ -1123,6 +1171,60 @@
 			)
 		)
 		(comp
+			(ref "L5")
+			(value "12uH")
+			(description "5-6 turns on FT50-43")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "5-6 turns on FT50-43")
+			)
+			(libsource
+				(lib "Device")
+				(part "L_Ferrite")
+				(description "Inductor with ferrite core")
+			)
+			(property
+				(name "Sheetname")
+				(value "PA_Stage")
+			)
+			(property
+				(name "Sheetfile")
+				(value "pa_stage.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "inductor choke coil reactor magnetic")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "Choke_* *Coil* Inductor_* L_*")
+			)
+			(sheetpath
+				(names "/PA_Stage/")
+				(tstamps "/6995ca2b-35a4-4871-8cf2-3a0067e62105/")
+			)
+			(tstamps "3460f2b0-7d75-461f-8d30-6828172df4f2")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
 			(ref "Q3")
 			(value "IRF510")
 			(footprint "Package_TO_SOT_THT:TO-220-3_Vertical")
@@ -1804,10 +1906,915 @@
 				)
 			)
 		)
+		(comp
+			(ref "C11")
+			(value "0.01uF")
+			(description "Unpolarized capacitor")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Unpolarized capacitor")
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "Sheetname")
+				(value "Fault_Shutdown")
+			)
+			(property
+				(name "Sheetfile")
+				(value "fault_shutdown.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "C_*")
+			)
+			(sheetpath
+				(names "/Fault_Shutdown/")
+				(tstamps "/7e6e5903-d9c4-4499-a3fb-6a30c021fada/")
+			)
+			(tstamps "432ab9fa-ab68-48fe-97ab-9f141ee88495")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C12")
+			(value "1uF")
+			(description "Unpolarized capacitor")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Unpolarized capacitor")
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "Sheetname")
+				(value "Fault_Shutdown")
+			)
+			(property
+				(name "Sheetfile")
+				(value "fault_shutdown.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "C_*")
+			)
+			(sheetpath
+				(names "/Fault_Shutdown/")
+				(tstamps "/7e6e5903-d9c4-4499-a3fb-6a30c021fada/")
+			)
+			(tstamps "7e7b9a44-1808-497a-bd45-b426577cf49d")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C14")
+			(value "0.1uF")
+			(description "Unpolarized capacitor")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Unpolarized capacitor")
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "Sheetname")
+				(value "Fault_Shutdown")
+			)
+			(property
+				(name "Sheetfile")
+				(value "fault_shutdown.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "C_*")
+			)
+			(sheetpath
+				(names "/Fault_Shutdown/")
+				(tstamps "/7e6e5903-d9c4-4499-a3fb-6a30c021fada/")
+			)
+			(tstamps "c3364e03-9d08-4a26-8685-9ce368e119c1")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C15")
+			(value "0.1uF")
+			(description "Unpolarized capacitor")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Unpolarized capacitor")
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "Sheetname")
+				(value "Fault_Shutdown")
+			)
+			(property
+				(name "Sheetfile")
+				(value "fault_shutdown.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "C_*")
+			)
+			(sheetpath
+				(names "/Fault_Shutdown/")
+				(tstamps "/7e6e5903-d9c4-4499-a3fb-6a30c021fada/")
+			)
+			(tstamps "598bc9d8-b779-4fac-b3f7-99c7630ab700")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "D1")
+			(value "1N4148")
+			(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
+			(datasheet "https://assets.nexperia.com/documents/data-sheet/1N4148_1N4448.pdf")
+			(description "100V 0.15A standard switching diode, DO-35")
+			(fields
+				(field
+					(name "Sim.Device") "D")
+				(field
+					(name "Sim.Pins") "1=K 2=A")
+				(field
+					(name "Footprint") "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
+				(field
+					(name "Datasheet") "https://assets.nexperia.com/documents/data-sheet/1N4148_1N4448.pdf")
+				(field
+					(name "Description") "100V 0.15A standard switching diode, DO-35")
+			)
+			(libsource
+				(lib "Diode")
+				(part "1N4148")
+				(description "100V 0.15A standard switching diode, DO-35")
+			)
+			(property
+				(name "Sim.Device")
+				(value "D")
+			)
+			(property
+				(name "Sim.Pins")
+				(value "1=K 2=A")
+			)
+			(property
+				(name "Sheetname")
+				(value "Fault_Shutdown")
+			)
+			(property
+				(name "Sheetfile")
+				(value "fault_shutdown.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "diode")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "D*DO?35*")
+			)
+			(sheetpath
+				(names "/Fault_Shutdown/")
+				(tstamps "/7e6e5903-d9c4-4499-a3fb-6a30c021fada/")
+			)
+			(tstamps "4b48b863-253b-40cd-9bde-0e2b794ba29c")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "J5")
+			(value "Screw_Terminal_01x02")
+			(description "Generic screw terminal, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Generic screw terminal, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)")
+			)
+			(libsource
+				(lib "Connector")
+				(part "Screw_Terminal_01x02")
+				(description "Generic screw terminal, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)")
+			)
+			(property
+				(name "Sheetname")
+				(value "Fault_Shutdown")
+			)
+			(property
+				(name "Sheetfile")
+				(value "fault_shutdown.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "screw terminal")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "TerminalBlock*:*")
+			)
+			(sheetpath
+				(names "/Fault_Shutdown/")
+				(tstamps "/7e6e5903-d9c4-4499-a3fb-6a30c021fada/")
+			)
+			(tstamps "b907678d-751a-4a94-971b-7908ef1f49b0")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "J7")
+			(value "8P8C_Shielded")
+			(footprint "xmitter:Amphenol_RJE1D-188_Horizontal_Shielded")
+			(description "RJ connector, 8P8C (8 positions 8 connected), RJ31/RJ32/RJ33/RJ34/RJ35/RJ41/RJ45/RJ49/RJ61, Shielded")
+			(fields
+				(field
+					(name "Footprint") "xmitter:Amphenol_RJE1D-188_Horizontal_Shielded")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "RJ connector, 8P8C (8 positions 8 connected), RJ31/RJ32/RJ33/RJ34/RJ35/RJ41/RJ45/RJ49/RJ61, Shielded")
+			)
+			(libsource
+				(lib "Connector")
+				(part "8P8C_Shielded")
+				(description "RJ connector, 8P8C (8 positions 8 connected), RJ31/RJ32/RJ33/RJ34/RJ35/RJ41/RJ45/RJ49/RJ61, Shielded")
+			)
+			(property
+				(name "Sheetname")
+				(value "Fault_Shutdown")
+			)
+			(property
+				(name "Sheetfile")
+				(value "fault_shutdown.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "8P8C RJ socket connector")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "8P8C* RJ31* RJ32* RJ33* RJ34* RJ35* RJ41* RJ45* RJ49* RJ61*")
+			)
+			(sheetpath
+				(names "/Fault_Shutdown/")
+				(tstamps "/7e6e5903-d9c4-4499-a3fb-6a30c021fada/")
+			)
+			(tstamps "b0703241-0017-4e1d-93ec-3975d80b9ddd")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "SH")
+						)
+						(pin
+							(num "8")
+						)
+						(pin
+							(num "7")
+						)
+						(pin
+							(num "6")
+						)
+						(pin
+							(num "5")
+						)
+						(pin
+							(num "4")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "1")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R9")
+			(value "4.7K")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "Fault_Shutdown")
+			)
+			(property
+				(name "Sheetfile")
+				(value "fault_shutdown.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/Fault_Shutdown/")
+				(tstamps "/7e6e5903-d9c4-4499-a3fb-6a30c021fada/")
+			)
+			(tstamps "79f12d11-9861-4f20-9b92-c77380ad5ba7")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R10")
+			(value "10K")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "Fault_Shutdown")
+			)
+			(property
+				(name "Sheetfile")
+				(value "fault_shutdown.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/Fault_Shutdown/")
+				(tstamps "/7e6e5903-d9c4-4499-a3fb-6a30c021fada/")
+			)
+			(tstamps "febedcc4-d09d-43d5-8f9a-ff2717214b1f")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R11")
+			(value "100K")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "Fault_Shutdown")
+			)
+			(property
+				(name "Sheetfile")
+				(value "fault_shutdown.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/Fault_Shutdown/")
+				(tstamps "/7e6e5903-d9c4-4499-a3fb-6a30c021fada/")
+			)
+			(tstamps "beeadb26-dbd9-45c9-b678-d7428b9514a4")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "U1")
+			(value "LM393")
+			(datasheet "http://www.ti.com/lit/ds/symlink/lm393.pdf")
+			(description "Low-Power, Low-Offset Voltage, Dual Comparators, DIP-8/SOIC-8/TO-99-8")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet") "http://www.ti.com/lit/ds/symlink/lm393.pdf")
+				(field
+					(name "Description") "Low-Power, Low-Offset Voltage, Dual Comparators, DIP-8/SOIC-8/TO-99-8")
+			)
+			(libsource
+				(lib "Comparator")
+				(part "LM393")
+				(description "Low-Power, Low-Offset Voltage, Dual Comparators, DIP-8/SOIC-8/TO-99-8")
+			)
+			(property
+				(name "Sheetname")
+				(value "Fault_Shutdown")
+			)
+			(property
+				(name "Sheetfile")
+				(value "fault_shutdown.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cmp open collector")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "SOIC*3.9x4.9mm*P1.27mm* DIP*W7.62mm* SOP*5.28x5.23mm*P1.27mm* VSSOP*3x3mm*P0.65mm* TSSOP*4.4x3mm*P0.65mm*")
+			)
+			(sheetpath
+				(names "/Fault_Shutdown/")
+				(tstamps "/7e6e5903-d9c4-4499-a3fb-6a30c021fada/")
+			)
+			(tstamps "a0c392bc-8eaa-40b6-a87c-d7d6b908a812" "d8575d24-8609-4520-97b0-c41000dadd8f"
+				"40414c55-3cf2-4fb8-b087-68fb4fc31bf9"
+			)
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "1")
+						)
+					)
+				)
+				(unit
+					(name "B")
+					(pins
+						(pin
+							(num "5")
+						)
+						(pin
+							(num "6")
+						)
+						(pin
+							(num "7")
+						)
+					)
+				)
+				(unit
+					(name "C")
+					(pins
+						(pin
+							(num "8")
+						)
+						(pin
+							(num "4")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "U2")
+			(value "CD74HC4066")
+			(footprint "Package_DIP:DIP-14_W7.62mm")
+			(datasheet "https://www.ti.com/lit/ds/symlink/cd74hc4066.pdf")
+			(description "Quad bilateral analog switch, CMOS, PDIP-14, VCC=2-10V. Each switch turned on by high-level voltage on its control input.")
+			(fields
+				(field
+					(name "Manufacturer") "Texas Instruments")
+				(field
+					(name "MPN") "CD74HC4066E")
+				(field
+					(name "Footprint") "Package_DIP:DIP-14_W7.62mm")
+				(field
+					(name "Datasheet") "https://www.ti.com/lit/ds/symlink/cd74hc4066.pdf")
+				(field
+					(name "Description") "Quad bilateral analog switch, CMOS, PDIP-14, VCC=2-10V. Each switch turned on by high-level voltage on its control input.")
+			)
+			(libsource
+				(lib "xmitter")
+				(part "CD74HC4066")
+				(description "Quad bilateral analog switch, CMOS, PDIP-14, VCC=2-10V. Each switch turned on by high-level voltage on its control input.")
+			)
+			(property
+				(name "Manufacturer")
+				(value "Texas Instruments")
+			)
+			(property
+				(name "MPN")
+				(value "CD74HC4066E")
+			)
+			(property
+				(name "Sheetname")
+				(value "Fault_Shutdown")
+			)
+			(property
+				(name "Sheetfile")
+				(value "fault_shutdown.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "quad bilateral analog switch CMOS 4066 HC4066 CD4066 CD74HC4066")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "DIP*W7.62mm*")
+			)
+			(sheetpath
+				(names "/Fault_Shutdown/")
+				(tstamps "/7e6e5903-d9c4-4499-a3fb-6a30c021fada/")
+			)
+			(tstamps "93548d40-9c62-4a22-ad74-5c2372b9ca6c")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "4")
+						)
+						(pin
+							(num "5")
+						)
+						(pin
+							(num "6")
+						)
+						(pin
+							(num "7")
+						)
+						(pin
+							(num "14")
+						)
+						(pin
+							(num "13")
+						)
+						(pin
+							(num "12")
+						)
+						(pin
+							(num "11")
+						)
+						(pin
+							(num "10")
+						)
+						(pin
+							(num "9")
+						)
+						(pin
+							(num "8")
+						)
+					)
+				)
+			)
+		)
 	)
 	(groups)
 	(variants)
 	(libparts
+		(libpart
+			(lib "Comparator")
+			(part "LM393")
+			(description "Low-Power, Low-Offset Voltage, Dual Comparators, DIP-8/SOIC-8/TO-99-8")
+			(docs "http://www.ti.com/lit/ds/symlink/lm393.pdf")
+			(footprints
+				(fp "SOIC*3.9x4.9mm*P1.27mm*")
+				(fp "DIP*W7.62mm*")
+				(fp "SOP*5.28x5.23mm*P1.27mm*")
+				(fp "VSSOP*3x3mm*P0.65mm*")
+				(fp "TSSOP*4.4x3mm*P0.65mm*")
+			)
+			(fields
+				(field
+					(name "Reference") "U")
+				(field
+					(name "Value") "LM393")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet") "http://www.ti.com/lit/ds/symlink/lm393.pdf")
+				(field
+					(name "Description") "Low-Power, Low-Offset Voltage, Dual Comparators, DIP-8/SOIC-8/TO-99-8")
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "")
+					(type "open_collector")
+				)
+				(pin
+					(num "2")
+					(name "-")
+					(type "input")
+				)
+				(pin
+					(num "3")
+					(name "+")
+					(type "input")
+				)
+				(pin
+					(num "4")
+					(name "V-")
+					(type "power_in")
+				)
+				(pin
+					(num "5")
+					(name "+")
+					(type "input")
+				)
+				(pin
+					(num "6")
+					(name "-")
+					(type "input")
+				)
+				(pin
+					(num "7")
+					(name "")
+					(type "open_collector")
+				)
+				(pin
+					(num "8")
+					(name "V+")
+					(type "power_in")
+				)
+			)
+		)
+		(libpart
+			(lib "Connector")
+			(part "8P8C_Shielded")
+			(description "RJ connector, 8P8C (8 positions 8 connected), RJ31/RJ32/RJ33/RJ34/RJ35/RJ41/RJ45/RJ49/RJ61, Shielded")
+			(footprints
+				(fp "8P8C*")
+				(fp "RJ31*")
+				(fp "RJ32*")
+				(fp "RJ33*")
+				(fp "RJ34*")
+				(fp "RJ35*")
+				(fp "RJ41*")
+				(fp "RJ45*")
+				(fp "RJ49*")
+				(fp "RJ61*")
+			)
+			(fields
+				(field
+					(name "Reference") "J")
+				(field
+					(name "Value") "8P8C_Shielded")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "RJ connector, 8P8C (8 positions 8 connected), RJ31/RJ32/RJ33/RJ34/RJ35/RJ41/RJ45/RJ49/RJ61, Shielded")
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "")
+					(type "passive")
+				)
+				(pin
+					(num "3")
+					(name "")
+					(type "passive")
+				)
+				(pin
+					(num "4")
+					(name "")
+					(type "passive")
+				)
+				(pin
+					(num "5")
+					(name "")
+					(type "passive")
+				)
+				(pin
+					(num "6")
+					(name "")
+					(type "passive")
+				)
+				(pin
+					(num "7")
+					(name "")
+					(type "passive")
+				)
+				(pin
+					(num "8")
+					(name "")
+					(type "passive")
+				)
+				(pin
+					(num "SH")
+					(name "")
+					(type "passive")
+				)
+			)
+		)
 		(libpart
 			(lib "Connector")
 			(part "Conn_Coaxial_Small")
@@ -1991,6 +2998,43 @@
 		)
 		(libpart
 			(lib "Device")
+			(part "L_Ferrite")
+			(description "Inductor with ferrite core")
+			(footprints
+				(fp "Choke_*")
+				(fp "*Coil*")
+				(fp "Inductor_*")
+				(fp "L_*")
+			)
+			(fields
+				(field
+					(name "Reference") "L")
+				(field
+					(name "Value") "L_Ferrite")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Inductor with ferrite core")
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "1")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "2")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "Device")
 			(part "R_US")
 			(description "Resistor, US symbol")
 			(footprints
@@ -2065,6 +3109,140 @@
 			)
 		)
 		(libpart
+			(lib "Diode")
+			(part "1N4148")
+			(description "100V 0.15A standard switching diode, DO-35")
+			(docs "https://assets.nexperia.com/documents/data-sheet/1N4148_1N4448.pdf")
+			(footprints
+				(fp "D*DO?35*")
+			)
+			(fields
+				(field
+					(name "Reference") "D")
+				(field
+					(name "Value") "1N4148")
+				(field
+					(name "Footprint") "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
+				(field
+					(name "Datasheet") "https://assets.nexperia.com/documents/data-sheet/1N4148_1N4448.pdf")
+				(field
+					(name "Description") "100V 0.15A standard switching diode, DO-35")
+				(field
+					(name "Sim.Device") "D")
+				(field
+					(name "Sim.Pins") "1=K 2=A")
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "K")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "A")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "xmitter")
+			(part "CD74HC4066")
+			(description "Quad bilateral analog switch, CMOS, PDIP-14, VCC=2-10V. Each switch turned on by high-level voltage on its control input.")
+			(docs "https://www.ti.com/lit/ds/symlink/cd74hc4066.pdf")
+			(footprints
+				(fp "DIP*W7.62mm*")
+			)
+			(fields
+				(field
+					(name "Reference") "U")
+				(field
+					(name "Value") "CD74HC4066")
+				(field
+					(name "Footprint") "Package_DIP:DIP-14_W7.62mm")
+				(field
+					(name "Datasheet") "https://www.ti.com/lit/ds/symlink/cd74hc4066.pdf")
+				(field
+					(name "Description") "Quad bilateral analog switch, CMOS, PDIP-14, VCC=2-10V. Each switch turned on by high-level voltage on its control input.")
+				(field
+					(name "Manufacturer") "Texas Instruments")
+				(field
+					(name "MPN") "CD74HC4066E")
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "1Y")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "1Z")
+					(type "passive")
+				)
+				(pin
+					(num "3")
+					(name "2Z")
+					(type "passive")
+				)
+				(pin
+					(num "4")
+					(name "2Y")
+					(type "passive")
+				)
+				(pin
+					(num "5")
+					(name "2E")
+					(type "input")
+				)
+				(pin
+					(num "6")
+					(name "3E")
+					(type "input")
+				)
+				(pin
+					(num "7")
+					(name "GND")
+					(type "power_in")
+				)
+				(pin
+					(num "8")
+					(name "3Y")
+					(type "passive")
+				)
+				(pin
+					(num "9")
+					(name "3Z")
+					(type "passive")
+				)
+				(pin
+					(num "10")
+					(name "4Z")
+					(type "passive")
+				)
+				(pin
+					(num "11")
+					(name "4Y")
+					(type "passive")
+				)
+				(pin
+					(num "12")
+					(name "4E")
+					(type "input")
+				)
+				(pin
+					(num "13")
+					(name "1E")
+					(type "input")
+				)
+				(pin
+					(num "14")
+					(name "VCC")
+					(type "power_in")
+				)
+			)
+		)
+		(libpart
 			(lib "xmitter")
 			(part "IRF510")
 			(description "5.6A Id, 100V Vds, HEXFET N-Channel MOSFET, TO-220")
@@ -2109,12 +3287,20 @@
 	)
 	(libraries
 		(library
+			(logical "Comparator")
+			(uri "${KICAD10_SYMBOL_DIR}/Comparator.kicad_sym")
+		)
+		(library
 			(logical "Connector")
 			(uri "${KICAD10_SYMBOL_DIR}/Connector.kicad_sym")
 		)
 		(library
 			(logical "Device")
 			(uri "${KICAD10_SYMBOL_DIR}/Device.kicad_sym")
+		)
+		(library
+			(logical "Diode")
+			(uri "${KICAD10_SYMBOL_DIR}/Diode.kicad_sym")
 		)
 		(library
 			(logical "xmitter")
@@ -2124,6 +3310,54 @@
 	(nets
 		(net
 			(code "1")
+			(name "+3.3V")
+			(class "Default")
+			(node
+				(ref "C12")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C14")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C15")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "J5")
+				(pin "1")
+				(pinfunction "Pin_1_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "J7")
+				(pin "6")
+				(pintype "passive")
+			)
+			(node
+				(ref "R9")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "U1")
+				(pin "8")
+				(pinfunction "V+_8")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U2")
+				(pin "14")
+				(pinfunction "VCC_14")
+				(pintype "power_in")
+			)
+		)
+		(net
+			(code "2")
 			(name "+13.8V")
 			(class "Default")
 			(node
@@ -2142,9 +3376,9 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "J2")
+				(ref "L5")
 				(pin "1")
-				(pinfunction "Pin_1_1")
+				(pinfunction "1_1")
 				(pintype "passive")
 			)
 			(node
@@ -2161,7 +3395,7 @@
 			)
 		)
 		(net
-			(code "2")
+			(code "3")
 			(name "Bias_A")
 			(class "Default")
 			(node
@@ -2169,9 +3403,31 @@
 				(pin "1")
 				(pintype "passive")
 			)
+			(node
+				(ref "U2")
+				(pin "2")
+				(pinfunction "1Z_2")
+				(pintype "passive")
+			)
 		)
 		(net
-			(code "3")
+			(code "4")
+			(name "Bias_A_Raw")
+			(class "Default")
+			(node
+				(ref "J7")
+				(pin "7")
+				(pintype "passive")
+			)
+			(node
+				(ref "U2")
+				(pin "1")
+				(pinfunction "1Y_1")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "5")
 			(name "Bias_B")
 			(class "Default")
 			(node
@@ -2179,9 +3435,78 @@
 				(pin "1")
 				(pintype "passive")
 			)
+			(node
+				(ref "U2")
+				(pin "3")
+				(pinfunction "2Z_3")
+				(pintype "passive")
+			)
 		)
 		(net
-			(code "4")
+			(code "6")
+			(name "Bias_B_Raw")
+			(class "Default")
+			(node
+				(ref "J7")
+				(pin "8")
+				(pintype "passive")
+			)
+			(node
+				(ref "U2")
+				(pin "4")
+				(pinfunction "2Y_4")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "7")
+			(name "FAULT_N")
+			(class "Default")
+			(node
+				(ref "C11")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "J7")
+				(pin "3")
+				(pintype "passive")
+			)
+			(node
+				(ref "R11")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R9")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "U1")
+				(pin "1")
+				(pintype "open_collector")
+			)
+			(node
+				(ref "U1")
+				(pin "7")
+				(pintype "open_collector")
+			)
+			(node
+				(ref "U2")
+				(pin "13")
+				(pinfunction "1E_13")
+				(pintype "input")
+			)
+			(node
+				(ref "U2")
+				(pin "5")
+				(pinfunction "2E_5")
+				(pintype "input")
+			)
+		)
+		(net
+			(code "8")
 			(name "GND")
 			(class "Default")
 			(node
@@ -2192,6 +3517,21 @@
 			(node
 				(ref "C10")
 				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C11")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C14")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "C15")
+				(pin "1")
 				(pintype "passive")
 			)
 			(node
@@ -2234,7 +3574,27 @@
 				(pintype "passive")
 			)
 			(node
+				(ref "J7")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "J7")
+				(pin "5")
+				(pintype "passive")
+			)
+			(node
+				(ref "J7")
+				(pin "SH")
+				(pintype "passive")
+			)
+			(node
 				(ref "R1")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "R10")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -2259,9 +3619,57 @@
 				(pinfunction "SA_3")
 				(pintype "passive")
 			)
+			(node
+				(ref "U1")
+				(pin "4")
+				(pinfunction "V-_4")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U2")
+				(pin "10")
+				(pinfunction "4Z_10")
+				(pintype "passive")
+			)
+			(node
+				(ref "U2")
+				(pin "11")
+				(pinfunction "4Y_11")
+				(pintype "passive")
+			)
+			(node
+				(ref "U2")
+				(pin "12")
+				(pinfunction "4E_12")
+				(pintype "input")
+			)
+			(node
+				(ref "U2")
+				(pin "6")
+				(pinfunction "3E_6")
+				(pintype "input")
+			)
+			(node
+				(ref "U2")
+				(pin "7")
+				(pinfunction "GND_7")
+				(pintype "power_in")
+			)
+			(node
+				(ref "U2")
+				(pin "8")
+				(pinfunction "3Y_8")
+				(pintype "passive")
+			)
+			(node
+				(ref "U2")
+				(pin "9")
+				(pinfunction "3Z_9")
+				(pintype "passive")
+			)
 		)
 		(net
-			(code "5")
+			(code "9")
 			(name "Net-(C7-Pad1)")
 			(class "Default")
 			(node
@@ -2276,7 +3684,7 @@
 			)
 		)
 		(net
-			(code "6")
+			(code "10")
 			(name "Net-(C8-Pad1)")
 			(class "Default")
 			(node
@@ -2291,7 +3699,7 @@
 			)
 		)
 		(net
-			(code "7")
+			(code "11")
 			(name "Net-(C9-Pad1)")
 			(class "Default")
 			(node
@@ -2312,7 +3720,7 @@
 			)
 		)
 		(net
-			(code "8")
+			(code "12")
 			(name "Net-(C10-Pad1)")
 			(class "Default")
 			(node
@@ -2333,7 +3741,23 @@
 			)
 		)
 		(net
-			(code "9")
+			(code "13")
+			(name "Net-(D1-A)")
+			(class "Default")
+			(node
+				(ref "C12")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "D1")
+				(pin "2")
+				(pinfunction "A_2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "14")
 			(name "Net-(J1-In)")
 			(class "Default")
 			(node
@@ -2350,7 +3774,24 @@
 			)
 		)
 		(net
-			(code "10")
+			(code "15")
+			(name "Net-(J2-Pin_1)")
+			(class "Default")
+			(node
+				(ref "J2")
+				(pin "1")
+				(pinfunction "Pin_1_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "L5")
+				(pin "2")
+				(pinfunction "2_2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "16")
 			(name "Net-(J3-In)")
 			(class "Default")
 			(node
@@ -2366,7 +3807,7 @@
 			)
 		)
 		(net
-			(code "11")
+			(code "17")
 			(name "Net-(J4-In)")
 			(class "Default")
 			(node
@@ -2382,7 +3823,7 @@
 			)
 		)
 		(net
-			(code "12")
+			(code "18")
 			(name "Net-(L1-Pad2)")
 			(class "Default")
 			(node
@@ -2398,7 +3839,7 @@
 			)
 		)
 		(net
-			(code "13")
+			(code "19")
 			(name "Net-(L2-Pad2)")
 			(class "Default")
 			(node
@@ -2414,7 +3855,7 @@
 			)
 		)
 		(net
-			(code "14")
+			(code "20")
 			(name "Net-(Q3-D)")
 			(class "Default")
 			(node
@@ -2447,7 +3888,7 @@
 			)
 		)
 		(net
-			(code "15")
+			(code "21")
 			(name "Net-(Q3-G)")
 			(class "Default")
 			(node
@@ -2475,7 +3916,7 @@
 			)
 		)
 		(net
-			(code "16")
+			(code "22")
 			(name "Net-(Q4-D)")
 			(class "Default")
 			(node
@@ -2508,7 +3949,7 @@
 			)
 		)
 		(net
-			(code "17")
+			(code "23")
 			(name "Net-(Q4-G)")
 			(class "Default")
 			(node
@@ -2536,9 +3977,14 @@
 			)
 		)
 		(net
-			(code "18")
+			(code "24")
 			(name "Source_Sense_A")
 			(class "Default")
+			(node
+				(ref "J7")
+				(pin "1")
+				(pintype "passive")
+			)
 			(node
 				(ref "Q3")
 				(pin "3")
@@ -2555,11 +4001,22 @@
 				(pin "1")
 				(pintype "passive")
 			)
+			(node
+				(ref "U1")
+				(pin "2")
+				(pinfunction "-_2")
+				(pintype "input")
+			)
 		)
 		(net
-			(code "19")
+			(code "25")
 			(name "Source_Sense_B")
 			(class "Default")
+			(node
+				(ref "J7")
+				(pin "4")
+				(pintype "passive")
+			)
 			(node
 				(ref "Q4")
 				(pin "3")
@@ -2575,6 +4032,51 @@
 				(ref "R4")
 				(pin "2")
 				(pintype "passive")
+			)
+			(node
+				(ref "U1")
+				(pin "6")
+				(pinfunction "-_6")
+				(pintype "input")
+			)
+		)
+		(net
+			(code "26")
+			(name "V_REF")
+			(class "Default")
+			(node
+				(ref "D1")
+				(pin "1")
+				(pinfunction "K_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "J5")
+				(pin "2")
+				(pinfunction "Pin_2_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "R10")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R11")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "U1")
+				(pin "3")
+				(pinfunction "+_3")
+				(pintype "input")
+			)
+			(node
+				(ref "U1")
+				(pin "5")
+				(pinfunction "+_5")
+				(pintype "input")
 			)
 		)
 	)
