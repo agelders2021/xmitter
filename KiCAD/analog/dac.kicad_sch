@@ -1774,12 +1774,6 @@
 		(uuid "37fbef0b-081c-491f-a27b-077c437ccb0c")
 	)
 	(junction
-		(at 133.35 68.58)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "50c54591-f89e-4fb6-a996-d2c45b801b0d")
-	)
-	(junction
 		(at 100.33 58.42)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -1845,16 +1839,6 @@
 	)
 	(wire
 		(pts
-			(xy 138.43 68.58) (xy 133.35 68.58)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "089ebf95-22dc-45ff-84b1-4f7bfb493fc8")
-	)
-	(wire
-		(pts
 			(xy 133.35 68.58) (xy 123.19 68.58)
 		)
 		(stroke
@@ -1905,7 +1889,7 @@
 	)
 	(wire
 		(pts
-			(xy 92.71 88.9) (xy 93.98 86.36)
+			(xy 92.71 88.9) (xy 92.71 90.17)
 		)
 		(stroke
 			(width 0)
@@ -2045,7 +2029,7 @@
 	)
 	(wire
 		(pts
-			(xy 123.19 78.74) (xy 132.08 78.74)
+			(xy 123.19 78.74) (xy 124.46 78.74)
 		)
 		(stroke
 			(width 0)
@@ -2186,30 +2170,6 @@
 		(uuid "00d165f8-8ea1-4dd9-a006-47589cb575bc")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 186.5909 78.74 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-	)
-	(global_label "PA_OUTPUT_LEVEL"
-		(shape output)
-		(at 138.43 68.58 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "36e7b1a0-c3b2-4a80-b987-9a1cbc940e84")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 158.3485 68.58 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2806,7 +2766,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(in_pos_files yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "1d96b2bd-abb3-49b6-b643-cabfb8698a1a")
 		(property "Reference" "J11"
 			(at 163.83 46.9901 0)
@@ -3309,7 +3269,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 93.98 86.36 0)
+		(at 92.71 90.17 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -3320,7 +3280,7 @@
 		(fields_autoplaced yes)
 		(uuid "910ebb02-ffa0-4e06-b8fb-13342352670c")
 		(property "Reference" "#PWR039"
-			(at 93.98 92.71 0)
+			(at 92.71 96.52 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3331,7 +3291,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 93.98 91.44 0)
+			(at 92.71 95.25 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3341,7 +3301,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 93.98 86.36 0)
+			(at 92.71 90.17 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3352,7 +3312,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 93.98 86.36 0)
+			(at 92.71 90.17 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3363,7 +3323,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 93.98 86.36 0)
+			(at 92.71 90.17 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4134,6 +4094,86 @@
 			(project "analog"
 				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/e880f7dd-82a1-4efe-84f5-e6a9d5641736"
 					(reference "#PWR0117")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_US")
+		(at 128.27 78.74 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "dea19442-f8d8-45dc-94b9-07b7e26a6ec8")
+		(property "Reference" "R13"
+			(at 128.27 72.39 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "1K"
+			(at 128.27 74.93 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 128.524 77.724 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 128.27 78.74 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor, US symbol"
+			(at 128.27 78.74 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "6cde562d-3b19-4d33-86c9-3c1dce276304")
+		)
+		(pin "2"
+			(uuid "1432c738-ff45-481e-996a-46b854654fd8")
+		)
+		(instances
+			(project "analog"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/e880f7dd-82a1-4efe-84f5-e6a9d5641736"
+					(reference "R13")
 					(unit 1)
 				)
 			)
