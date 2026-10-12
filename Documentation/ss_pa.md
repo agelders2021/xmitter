@@ -310,6 +310,16 @@ stray C).
 - IRF510 heatsinking: TO-220 metal tab is the drain. Isolating
   silicone pad required for case-to-heatsink; thermal design per
   layout pass
+- **Wide +13.8V traces on both analog and ss_pa boards.** Rail
+  carries up to ~1.5 A continuous at full RF (10 W / 60% eff /
+  13.8 V). Target ≥ 1.5 mm (60 mil) trace width at 2 oz copper
+  for < 10 °C rise, or ≥ 2.5 mm (100 mil) at 1 oz. Applies to:
+  the entire path through analog's K6 heartbeat-safety relay (from
+  shack supply input, through K6 contacts, to J33) and the entire
+  path on ss_pa from J2 through L5 to the +13.8V bus (C6 bulk, T2
+  CT, and bypass caps). The L5-to-T2-CT trace also sees the switched
+  drain current of the push-pull pair (DC average ~1 A, with
+  current ripple at the RF rate smoothed by C6).
 - Firmware: boot-time read of `FAULT_N` on Metro A2. If LOW
   (latched from previous session), either prompt user to press
   reset button, or optionally pulse a Metro GPIO wired to the
