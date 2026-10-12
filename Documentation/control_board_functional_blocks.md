@@ -2,37 +2,66 @@
 
 Captures the *function* of each block on the analog (control) board that
 isn't obvious from the schematic. Written 2026-09-29 during a schematic
-review pass; complements the wiring visible in the KiCad sub-sheets by
-answering "what does this block *do*."
+review pass; updated 2026-10-12 to reflect SS PA integration and
+tube-PA-as-future-upgrade framing.
 
 Scope: analog board (`KiCAD/analog/`) sub-sheets `arduino.kicad_sch` and
 `vfo_complete.kicad_sch`. The interface sheet is straightforward (RJ45
 umbilical + AM26LS32 differential receiver) and doesn't need block-level
-prose.
+prose. For the SS PA board's own blocks (fault_shutdown, pa_stage) see
+`Documentation/ss_pa.md`.
+
+### Which blocks are active vs reserved
+
+Blocks described here fall into two groups:
+
+- **Active for the current SS PA build**: KeyUp signal chain,
+  T/R relay (J6), TR_SENSE interlock, J13 power distribution,
+  RJ45 umbilicals (J4 to frontpanel, J31 to ss_pa)
+- **Reserved for potential future tube-PA upgrade (circuitry
+  present, output connectors DNP)**: HV primary contactor (J7),
+  HV inrush limiter (J8), heartbeat watchdog monostable U18 that
+  kills the HV primary on firmware hang, cathode-current sensing
+  (I_CATHODE_A/B via J17/J18/J19 DNP), grid bias control
+  (GRID_CTL_A/B via J23/J24 DNP). All drawn, net-connected, and
+  firmware-ready — un-DNP the connectors and build the external
+  cables if a tube amp is added later.
 
 ## Keying (KeyUp signal chain)
 
 **KeyUp** is the firmware-driven RF enable/disable line. It exits the
-Metro ESP32-S3 through the PCF8575 I²C port expander (U17 P7) and
-propagates through the level-shift transistor pair Q3/Q8 into `Gate 2`
-on the RCA40673 dual-gate mixer MOSFET in the VFO chain.
+Metro ESP32-S3 through the PCF8575 I²C port expander (U17 P8) and
+propagates through the level-shift transistor pair Q12→Q11 (both
+2N3904 NPN) into `Gate 2` on the RCA40673 dual-gate mixer MOSFET
+(the DGFET keyer) in the VFO chain. The pair is a two-stage cascade:
+KeyUp → R50 → Q12 base; Q12 emitter → R48 → Q11 base; Q11 collector
+→ Gate 2 (through a 1 kΩ series resistor to the MCP4921 DAC VoutB
+— the resistor protects the DAC during mute, see
+`Documentation/2026-10-11-project-audit.md` for the design history).
 
 Behavior:
 
-- **KeyUp = HIGH → RF muted.** Q3/Q8 pull `Gate 2` low, biasing the
-  RCA40673's second gate below its conduction threshold. RF drive to
-  the driver stage collapses.
-- **KeyUp = LOW → RF enabled.** Gate 2 returns to its bias point and
-  the mixer passes the Si5351-derived carrier through to the driver.
+- **KeyUp = HIGH → RF muted.** Q11 saturates and pulls `Gate 2` low,
+  biasing the RCA40673's second gate below its conduction threshold.
+  RF drive to the LM7171 PP collapses.
+- **KeyUp = LOW → RF enabled.** Gate 2 returns to the envelope voltage
+  from the MCP4921 DAC and the DGFET passes the Si5351-derived carrier
+  through, modulated by the raised-cosine envelope.
 
-Firmware is expected to *also* slam PA grid bias to cutoff during
-KeyUp = HIGH (via the MCP4728 → OPA454 bias generator on the bias
-board). The two mechanisms are redundant on purpose:
+**For the SS PA build (current)**: firmware zeros the MCP4728
+`Bias_A_Raw`/`Bias_B_Raw` DAC channels during KeyUp = HIGH, which cuts
+off the IRF510s. Redundant with the Gate 2 mute path (which cuts RF
+drive before it ever reaches the PA).
+
+**If the tube PA upgrade is added later**: firmware would also slam
+the OPA454 grid bias generator (MCP4728 VC/VD → GRID_CTL_A/B →
+OPA454) to cutoff during KeyUp = HIGH. Two mute mechanisms:
 
 - Fast electronic cutoff via Gate 2 (µs response, precise envelope
-  shaping via cw_envelope_keyer.md).
-- Deep DC cutoff via grid bias (ms response, keeps the PA idle current
-  at zero during long key-up intervals so plate dissipation stays low).
+  shaping via `cw_envelope_keyer.md`)
+- Deep DC cutoff via grid bias (ms response, keeps PA idle current
+  at zero during long key-up intervals so plate dissipation stays
+  low). Not active until the tube PA is built.
 
 ## Relay assignments
 
@@ -41,13 +70,17 @@ Three 12 V coil relays are driven from the analog board. Each coil has a
 MOSFET on the analog board, with the coil supply on pin 2 of the
 corresponding screw terminal.
 
-- **J6 → Transmit/Receive relay.** Antenna switching. NO/NC contacts
-  route the antenna between the receiver input and the transmitter's
-  output LPF.
-- **J7 → HV primary contactor.** Switches the AC primary of the
-  high-voltage plate transformer. This is the main HV enable.
-- **J8 → HV inrush current limiter.** Shorts out the inrush current
-  limiter resistor once the HV filter caps have charged. Sequence:
+- **J6 → Transmit/Receive relay.** Active. Antenna switching —
+  NO/NC contacts route the antenna between the receiver input and
+  the transmitter's output LPF.
+- **J7 → HV primary contactor.** Reserved for tube-PA upgrade.
+  Would switch the AC primary of the high-voltage plate transformer
+  (main HV enable). No HV to switch in the current SS PA build;
+  coil driver circuitry is populated and firmware can toggle it,
+  but the external HV supply doesn't exist until a tube PA is built.
+- **J8 → HV inrush current limiter.** Reserved for tube-PA upgrade.
+  Would short out the inrush current limiter resistor once the HV
+  filter caps have charged. Sequence (when tube PA is built):
   J7 closes → resistor drops the initial charging current → after a
   firmware delay, J8 closes to short the resistor for full-current
   operation.
@@ -60,15 +93,21 @@ Coil-driver MOSFETs on the arduino sheet:
   monostable Q_A output, drain → J7 (HV primary relay). This is
   the hardware kill-switch (see next section).
 
-## Heartbeat watchdog (CD14538B monostable)
+## Heartbeat watchdog (CD14538B monostable) — reserved for tube-PA upgrade
 
-Protects the HV rail against firmware hangs. The Metro ESP32-S3 is
-expected to periodically toggle PCF8575 U17 P12, which triggers the
-CD14538B U18 dual monostable's A-side. As long as the retriggers keep
-arriving, Q_A stays asserted and Q7 keeps the HV primary relay
-enabled. If the retriggers stop (firmware crash, I²C hang, whatever),
-the monostable times out, Q_A drops, Q7 opens, and J7 (HV primary)
-opens.
+Will protect the HV rail against firmware hangs if a tube PA is
+added later. The Metro ESP32-S3 is expected to periodically toggle
+PCF8575 U17 P12, which triggers the CD14538B U18 dual monostable's
+A-side. As long as the retriggers keep arriving, Q_A stays asserted
+and Q7 keeps the HV primary relay enabled. If the retriggers stop
+(firmware crash, I²C hang, whatever), the monostable times out, Q_A
+drops, Q7 opens, and J7 (HV primary) opens.
+
+Not functionally relevant for the current SS PA build because there
+is no HV rail — but the circuitry is in place for the future upgrade.
+The SS PA has its own independent hardware fault latch (see
+`Documentation/ss_pa.md` fault_shutdown section) that doesn't
+depend on this watchdog.
 
 Practical firmware requirement: toggle the P12 line at an interval
 comfortably shorter than the monostable's RC time constant (set by
@@ -123,25 +162,32 @@ a full PCB fab spin when the power-board split happens.
 
 ## Cross-references
 
+- `Documentation/ss_pa.md` — the active PA board (SS, IRF510 PP,
+  10 W QRP). RJ45 umbilical to analog J31, bias / sense / fault
+  signal flow, hardware overcurrent latch
 - `Documentation/cw_envelope_keyer.md` — envelope shaping detail
   (raised-cosine LUT, MCP4921 DAC, 25 µs tick). Covers the *shape* of
-  the envelope; this doc covers the *gating* signals around it.
-- `Documentation/grid_bias.md` — OPA454 bias generator on the bias
-  board that the firmware slams to cutoff during KeyUp = HIGH.
-- `Documentation/pa_cathode_monitor.md` — cathode-current
-  fault chain, feeds the GRID_BLOCK_CRASH signal that appears on
-  arduino / bias / protoshield sheets.
-- `Documentation/front_panel_interface.md` — RJ45 umbilical pinout.
+  the envelope; this doc covers the *gating* signals around it
+- `Documentation/grid_bias.md` — OPA454 bias generator for the
+  (future-upgrade) tube PA
+- `Documentation/pa_cathode_monitor.md` — cathode-current fault
+  chain for the (future-upgrade) tube PA; feeds the GRID_BLOCK_CRASH
+  signal that appears on arduino / bias / protoshield sheets
+- `Documentation/front_panel_interface.md` — RJ45 umbilical pinout
+  (analog ↔ frontpanel)
 - `Documentation/i2c_bus.md` — PCF8575 addresses (0x20 on this
-  board, 0x21 on the front panel).
+  board, 0x21 on the front panel)
+- `Documentation/2026-10-11-project-audit.md` — recent project-wide
+  signal-consistency audit, including the Q11 series-R finding on
+  the KeyUp mute path
 
 ## Open items / not yet documented
 
 - **VFO envelope chain topology on `vfo_complete.kicad_sch`** — the
   LM7171 × 3 + MCP4921 + RCA40673 signal flow isn't captured in this
   doc yet. See `cw_envelope_keyer.md` for the design intent; the
-  as-built vfo_complete sheet may deviate.
-- **Q3/Q7 exact bias network values** — the level-shift and safety-cut
-  MOSFET networks are drawn on the arduino sheet but not called out
-  here. If bias values become critical (e.g., threshold margin),
-  document them here or in a dedicated `keyer_gate2.md`.
+  as-built vfo_complete sheet may deviate
+- **Q11/Q12 exact bias network values** — the level-shift MOSFET
+  network is drawn on the dac sheet but not called out here. If
+  bias values become critical (e.g., threshold margin), document
+  them here or in a dedicated `keyer_gate2.md`

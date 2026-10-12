@@ -1,10 +1,23 @@
 # Solid-State PA Board — Current State
 
 10 W QRP class-AB push-pull PA at 14 MHz, running from the 13.8 V shack
-supply. Replaces the shelved tube PA (see `PA_stage.md` for historical
-reference). Topology adapted from the QRP Labs 10 W Linear kit —
-output stage only; the kit's driver stage is omitted because the
-analog board's LM7171 PP already provides balanced differential drive.
+supply. **This is the active PA for the project.** Topology adapted
+from the QRP Labs 10 W Linear kit — output stage only; the kit's
+driver stage is omitted because the analog board's LM7171 PP already
+provides balanced differential drive.
+
+**Not retired, kept as potential future upgrade**: the vacuum-tube
+high-power path (push-pull 6146B PA, 12HG7 driver, OPA454 grid bias
+generator, cathode monitor failsafe chain, HV supply) remains drawn
+on the analog board with its output connectors (J17/J18/J19 cathode
+sense, J23/J24 grid control) marked DNP. Those signals exist
+electrically but aren't wired out. If a tube PA is added later as
+a high-power upgrade: un-DNP those connectors, build the external
+bias/sense cables, bring up the `KiCAD/bias/` and `KiCAD/power/`
+boards (currently drawn but not fabricated), and firmware adds the
+`grid_bias_dac.cpp` / `cathode_monitor.cpp` modules per
+`Documentation/cw_envelope_keyer.md`. See `PA_stage.md` and
+`grid_bias.md` for the tube PA design.
 
 Source of truth: `KiCAD/ss_pa/`. Started 2026-10-09.
 
@@ -319,6 +332,10 @@ stray C).
 - `KiCAD/xmitter.kicad_sym` — contains the `IRF510`, `+13.8V`,
   and `CD74HC4066` symbols added for this board
 - `Documentation/i2c_bus.md` — MCP4728 address map (0x67)
-- `Documentation/PA_stage.md` — HISTORICAL shelved tube PA (6146B
-  push-pull) kept for reference in case the SS PA proves
-  insufficient
+- `Documentation/PA_stage.md` — tube PA design (6146B push-pull);
+  the circuitry is retained on the analog board (DNP'd) for a
+  potential future high-power upgrade
+- `Documentation/grid_bias.md` — OPA454 per-tube grid bias
+  generator; same retention status
+- `Documentation/pa_cathode_monitor.md` — 7-layer cathode-current
+  failsafe chain; same retention status
