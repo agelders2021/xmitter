@@ -1777,6 +1777,172 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Diode:1N5822"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 1.016)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "D"
+				(at 0 2.54 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "1N5822"
+				(at 0 -2.54 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" "Diode_THT:D_DO-201AD_P15.24mm_Horizontal"
+				(at 0 -4.445 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" "http://www.vishay.com/docs/88526/1n5820.pdf"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "40V 3A Schottky Barrier Rectifier Diode, DO-201AD"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "diode Schottky"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "D*DO?201AD*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "1N5822_0_1"
+				(polyline
+					(pts
+						(xy -1.905 0.635) (xy -1.905 1.27) (xy -1.27 1.27) (xy -1.27 -1.27) (xy -0.635 -1.27) (xy -0.635 -0.635)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 1.27) (xy 1.27 -1.27) (xy -1.27 0) (xy 1.27 1.27)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 0) (xy -1.27 0)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "1N5822_1_1"
+				(pin passive line
+					(at -3.81 0 0)
+					(length 2.54)
+					(name "K"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 3.81 0 180)
+					(length 2.54)
+					(name "A"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "power:GND"
 			(power global)
 			(pin_numbers
@@ -2582,6 +2748,18 @@
 		(uuid "c245365a-a37f-4511-a93c-c35896427bca")
 	)
 	(junction
+		(at 218.44 128.27)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "c540393d-8f8f-4d99-bd4f-af9a810b1bd2")
+	)
+	(junction
+		(at 226.06 128.27)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "c7d36715-6cfa-4729-a176-59aac6f069dc")
+	)
+	(junction
 		(at 161.29 92.71)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -2612,7 +2790,7 @@
 		(uuid "ecc09981-b10f-4493-b55a-76c1fb7fdd9e")
 	)
 	(junction
-		(at 233.68 130.81)
+		(at 257.81 130.81)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "edd684b6-026d-4c8b-8ab0-530dce3ced04")
@@ -2699,16 +2877,6 @@
 	)
 	(wire
 		(pts
-			(xy 226.06 128.27) (xy 233.68 128.27)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "423e13c4-f11a-4a08-a598-1644a1bf96e8")
-	)
-	(wire
-		(pts
 			(xy 153.67 60.96) (xy 153.67 57.15)
 		)
 		(stroke
@@ -2746,6 +2914,16 @@
 			(type default)
 		)
 		(uuid "4e52a18f-539e-4ae7-9fca-a3bed618fe11")
+	)
+	(wire
+		(pts
+			(xy 218.44 116.84) (xy 218.44 128.27)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "503effdd-e745-4089-8116-bc29c34a06f7")
 	)
 	(wire
 		(pts
@@ -2859,6 +3037,16 @@
 	)
 	(wire
 		(pts
+			(xy 226.06 116.84) (xy 226.06 128.27)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "87771080-8df1-475d-b6fd-d531cd670d2c")
+	)
+	(wire
+		(pts
 			(xy 161.29 114.3) (xy 161.29 119.38)
 		)
 		(stroke
@@ -2886,6 +3074,16 @@
 			(type default)
 		)
 		(uuid "98bd5fb4-fc87-415d-bd22-74a4bfa59658")
+	)
+	(wire
+		(pts
+			(xy 226.06 128.27) (xy 257.81 128.27)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9f0448b1-f388-46f7-a992-cbaa8378a325")
 	)
 	(wire
 		(pts
@@ -3536,7 +3734,7 @@
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
-		(at 233.68 130.81 90)
+		(at 257.81 130.81 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -3546,7 +3744,7 @@
 		(dnp no)
 		(uuid "360cb266-ff2d-4132-8223-e30139591ec3")
 		(property "Reference" "#FLG02"
-			(at 231.775 130.81 0)
+			(at 255.905 130.81 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3557,7 +3755,7 @@
 			)
 		)
 		(property "Value" "PWR_FLAG"
-			(at 229.87 130.048 90)
+			(at 254 130.048 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3568,7 +3766,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 233.68 130.81 0)
+			(at 257.81 130.81 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3579,7 +3777,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 233.68 130.81 0)
+			(at 257.81 130.81 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3590,7 +3788,7 @@
 			)
 		)
 		(property "Description" "Special symbol for telling ERC where power comes from"
-			(at 233.68 130.81 0)
+			(at 257.81 130.81 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4101,7 +4299,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 233.68 130.81 0)
+		(at 257.81 130.81 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -4112,7 +4310,7 @@
 		(fields_autoplaced yes)
 		(uuid "5f4b308c-b2e6-49b9-846e-2e5f8d05bbfb")
 		(property "Reference" "#PWR07"
-			(at 233.68 137.16 0)
+			(at 257.81 137.16 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4123,7 +4321,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 233.68 135.89 0)
+			(at 257.81 135.89 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4133,7 +4331,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 233.68 130.81 0)
+			(at 257.81 130.81 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4144,7 +4342,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 233.68 130.81 0)
+			(at 257.81 130.81 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4155,7 +4353,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 233.68 130.81 0)
+			(at 257.81 130.81 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6169,7 +6367,7 @@
 	)
 	(symbol
 		(lib_id "Connector:Screw_Terminal_01x02")
-		(at 238.76 128.27 0)
+		(at 262.89 128.27 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -6180,7 +6378,7 @@
 		(fields_autoplaced yes)
 		(uuid "d64f9698-5c2b-420d-b89e-1178f7bd8f3b")
 		(property "Reference" "J2"
-			(at 241.3 128.2699 0)
+			(at 265.43 128.2699 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6191,7 +6389,7 @@
 			)
 		)
 		(property "Value" "Screw_Terminal_01x02"
-			(at 241.3 130.8099 0)
+			(at 265.43 130.8099 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6202,7 +6400,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 238.76 128.27 0)
+			(at 262.89 128.27 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6213,7 +6411,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 238.76 128.27 0)
+			(at 262.89 128.27 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6224,7 +6422,7 @@
 			)
 		)
 		(property "Description" "Generic screw terminal, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 238.76 128.27 0)
+			(at 262.89 128.27 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6646,6 +6844,86 @@
 			(project "ss_pa"
 				(path "/7b9fe991-54d6-43c4-a637-0ed9ee982c42/6995ca2b-35a4-4871-8cf2-3a0067e62105"
 					(reference "C8")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Diode:1N5822")
+		(at 222.25 116.84 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "f0fcf14b-a02a-4492-b513-ec9f833d4868")
+		(property "Reference" "D2"
+			(at 222.5675 110.49 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "1N5822"
+			(at 222.5675 113.03 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Diode_THT:D_DO-201AD_P15.24mm_Horizontal"
+			(at 222.25 112.395 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "http://www.vishay.com/docs/88526/1n5820.pdf"
+			(at 222.25 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "40V 3A Schottky Barrier Rectifier Diode, DO-201AD"
+			(at 222.25 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "cc45c06f-3057-46da-abca-c3e65da30bbb")
+		)
+		(pin "2"
+			(uuid "29b5713e-9ca3-463c-a43b-8d64fe9f4c92")
+		)
+		(instances
+			(project "ss_pa"
+				(path "/7b9fe991-54d6-43c4-a637-0ed9ee982c42/6995ca2b-35a4-4871-8cf2-3a0067e62105"
+					(reference "D2")
 					(unit 1)
 				)
 			)

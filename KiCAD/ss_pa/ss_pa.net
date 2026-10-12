@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "C:\\Users\\AlAnd\\Git Backed Projects\\xmitter\\KiCAD\\ss_pa\\ss_pa.kicad_sch")
-		(date "2026-10-11T16:22:21")
+		(date "2026-10-12T14:47:47")
 		(tool "Eeschema 10.0.3")
 		(sheet
 			(number "1")
@@ -724,6 +724,60 @@
 				(tstamps "/6995ca2b-35a4-4871-8cf2-3a0067e62105/")
 			)
 			(tstamps "7d99ce67-8e49-42f3-a611-0b58e905651a")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "D2")
+			(value "1N5822")
+			(footprint "Diode_THT:D_DO-201AD_P15.24mm_Horizontal")
+			(datasheet "http://www.vishay.com/docs/88526/1n5820.pdf")
+			(description "40V 3A Schottky Barrier Rectifier Diode, DO-201AD")
+			(fields
+				(field
+					(name "Footprint") "Diode_THT:D_DO-201AD_P15.24mm_Horizontal")
+				(field
+					(name "Datasheet") "http://www.vishay.com/docs/88526/1n5820.pdf")
+				(field
+					(name "Description") "40V 3A Schottky Barrier Rectifier Diode, DO-201AD")
+			)
+			(libsource
+				(lib "Diode")
+				(part "1N5822")
+				(description "20V 3A Schottky Barrier Rectifier Diode, DO-201AD")
+			)
+			(property
+				(name "Sheetname")
+				(value "PA_Stage")
+			)
+			(property
+				(name "Sheetfile")
+				(value "pa_stage.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "diode Schottky")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "D*DO?201AD*")
+			)
+			(sheetpath
+				(names "/PA_Stage/")
+				(tstamps "/6995ca2b-35a4-4871-8cf2-3a0067e62105/")
+			)
+			(tstamps "f0fcf14b-a02a-4492-b513-ec9f833d4868")
 			(units
 				(unit
 					(name "A")
@@ -3146,6 +3200,39 @@
 			)
 		)
 		(libpart
+			(lib "Diode")
+			(part "1N5822")
+			(description "40V 3A Schottky Barrier Rectifier Diode, DO-201AD")
+			(docs "http://www.vishay.com/docs/88526/1n5820.pdf")
+			(footprints
+				(fp "D*DO?201AD*")
+			)
+			(fields
+				(field
+					(name "Reference") "D")
+				(field
+					(name "Value") "1N5822")
+				(field
+					(name "Footprint") "Diode_THT:D_DO-201AD_P15.24mm_Horizontal")
+				(field
+					(name "Datasheet") "http://www.vishay.com/docs/88526/1n5820.pdf")
+				(field
+					(name "Description") "40V 3A Schottky Barrier Rectifier Diode, DO-201AD")
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "K")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "A")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
 			(lib "xmitter")
 			(part "CD74HC4066")
 			(description "Quad bilateral analog switch, CMOS, PDIP-14, VCC=2-10V. Each switch turned on by high-level voltage on its control input.")
@@ -3373,6 +3460,12 @@
 			(node
 				(ref "C6")
 				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "D2")
+				(pin "2")
+				(pinfunction "A_2")
 				(pintype "passive")
 			)
 			(node
@@ -3758,6 +3851,29 @@
 		)
 		(net
 			(code "14")
+			(name "Net-(D2-K)")
+			(class "Default")
+			(node
+				(ref "D2")
+				(pin "1")
+				(pinfunction "K_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "J2")
+				(pin "1")
+				(pinfunction "Pin_1_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "L5")
+				(pin "2")
+				(pinfunction "2_2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "15")
 			(name "Net-(J1-In)")
 			(class "Default")
 			(node
@@ -3770,23 +3886,6 @@
 				(ref "T1")
 				(pin "4")
 				(pinfunction "SB_4")
-				(pintype "passive")
-			)
-		)
-		(net
-			(code "15")
-			(name "Net-(J2-Pin_1)")
-			(class "Default")
-			(node
-				(ref "J2")
-				(pin "1")
-				(pinfunction "Pin_1_1")
-				(pintype "passive")
-			)
-			(node
-				(ref "L5")
-				(pin "2")
-				(pinfunction "2_2")
 				(pintype "passive")
 			)
 		)

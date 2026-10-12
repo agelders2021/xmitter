@@ -1068,6 +1068,193 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Diode:1N4001"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "D"
+				(at 0 2.54 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "1N4001"
+				(at 0 -2.54 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" "Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" "http://www.vishay.com/docs/88503/1n4001.pdf"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "50V 1A General Purpose Rectifier Diode, DO-41"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Sim.Device" "D"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Sim.Pins" "1=K 2=A"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "diode"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "D*DO?41*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "1N4001_0_1"
+				(polyline
+					(pts
+						(xy -1.27 1.27) (xy -1.27 -1.27)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 1.27) (xy 1.27 -1.27) (xy -1.27 0) (xy 1.27 1.27)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 0) (xy -1.27 0)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "1N4001_1_1"
+				(pin passive line
+					(at -3.81 0 0)
+					(length 2.54)
+					(name "K"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 3.81 0 180)
+					(length 2.54)
+					(name "A"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "Diode:1N5817"
 			(pin_numbers
 				(hide yes)
@@ -1623,6 +1810,324 @@
 						)
 					)
 					(number "8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "Relay:Relay_SPST-NO"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "K"
+				(at 11.43 3.81 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Value" "Relay_SPST-NO"
+				(at 11.43 1.27 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Footprint" ""
+				(at 11.43 -1.27 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Relay SPST, normally open, EN50005"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "1P1T 1-Form-A single pole throw NO"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "Relay?SPST*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "Relay_SPST-NO_0_0"
+				(polyline
+					(pts
+						(xy 7.62 5.08) (xy 7.62 2.54) (xy 6.985 3.175) (xy 7.62 3.81)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "Relay_SPST-NO_0_1"
+				(rectangle
+					(start -10.16 5.08)
+					(end 10.16 -5.08)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(rectangle
+					(start -8.255 1.905)
+					(end -1.905 -1.905)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -7.62 -1.905) (xy -2.54 1.905)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -5.08 5.08) (xy -5.08 1.905)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -5.08 -5.08) (xy -5.08 -1.905)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.905 0) (xy -1.27 0)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -0.635 0) (xy 0 0)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0.635 0) (xy 1.27 0)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.905 0) (xy 2.54 0)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 3.175 0) (xy 3.81 0)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 5.08 -2.54) (xy 3.175 3.81)
+					)
+					(stroke
+						(width 0.508)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 5.08 -2.54) (xy 5.08 -5.08)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "Relay_SPST-NO_1_1"
+				(pin passive line
+					(at 5.08 -7.62 90)
+					(length 2.54)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "13"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 7.62 7.62 270)
+					(length 2.54)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "14"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -5.08 7.62 270)
+					(length 2.54)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "A1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -5.08 -7.62 90)
+					(length 2.54)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "A2"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2920,6 +3425,18 @@
 		(uuid "0833aee3-93ca-4fd7-b2c1-11a94d3edf37")
 	)
 	(junction
+		(at 43.18 60.96)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "084a7b70-2463-408f-b723-5860fed681f1")
+	)
+	(junction
+		(at 22.86 104.14)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "09ca29b7-d165-48c3-a9ff-378fd46fbe16")
+	)
+	(junction
 		(at 69.85 60.96)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -2968,16 +3485,16 @@
 		(uuid "9ddd6e6c-03c0-40da-afce-4b700f3b46f6")
 	)
 	(junction
+		(at 38.1 93.98)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "b71c9848-f87e-4573-8a56-6e19f2aa0725")
+	)
+	(junction
 		(at 69.85 91.44)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "be71b247-dbb3-4ec7-9841-aae8b7a4214d")
-	)
-	(junction
-		(at 43.18 60.96)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "c76e2f93-b53f-4282-84ba-4723b8a06515")
 	)
 	(junction
 		(at 77.47 128.27)
@@ -3045,6 +3562,12 @@
 		(color 0 0 0 0)
 		(uuid "f92559c6-ec90-48b1-82e9-983efaf9e9d2")
 	)
+	(junction
+		(at 43.18 83.82)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "fd336092-c3b1-435e-a66a-259f26ef741b")
+	)
 	(no_connect
 		(at 195.58 77.47)
 		(uuid "14fc9ad1-5fc4-4059-a574-b935cc31d586")
@@ -3064,6 +3587,16 @@
 	(no_connect
 		(at 195.58 82.55)
 		(uuid "f21909e1-366b-4ff1-b4aa-fc0c30191347")
+	)
+	(wire
+		(pts
+			(xy 38.1 104.14) (xy 34.29 104.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "020a9574-49b3-4dc2-a718-1e1d45614804")
 	)
 	(wire
 		(pts
@@ -3147,6 +3680,16 @@
 	)
 	(wire
 		(pts
+			(xy 43.18 60.96) (xy 43.18 83.82)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "34fc58f8-415b-4580-a5da-c7a45c327cfe")
+	)
+	(wire
+		(pts
 			(xy 116.84 91.44) (xy 121.92 91.44)
 		)
 		(stroke
@@ -3184,6 +3727,16 @@
 			(type default)
 		)
 		(uuid "3de59aed-b3ff-4fe8-8061-abc131ac22a7")
+	)
+	(wire
+		(pts
+			(xy 22.86 93.98) (xy 22.86 104.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3f4c1e92-8a7b-433b-b134-b554b5a1fbd8")
 	)
 	(wire
 		(pts
@@ -3267,6 +3820,26 @@
 	)
 	(wire
 		(pts
+			(xy 38.1 83.82) (xy 43.18 83.82)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6c59aa3c-ca51-4388-a08a-3700c2888de0")
+	)
+	(wire
+		(pts
+			(xy 36.83 60.96) (xy 43.18 60.96)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6fbdf804-cd7a-422c-a6db-3f0174f08f28")
+	)
+	(wire
+		(pts
 			(xy 257.81 55.88) (xy 262.89 55.88)
 		)
 		(stroke
@@ -3284,6 +3857,16 @@
 			(type default)
 		)
 		(uuid "75d12254-58fc-43b1-b65f-479b697172e7")
+	)
+	(wire
+		(pts
+			(xy 22.86 107.95) (xy 22.86 104.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "774a41a0-5673-4e14-a978-dafd806e51a6")
 	)
 	(wire
 		(pts
@@ -3307,6 +3890,26 @@
 	)
 	(wire
 		(pts
+			(xy 38.1 93.98) (xy 38.1 104.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7b4e87f0-c60e-4ddf-9705-fb79efd8dd13")
+	)
+	(wire
+		(pts
+			(xy 25.4 120.65) (xy 22.86 120.65)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7cdfff3e-8287-4ba6-8760-bc4fdcc5e2ce")
+	)
+	(wire
+		(pts
 			(xy 195.58 74.93) (xy 190.5 74.93)
 		)
 		(stroke
@@ -3324,6 +3927,16 @@
 			(type default)
 		)
 		(uuid "8b48851e-4874-4123-a947-337687ccb30f")
+	)
+	(wire
+		(pts
+			(xy 36.83 63.5) (xy 39.37 63.5)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "90c4776e-9cc1-4d39-bc2a-31be018a1ee8")
 	)
 	(wire
 		(pts
@@ -3354,6 +3967,26 @@
 			(type default)
 		)
 		(uuid "952501a7-cb4d-4ff2-a981-9a1c8de25039")
+	)
+	(wire
+		(pts
+			(xy 22.86 104.14) (xy 26.67 104.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9556f92a-698e-497c-85f4-787853a5bcbc")
+	)
+	(wire
+		(pts
+			(xy 22.86 120.65) (xy 22.86 115.57)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "95786970-d8a6-46d0-a831-fbe8c7ee5720")
 	)
 	(wire
 		(pts
@@ -3397,6 +4030,16 @@
 	)
 	(wire
 		(pts
+			(xy 43.18 93.98) (xy 38.1 93.98)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "aa62b957-4300-478b-8f47-eeefce86e5fc")
+	)
+	(wire
+		(pts
 			(xy 190.5 74.93) (xy 190.5 55.88)
 		)
 		(stroke
@@ -3414,6 +4057,16 @@
 			(type default)
 		)
 		(uuid "bf40331a-ed77-421b-9bc5-8bd37424397f")
+	)
+	(wire
+		(pts
+			(xy 43.18 83.82) (xy 43.18 93.98)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bfc3a46e-a21f-40ab-8c06-1459e7abd578")
 	)
 	(wire
 		(pts
@@ -3514,6 +4167,30 @@
 			(type default)
 		)
 		(uuid "ff23afc6-fa29-4755-8bbe-629d6b0feb46")
+	)
+	(global_label "SS_PWR_RLY"
+		(shape output)
+		(at 25.4 120.65 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "0f65b103-954d-46f0-84fa-aac964288234")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 40.1175 120.65 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
 	)
 	(symbol
 		(lib_id "power:+12V")
@@ -4283,6 +4960,108 @@
 		)
 	)
 	(symbol
+		(lib_id "Diode:1N4001")
+		(at 30.48 104.14 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "2330b922-ec4c-4ccd-80e2-b733107fc2a2")
+		(property "Reference" "D4"
+			(at 30.48 97.79 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "1N4001"
+			(at 30.48 100.33 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal"
+			(at 30.48 104.14 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "http://www.vishay.com/docs/88503/1n4001.pdf"
+			(at 30.48 104.14 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "50V 1A General Purpose Rectifier Diode, DO-41"
+			(at 30.48 104.14 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Sim.Device" "D"
+			(at 30.48 104.14 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Sim.Pins" "1=K 2=A"
+			(at 30.48 104.14 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "707556dd-28d9-482b-9995-4cc66b8c2fa1")
+		)
+		(pin "2"
+			(uuid "ca03be2b-1aed-4296-96e6-f7883d59cb7b")
+		)
+		(instances
+			(project "analog"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9d33972e-4f39-4043-b71d-952850d73035"
+					(reference "D4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Regulator_Linear:MCP1700x-330xxTO")
 		(at 161.29 105.41 0)
 		(mirror x)
@@ -4920,6 +5699,85 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector:Screw_Terminal_01x02")
+		(at 17.78 83.82 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "44007ab4-5844-462f-b1ce-e972c5c0b679")
+		(property "Reference" "J33"
+			(at 21.844 68.834 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "Screw_Terminal_01x02"
+			(at 21.844 71.374 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 17.78 83.82 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 17.78 83.82 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Generic screw terminal, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(at 17.78 83.82 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "a033c41c-77d3-4e2d-a4a9-90eb27e5dd1f")
+		)
+		(pin "1"
+			(uuid "79e9a682-1ec8-41a3-868f-2409dc95e4a3")
+		)
+		(instances
+			(project "analog"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9d33972e-4f39-4043-b71d-952850d73035"
+					(reference "J33")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:C_Polarized_US")
 		(at 120.65 64.77 0)
 		(unit 1)
@@ -5338,7 +6196,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 43.18 63.5 0)
+		(at 39.37 63.5 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -5349,7 +6207,7 @@
 		(fields_autoplaced yes)
 		(uuid "6d6ac639-2452-48c6-8dff-18f6f563d34c")
 		(property "Reference" "#PWR068"
-			(at 43.18 69.85 0)
+			(at 39.37 69.85 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5360,7 +6218,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 43.18 68.58 0)
+			(at 39.37 68.58 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5370,7 +6228,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 43.18 63.5 0)
+			(at 39.37 63.5 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5381,7 +6239,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 43.18 63.5 0)
+			(at 39.37 63.5 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5392,7 +6250,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 43.18 63.5 0)
+			(at 39.37 63.5 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6321,6 +7179,84 @@
 	)
 	(symbol
 		(lib_id "power:GND")
+		(at 22.86 83.82 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "95873227-6257-4347-9410-80d079c2b339")
+		(property "Reference" "#PWR0155"
+			(at 22.86 90.17 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 22.86 88.9 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 22.86 83.82 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 22.86 83.82 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 22.86 83.82 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "00964614-f15d-4dab-8f3e-b16d98dae706")
+		)
+		(instances
+			(project "analog"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9d33972e-4f39-4043-b71d-952850d73035"
+					(reference "#PWR0155")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
 		(at 120.65 68.58 0)
 		(unit 1)
 		(body_style 1)
@@ -6399,7 +7335,7 @@
 	)
 	(symbol
 		(lib_id "Connector:Screw_Terminal_01x02")
-		(at 38.1 63.5 180)
+		(at 31.75 63.5 180)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -6410,7 +7346,7 @@
 		(fields_autoplaced yes)
 		(uuid "9e6e9425-ea47-42c4-8686-f5c931c1c47c")
 		(property "Reference" "J5"
-			(at 38.1 54.61 0)
+			(at 31.75 54.61 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6420,7 +7356,7 @@
 			)
 		)
 		(property "Value" "Screw_Terminal_01x02"
-			(at 38.1 57.15 0)
+			(at 31.75 57.15 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6430,7 +7366,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 38.1 63.5 0)
+			(at 31.75 63.5 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6441,7 +7377,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 38.1 63.5 0)
+			(at 31.75 63.5 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6452,7 +7388,7 @@
 			)
 		)
 		(property "Description" "Generic screw terminal, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 38.1 63.5 0)
+			(at 31.75 63.5 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6472,6 +7408,93 @@
 			(project "analog"
 				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9d33972e-4f39-4043-b71d-952850d73035"
 					(reference "J5")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Relay:Relay_SPST-NO")
+		(at 30.48 88.9 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "9f144160-8f5e-4e7b-83b7-4ba9718280ec")
+		(property "Reference" "K6"
+			(at 30.48 73.66 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "Relay_SPST-NO"
+			(at 30.48 76.2 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 31.75 77.47 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Datasheet" ""
+			(at 30.48 88.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Relay SPST, normally open, EN50005"
+			(at 30.48 88.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "13"
+			(uuid "b011cf54-11fd-4afd-8314-8ea18ea1ef2c")
+		)
+		(pin "14"
+			(uuid "de536f14-a8f6-4812-9215-4acf1f723a25")
+		)
+		(pin "A2"
+			(uuid "03ca9a1d-5bc3-47e5-b9c7-16c0c0fa2a06")
+		)
+		(pin "A1"
+			(uuid "3bdabe5e-f032-4682-8514-090b4a241fe1")
+		)
+		(instances
+			(project "analog"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9d33972e-4f39-4043-b71d-952850d73035"
+					(reference "K6")
 					(unit 1)
 				)
 			)
@@ -7422,6 +8445,88 @@
 			(project "analog"
 				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9d33972e-4f39-4043-b71d-952850d73035"
 					(reference "C18")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_US")
+		(at 22.86 111.76 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "e67aa1d8-648b-4cca-8e6c-c8c05806a8f7")
+		(property "Reference" "R14"
+			(at 25.4 110.4899 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "90R"
+			(at 25.4 113.0299 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 23.876 112.014 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 22.86 111.76 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor, US symbol"
+			(at 22.86 111.76 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "9b8b1950-8fc3-440a-94de-653a54cbb2cc")
+		)
+		(pin "1"
+			(uuid "40979344-245b-425d-9dfb-0a89bfcf7397")
+		)
+		(instances
+			(project "analog"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9d33972e-4f39-4043-b71d-952850d73035"
+					(reference "R14")
 					(unit 1)
 				)
 			)
