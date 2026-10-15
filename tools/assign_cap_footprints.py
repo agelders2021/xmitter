@@ -91,6 +91,17 @@ VALUE_TO_FOOTPRINT = {
     # Case D=8.2 mm (max 8.7), L=11 mm (max 12), pitch F=5.0 mm.
     # Per Documentation/Components/036rsp.pdf page 3 Table 2.
     '100uF':   'Capacitor_THT:CP_Radial_D8.0mm_P5.00mm',
+
+    # 22 uF 25V aluminum electrolytic, same case family as 10uF (D5/P2mm)
+    # — LM2940 LDO output cap on analog/power sheet.
+    '22uF':    'Capacitor_THT:CP_Radial_D5.0mm_P2.00mm',
+
+    # 2 uF film cap, LT1054 V_IN decoupling. Same case as 1uF.
+    '2uF':     'Capacitor_THT:C_Rect_L7.2mm_W4.5mm_P5.00mm',
+
+    # 0.0022 uF (2.2 nF) ceramic disc, same small-disc case as 33pF.
+    '0.0022uF': 'Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm',
+    '2.2nF':    'Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm',
 }
 
 CAP_LIB_IDS = (
