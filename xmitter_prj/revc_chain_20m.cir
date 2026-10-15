@@ -1,0 +1,146 @@
+* ============================================================
+* xmitter Rev C analog + SS PA chain, 14.2 MHz (20m), NO post-PA LPF
+*
+* Si5351 replaced by VPULSE (14.2 MHz, +/-1.65 V around 0 V,
+*   i.e. the signal AFTER DC blocking + R21 bias in the real board).
+* G2 held at +4 V DC (steady-state key-down, full envelope).
+*
+* Chain: VPULSE -> Q2 (40673 DGFET) G1 -> drain load (R31)
+*        -> C10 DC block -> 3-pole LPF (Fc ~32 MHz, 50 ohm matched)
+*        -> U10 LM7171 follower
+*        -> U11 non-inv / U12 inv PP driver (gain 2.5 each)
+*        -> IRF510 PP (class-AB bias 3.8 V)
+*        -> T2 bifilar drain feed (T50-43)
+*        -> T1 output xfmr (BN43-202, 2T CT primary, 3T secondary)
+*        -> 50 ohm load
+* ============================================================
+
+.INCLUDE "40673.lib"
+
+* ---------- behavioral LM7171 (ideal, rail-clamped) ----------
+.SUBCKT LM7171B INP INN VP VN OUT
+E_INT  N1 0  INP INN 1E6
+R_P    N1 N2  1MEG
+C_P    N2 0  1n
+B_OUT  OUT 0  V = MAX(V(VN)+1, MIN(V(VP)-1, V(N2)))
+.ENDS
+
+* ---------- IRF510 (classic PSpice N-ch MOSFET) ----------
+.SUBCKT IRF510 D G S
+MN DI GI SI SI MOSN L=100u W=100u
+.MODEL MOSN NMOS LEVEL=1 VTO=3.57 KP=0.4 LAMBDA=0.0082 IS=1e-32
++  CGSO=5.07e-7 CGDO=2.74e-8
+RD D DI 0.1
+RG G GI 1
+RS SI S 0.045
+DBD S D DBODY
+.MODEL DBODY D IS=1.08e-15 VJ=0.5 CJO=174p M=0.3
+.ENDS
+
+* ============================================================
+V_P12  VP12 0  DC 12
+V_N12  VN12 0  DC -12
+V_PA   VPA  0  DC 13.8
+
+* ============================================================
+*  Si5351 replacement, DC-centered so no settling needed.
+*  14.2 MHz, 3.3 Vpp (symmetrical around 0 V, representing the
+*  signal AFTER the real board's C26/R21 self-bias network).
+* ============================================================
+V_RF   Q2_G1 0  PULSE(-1.65 1.65 0 1n 1n 34.211n 70.422n)
+
+* G2 envelope: steady key-down at +4 V
+V_G2   G2 0  DC 4
+
+* ============================================================
+*  DGFET and drain network
+*  R31 (470 ohm) is the drain DC load to +12 V.
+*  No RFC in sim (parallel RFC with R31 is near-irrelevant at 14 MHz
+*  and complicates convergence). C10 DC-blocks to LPF input.
+* ============================================================
+X_Q2   Q2_G1  G2  Q2_D  0  40673
+R31    VP12   Q2_D  470
+C10    Q2_D   LPF_IN 10n
+R_LPFBIAS LPF_IN 0 50     ; shunt termination + DC return to GND
+
+* ============================================================
+*  3-pole Butterworth LPF, Fc ~ 32 MHz, 50 ohm matched
+*  Component values: C1=C3=100 pF, L2=500 nH
+* ============================================================
+C_L1   LPF_IN  0      100p
+L_L2   LPF_IN  LPF_B  500n
+C_L3   LPF_B   0      100p
+R_LPFLOAD LPF_B 0  50     ; matched load + DC return (holds LPF_B at 0 V DC)
+
+* ============================================================
+*  U10: unity-gain follower (DC-coupled, LPF_B already at 0 V DC)
+* ============================================================
+X_U10  LPF_B  U10_OUT  VP12  VN12  U10_OUT  LM7171B
+
+* ============================================================
+*  U11: non-inverting, gain = 5
+*  U12: inverting,     gain = 5
+*  DC-coupled from U10_OUT (no slow AC-coupling RC to settle)
+* ============================================================
+X_U11  U10_OUT  U11_FB  VP12  VN12  OUT_P  LM7171B
+R_U11F OUT_P    U11_FB  4k
+R_U11G U11_FB   0       1k
+
+X_U12  0         U12_IN  VP12  VN12  OUT_N  LM7171B
+R_U12I U10_OUT   U12_IN  1k
+R_U12F OUT_N     U12_IN  5k
+
+* ============================================================
+*  Gate coupling + bias to IRF510 PP (class-AB, V_BIAS = 3.8 V)
+* ============================================================
+V_BIAS G_BIAS 0  DC 4.0
+R_GA   G_BIAS G_A  22
+R_GB   G_BIAS G_B  22
+C_GA   OUT_P  G_A  100n
+C_GB   OUT_N  G_B  100n
+
+* ============================================================
+*  IRF510 push-pull output stage
+* ============================================================
+X_M1   D_A  G_A  0  IRF510
+X_M2   D_B  G_B  0  IRF510
+
+* ============================================================
+*  T2: bifilar drain feed on T50-43, 15 uH per half, k=0.98
+* ============================================================
+L_T2A  VPA  D_A  15u
+L_T2B  VPA  D_B  15u
+K_T2AB L_T2A  L_T2B  0.98
+C_T2B  VPA  0  100n
+
+* ============================================================
+*  T1 output transformer, BN43-202 2T CT primary / 3T secondary
+* ============================================================
+L_T1A  D_A    PRI_CT 2.2u
+L_T1B  PRI_CT D_B    2.2u
+L_T1S  OUT    0      19.8u
+K_T1AS L_T1A  L_T1S  0.98
+K_T1BS L_T1B  L_T1S  0.98
+K_T1AB L_T1A  L_T1B  0.98
+C_T1C  PRI_CT 0  100n
+
+R_LOAD OUT  0  50
+
+* ============================================================
+.OPTIONS RELTOL=1e-3 ABSTOL=1n VNTOL=1u ITL1=300 ITL4=200
+* Hints for OP: tie AC-coupled gate nodes to the bias point
+.IC V(G_A) = 4
+.IC V(G_B) = 4
+
+.control
+tran 500p 3u 0
+write spice4qucs.tr1.plot v(q2_g1) v(q2_d) v(lpf_b) v(u10_out) v(out_p) v(out_n) v(g_a) v(g_b) v(d_a) v(d_b) v(out)
+linearize v(out)
+fft v(out)
+let out_fft = v(out)
+write spice4qucs.fft.plot out_fft
+destroy all
+exit
+.endc
+
+.END

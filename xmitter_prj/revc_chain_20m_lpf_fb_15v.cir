@@ -1,0 +1,121 @@
+* ============================================================
+* xmitter Rev C analog + SS PA chain, 14.2 MHz (20m), 20m LPF,
+*       WITH drain-to-gate feedback, PA supply = +15 V
+*
+* Same as revc_chain_20m_lpf.cir, but adds the real board's
+* broadband negative feedback: each IRF510 has a series
+*   C(0.1 uF) + R(220) + L(1 uH)
+* from its drain back to its gate (per QRP Labs 10W Linear
+* kit topology). Flattens gain across HF, improves stability
+* margin against VHF parasitic oscillation.
+* ============================================================
+
+.INCLUDE "40673.lib"
+
+.SUBCKT LM7171B INP INN VP VN OUT
+E_INT  N1 0  INP INN 1E6
+R_P    N1 N2  1MEG
+C_P    N2 0  1n
+B_OUT  OUT 0  V = MAX(V(VN)+1, MIN(V(VP)-1, V(N2)))
+.ENDS
+
+.SUBCKT IRF510 D G S
+MN DI GI SI SI MOSN L=100u W=100u
+.MODEL MOSN NMOS LEVEL=1 VTO=3.57 KP=0.4 LAMBDA=0.0082 IS=1e-32
++  CGSO=5.07e-7 CGDO=2.74e-8
+RD D DI 0.1
+RG G GI 1
+RS SI S 0.045
+DBD S D DBODY
+.MODEL DBODY D IS=1.08e-15 VJ=0.5 CJO=174p M=0.3
+.ENDS
+
+V_P12  VP12 0  DC 12
+V_N12  VN12 0  DC -12
+V_PA   VPA  0  DC 15
+
+V_RF   Q2_G1 0  PULSE(-1.65 1.65 0 1n 1n 34.211n 70.422n)
+V_G2   G2 0  DC 4
+
+X_Q2   Q2_G1  G2  Q2_D  0  40673
+R31    VP12   Q2_D  470
+C10    Q2_D   LPF_IN 10n
+R_LPFBIAS LPF_IN 0 50
+
+C_L1   LPF_IN  0      100p
+L_L2   LPF_IN  LPF_B  500n
+C_L3   LPF_B   0      100p
+R_LPFLOAD LPF_B 0  50
+
+X_U10  LPF_B  U10_OUT  VP12  VN12  U10_OUT  LM7171B
+
+X_U11  U10_OUT  U11_FB  VP12  VN12  OUT_P  LM7171B
+R_U11F OUT_P    U11_FB  4k
+R_U11G U11_FB   0       1k
+
+X_U12  0         U12_IN  VP12  VN12  OUT_N  LM7171B
+R_U12I U10_OUT   U12_IN  1k
+R_U12F OUT_N     U12_IN  5k
+
+V_BIAS G_BIAS 0  DC 4.0
+R_GA   G_BIAS G_A  22
+R_GB   G_BIAS G_B  22
+C_GA   OUT_P  G_A  100n
+C_GB   OUT_N  G_B  100n
+
+X_M1   D_A  G_A  0  IRF510
+X_M2   D_B  G_B  0  IRF510
+
+* ============================================================
+*  Drain-to-gate feedback per FET (REAL ss_pa topology)
+*    Side A (Q4 on the real board): D_A -> C7 -> R5 -> L1 -> G_A
+*    Side B (Q3 on the real board): D_B -> C8 -> R6 -> L2 -> G_B
+* ============================================================
+C_FB_A  D_A  FBA1  0.1u
+R_FB_A  FBA1 FBA2  220
+L_FB_A  FBA2 G_A   1u
+
+C_FB_B  D_B  FBB1  0.1u
+R_FB_B  FBB1 FBB2  220
+L_FB_B  FBB2 G_B   1u
+
+L_T2A  VPA  D_A  15u
+L_T2B  VPA  D_B  15u
+K_T2AB L_T2A  L_T2B  0.98
+C_T2B  VPA  0  100n
+
+L_T1A  D_A    PRI_CT 2.2u
+L_T1B  PRI_CT D_B    2.2u
+L_T1S  XFMR   0      19.8u
+K_T1AS L_T1A  L_T1S  0.98
+K_T1BS L_T1B  L_T1S  0.98
+K_T1AB L_T1A  L_T1B  0.98
+C_T1C  PRI_CT 0  100n
+
+* 20m band LPF
+C_B1   XFMR   0        209p
+L_B2   XFMR   LPF_N1   629n
+C_B3   LPF_N1 0        371p
+L_B4   LPF_N1 LPF_N2   695n
+C_B5   LPF_N2 0        371p
+L_B6   LPF_N2 OUT      629n
+C_B7   OUT    0        209p
+
+R_LOAD OUT  0  50
+
+.OPTIONS RELTOL=1e-3 ABSTOL=1n VNTOL=1u ITL1=300 ITL4=200
+.IC V(G_A) = 4
+.IC V(G_B) = 4
+
+.control
+tran 500p 3u 0
+write spice4qucs.tr1.plot v(xfmr) v(out) v(d_a) v(d_b) v(g_a) v(g_b) v(out_p) v(out_n)
+linearize v(out)
+fft v(out)
+let out_fft = v(out)
+write spice4qucs.fft.plot out_fft
+destroy all
+exit
+.endc
+
+.END
