@@ -50,11 +50,27 @@ Last updated: 2026-10-16.
 ### Pins
 
 - **Center — RF_OUT_ANALOG:** analog → PA. Single-ended, 50 Ω,
-  ~500 mVpp (nominal) at 14.0–30.0 MHz (full HF band coverage).
-  Driver: U1 (LM7171 unity-gain follower) via R2=50 Ω back-match.
-  DC-blocked by C1 (100 pF) in the RC snubber plus the follower's
-  own output characteristics. Expect peak levels to vary with
-  envelope DAC setting (G2 of Q2 40673 DGFET).
+  14.0–30.0 MHz (full HF band coverage).
+  Driver: U1 (LM7171 non-inverting amp) via R2=50 Ω back-match.
+  DC-blocked by C1 (100 pF) in the RC snubber plus the amp's
+  own output characteristics.
+  **Build-time gain hedge:** R_f = 3 kΩ in the feedback path is
+  installed by default; R_g (to GND from inverting input) is
+  intentionally LEFT UNPOPULATED. With R_g open the formula
+  `gain = 1 + R_f/R_g` collapses to unity gain (LM7171 input bias
+  current is ~2 µA, nothing to force a drop across R_f). Default
+  nominal signal level into the PA is **~500 mVpp**. To get more
+  drive -- e.g. to push the IRF510 PA into class-C operation when
+  firmware sets PA_Bias_A/B low via MCP4728 U3 -- **populate R_g**:
+    R_g = 1 kΩ -> gain = 4 -> ~2 Vpp into PA (max useful before
+    the LM7171 ±11 V clean swing starts to limit)
+    R_g = 3 kΩ -> gain = 2 -> ~1 Vpp
+    R_g = 333 Ω -> gain = 10 -> hits rails on signal peaks, not
+    recommended
+  Amplitude control at runtime is via **G2 of Q2 (40673 DGFET)**
+  driven by MCP4921 U4 ch A through the Q11/Q12 KeyUp-mute level
+  shifter. G2 acts as a VCA on the carrier; CW envelope shaping
+  (raised-cosine, 5 ms rise/fall) is applied in firmware.
 - **Shield — GND**
 
 ---
@@ -210,6 +226,12 @@ first — it is the authoritative doc for J4.
 
 ## Change log
 
+- 2026-10-18: U1 gain-hedge documented in J1. Default R_g unpopulated
+  = unity gain = ~500 mVpp drive. Populate R_g = 1 kΩ to get gain = 4
+  = ~2 Vpp drive for class-C PA operation. Amplitude control via
+  Q2 G2 (DGFET VCA) + MCP4921 U4 envelope DAC. Decision made to
+  skip relay-switched gain/class-mode selection -- firmware DAC
+  control + DGFET VCA cover both class-AB and class-C regimes.
 - 2026-10-16: Initial doc created. J1, J2 complete; J4 by
   reference; J31 and all RF/power downstream are TBD pending PA
   and LPF board design.
