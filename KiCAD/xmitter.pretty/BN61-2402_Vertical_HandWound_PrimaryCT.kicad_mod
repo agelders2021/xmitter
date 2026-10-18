@@ -1,0 +1,111 @@
+(footprint "BN61-2402_Vertical_HandWound_PrimaryCT"
+	(version 20240108)
+	(generator "manual")
+	(generator_version "10.0")
+	(layer "F.Cu")
+	(descr "Fair-Rite BN61-2402 small binocular ferrite core (type 61 material, same body as BN43-2402: 7.52 x 7.52 x 5.08 mm per Fair-Rite 2861002402 datasheet; two 1.52 mm dia bores on 2.54 mm pitch). Mounted VERTICALLY (standing on end). Hand-wound, 5-pad layout for a transformer where one winding has a center tap and the other does not (used in Rev D for T3 - 3T CT primary + 2T secondary; and T4 - 2T primary + 3T CT secondary bifilar). Pad layout: pins 1 and 3 are the two ends of the CT winding (primary for T3, secondary for T4); pin 2 is the center tap; pins 4 and 5 are the two ends of the non-tapped winding. VERIFY body dimensions and winding arrangement against build intent before fab.")
+	(tags "ferrite binocular bn61-2402 fair-rite type-61 vertical hand-wound transformer center-tap")
+	(attr through_hole)
+	(property "Reference" "T**"
+		(at 0 -6.5 0)
+		(layer "F.SilkS")
+		(uuid "42000000-0000-0000-0000-000000000001")
+		(effects
+			(font (size 1 1) (thickness 0.15))
+		)
+	)
+	(property "Value" "BN61-2402"
+		(at 0 6.5 0)
+		(layer "F.Fab")
+		(uuid "42000000-0000-0000-0000-000000000002")
+		(effects
+			(font (size 1 1) (thickness 0.15))
+		)
+	)
+	(property "Datasheet" "https://fair-rite.com/product/binocular-cores-2861002402/"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "42000000-0000-0000-0000-000000000003")
+		(effects
+			(font (size 1 1) (thickness 0.15))
+		)
+	)
+	(property "Description" "Fair-Rite BN61-2402 binocular core, vertical mount, hand-wound 5-pad transformer with center tap"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "42000000-0000-0000-0000-000000000004")
+		(effects
+			(font (size 1 1) (thickness 0.15))
+		)
+	)
+
+	(fp_rect
+		(start -3.76 -1.78)
+		(end 3.76 1.78)
+		(stroke (width 0.12) (type solid))
+		(fill no)
+		(layer "F.SilkS")
+		(uuid "42000000-0000-0000-0000-000000000010")
+	)
+	(fp_rect
+		(start -5.0 -5.0)
+		(end 5.0 5.0)
+		(stroke (width 0.05) (type solid))
+		(fill no)
+		(layer "F.CrtYd")
+		(uuid "42000000-0000-0000-0000-000000000011")
+	)
+	(fp_rect
+		(start -3.76 -1.78)
+		(end 3.76 1.78)
+		(stroke (width 0.1) (type solid))
+		(fill no)
+		(layer "F.Fab")
+		(uuid "42000000-0000-0000-0000-000000000012")
+	)
+
+	(fp_text user "BN61-2402 vert"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(uuid "42000000-0000-0000-0000-000000000020")
+		(effects (font (size 0.5 0.5) (thickness 0.08)))
+	)
+
+	(pad "1" thru_hole circle
+		(at -3.5 3.5)
+		(size 1.7 1.7)
+		(drill 0.9)
+		(layers "*.Cu" "*.Mask")
+		(uuid "42000000-0000-0000-0000-000000000100")
+	)
+	(pad "2" thru_hole rect
+		(at 0 3.5)
+		(size 1.7 1.7)
+		(drill 0.9)
+		(layers "*.Cu" "*.Mask")
+		(uuid "42000000-0000-0000-0000-000000000101")
+	)
+	(pad "3" thru_hole circle
+		(at 3.5 3.5)
+		(size 1.7 1.7)
+		(drill 0.9)
+		(layers "*.Cu" "*.Mask")
+		(uuid "42000000-0000-0000-0000-000000000102")
+	)
+	(pad "4" thru_hole circle
+		(at -2.0 -3.5)
+		(size 1.7 1.7)
+		(drill 0.9)
+		(layers "*.Cu" "*.Mask")
+		(uuid "42000000-0000-0000-0000-000000000103")
+	)
+	(pad "5" thru_hole circle
+		(at 2.0 -3.5)
+		(size 1.7 1.7)
+		(drill 0.9)
+		(layers "*.Cu" "*.Mask")
+		(uuid "42000000-0000-0000-0000-000000000104")
+	)
+)

@@ -1,0 +1,90 @@
+(footprint "BN43-2402_Vertical_HandWound"
+	(version 20240108)
+	(generator "manual")
+	(generator_version "10.0")
+	(layer "F.Cu")
+	(descr "Fair-Rite BN43-2402 small binocular ferrite core (type 43 material, 7.52 x 7.52 x 5.08 mm per Fair-Rite 2843002402 datasheet; two 1.52 mm dia bores on 2.54 mm pitch). Mounted VERTICALLY (standing on end) with bore axis perpendicular to PCB. Hand-wound, 2 pads for a simple single-winding RF choke (used in Rev D for L18 on ss_pa, as the +12V bias feed RFC to T3 center-tap). Wires exit DOWNWARD from the bottom bore ends and bend outward to meet the two PCB pads flanking the core footprint. VERIFY body and bore dimensions against actual stock before fab.")
+	(tags "ferrite binocular bn43-2402 fair-rite type-43 vertical hand-wound choke rfc")
+	(attr through_hole)
+	(property "Reference" "L**"
+		(at 0 -5.5 0)
+		(layer "F.SilkS")
+		(uuid "41000000-0000-0000-0000-000000000001")
+		(effects
+			(font (size 1 1) (thickness 0.15))
+		)
+	)
+	(property "Value" "BN43-2402"
+		(at 0 5.5 0)
+		(layer "F.Fab")
+		(uuid "41000000-0000-0000-0000-000000000002")
+		(effects
+			(font (size 1 1) (thickness 0.15))
+		)
+	)
+	(property "Datasheet" "https://fair-rite.com/product/binocular-cores-2843002402/"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "41000000-0000-0000-0000-000000000003")
+		(effects
+			(font (size 1 1) (thickness 0.15))
+		)
+	)
+	(property "Description" "Fair-Rite BN43-2402 binocular core, vertical mount, hand-wound 2-pad choke"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "41000000-0000-0000-0000-000000000004")
+		(effects
+			(font (size 1 1) (thickness 0.15))
+		)
+	)
+
+	(fp_rect
+		(start -3.76 -1.78)
+		(end 3.76 1.78)
+		(stroke (width 0.12) (type solid))
+		(fill no)
+		(layer "F.SilkS")
+		(uuid "41000000-0000-0000-0000-000000000010")
+	)
+	(fp_rect
+		(start -4.0 -4.0)
+		(end 4.0 4.0)
+		(stroke (width 0.05) (type solid))
+		(fill no)
+		(layer "F.CrtYd")
+		(uuid "41000000-0000-0000-0000-000000000011")
+	)
+	(fp_rect
+		(start -3.76 -1.78)
+		(end 3.76 1.78)
+		(stroke (width 0.1) (type solid))
+		(fill no)
+		(layer "F.Fab")
+		(uuid "41000000-0000-0000-0000-000000000012")
+	)
+
+	(fp_text user "BN43-2402 vert"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(uuid "41000000-0000-0000-0000-000000000020")
+		(effects (font (size 0.6 0.6) (thickness 0.1)))
+	)
+
+	(pad "1" thru_hole circle
+		(at -2.5 3.0)
+		(size 1.7 1.7)
+		(drill 0.9)
+		(layers "*.Cu" "*.Mask")
+		(uuid "41000000-0000-0000-0000-000000000100")
+	)
+	(pad "2" thru_hole circle
+		(at 2.5 3.0)
+		(size 1.7 1.7)
+		(drill 0.9)
+		(layers "*.Cu" "*.Mask")
+		(uuid "41000000-0000-0000-0000-000000000101")
+	)
+)
