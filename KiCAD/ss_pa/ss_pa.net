@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "C:\\Users\\AlAnd\\Git Backed Projects\\xmitter\\KiCAD\\ss_pa\\ss_pa.kicad_sch")
-		(date "2026-10-18T12:43:00")
+		(date "2026-10-18T17:48:28")
 		(tool "Eeschema 10.0.3")
 		(sheet
 			(number "1")
@@ -1517,12 +1517,12 @@
 		)
 		(comp
 			(ref "L18")
-			(value "L_Ferrite")
+			(value "BN43-2402")
+			(footprint "xmitter:BN43-2402_Vertical_HandWound")
 			(description "Inductor with ferrite core")
 			(fields
 				(field
-					(name "Footprint")
-				)
+					(name "Footprint") "xmitter:BN43-2402_Vertical_HandWound")
 				(field
 					(name "Datasheet")
 				)
@@ -2578,23 +2578,23 @@
 			)
 		)
 		(comp
-			(ref "T1")
-			(value "Transformer_1P_1S")
-			(description "Transformer, single primary, single secondary")
+			(ref "T201")
+			(value "BN61-2402")
+			(footprint "xmitter:BN61-2402_Vertical_HandWound_SecondaryCT")
+			(description "Transformer, single primary, split secondary")
 			(fields
 				(field
-					(name "Footprint")
-				)
+					(name "Footprint") "xmitter:BN61-2402_Vertical_HandWound_SecondaryCT")
 				(field
 					(name "Datasheet")
 				)
 				(field
-					(name "Description") "Transformer, single primary, single secondary")
+					(name "Description") "Transformer, single primary, split secondary")
 			)
 			(libsource
 				(lib "Device")
-				(part "Transformer_1P_1S")
-				(description "Transformer, single primary, single secondary")
+				(part "Transformer_1P_SS")
+				(description "Transformer, single primary, split secondary")
 			)
 			(property
 				(name "Sheetname")
@@ -2612,7 +2612,7 @@
 				(names "/PA_Stage/")
 				(tstamps "/6995ca2b-35a4-4871-8cf2-3a0067e62105/")
 			)
-			(tstamps "d4fca911-3c4f-4674-b1e7-560acc515bb2")
+			(tstamps "8412e4c8-7313-46f0-a665-8eecdff21643")
 			(units
 				(unit
 					(name "A")
@@ -2622,6 +2622,9 @@
 						)
 						(pin
 							(num "2")
+						)
+						(pin
+							(num "5")
 						)
 						(pin
 							(num "4")
@@ -2634,69 +2637,13 @@
 			)
 		)
 		(comp
-			(ref "T2")
-			(value "Transformer_1P_1S")
-			(description "Transformer, single primary, single secondary")
-			(fields
-				(field
-					(name "Footprint")
-				)
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "Transformer, single primary, single secondary")
-			)
-			(libsource
-				(lib "Device")
-				(part "Transformer_1P_1S")
-				(description "Transformer, single primary, single secondary")
-			)
-			(property
-				(name "Sheetname")
-				(value "PA_Stage")
-			)
-			(property
-				(name "Sheetfile")
-				(value "pa_stage.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "transformer coil magnet")
-			)
-			(sheetpath
-				(names "/PA_Stage/")
-				(tstamps "/6995ca2b-35a4-4871-8cf2-3a0067e62105/")
-			)
-			(tstamps "bfcaa338-a17a-4c31-9774-b9e37ce9f1b0")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-						(pin
-							(num "4")
-						)
-						(pin
-							(num "3")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "T3")
-			(value "Transformer_SP_1S")
+			(ref "T202")
+			(value "BN61-2402")
+			(footprint "xmitter:BN61-2402_Vertical_HandWound_PrimaryCT")
 			(description "Transformer, split primary, single secondary")
 			(fields
 				(field
-					(name "Footprint")
-				)
+					(name "Footprint") "xmitter:BN61-2402_Vertical_HandWound_PrimaryCT")
 				(field
 					(name "Datasheet")
 				)
@@ -2749,23 +2696,23 @@
 			)
 		)
 		(comp
-			(ref "T4")
-			(value "Transformer_1P_SS")
-			(description "Transformer, single primary, split secondary")
+			(ref "T203")
+			(value "T50-43")
+			(footprint "xmitter:T50-43_Vertical_Bifilar_HandWound")
+			(description "Transformer, single primary, single secondary")
 			(fields
 				(field
-					(name "Footprint")
-				)
+					(name "Footprint") "xmitter:T50-43_Vertical_Bifilar_HandWound")
 				(field
 					(name "Datasheet")
 				)
 				(field
-					(name "Description") "Transformer, single primary, split secondary")
+					(name "Description") "Transformer, single primary, single secondary")
 			)
 			(libsource
 				(lib "Device")
-				(part "Transformer_1P_SS")
-				(description "Transformer, single primary, split secondary")
+				(part "Transformer_1P_1S")
+				(description "Transformer, single primary, single secondary")
 			)
 			(property
 				(name "Sheetname")
@@ -2783,7 +2730,7 @@
 				(names "/PA_Stage/")
 				(tstamps "/6995ca2b-35a4-4871-8cf2-3a0067e62105/")
 			)
-			(tstamps "8412e4c8-7313-46f0-a665-8eecdff21643")
+			(tstamps "bfcaa338-a17a-4c31-9774-b9e37ce9f1b0")
 			(units
 				(unit
 					(name "A")
@@ -2795,7 +2742,60 @@
 							(num "2")
 						)
 						(pin
-							(num "5")
+							(num "4")
+						)
+						(pin
+							(num "3")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "T204")
+			(value "BN43-202")
+			(footprint "xmitter:BN43-202_Horizontal_HandWound")
+			(description "Transformer, single primary, single secondary")
+			(fields
+				(field
+					(name "Footprint") "xmitter:BN43-202_Horizontal_HandWound")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Transformer, single primary, single secondary")
+			)
+			(libsource
+				(lib "Device")
+				(part "Transformer_1P_1S")
+				(description "Transformer, single primary, single secondary")
+			)
+			(property
+				(name "Sheetname")
+				(value "PA_Stage")
+			)
+			(property
+				(name "Sheetfile")
+				(value "pa_stage.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "transformer coil magnet")
+			)
+			(sheetpath
+				(names "/PA_Stage/")
+				(tstamps "/6995ca2b-35a4-4871-8cf2-3a0067e62105/")
+			)
+			(tstamps "d4fca911-3c4f-4674-b1e7-560acc515bb2")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
 						)
 						(pin
 							(num "4")
@@ -3399,6 +3399,114 @@
 				(tstamps "/7e6e5903-d9c4-4499-a3fb-6a30c021fada/")
 			)
 			(tstamps "beeadb26-dbd9-45c9-b678-d7428b9514a4")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R12")
+			(value "100K")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "Fault_Shutdown")
+			)
+			(property
+				(name "Sheetfile")
+				(value "fault_shutdown.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/Fault_Shutdown/")
+				(tstamps "/7e6e5903-d9c4-4499-a3fb-6a30c021fada/")
+			)
+			(tstamps "24a8a4bd-21b9-48a8-a4ab-41d4f6ffb5c1")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R19")
+			(value "100K")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "Fault_Shutdown")
+			)
+			(property
+				(name "Sheetfile")
+				(value "fault_shutdown.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/Fault_Shutdown/")
+				(tstamps "/7e6e5903-d9c4-4499-a3fb-6a30c021fada/")
+			)
+			(tstamps "6bc2ef7b-f24c-428f-a9a1-88eab8d8e886")
 			(units
 				(unit
 					(name "A")
@@ -4639,13 +4747,13 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "T2")
+				(ref "T203")
 				(pin "1")
 				(pinfunction "AA_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "T2")
+				(ref "T203")
 				(pin "3")
 				(pinfunction "SA_3")
 				(pintype "passive")
@@ -4659,28 +4767,6 @@
 		)
 		(net
 			(code "3")
-			(name "Bias_A_Raw")
-			(class "Default")
-			(node
-				(ref "U2")
-				(pin "1")
-				(pinfunction "1Y_1")
-				(pintype "passive")
-			)
-		)
-		(net
-			(code "4")
-			(name "Bias_B_Raw")
-			(class "Default")
-			(node
-				(ref "U2")
-				(pin "4")
-				(pinfunction "2Y_4")
-				(pintype "passive")
-			)
-		)
-		(net
-			(code "5")
 			(name "DRIVER_BIAS")
 			(class "Default")
 			(node
@@ -4709,14 +4795,14 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "T4")
+				(ref "T201")
 				(pin "4")
 				(pinfunction "SC_4")
 				(pintype "passive")
 			)
 		)
 		(net
-			(code "6")
+			(code "4")
 			(name "FAULT_N")
 			(class "Default")
 			(node
@@ -4763,7 +4849,7 @@
 			)
 		)
 		(net
-			(code "7")
+			(code "5")
 			(name "GND")
 			(class "Default")
 			(node
@@ -4880,6 +4966,11 @@
 				(pintype "passive")
 			)
 			(node
+				(ref "R12")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
 				(ref "R13")
 				(pin "2")
 				(pintype "passive")
@@ -4900,6 +4991,11 @@
 				(pintype "passive")
 			)
 			(node
+				(ref "R19")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
 				(ref "R2")
 				(pin "2")
 				(pintype "passive")
@@ -4915,15 +5011,15 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "T1")
-				(pin "3")
-				(pinfunction "SA_3")
+				(ref "T201")
+				(pin "2")
+				(pinfunction "AB_2")
 				(pintype "passive")
 			)
 			(node
-				(ref "T4")
-				(pin "2")
-				(pinfunction "AB_2")
+				(ref "T204")
+				(pin "3")
+				(pinfunction "SA_3")
 				(pintype "passive")
 			)
 			(node
@@ -4982,7 +5078,7 @@
 			)
 		)
 		(net
-			(code "8")
+			(code "6")
 			(name "Net-(C7-Pad1)")
 			(class "Default")
 			(node
@@ -4997,7 +5093,7 @@
 			)
 		)
 		(net
-			(code "9")
+			(code "7")
 			(name "Net-(C8-Pad1)")
 			(class "Default")
 			(node
@@ -5012,7 +5108,7 @@
 			)
 		)
 		(net
-			(code "10")
+			(code "8")
 			(name "Net-(C9-Pad1)")
 			(class "Default")
 			(node
@@ -5033,7 +5129,7 @@
 			)
 		)
 		(net
-			(code "11")
+			(code "9")
 			(name "Net-(C10-Pad1)")
 			(class "Default")
 			(node
@@ -5054,7 +5150,7 @@
 			)
 		)
 		(net
-			(code "12")
+			(code "10")
 			(name "Net-(D1-A)")
 			(class "Default")
 			(node
@@ -5070,7 +5166,7 @@
 			)
 		)
 		(net
-			(code "13")
+			(code "11")
 			(name "Net-(D2-K)")
 			(class "Default")
 			(node
@@ -5093,7 +5189,7 @@
 			)
 		)
 		(net
-			(code "14")
+			(code "12")
 			(name "Net-(J1-In)")
 			(class "Default")
 			(node
@@ -5103,14 +5199,14 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "T1")
+				(ref "T204")
 				(pin "4")
 				(pinfunction "SB_4")
 				(pintype "passive")
 			)
 		)
 		(net
-			(code "15")
+			(code "13")
 			(name "Net-(J3-In)")
 			(class "Default")
 			(node
@@ -5120,14 +5216,14 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "T4")
+				(ref "T201")
 				(pin "1")
 				(pinfunction "AA_1")
 				(pintype "passive")
 			)
 		)
 		(net
-			(code "16")
+			(code "14")
 			(name "Net-(L1-Pad2)")
 			(class "Default")
 			(node
@@ -5143,7 +5239,7 @@
 			)
 		)
 		(net
-			(code "17")
+			(code "15")
 			(name "Net-(L2-Pad2)")
 			(class "Default")
 			(node
@@ -5159,7 +5255,7 @@
 			)
 		)
 		(net
-			(code "18")
+			(code "16")
 			(name "Net-(Q2-D)")
 			(class "Default")
 			(node
@@ -5169,14 +5265,14 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "T3")
+				(ref "T202")
 				(pin "1")
 				(pinfunction "PR1_1")
 				(pintype "passive")
 			)
 		)
 		(net
-			(code "19")
+			(code "17")
 			(name "Net-(Q2-G)")
 			(class "Default")
 			(node
@@ -5191,14 +5287,14 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "T4")
+				(ref "T201")
 				(pin "5")
 				(pinfunction "SB_5")
 				(pintype "passive")
 			)
 		)
 		(net
-			(code "20")
+			(code "18")
 			(name "Net-(Q2-S)")
 			(class "Default")
 			(node
@@ -5214,7 +5310,7 @@
 			)
 		)
 		(net
-			(code "21")
+			(code "19")
 			(name "Net-(Q3-D)")
 			(class "Default")
 			(node
@@ -5234,20 +5330,20 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "T1")
-				(pin "1")
-				(pinfunction "AA_1")
-				(pintype "passive")
-			)
-			(node
-				(ref "T2")
+				(ref "T203")
 				(pin "4")
 				(pinfunction "SB_4")
 				(pintype "passive")
 			)
+			(node
+				(ref "T204")
+				(pin "1")
+				(pinfunction "AA_1")
+				(pintype "passive")
+			)
 		)
 		(net
-			(code "22")
+			(code "20")
 			(name "Net-(Q3-G)")
 			(class "Default")
 			(node
@@ -5275,7 +5371,7 @@
 			)
 		)
 		(net
-			(code "23")
+			(code "21")
 			(name "Net-(Q4-D)")
 			(class "Default")
 			(node
@@ -5295,20 +5391,20 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "T1")
+				(ref "T203")
 				(pin "2")
 				(pinfunction "AB_2")
 				(pintype "passive")
 			)
 			(node
-				(ref "T2")
+				(ref "T204")
 				(pin "2")
 				(pinfunction "AB_2")
 				(pintype "passive")
 			)
 		)
 		(net
-			(code "24")
+			(code "22")
 			(name "Net-(Q4-G)")
 			(class "Default")
 			(node
@@ -5336,7 +5432,7 @@
 			)
 		)
 		(net
-			(code "25")
+			(code "23")
 			(name "Net-(Q6-D)")
 			(class "Default")
 			(node
@@ -5346,14 +5442,14 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "T3")
+				(ref "T202")
 				(pin "3")
 				(pinfunction "PR2_3")
 				(pintype "passive")
 			)
 		)
 		(net
-			(code "26")
+			(code "24")
 			(name "Net-(Q6-G)")
 			(class "Default")
 			(node
@@ -5368,14 +5464,14 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "T4")
+				(ref "T201")
 				(pin "3")
 				(pinfunction "SA_3")
 				(pintype "passive")
 			)
 		)
 		(net
-			(code "27")
+			(code "25")
 			(name "Net-(Q6-S)")
 			(class "Default")
 			(node
@@ -5391,8 +5487,8 @@
 			)
 		)
 		(net
-			(code "28")
-			(name "Net-(T3-PM)")
+			(code "26")
+			(name "Net-(T202-PM)")
 			(class "Default")
 			(node
 				(ref "C17")
@@ -5411,15 +5507,15 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "T3")
+				(ref "T202")
 				(pin "2")
 				(pinfunction "PM_2")
 				(pintype "passive")
 			)
 		)
 		(net
-			(code "29")
-			(name "Net-(T3-S1)")
+			(code "27")
+			(name "Net-(T202-S1)")
 			(class "Default")
 			(node
 				(ref "C4")
@@ -5432,15 +5528,15 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "T3")
+				(ref "T202")
 				(pin "4")
 				(pinfunction "S1_4")
 				(pintype "passive")
 			)
 		)
 		(net
-			(code "30")
-			(name "Net-(T3-S2)")
+			(code "28")
+			(name "Net-(T202-S2)")
 			(class "Default")
 			(node
 				(ref "C5")
@@ -5453,16 +5549,21 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "T3")
+				(ref "T202")
 				(pin "5")
 				(pinfunction "S2_5")
 				(pintype "passive")
 			)
 		)
 		(net
-			(code "31")
+			(code "29")
 			(name "PA_Bias_A")
 			(class "Default")
+			(node
+				(ref "R19")
+				(pin "2")
+				(pintype "passive")
+			)
 			(node
 				(ref "R8")
 				(pin "1")
@@ -5476,7 +5577,7 @@
 			)
 		)
 		(net
-			(code "32")
+			(code "30")
 			(name "PA_Bias_A_Raw")
 			(class "Default")
 			(node
@@ -5484,11 +5585,22 @@
 				(pin "7")
 				(pintype "passive")
 			)
+			(node
+				(ref "U2")
+				(pin "1")
+				(pinfunction "1Y_1")
+				(pintype "passive")
+			)
 		)
 		(net
-			(code "33")
+			(code "31")
 			(name "PA_Bias_B")
 			(class "Default")
+			(node
+				(ref "R12")
+				(pin "1")
+				(pintype "passive")
+			)
 			(node
 				(ref "R7")
 				(pin "1")
@@ -5502,7 +5614,7 @@
 			)
 		)
 		(net
-			(code "34")
+			(code "32")
 			(name "PA_Bias_B_Raw")
 			(class "Default")
 			(node
@@ -5510,9 +5622,15 @@
 				(pin "8")
 				(pintype "passive")
 			)
+			(node
+				(ref "U2")
+				(pin "4")
+				(pinfunction "2Y_4")
+				(pintype "passive")
+			)
 		)
 		(net
-			(code "35")
+			(code "33")
 			(name "Source_Sense_A")
 			(class "Default")
 			(node
@@ -5544,7 +5662,7 @@
 			)
 		)
 		(net
-			(code "36")
+			(code "34")
 			(name "Source_Sense_B")
 			(class "Default")
 			(node
@@ -5576,7 +5694,7 @@
 			)
 		)
 		(net
-			(code "37")
+			(code "35")
 			(name "V_REF")
 			(class "Default")
 			(node
