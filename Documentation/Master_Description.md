@@ -383,9 +383,17 @@ receiver for encoder).
 
 Connectors:
 - **J1** (SMA) — RF out to ss_pa
-- **J2** (RJ45) — band select + GRID_CTL spares to Output LPF
+- **J2** (RJ45) — band select (5 bands) to Output LPF
 - **J4** (RJ45) — control umbilical to frontpanel (I²C + encoder)
 - **J31** (RJ45) — bias + sense + fault + control to ss_pa
+- **J35** (RJ45) — all future tube-PA control signals
+  consolidated on one umbilical (I_CATHODE_A/B,
+  GRID_CTL_A/B, GRID_BLOCK_CRASH). No electrical destination
+  today — provisioned so a future tube PA can be added without
+  re-fabbing analog.
+- **J22** (4-pin screw terminal), **J23/J24** (SMAs) — bench
+  access to the tube-control signals for direct probing / scope
+  attach; parallel paths to J35 (intentional).
 - **J3** (4-pin screw terminal) — external bias trim access
 - Various other screw terminals for power in, test points, etc.
 
@@ -497,19 +505,19 @@ Quick cross-reference of important nets:
 - **Source_Sense_A / Source_Sense_B** — IRF510 source voltage,
   J31 pins 1/4, to Metro ADC
 - **FAULT_N** — fault latch output, J31 pin 3, to Metro input
-- **RLY_10, RLY_15, RLY_17, RLY_20** — band-select from PCF8575,
-  J2 pins to Output LPF relays
-- **GRID_CTL_A, GRID_CTL_B** — provision for a possible future
-  tube-PA expansion. Routed from the Metro through J2 (the LPF
-  umbilical) pins 7, 8 so the signals exit the analog board on a
-  real connector today — but with no electrical destination at
-  the Output LPF end. If a tube PA is ever built, these two
-  signals already have a path out of the analog board; the LPF
-  board just passes them through (or the user re-routes them from
-  the J2 cable at the LPF end). Left on J2 specifically because
-  that was the outbound umbilical with spare pins when the signals
-  were added; keeping them there avoids re-fabbing analog later
-  just to expose the pins.
+- **RLY_10, RLY_15, RLY_17, RLY_20, RLY_40** — band-select from
+  PCF8575, J2 pins 1-5 to Output LPF relays
+- **I_CATHODE_A, I_CATHODE_B, GRID_CTL_A, GRID_CTL_B,
+  GRID_BLOCK_CRASH** — the full set of signals that would drive
+  a possible future tube PA. All consolidated on **J35** (new RJ45
+  on analog, added 2026-10-19) with no destination today. Previously
+  GRID_CTL_A/B lived on J2 as a stop-gap tube-PA provision; moved
+  to J35 as part of the 2026-10-19 consolidation so J2 is purely
+  band-select. If a tube PA is ever built, plug its control cable
+  into J35 (and leave J2 for the LPF). Same signals ALSO appear on
+  J22 (4-pin screw terminal) and J23/J24 (SMAs) for bench access
+  / scope probing without unplugging anything from J35 (intentional
+  parallel paths).
 
 ---
 

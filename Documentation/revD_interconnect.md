@@ -29,10 +29,12 @@ Last updated: 2026-10-16.
 ## Interconnect index
 
 - **J1** — Analog → PA : RF signal (SMA)  [OK]
-- **J2** — Analog → LPF : band select + spare (RJ45)  [PARTIAL]
+- **J2** — Analog → LPF : band select + spare (RJ45)  [OK — 5 bands wired]
 - **J4** — Analog → Frontpanel : control umbilical (RJ45)  [OK, see
   `front_panel_interface.md` for details]
-- **J31** — Analog ↔ PA : bias, sense, fault, control (RJ45)  [TBD]
+- **J31** — Analog ↔ PA : bias, sense, fault, control (RJ45)  [OK]
+- **J35** — Analog → (future tube PA) : all tube control signals
+  consolidated on one RJ45  [OK, no destination today]
 - **PA → LPF** — RF out, high level (SMA)  [TBD]
 - **LPF → Antenna** — RF out (SMA)  [TBD]
 - **Power distribution** — +13.8 V primary + ground scheme  [TBD]
@@ -75,7 +77,7 @@ Last updated: 2026-10-16.
 
 ---
 
-## J2 — Analog → LPF (band select + spare, RJ45)  [PARTIAL]
+## J2 — Analog → LPF (band select, RJ45)  [OK]
 
 - **Connector type:** 8P8C Shielded, footprint
   `xmitter:Amphenol_RJE1D-188_Horizontal_Shielded`
@@ -88,30 +90,21 @@ Last updated: 2026-10-16.
 - **Pin 1 — RLY_10:** analog → LPF, 3.3 V CMOS from PCF8575 (U17)
   pin P2. High = energize 10 m band's input AND output relays.
 - **Pin 2 — RLY_15:** analog → LPF, 3.3 V CMOS from PCF8575 P3.
-  High = 15 m band enable.
 - **Pin 3 — RLY_17:** analog → LPF, 3.3 V CMOS from PCF8575 P4.
-  High = 17 m band enable.
-- **Pin 4 — GND**
-- **Pin 5 — GRID_CTL_A:** analog → LPF (passthrough). Reserved
-  spare for potential future tube-PA upgrade. Driven by Metro
-  pin (TBD) but not currently used by any destination. **The LPF
-  board should pass this pin through to a labeled test point / 
-  spare header, not connect it to any LPF function.**
-- **Pin 6 — RLY_20:** analog → LPF, 3.3 V CMOS from PCF8575 P5.
-  High = 20 m band enable.
-- **Pin 7 — GND**
-- **Pin 8 — GRID_CTL_B:** analog → LPF (passthrough). Same note
-  as GRID_CTL_A — reserved spare, pass through only.
+- **Pin 4 — RLY_20:** analog → LPF, 3.3 V CMOS from PCF8575 P5.
+- **Pin 5 — RLY_40:** analog → LPF, 3.3 V CMOS from PCF8575 P6.
+  Wired through this connector; LPF board 40 m filter population
+  still optional (user may defer stocking the 40 m toroids/caps).
+- **Pin 6 — GND**
+- **Pin 7 — unconnected** (spare; could carry a 6th band later)
+- **Pin 8 — unconnected** (spare; could carry a 6th band later)
 - **Shield (SH) — GND**
 
-### Open on J2
-
-- **RLY_40** label exists on `arduino.kicad_sch` but has no J2 pin
-  allocation yet (J2 is fully assigned). Options being considered:
-  reassign one of the GND pins (loses a reference return), reassign
-  a GRID_CTL pin (loses future tube-PA provision), or add a second
-  LPF connector. **Decision pending.** Current J2 handles 4 bands
-  (10/15/17/20); 40 m is schematic-provisioned but not wired.
+**Note:** Earlier revD had GRID_CTL_A/B squatting on J2 pins 7, 8
+as a tube-PA future provision. That was retired when **J35 was
+added as a dedicated tube-PA control umbilical** — J2 is now
+purely band-select, and the two spare pins are available for
+future expansion (6th band, aux relay, etc.).
 
 ---
 
@@ -176,6 +169,63 @@ first — it is the authoritative doc for J4.
 
 ---
 
+## J35 — Analog → (future tube PA) : all tube control signals (RJ45)  [OK]
+
+Dedicated RJ45 added 2026-10-19 to consolidate every signal needed
+to drive a future tube-PA upgrade. **No electrical destination
+today** — the connector sits on the analog board as a provisioned
+cable exit so that a tube PA can be added later without re-fabbing
+analog. All five tube-PA control signals that would otherwise be
+scattered across multiple SMA jacks or screw terminals are gathered
+here on one CAT6-mateable connector.
+
+- **Connector type:** 8P8C Shielded, footprint
+  `xmitter:Amphenol_RJE1D-188_Horizontal_Shielded`
+- **Mates with:** matching RJE1D-188 on a future tube-PA board
+- **Wire-pair layout:** T568B
+
+### Pins
+
+- **Pin 1 — I_CATHODE_A:** (future) tube PA → analog. Cathode
+  current sense for tube A, back to Metro ADC via a divider/filter.
+  Also brought out on J22 screw terminal for bench probing.
+- **Pin 2 — GND**
+- **Pin 3 — I_CATHODE_B:** (future) tube PA → analog. Same for
+  tube B.
+- **Pin 4 — GRID_CTL_A:** analog → (future) tube PA. From
+  MCP4728 U3 ch C (pin 9). Sets tube-A grid bias setpoint.
+  Also still present on J23 SMA (bench access).
+- **Pin 5 — GRID_CTL_B:** analog → (future) tube PA. From
+  MCP4728 U3 ch D (pin 10). Sets tube-B grid bias setpoint.
+  Also still present on J24 SMA (bench access).
+- **Pin 6 — GND**
+- **Pin 7 — GND**
+- **Pin 8 — GRID_BLOCK_CRASH:** analog → (future) tube PA.
+  Hardware fault signal; when asserted (polarity TBD by future
+  tube-PA design) commands the grid-bias generator to crash the
+  bias to full-negative, cutting tube conduction immediately.
+  Routed through J22 pin 2 as well (bench access).
+- **Shield (SH) — GND**
+
+### Notes
+
+- GRID_CTL_A/B were formerly living on J2 pins 7, 8 as a stop-gap
+  future-tube provision; they moved to J35 pins 4, 5 as part of
+  this consolidation, freeing J2's pins 7, 8 for other use.
+- Signals also appear on J22 (4-pin screw terminal) and J23/J24
+  (SMA) as bench/test access points. These are **intentional**
+  parallel paths, not duplicate wiring errors — J35 is the
+  production path for the cable to a future tube PA; the SMAs
+  and terminals exist for direct probing without unplugging
+  anything.
+- MCP4728 channel A/B are the IRF510 PA bias (not tube); channels
+  C/D are the tube grid bias (routed to J35). So the single DAC
+  chip handles both the solid-state PA bias and the future tube
+  PA bias; firmware can hold either side's bias chain in a safe
+  state while the other is active.
+
+---
+
 ## PA → LPF (RF out, SMA)  [TBD]
 
 - **Connector type:** Likely SMA both ends; PA output is high-power
@@ -226,6 +276,19 @@ first — it is the authoritative doc for J4.
 
 ## Change log
 
+- 2026-10-18: U1 gain-hedge documented in J1. Default R_g unpopulated
+  = unity gain = ~500 mVpp drive. Populate R_g = 1 kΩ to get gain = 4
+  = ~2 Vpp drive for class-C PA operation. Amplitude control via
+  Q2 G2 (DGFET VCA) + MCP4921 U4 envelope DAC. Decision made to
+  skip relay-switched gain/class-mode selection -- firmware DAC
+  control + DGFET VCA cover both class-AB and class-C regimes.
+- 2026-10-19: J35 added — new RJ45 on analog that consolidates
+  ALL tube-PA control signals (I_CATHODE_A/B, GRID_CTL_A/B,
+  GRID_BLOCK_CRASH) onto one umbilical. J2 pins 7/8 freed up:
+  GRID_CTL_A/B moved OFF J2 and ONTO J35; J2 pins 7/8 now
+  unconnected spares. RLY_40 now wired on J2 pin 5 (replaced a
+  former GND). Separate bench-access paths (J22 screw terminal,
+  J23/J24 SMAs) deliberately retained for probing.
 - 2026-10-18: U1 gain-hedge documented in J1. Default R_g unpopulated
   = unity gain = ~500 mVpp drive. Populate R_g = 1 kΩ to get gain = 4
   = ~2 Vpp drive for class-C PA operation. Amplitude control via
