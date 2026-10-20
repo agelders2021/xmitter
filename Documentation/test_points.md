@@ -197,6 +197,12 @@ TP3    PA_Bias_B           Same for Q4 (tracks PA_Bias_B_Raw from
 ```
 TP#    Signal              Source / description
 ---    ------              -------------------------------------------
+TP4    RF IN (J3-In)       At J3 center pin, 50 ohm RF input from
+                           the analog board. ~0.5 Vpp (U1 at unity
+                           gain) or ~2 Vpp (U1 at gain 4). Lets
+                           you confirm RF arrived from analog
+                           before chasing problems further down
+                           the chain.
 TP5    RF OUT (J1-In)      At J1 center pin, final 50 ohm matched
                            RF output to the Output LPF board.
                            ~22 Vpk at 10 W. **Scope-probe GND to
@@ -207,24 +213,15 @@ TP6    Q3 drain            IRF510 Q3 drain, high-voltage RF node
                            oscillation check during bring-up. Pair
                            probe GND with a nearby TP8/TP9.
 TP7    Q4 drain            Same for Q4 (the other PP half).
-TP8    GND                 Probe-return reference pad, placed
-                           close to a hot-RF TP so the scope-probe
-                           ground spring reaches it directly
-                           (short loop = clean HF waveform, no
-                           pickup antenna).
-TP9    GND                 Second probe-return pad near the other
-                           hot-RF TP.
+TP8    GND                 Probe-return pad near Q3 drain (TP6)
+TP9    GND                 Probe-return pad near Q4 drain (TP7)
+TP10   GND                 Probe-return pad near J1 RF out (TP5)
+TP11   GND                 Probe-return pad near J3 RF in (TP4)
 ```
 
-**Open items on ss_pa TPs:**
-
-```
-TP4    (unconnected)       Pad exists on schematic but no net
-                           attached. Either an orphan from a
-                           deleted signal or a placeholder for a
-                           future monitor. Clean up or wire up
-                           when the intent is settled.
-```
+All four GND probe-return pads are placed close to a hot-RF TP so
+the scope-probe ground spring reaches directly — short probe loop =
+clean HF waveform, no pickup-antenna behavior.
 
 ## How to use these at the bench
 
@@ -238,6 +235,10 @@ TP4    (unconnected)       Pad exists on schematic but no net
   frequency — clean sinewave at the carrier is good, 100-300 MHz
   ripples riding on it means parasitic oscillation. Repeat at a
   few output levels and into a mismatched load as a stress test.
+- **"Signal arrived" sanity:** if TP5 (output) is dead or weird,
+  scope TP4 (input) first to see whether RF is actually reaching
+  the board from analog. A dead TP4 means the problem is on
+  analog or the coax, not the PA.
 - **Fault chain verification:** command PA_Bias high from firmware
   then force-trip the fault latch (short Source_Sense to V_REF
   briefly, or trigger from the Metro). TP2 and TP3 should both

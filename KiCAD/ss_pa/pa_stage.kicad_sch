@@ -4422,6 +4422,12 @@
 		(uuid "ccbe0f28-ab85-4d21-9418-8b04a0c60636")
 	)
 	(junction
+		(at 26.67 87.63)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "cd023414-8a56-4ed4-ae0d-f0bcd4052dce")
+	)
+	(junction
 		(at 209.55 128.27)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -6458,7 +6464,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Inductor_THT:L_Axial_L5.3mm_D2.2mm_P2.54mm_Vertical"
+		(property "Footprint" "Inductor_THT:L_Axial_L5.3mm_D2.2mm_P2.54mm_Vertical_Vishay_IM-1"
 			(at 153.67 64.77 0)
 			(hide yes)
 			(show_name no)
@@ -6501,6 +6507,85 @@
 			(project "ss_pa"
 				(path "/7b9fe991-54d6-43c4-a637-0ed9ee982c42/6995ca2b-35a4-4871-8cf2-3a0067e62105"
 					(reference "L2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "xmitter:xTP")
+		(at 255.27 85.09 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "290fc0f6-36d3-4f84-af5d-d166a5377553")
+		(property "Reference" "TP11"
+			(at 257.81 80.5179 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "xTP"
+			(at 257.81 83.0579 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
+			(at 260.35 85.09 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 260.35 85.09 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "xmitter project test point on broken-off 0.1 inch square pin header; put signal name in Value field so it becomes silk on the PCB"
+			(at 255.27 85.09 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "ae251775-5d85-4937-a623-c8b8a1ce56a8")
+		)
+		(instances
+			(project "ss_pa"
+				(path "/7b9fe991-54d6-43c4-a637-0ed9ee982c42/6995ca2b-35a4-4871-8cf2-3a0067e62105"
+					(reference "TP11")
 					(unit 1)
 				)
 			)
@@ -6751,6 +6836,84 @@
 			(project "ss_pa"
 				(path "/7b9fe991-54d6-43c4-a637-0ed9ee982c42/6995ca2b-35a4-4871-8cf2-3a0067e62105"
 					(reference "C17")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 255.27 85.09 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "33860ec1-09cb-4c2d-9bcf-6c4d8e793fe2")
+		(property "Reference" "#PWR041"
+			(at 255.27 91.44 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 255.27 90.17 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 255.27 85.09 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 255.27 85.09 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 255.27 85.09 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "a5ce7db9-a74a-40bb-b468-6fa19707cee9")
+		)
+		(instances
+			(project "ss_pa"
+				(path "/7b9fe991-54d6-43c4-a637-0ed9ee982c42/6995ca2b-35a4-4871-8cf2-3a0067e62105"
+					(reference "#PWR041")
 					(unit 1)
 				)
 			)
@@ -7589,7 +7752,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Inductor_THT:L_Axial_L5.3mm_D2.2mm_P2.54mm_Vertical"
+		(property "Footprint" "Inductor_THT:L_Axial_L5.3mm_D2.2mm_P2.54mm_Vertical_Vishay_IM-1"
 			(at 153.67 119.38 0)
 			(hide yes)
 			(show_name no)
@@ -9523,7 +9686,7 @@
 	)
 	(symbol
 		(lib_id "xmitter:xTP")
-		(at 27.94 87.63 180)
+		(at 26.67 87.63 180)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -9534,7 +9697,7 @@
 		(fields_autoplaced yes)
 		(uuid "92d01c61-049f-47d5-aac1-c5624b7fc11c")
 		(property "Reference" "TP4"
-			(at 30.48 89.6619 0)
+			(at 29.21 89.6619 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -9545,7 +9708,7 @@
 			)
 		)
 		(property "Value" "xTP"
-			(at 30.48 92.2019 0)
+			(at 29.21 92.2019 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -9556,7 +9719,7 @@
 			)
 		)
 		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
-			(at 22.86 87.63 0)
+			(at 21.59 87.63 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9567,7 +9730,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 22.86 87.63 0)
+			(at 21.59 87.63 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9578,7 +9741,7 @@
 			)
 		)
 		(property "Description" "xmitter project test point on broken-off 0.1 inch square pin header; put signal name in Value field so it becomes silk on the PCB"
-			(at 27.94 87.63 0)
+			(at 26.67 87.63 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9991,6 +10154,85 @@
 			(project "ss_pa"
 				(path "/7b9fe991-54d6-43c4-a637-0ed9ee982c42/6995ca2b-35a4-4871-8cf2-3a0067e62105"
 					(reference "R17")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "xmitter:xTP")
+		(at 26.67 104.14 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "ac6c1d40-10fe-49c7-92ec-bf4fc9ec88ac")
+		(property "Reference" "TP10"
+			(at 29.21 99.5679 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "xTP"
+			(at 29.21 102.1079 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
+			(at 31.75 104.14 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 31.75 104.14 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "xmitter project test point on broken-off 0.1 inch square pin header; put signal name in Value field so it becomes silk on the PCB"
+			(at 26.67 104.14 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "07b61f7b-17b4-4a0a-80ed-36fbac098580")
+		)
+		(instances
+			(project "ss_pa"
+				(path "/7b9fe991-54d6-43c4-a637-0ed9ee982c42/6995ca2b-35a4-4871-8cf2-3a0067e62105"
+					(reference "TP10")
 					(unit 1)
 				)
 			)
@@ -11185,7 +11427,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Inductor_THT:L_Axial_L5.3mm_D2.2mm_P2.54mm_Vertical"
+		(property "Footprint" "Inductor_THT:L_Axial_L5.3mm_D2.2mm_P2.54mm_Vertical_Vishay_IM-1"
 			(at 140.97 93.98 0)
 			(hide yes)
 			(show_name no)
@@ -11877,6 +12119,84 @@
 		)
 	)
 	(symbol
+		(lib_id "power:GND")
+		(at 26.67 104.14 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "f9f538ec-174f-43b2-913d-d74950182817")
+		(property "Reference" "#PWR040"
+			(at 26.67 110.49 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 26.67 109.22 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 26.67 104.14 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 26.67 104.14 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 26.67 104.14 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "8609e6f7-c33a-4331-b84c-e5013fce2998")
+		)
+		(instances
+			(project "ss_pa"
+				(path "/7b9fe991-54d6-43c4-a637-0ed9ee982c42/6995ca2b-35a4-4871-8cf2-3a0067e62105"
+					(reference "#PWR040")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:L")
 		(at 140.97 88.9 90)
 		(mirror x)
@@ -11908,7 +12228,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Inductor_THT:L_Axial_L5.3mm_D2.2mm_P2.54mm_Vertical"
+		(property "Footprint" "Inductor_THT:L_Axial_L5.3mm_D2.2mm_P2.54mm_Vertical_Vishay_IM-1"
 			(at 140.97 88.9 0)
 			(hide yes)
 			(show_name no)
