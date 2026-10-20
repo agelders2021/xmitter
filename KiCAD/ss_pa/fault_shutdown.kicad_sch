@@ -2119,6 +2119,129 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "xmitter:xTP"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0.762)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "TP"
+				(at 0 6.858 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "xTP"
+				(at 0 5.08 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
+				(at 5.08 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 5.08 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "xmitter project test point on broken-off 0.1 inch square pin header; put signal name in Value field so it becomes silk on the PCB"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "test point tp"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "Pin* Test*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "xTP_0_1"
+				(circle
+					(center 0 3.302)
+					(radius 0.762)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "xTP_1_1"
+				(pin passive line
+					(at 0 0 90)
+					(length 2.54)
+					(name "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 	)
 	(text "To pushbutton for manual reset"
 		(exclude_from_sim no)
@@ -2207,6 +2330,12 @@
 		(uuid "89815a17-43b0-40ec-ab1b-d79d98f22d5a")
 	)
 	(junction
+		(at 105.41 72.39)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "8fe49aed-a329-457f-98f8-5e4e426dd494")
+	)
+	(junction
 		(at 135.89 148.59)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -2219,13 +2348,13 @@
 		(uuid "c844cc31-c6f1-40df-825a-e53cd5b61332")
 	)
 	(junction
-		(at 102.87 72.39)
+		(at 95.25 72.39)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "d66bc674-2ece-457c-acdd-173aef92e9ad")
 	)
 	(junction
-		(at 102.87 74.93)
+		(at 95.25 74.93)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "e0c28ee8-0427-4e19-aa8c-5e1df652df62")
@@ -2235,6 +2364,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "e255f2d0-c788-43d9-9596-3ae30dddb45f")
+	)
+	(junction
+		(at 105.41 74.93)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "f8b42d56-f738-4677-8401-8871a705fa73")
 	)
 	(wire
 		(pts
@@ -2318,7 +2453,7 @@
 	)
 	(wire
 		(pts
-			(xy 96.52 74.93) (xy 102.87 74.93)
+			(xy 88.9 74.93) (xy 95.25 74.93)
 		)
 		(stroke
 			(width 0)
@@ -2338,7 +2473,17 @@
 	)
 	(wire
 		(pts
-			(xy 96.52 72.39) (xy 102.87 72.39)
+			(xy 105.41 72.39) (xy 132.08 72.39)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3a2e4ae0-a7a1-43de-a249-977806e339b7")
+	)
+	(wire
+		(pts
+			(xy 88.9 72.39) (xy 95.25 72.39)
 		)
 		(stroke
 			(width 0)
@@ -2388,7 +2533,7 @@
 	)
 	(wire
 		(pts
-			(xy 102.87 72.39) (xy 132.08 72.39)
+			(xy 95.25 72.39) (xy 105.41 72.39)
 		)
 		(stroke
 			(width 0)
@@ -2418,7 +2563,7 @@
 	)
 	(wire
 		(pts
-			(xy 102.87 74.93) (xy 132.08 74.93)
+			(xy 95.25 74.93) (xy 105.41 74.93)
 		)
 		(stroke
 			(width 0)
@@ -2525,6 +2670,16 @@
 			(type default)
 		)
 		(uuid "cdd27ea5-0c97-4b8d-a4ec-817ac1fadcd3")
+	)
+	(wire
+		(pts
+			(xy 105.41 74.93) (xy 132.08 74.93)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d0df8b46-2520-44e9-a849-51b84d425d29")
 	)
 	(wire
 		(pts
@@ -2782,7 +2937,7 @@
 	)
 	(global_label "PA_Bias_A"
 		(shape output)
-		(at 96.52 72.39 180)
+		(at 88.9 72.39 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2792,7 +2947,7 @@
 		)
 		(uuid "dfb93688-e29f-4e45-a1dd-8c575ee63ea9")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 84.1005 72.39 0)
+			(at 76.4805 72.39 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2830,7 +2985,7 @@
 	)
 	(global_label "PA_Bias_B"
 		(shape output)
-		(at 96.52 74.93 180)
+		(at 88.9 74.93 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2840,7 +2995,7 @@
 		)
 		(uuid "ea2f64b3-e807-4af3-a51b-0fb8c356bf82")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 83.9191 74.93 0)
+			(at 76.2991 74.93 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3300,7 +3455,7 @@
 	)
 	(symbol
 		(lib_id "Device:R_US")
-		(at 102.87 78.74 0)
+		(at 95.25 78.74 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -3311,7 +3466,7 @@
 		(fields_autoplaced yes)
 		(uuid "24a8a4bd-21b9-48a8-a4ab-41d4f6ffb5c1")
 		(property "Reference" "R12"
-			(at 105.41 77.4699 0)
+			(at 97.79 77.4699 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3322,7 +3477,7 @@
 			)
 		)
 		(property "Value" "100K"
-			(at 105.41 80.0099 0)
+			(at 97.79 80.0099 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3333,7 +3488,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
-			(at 103.886 78.994 90)
+			(at 96.266 78.994 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3344,7 +3499,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 102.87 78.74 0)
+			(at 95.25 78.74 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3355,7 +3510,7 @@
 			)
 		)
 		(property "Description" "Resistor, US symbol"
-			(at 102.87 78.74 0)
+			(at 95.25 78.74 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4220,7 +4375,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 102.87 64.77 180)
+		(at 95.25 64.77 180)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -4231,7 +4386,7 @@
 		(fields_autoplaced yes)
 		(uuid "622ff349-0873-4657-8d60-4c08619840f8")
 		(property "Reference" "#PWR016"
-			(at 102.87 58.42 0)
+			(at 95.25 58.42 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4242,7 +4397,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 102.87 59.69 0)
+			(at 95.25 59.69 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4252,7 +4407,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 102.87 64.77 0)
+			(at 95.25 64.77 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4263,7 +4418,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 102.87 64.77 0)
+			(at 95.25 64.77 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4274,7 +4429,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 102.87 64.77 0)
+			(at 95.25 64.77 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4377,7 +4532,7 @@
 	)
 	(symbol
 		(lib_id "Device:R_US")
-		(at 102.87 68.58 0)
+		(at 95.25 68.58 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -4388,7 +4543,7 @@
 		(fields_autoplaced yes)
 		(uuid "6bc2ef7b-f24c-428f-a9a1-88eab8d8e886")
 		(property "Reference" "R19"
-			(at 105.41 67.3099 0)
+			(at 97.79 67.3099 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4399,7 +4554,7 @@
 			)
 		)
 		(property "Value" "100K"
-			(at 105.41 69.8499 0)
+			(at 97.79 69.8499 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4410,7 +4565,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
-			(at 103.886 68.834 90)
+			(at 96.266 68.834 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4421,7 +4576,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 102.87 68.58 0)
+			(at 95.25 68.58 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4432,7 +4587,7 @@
 			)
 		)
 		(property "Description" "Resistor, US symbol"
-			(at 102.87 68.58 0)
+			(at 95.25 68.58 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4459,7 +4614,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 102.87 82.55 0)
+		(at 95.25 82.55 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -4470,7 +4625,7 @@
 		(fields_autoplaced yes)
 		(uuid "6eb93499-1099-4063-a3e6-ddb7daaa4973")
 		(property "Reference" "#PWR015"
-			(at 102.87 88.9 0)
+			(at 95.25 88.9 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4481,7 +4636,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 102.87 87.63 0)
+			(at 95.25 87.63 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4491,7 +4646,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 102.87 82.55 0)
+			(at 95.25 82.55 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4502,7 +4657,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 102.87 82.55 0)
+			(at 95.25 82.55 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4513,7 +4668,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 102.87 82.55 0)
+			(at 95.25 82.55 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4772,6 +4927,85 @@
 			(project "ss_pa"
 				(path "/7b9fe991-54d6-43c4-a637-0ed9ee982c42/7e6e5903-d9c4-4499-a3fb-6a30c021fada"
 					(reference "C12")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "xmitter:xTP")
+		(at 105.41 72.39 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "814db579-e46d-48a6-838e-8629f2db4bc8")
+		(property "Reference" "TP2"
+			(at 107.95 67.8179 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "xTP"
+			(at 107.95 70.3579 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
+			(at 110.49 72.39 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 110.49 72.39 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "xmitter project test point on broken-off 0.1 inch square pin header; put signal name in Value field so it becomes silk on the PCB"
+			(at 105.41 72.39 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "dc46b0f3-dbdd-4912-a7d5-5ac10547f76f")
+		)
+		(instances
+			(project "ss_pa"
+				(path "/7b9fe991-54d6-43c4-a637-0ed9ee982c42/7e6e5903-d9c4-4499-a3fb-6a30c021fada"
+					(reference "TP2")
 					(unit 1)
 				)
 			)
@@ -5415,6 +5649,85 @@
 		)
 	)
 	(symbol
+		(lib_id "xmitter:xTP")
+		(at 227.33 88.9 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "caebafac-25e4-479a-8c1b-73bb82c33de1")
+		(property "Reference" "TP1"
+			(at 229.87 84.3279 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "xTP"
+			(at 229.87 86.8679 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
+			(at 232.41 88.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 232.41 88.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "xmitter project test point on broken-off 0.1 inch square pin header; put signal name in Value field so it becomes silk on the PCB"
+			(at 227.33 88.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "189ef6aa-459b-41a5-86db-294881bdd210")
+		)
+		(instances
+			(project "ss_pa"
+				(path "/7b9fe991-54d6-43c4-a637-0ed9ee982c42/7e6e5903-d9c4-4499-a3fb-6a30c021fada"
+					(reference "TP1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:GND")
 		(at 208.28 96.52 0)
 		(unit 1)
@@ -5585,6 +5898,85 @@
 			(project "ss_pa"
 				(path "/7b9fe991-54d6-43c4-a637-0ed9ee982c42/7e6e5903-d9c4-4499-a3fb-6a30c021fada"
 					(reference "U1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "xmitter:xTP")
+		(at 105.41 74.93 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "e20576bc-3160-49fc-b149-b54bb5a75428")
+		(property "Reference" "TP3"
+			(at 107.95 76.9619 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "xTP"
+			(at 107.95 79.5019 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
+			(at 100.33 74.93 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 100.33 74.93 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "xmitter project test point on broken-off 0.1 inch square pin header; put signal name in Value field so it becomes silk on the PCB"
+			(at 105.41 74.93 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "a369bb13-8f4f-4b3b-afc4-7d4937f4fdfb")
+		)
+		(instances
+			(project "ss_pa"
+				(path "/7b9fe991-54d6-43c4-a637-0ed9ee982c42/7e6e5903-d9c4-4499-a3fb-6a30c021fada"
+					(reference "TP3")
 					(unit 1)
 				)
 			)

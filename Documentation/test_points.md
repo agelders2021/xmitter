@@ -1,11 +1,15 @@
-# Analog board test points
+# Test points — analog and ss_pa boards
 
-Quick-reference lookup for every TP on the analog board. Group by
-functional area. Use for benchwork — scope probe, DMM, logic analyzer.
-Last updated 2026-10-19.
+Quick-reference lookup for every TP on both boards. Group by functional
+area. Use for benchwork — scope probe, DMM, logic analyzer. Last
+updated 2026-10-20.
 
 Format uses monospace-aligned columns (no markdown tables) so this
 file renders cleanly in PDF/text exports as well as rendered markdown.
+
+---
+
+# Analog board test points
 
 ---
 
@@ -157,3 +161,103 @@ TP19   U18 +TR_A           CD14538B dual monostable, +trigger input
 - **Watchdog verification:** TP19 should show a periodic pulse
   train from firmware; a flat line means the monostable is about
   to time out.
+
+---
+
+# SS PA board test points
+
+Deliberately minimal set — only the nodes most useful during bring-up
+and periodic smoke-testing. Hot-RF test points (drains + RF out) are
+kept small-pad / short-stub to limit stray C perturbation of the
+VHF-stability-tuned feedback network (see §12 of
+Master_Description.md for the rationale).
+
+## Local supply and bias monitors (DC-only, probe return anywhere)
+
+```
+TP#    Signal              Source / description
+---    ------              -------------------------------------------
+TP1    +3.3V               Local U13 (MCP1700x-330) LDO output.
+                           Confirms the on-board 3.3 V rail is up
+                           (powers U1 LM393 + U2 CD74HC4066 fault
+                           chain). Should sit at 3.30 V +/-1 %.
+TP2    PA_Bias_A           After U2 (CD74HC4066) switch output and
+                           before R8 (47 ohm) series to Q3 gate.
+                           Normal operation: ~3.8 V (class-AB) or
+                           ~1-2 V (class-C), tracks PA_Bias_A_Raw
+                           from analog MCP4728 ch A. On FAULT_N
+                           low: pulled to 0 V by R12 (100K)
+                           within ~18 us.
+TP3    PA_Bias_B           Same for Q4 (tracks PA_Bias_B_Raw from
+                           analog MCP4728 ch B, pulled by R19).
+```
+
+## Hot-RF test points (short-stub, pair-matched to GND)
+
+```
+TP#    Signal              Source / description
+---    ------              -------------------------------------------
+TP5    RF OUT (J1-In)      At J1 center pin, final 50 ohm matched
+                           RF output to the Output LPF board.
+                           ~22 Vpk at 10 W. **Scope-probe GND to
+                           TP8 or TP9 for clean waveform.**
+TP6    Q3 drain            IRF510 Q3 drain, high-voltage RF node
+                           swinging to ~28 V peak at full output.
+                           Primary purpose: VHF parasitic
+                           oscillation check during bring-up. Pair
+                           probe GND with a nearby TP8/TP9.
+TP7    Q4 drain            Same for Q4 (the other PP half).
+TP8    GND                 Probe-return reference pad, placed
+                           close to a hot-RF TP so the scope-probe
+                           ground spring reaches it directly
+                           (short loop = clean HF waveform, no
+                           pickup antenna).
+TP9    GND                 Second probe-return pad near the other
+                           hot-RF TP.
+```
+
+**Open items on ss_pa TPs:**
+
+```
+TP4    (unconnected)       Pad exists on schematic but no net
+                           attached. Either an orphan from a
+                           deleted signal or a placeholder for a
+                           future monitor. Clean up or wire up
+                           when the intent is settled.
+```
+
+## How to use these at the bench
+
+- **PA power-on sanity check (no RF yet):** TP1 for +3.3 V, TP2
+  and TP3 for PA_Bias at idle (should match the DAC values analog
+  commanded). TP6/TP7 should sit at +13.8 V (drain static DC via
+  the T203 drain feed, no RF).
+- **Oscillation check during first-RF bring-up:** scope at TP6 and
+  TP7 (one at a time), probe GND spring to TP8 or TP9, drive the
+  input with low-level CW. Look for any ringing above the carrier
+  frequency — clean sinewave at the carrier is good, 100-300 MHz
+  ripples riding on it means parasitic oscillation. Repeat at a
+  few output levels and into a mismatched load as a stress test.
+- **Fault chain verification:** command PA_Bias high from firmware
+  then force-trip the fault latch (short Source_Sense to V_REF
+  briefly, or trigger from the Metro). TP2 and TP3 should both
+  drop to 0 V within ~18 µs, confirming the pulldowns are
+  working. TP6/TP7 (idling at +13.8 V) should NOT swing
+  afterward — if they do, bias is still arriving and the switch
+  isn't actually opening.
+- **RF-level check:** TP5 directly gives you the output amplitude.
+  Compare to the computed value from V_rms = sqrt(P × 50) — 10 W
+  → 22.4 V_rms → 31.6 V_pk.
+
+**Not provided (intentionally):**
+
+- Hot-RF TPs on BS170 drains, IRF510 gates, or RF input (J3).
+  These nodes could not be test-pointed without longer stubs that
+  risk disturbing the VHF-stability feedback network. If you need
+  to probe these during bring-up, solder a short tack-wire or use
+  a mini-grabber on the TO-220/TO-92 lead directly, remove when
+  done.
+- Driver-stage source current (BS170 Q2, Q6 sources through R15,
+  R16). Measure these directly at the resistors with DMM leads
+  if needed.
+- V_REF: already exposed on J5 pin 2 (external terminal).

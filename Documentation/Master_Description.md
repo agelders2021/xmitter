@@ -436,6 +436,14 @@ Connectors:
 - **J31** (RJ45) — bias + sense + fault + control from analog
 
 Status: schematic complete, 100% footprinted, PCB layout pending.
+**4-layer PCB stackup planned** (not 2-layer): outer layers for
+signal + GND pour; inner layers for solid GND plane (layer 2) and
+solid +13.8 V plane (layer 3). Rationale: cleaner RF return
+currents under the driver + final chain, lower-impedance power
+distribution for the IRF510 pulse currents (~2 A peak each),
+better heat spreading through the +13.8 V plane under the drain-
+feed region, and reduced EMI radiation (RF signals sandwiched
+between GND references).
 
 ### Output LPF board (`KiCAD/Output LPF/`)
 
