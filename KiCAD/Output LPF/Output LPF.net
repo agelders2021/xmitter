@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "C:\\Users\\AlAnd\\Git Backed Projects\\xmitter\\KiCAD\\Output LPF\\Output LPF.kicad_sch")
-		(date "2026-10-20T19:47:44")
+		(date "2026-10-20T20:47:42")
 		(tool "Eeschema 10.0.3")
 		(sheet
 			(number "1")
@@ -4169,11 +4169,11 @@
 		(comp
 			(ref "R1")
 			(value "1K")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
 			(description "Resistor, US symbol")
 			(fields
 				(field
-					(name "Footprint")
-				)
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
 				(field
 					(name "Datasheet")
 				)
@@ -4223,11 +4223,11 @@
 		(comp
 			(ref "R2")
 			(value "1K")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
 			(description "Resistor, US symbol")
 			(fields
 				(field
-					(name "Footprint")
-				)
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
 				(field
 					(name "Datasheet")
 				)
@@ -4277,11 +4277,11 @@
 		(comp
 			(ref "R3")
 			(value "1K")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
 			(description "Resistor, US symbol")
 			(fields
 				(field
-					(name "Footprint")
-				)
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
 				(field
 					(name "Datasheet")
 				)
@@ -4331,11 +4331,11 @@
 		(comp
 			(ref "R4")
 			(value "1K")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
 			(description "Resistor, US symbol")
 			(fields
 				(field
-					(name "Footprint")
-				)
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
 				(field
 					(name "Datasheet")
 				)
@@ -4385,11 +4385,11 @@
 		(comp
 			(ref "R5")
 			(value "1K")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
 			(description "Resistor, US symbol")
 			(fields
 				(field
-					(name "Footprint")
-				)
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
 				(field
 					(name "Datasheet")
 				)
@@ -5367,6 +5367,12 @@
 				(pintype "passive")
 			)
 			(node
+				(ref "J1")
+				(pin "2")
+				(pinfunction "Ext_2")
+				(pintype "passive")
+			)
+			(node
 				(ref "J2")
 				(pin "6")
 				(pintype "passive")
@@ -5413,6 +5419,36 @@
 			)
 			(node
 				(ref "K4")
+				(pin "3")
+				(pinfunction "SHIELD_3")
+				(pintype "passive")
+			)
+			(node
+				(ref "K5")
+				(pin "3")
+				(pinfunction "SHIELD_3")
+				(pintype "passive")
+			)
+			(node
+				(ref "K6")
+				(pin "3")
+				(pinfunction "SHIELD_3")
+				(pintype "passive")
+			)
+			(node
+				(ref "K7")
+				(pin "3")
+				(pinfunction "SHIELD_3")
+				(pintype "passive")
+			)
+			(node
+				(ref "K8")
+				(pin "3")
+				(pinfunction "SHIELD_3")
+				(pintype "passive")
+			)
+			(node
+				(ref "K9")
 				(pin "3")
 				(pinfunction "SHIELD_3")
 				(pintype "passive")
@@ -6267,72 +6303,6 @@
 				(pin "2")
 				(pinfunction "G_2")
 				(pintype "input")
-			)
-		)
-		(net
-			(code "35")
-			(name "unconnected-(J1-Ext-Pad2)")
-			(class "Default")
-			(node
-				(ref "J1")
-				(pin "2")
-				(pinfunction "Ext_2")
-				(pintype "passive")
-			)
-		)
-		(net
-			(code "36")
-			(name "unconnected-(K5-SHIELD-Pad3)")
-			(class "Default")
-			(node
-				(ref "K5")
-				(pin "3")
-				(pinfunction "SHIELD_3")
-				(pintype "passive")
-			)
-		)
-		(net
-			(code "37")
-			(name "unconnected-(K6-SHIELD-Pad3)")
-			(class "Default")
-			(node
-				(ref "K6")
-				(pin "3")
-				(pinfunction "SHIELD_3")
-				(pintype "passive")
-			)
-		)
-		(net
-			(code "38")
-			(name "unconnected-(K7-SHIELD-Pad3)")
-			(class "Default")
-			(node
-				(ref "K7")
-				(pin "3")
-				(pinfunction "SHIELD_3")
-				(pintype "passive")
-			)
-		)
-		(net
-			(code "39")
-			(name "unconnected-(K8-SHIELD-Pad3)")
-			(class "Default")
-			(node
-				(ref "K8")
-				(pin "3")
-				(pinfunction "SHIELD_3")
-				(pintype "passive")
-			)
-		)
-		(net
-			(code "40")
-			(name "unconnected-(K9-SHIELD-Pad3)")
-			(class "Default")
-			(node
-				(ref "K9")
-				(pin "3")
-				(pinfunction "SHIELD_3")
-				(pintype "passive")
 			)
 		)
 	)
