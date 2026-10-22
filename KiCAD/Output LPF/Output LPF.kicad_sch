@@ -4923,7 +4923,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "1K"
+		(property "Value" "50R"
 			(at 119.3801 111.76 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5974,7 +5974,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "1K"
+		(property "Value" "50R"
 			(at 102.8701 74.93 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7001,7 +7001,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "1K"
+		(property "Value" "50R"
 			(at 101.6001 143.51 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7083,7 +7083,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "1K"
+		(property "Value" "50R"
 			(at 119.3801 49.53 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7610,7 +7610,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "1K"
+		(property "Value" "50R"
 			(at 119.3801 121.92 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9234,7 +9234,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "1K"
+		(property "Value" "50R"
 			(at 102.8701 85.09 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9316,7 +9316,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "1K"
+		(property "Value" "50R"
 			(at 101.6001 153.67 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10148,85 +10148,6 @@
 			(project "Output LPF"
 				(path "/007eb1af-0bdc-4199-b14f-f7b02ad55c1c"
 					(reference "#PWR050")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 109.22 148.59 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "bc643164-4000-433e-8e78-b73fb7bcb53b")
-		(property "Reference" "#PWR011"
-			(at 109.22 154.94 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 109.22 153.67 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 109.22 148.59 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 109.22 148.59 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 109.22 148.59 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "78c551d2-bd99-4cc2-850b-afb6da5729e1")
-		)
-		(instances
-			(project "Output LPF"
-				(path "/007eb1af-0bdc-4199-b14f-f7b02ad55c1c"
-					(reference "#PWR011")
 					(unit 1)
 				)
 			)
@@ -11120,7 +11041,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "1K"
+		(property "Value" "50R"
 			(at 119.3801 39.37 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11656,6 +11577,85 @@
 			(project "Output LPF"
 				(path "/007eb1af-0bdc-4199-b14f-f7b02ad55c1c"
 					(reference "#PWR036")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:+12V")
+		(at 107.95 90.17 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "e37a66ff-eb2a-47b2-bcda-ba4e6fc6e967")
+		(property "Reference" "#PWR023"
+			(at 111.76 90.17 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "+12V"
+			(at 104.14 90.1699 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 107.95 90.17 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 107.95 90.17 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"+12V\""
+			(at 107.95 90.17 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "07e31162-13a4-4a64-9b64-35ec9ad7b8b7")
+		)
+		(instances
+			(project "Output LPF"
+				(path "/007eb1af-0bdc-4199-b14f-f7b02ad55c1c"
+					(reference "#PWR023")
 					(unit 1)
 				)
 			)
@@ -12337,6 +12337,85 @@
 			(project "Output LPF"
 				(path "/007eb1af-0bdc-4199-b14f-f7b02ad55c1c"
 					(reference "#PWR016")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:+12V")
+		(at 124.46 54.61 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "ef22e4c9-94bc-4441-9131-4129924187ad")
+		(property "Reference" "#PWR022"
+			(at 128.27 54.61 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "+12V"
+			(at 120.65 54.6099 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 124.46 54.61 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 124.46 54.61 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"+12V\""
+			(at 124.46 54.61 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "07e31162-13a4-4a64-9b64-35ec9ad7b8b7")
+		)
+		(instances
+			(project "Output LPF"
+				(path "/007eb1af-0bdc-4199-b14f-f7b02ad55c1c"
+					(reference "#PWR022")
 					(unit 1)
 				)
 			)
