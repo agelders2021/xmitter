@@ -1,5 +1,27 @@
 # Front-Panel Interface
 
+> **⚠ 2026-10-23 — Partial update.**
+>
+> Several encoder / I²C architecture decisions have changed since this
+> doc was last comprehensively updated (2026-09-27). The current
+> frontpanel schematic (`KiCAD/frontpanel/frontpanel.kicad_sch`) uses:
+>
+> - **One MBL-600 optical encoder** on RS-422 differential pairs (ENC3
+>   in the netlist) — not two Adafruit I²C QT Rotary breakouts as the
+>   "STEP / FUNC I²C encoders at 0x37 / 0x38" sections below describe.
+>   Those breakouts were dropped from the Rev D frontpanel plan.
+> - **I²C bus at +5 V on the HV side** of the system-wide Adafruit #757
+>   BSS138 translator at the Metro entry. The frontpanel umbilical
+>   pin 1/2 pair carries HV-side (5 V) SDA/SCL, not 3.3 V as noted in
+>   some older passages. See `revD_prelayout_review_handoff.md`
+>   "I²C bus voltage architecture" and the updated `i2c_bus.md` for
+>   current state.
+>
+> The umbilical pinout (CAT6 pair assignments, RJ45 pin numbers) and
+> the MBL-600 RS-422 termination guidance in this doc are still
+> correct. Everything describing the I²C QT STEP / FUNC encoders is
+> historical.
+
 The transmitter's front panel (display, encoders, indicator LEDs, paddle
 input) connects to the main PCB through a single shielded CAT6 umbilical
 terminated in a shielded RJ45. This doc describes the physical topology,

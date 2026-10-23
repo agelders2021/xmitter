@@ -4,13 +4,42 @@ A single human-readable overview of the entire project. Current as of
 2026-10-19, Rev D branch active. Where this document and a schematic
 disagree, the schematic wins and this file should be updated.
 
+> **⚠ 2026-10-23 update.** Several architecture-level changes have landed
+> since 2026-10-19 (Rev D Option-C power rail changes). This document
+> still describes the pre-change state in some sections. For the
+> authoritative current state, see
+> `Documentation/revD_prelayout_review_handoff.md`. Specific items that
+> changed:
+> - **Band list**: 10 m deliberately dropped. Operating bands are now
+>   **40 / 20 / 17 / 15 m** only (not 10/15/17/20/40 m as described below).
+> - **I²C bus architecture**: single-point level translation at the
+>   Metro I²C entry via Adafruit #757 BSS138 breakout. HV bus at +5 V
+>   serves Si5351, MCP4728, PCF8575 (both), MCP4725. The old STEMMA
+>   chain (Metro → MCP4728 → Si5351) is retired; STEMMA port now
+>   serves the encoder chain only.
+> - **MCP4728 and MCP4922 moved to +5 V V_DD** (both were previously
+>   at +3.3 V); MCP4728 for full 0–5 V bias output span, MCP4922 for
+>   full V_OUT range. MCP4922's 3.3 V SPI from Metro is shifted up
+>   through a 74HCT125 quad buffer (U9).
+> - **ss_pa entire logic rail at +5 V** via new LM2936Z-5.0 LDO (U13).
+>   LM393 fault latch V_REF divider re-sized (R10 10 K → 6.8 K) to
+>   preserve the ~0.30 V trip threshold. FAULT_N pulled to +5 V on
+>   ss_pa, divided down to 3.3 V on analog (R3/R4 = 10 K / 20 K)
+>   before reaching the Metro.
+> - **Shack supply input protection**: 3 A slow-blow blade fuse
+>   (Keystone 3568) + 1N5822 Schottky added at J5.
+> - **Si5351 bringup DPDT isolation switch** (SW1) added on
+>   HV-side SDA/SCL at the Si5351 header.
+
 ---
 
 ## 1. What this project is
 
 A **~10 W QRP CW transmitter for the 20 m amateur band** (14.0–14.35
-MHz), with provision for operation on 10, 15, 17, and 40 m through
-switched output low-pass filters. Powered from a 13.8 V DC supply.
+MHz), with provision for operation on **15, 17, and 40 m** through
+switched output low-pass filters (10 m was dropped — user has a main
+transceiver that covers it, so dropping saved one entire LPF bank
+and shrank the output LPF board). Powered from a 13.8 V DC supply.
 Keyed by a hand paddle or by WinKey-emulation over USB.
 
 Design goals, in rough priority order:

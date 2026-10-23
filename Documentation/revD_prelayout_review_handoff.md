@@ -8,21 +8,47 @@ that will be expensive to find in silicon rather than in paper. The accompanying
 netlist files are the ground truth; this .md is only the narrative that explains
 intent and highlights what to look at.
 
-**Supporting materials.** Expected to be delivered alongside this file:
+**Supporting materials.** Expected to be delivered alongside this file.
+**This document (`revD_prelayout_review_handoff.md`) is the authoritative
+current state;** supporting docs vary in freshness as noted:
+
+Netlists (authoritative — regenerated 2026-10-23):
 
 - `KiCAD/analog/analog.net` — analog control board netlist
 - `KiCAD/ss_pa/ss_pa.net` — SS PA board netlist
 - `KiCAD/Output LPF/Output LPF.net` — output LPF board netlist
 - `KiCAD/frontpanel/frontpanel.net` — frontpanel board netlist
 - `KiCAD/protoshield/protoshield.net` — Metro-mounted protoshield netlist
-- `Documentation/Master_Description.md` — longer-form project narrative
-- `Documentation/revD_interconnect.md` — authoritative cross-board signal map
-- `Documentation/ss_pa.md` — SS PA design doc (topology, operating point, fault chain)
-- `Documentation/cw_envelope_keyer.md` — envelope-generation firmware design (DGFET-adapted)
-- `Documentation/front_panel_interface.md` — frontpanel RJ45 pin map
-- `Documentation/i2c_bus.md` — single source of truth for I²C address assignments
-- `Documentation/pa_cathode_monitor.md`, `grid_bias.md` — historical, tube-PA (dormant)
+
+Current (updated 2026-10-23 for Rev D Option-C):
+
+- `Documentation/i2c_bus.md` — I²C address assignments, HV/LV bus
+  architecture, STEMMA reroute, level-shifter placement
+- `Documentation/revD_interconnect.md` — cross-board signal map,
+  board inventory
+
+Partially current (contain targeted "see handoff doc" banners pointing
+to the current state for recently-changed sections):
+
+- `Documentation/Master_Description.md` — project narrative
+- `Documentation/ss_pa.md` — SS PA topology, operating point, fault
+  chain (banner notes Option-C changed +3.3 V → +5 V ss_pa rail and
+  R10 10 K → 6.8 K; everything else in the doc still applies)
+- `Documentation/cw_envelope_keyer.md` — envelope-generation firmware
+  (banner notes envelope DAC is MCP4922 SPI in Rev D, not MCP4728
+  I²C; STEMMA chain references are historical)
+- `Documentation/front_panel_interface.md` — frontpanel umbilical
+  pin map (banner notes I²C QT STEP/FUNC encoders are historical,
+  current design uses only the MBL-600 RS-422 encoder)
+
+Historical reference only (tube-PA upgrade path, not fabricated):
+
+- `Documentation/pa_cathode_monitor.md`, `grid_bias.md`
+
+Component datasheets:
+
 - `Documentation/Components/Omron_05-18-2026_G6K-T1_Datasheet_EN.pdf` — band-select relay
+- `Documentation/Components/Littlefuse 3568 holder.pdf` — Keystone 3568 fuse holder
 
 ---
 
@@ -103,18 +129,74 @@ expander), `dac.kicad_sch` (DAC + Q11/Q12 KeyUp mute level shifter),
 
 **Power rails:**
 
-- Shack supply input (J5, nominally 13.8 V) → reverse-polarity Schottky D1 +
-  blocking D5 → unregulated bus (also feeds heartbeat relay K5 → J33 → ss_pa
-  drain)
+- Shack supply input (J5, nominally 13.8 V) → **3 A slow-blow blade fuse
+  (Keystone 3568)** + **1N5822 Schottky in series** for reverse-polarity
+  protection → protected +13.8 V bus → also feeds heartbeat relay K5 → J33
+  → ss_pa drain
 - U8 LM2940CT-12 → +12 V (op-amp +rail, G6K LPF coils via J2 umbilical, LT1054
   inverter input)
 - U7 LT1054 switched-cap inverter → −12 V (LM7171 negative rail)
-- U6 LM2940CT-5.0 → +5 V (digital-ish rails)
-- U13 MCP1700x-330 → +3.3 V (Metro, I²C pull-ups, logic)
+- U6 LM2940CT-5.0 → +5 V (I²C bus HV side, SPI 5V side via 74HCT125,
+  Si5351 / MCP4728 / MCP4922 / PCF8575 / CD14538B / AM26LS32ACN,
+  frontpanel umbilical pin 4)
+- U13 MCP1700x-330 → +3.3 V (local-only; feeds only the Adafruit #757 shifter
+  LV side pin 1 — Metro provides its own 3.3 V internally)
 - **Note:** Earlier Rev C design had a second LT1054 (U9) as a +28 V voltage
   doubler for the big RelComm reed relay coils. **This is deleted in Rev D** —
   the LPF now uses 12 V G6K signal relays, so the +28 V rail is gone from every
   sheet.
+
+**I²C bus voltage architecture (changed from first review pass):**
+
+The Metro's native I²C is 3.3 V but every I²C slave in the system (Si5351,
+MCP4728, PCF8575 ×2, MCP4725 on frontpanel, CD74HC4066 on ss_pa) runs
+cleanest at 5 V — especially the MCP4728, whose output voltage range sets
+the IRF510 bias range and needs the full 0–5 V span to cover the Vgs(th)
+spec. Rather than put each slave on its own level shifter, Rev D uses a
+single-point translation:
+
+- **Adafruit #757 BSS138 breakout (U2 on analog)** sits at the Metro I²C
+  entry on the analog board. LV side (pins 1-6) = +3.3 V, HV side (pins
+  7-12) = +5 V. 10 K pull-ups on both sides are built in.
+- Pull-ups on the Si5351 and MCP4728 breakouts (which also tie to their
+  own VIN) should be **depopulated** so the shifter is the only
+  pull-up source on the HV bus — this is a manual breakout
+  modification before populating the board; worth calling out in the
+  assembly notes.
+- STEMMA QT connectors on MCP4728 and Si5351 breakouts are **no longer
+  used for I²C**. Those breakouts get both power and I²C from PCB
+  header pins only. The 0 Ω jumpers that would route STEMMA to those
+  breakouts remain unpopulated.
+- Metro's STEMMA QT port now routes directly to the **frontpanel
+  rotary-encoder chain** (3.3 V STEMMA-native devices on the Metro's
+  native 3.3 V bus — same electrical bus as the LV side of the shifter).
+
+**SPI level shifting to MCP4922 (new):**
+
+The MCP4922 runs at 5 V VDD (its V_IH = 0.7 × VDD = 3.5 V doesn't tolerate
+3.3 V logic directly). Rather than drop MCP4922 to 3.3 V (which would then
+cap its V_OUT at 3.3 V and halve the useful envelope / DRIVER_BIAS range),
+Rev D runs it at 5 V and translates the Metro's 3.3 V SPI up through a
+**74HCT125 quad buffer (U9, in the custom `xmitter` library)**:
+
+- 74HCT125 at VCC = +5 V, all four OE̅ pins tied to GND (always enabled).
+- Four TTL-level inputs (74HCT family V_IH = 2 V @ 5 V VDD) accept
+  Metro's 3.3 V HIGH as a valid HIGH.
+- MOSI → U9 pin 2 → pin 3 → U4 SDI (pin 5)
+- SCK → U9 pin 5 → pin 6 → U4 SCK (pin 4)
+- CS_DAC → U9 pin 9 → pin 8 → U4 CS̅ (pin 3)
+- DAC_LDAC_N → U9 pin 12 → pin 11 → U4 LDAC̅ (pin 8)
+- DAC_SHDN_N remains driven by PCF8575 at 5 V (not time-critical, I²C
+  write latency is fine for shutdown control).
+
+**Si5351 bringup isolation switch (new, but currently mis-wired — see
+"Known open items"):**
+
+A DPDT slide switch (SW1) is placed on the HV-side SDA/SCL bus right at
+the Si5351 header, so Si5351 can be electrically removed from the I²C bus
+during bringup without unseating the breakout. Intent is DPST behavior
+(both lines break together) using a DPDT body. See open items for current
+wiring issue.
 
 **Umbilicals from analog (RJ45, 8P8C shielded, T568B pair-aware):**
 
@@ -145,7 +227,8 @@ instead of simple over-current trip.
 **Sub-sheets:** `ss_pa.kicad_sch` (root), `pa_stage.kicad_sch` (BS170 pre-driver
 + IRF510 PP + transformers + L18 bias RFC + source-sense taps),
 `fault_shutdown.kicad_sch` (LM393 self-latching + CD74HC4066 bias switch + startup
-auto-reset + 100K pulldowns on PA_Bias_A/B + local MCP1700x-330 LDO for +3.3 V).
+auto-reset + 100K pulldowns on PA_Bias_A/B + local LM2936Z-5.0 LDO for the
+entire ss_pa logic rail).
 
 **Transformers (hand-wound):**
 
@@ -160,19 +243,34 @@ auto-reset + 100K pulldowns on PA_Bias_A/B + local MCP1700x-330 LDO for +3.3 V).
 LOW via self-latching V_REF path, and asserts FAULT_N. CD74HC4066 (U2) analog
 switch opens the PA_Bias_A/B path to the IRF510 gates → PA_Bias collapses to
 0 V in ~18 µs via R12/R19 100 K pulldowns → IRF510s cut off → PA stops drawing
-current. Reset: startup cap + diode give power-on auto-reset only; latch has to
-be released by cycling supply (intentional — makes the operator intervene after
-a fault). The Metro also reads FAULT_N digitally and logs/displays.
+current. Reset: startup cap + diode (C12 1 µF + D1 1N4148) give power-on
+auto-reset only; latch has to be released by cycling supply (intentional —
+makes the operator intervene after a fault). The Metro also reads FAULT_N
+digitally and logs/displays.
+
+**V_REF divider sized for +5 V supply:** R11 = 100 K (positive-feedback /
+top of divider, between FAULT_N and V_REF), R10 = **6.8 K** (V_REF to GND) →
+V_REF ≈ 0.318 V at V+ = 5 V (trip threshold ~3.2 A at R_sense = 0.1 Ω).
+Rev C ran this at 3.3 V with R10 = 10 K and the same R11; the 10 K → 6.8 K
+swap preserves the original 0.3 V trip threshold under the new +5 V rail.
+
+**FAULT_N level translation (new):** FAULT_N is pulled up to +5 V on ss_pa
+(R9 = 10 K) so it reliably drives CD74HC4066's control inputs. Metro ESP32-S3
+pins are not 5 V tolerant, so a 10 K + 20 K resistor divider on the **analog
+board** (R3 = 10 K series, R4 = 20 K to GND) scales FAULT_N down to 3.33 V
+HIGH at the Metro input. The divider output is called FAULT_N_CLEAN.
 
 **Supply:** +13.8 V direct from shack (via analog's heartbeat-gated K5 relay).
-Local +3.3 V LDO (U13 MCP1700x-330) powers the fault_shutdown chain only.
-+13.8 V appears on ss_pa only — not on analog, not on LPF.
+Local **+5 V** LDO (U13 LM2936Z-5.0/NOPB — TO-92, 40 V max input, 50 mA, ultra-
+low Iq) powers all ss_pa logic: LM393 V+ (5 V), CD74HC4066 VCC (5 V), FAULT_N
+pullup (R9 to +5 V). No +3.3 V rail on ss_pa anymore. +13.8 V appears on ss_pa
+only — not on analog, not on LPF.
 
 **PCB stackup:** 4 layers, inner planes for GND and +13.8 V, outer signal +
 GND pour. Dense RF around the IRF510s, VHF-tuned feedback network, and
 high-current drain path justify the 4-layer choice.
 
-**Test points:** TP1 +3.3 V, TP2/3 PA_Bias_A/B (post-U2 switch), TP4 RF-In
+**Test points:** TP1 +5 V, TP2/3 PA_Bias_A/B (post-U2 switch), TP4 RF-In
 (J3 center), TP5 RF-Out (J1 center), TP6/7 IRF510 drains (hot RF),
 TP8-11 GND probe-return pads paired 1:1 with hot-RF TPs for scope-probe
 short-ground discipline.
@@ -334,6 +432,16 @@ J9, J12-J14, J20-J22) take over. Everything between the Metro's socket
 pins and the external world passes through the protoshield's conditioning
 network.
 
+**Metro has no PCB footprint of its own.** The Adafruit Metro ESP32-S3 is
+a physical module that plugs directly into the protoshield (the shield's
+pin headers mate with the Metro's headers). The protoshield is the only
+PCB in this review that physically carries the Metro. All inter-board
+wiring to the Metro is routed through the protoshield's screw terminals,
+not through any Metro-side footprint. On the analog board, where
+protoshield-side signals arrive, they land on screw-terminal headers
+(J3, J9, J12-J14, J20-J22) with matching conductor labels. Reviewer:
+no need to look for a Metro footprint anywhere else in the netlists.
+
 ---
 
 ## Design decisions worth highlighting
@@ -376,8 +484,60 @@ network.
 
 ---
 
+## Review items addressed since prior pass (PDF review-1)
+
+This design has gone through one external LLM review pass; the resulting
+PDF flagged items M1-M15 (must-fix), S1-S12 (should-consider), plus nice-
+to-haves. Status summary for the reviewer:
+
+- **M1 (documentation only)** — no action, documentation-only item.
+- **M2 (AC-couple LM7171)** — addressed in `vfo_complete.kicad_sch`.
+- **M3 (DGFET source bias for cutoff)** — addressed in `vfo_complete.kicad_sch`.
+- **M4 (ss_pa LDO input tolerance for 13.8 V)** — addressed (U13 now
+  LM2936Z-5.0, 40 V input rating).
+- **M5 (fuse + reverse-polarity protection at shack input)** — addressed
+  (3 A slow-blow blade fuse Keystone 3568 + 1N5822 Schottky).
+- **M6 (I²C level shifting)** — addressed (Adafruit #757 BSS138 at Metro
+  I²C entry, HV bus at 5 V for all I²C slaves).
+- **M7 (MCP4922 V_IH at 5 V VDD vs 3.3 V SPI)** — addressed (74HCT125
+  quad buffer shifts MOSI/SCK/CS_DAC/DAC_LDAC_N from 3.3 V to 5 V, MCP4922
+  now runs at 5 V VDD with full-range V_OUT).
+- **M8 (IRF510 bias range)** — addressed (MCP4728 at 5 V VDD → 0-5 V bias
+  output span → full IRF510 Vgs(th) coverage).
+- **M8 (10 ms bias-kill)** — **still open.** Firmware will handle via I²C
+  write to zero bias at keyup; no dedicated hardware fast-kill added. See
+  open-items list.
+- **M9 (ss_pa fault comparator sees raw 14 MHz)** — **still open**, not
+  yet addressed. Reviewer: still a concern?
+- **M10 (fault latch zero margin)** — **still open**, not yet addressed.
+  V_REF now set from +5 V rail instead of +3.3 V, which gives more
+  absolute margin on the comparator's input range but doesn't change the
+  margin topology issue the PDF flagged.
+- **M11, M12, M13, M14 (frontpanel issues)** — **still open**.
+- **M15 (LPF relay contact function vs symbol text)** — not yet verified.
+- **S-series and nice-to-have items** — not addressed this pass.
+
+---
+
 ## Known open items / things worth prodding
 
+- **Si5351 bringup DPDT switch (SW1).** DPDT slide switch (C&K JS202011CQN,
+  THT, vertical slider) placed between HV-side SDA/SCL and the Si5351
+  header for bringup isolation. Both lines break together on one slider
+  position (DPST-via-DPDT). Note that the C&K JS202011 THT footprint has
+  pin 1 physically above pin 6 (row 2 is numbered 6-5-4 in reverse), so
+  wiring the DPDT as DPST requires using pins 1 and 6 as the two "closed"
+  throws (same physical slider side) — this is the current wiring. The
+  SMD variant of the same C&K part uses straight 1-2-3 / 4-5-6 numbering
+  across rows; **do not substitute the SMD footprint** without rewiring,
+  since pin 1 and pin 4 would be on the same physical side in SMD rather
+  than pin 1 and pin 6.
+- **M8 10 ms bias-kill still open.** Firmware will shutdown-DAC via I²C,
+  but hardware fast-kill was not added. Reviewer: is firmware-only
+  acceptable, or should a spare CD74HC4066 channel or a BSS138 be used
+  for an additional hardware kill path?
+- **M9 / M10 (fault comparator RC filter / fault latch margin)** —
+  reviewer: still worth addressing with the +5 V rail change?
 - **Shared swamp or dedicated swamp per bank?** Earlier iteration had a single
   shared pre-fanout R1 (100 Ω shunt) + R2 (68 Ω series) on the common input.
   That was replaced with the per-bank post-relay 50 Ω swamp. Reviewer: is the
@@ -511,4 +671,9 @@ Reviewer should ignore polish — brevity > exhaustive-but-wandering.
 
 ---
 
-*Document generated 2026-10-22 as a Rev D pre-layout review handoff.*
+*Document generated 2026-10-22 as a Rev D pre-layout review handoff.
+Revised 2026-10-23 to reflect M-item fixes from PDF review-1, I²C bus
+voltage redesign (shifter at Metro, 5 V HV bus), 74HCT125 SPI shifter
+for MCP4922, ss_pa Option C (full +5 V rail via LM2936Z-5.0), FAULT_N
+divider at Metro, shack input fuse + Schottky, and SW1 bringup
+isolation switch.*

@@ -470,7 +470,7 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "Connector:Screw_Terminal_01x04"
+		(symbol "Connector:Screw_Terminal_01x05"
 			(pin_names
 				(offset 1.016)
 				(hide yes)
@@ -481,7 +481,7 @@
 			(in_pos_files yes)
 			(duplicate_pin_numbers_are_jumpers no)
 			(property "Reference" "J"
-				(at 0 5.08 0)
+				(at 0 7.62 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(effects
@@ -490,7 +490,7 @@
 					)
 				)
 			)
-			(property "Value" "Screw_Terminal_01x04"
+			(property "Value" "Screw_Terminal_01x05"
 				(at 0 -7.62 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -522,7 +522,7 @@
 					)
 				)
 			)
-			(property "Description" "Generic screw terminal, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(property "Description" "Generic screw terminal, single row, 01x05, script generated (kicad-library-utils/schlib/autogen/connector/)"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -555,9 +555,9 @@
 					)
 				)
 			)
-			(symbol "Screw_Terminal_01x04_1_1"
+			(symbol "Screw_Terminal_01x05_1_1"
 				(rectangle
-					(start -1.27 3.81)
+					(start -1.27 6.35)
 					(end 1.27 -6.35)
 					(stroke
 						(width 0.254)
@@ -565,6 +565,18 @@
 					)
 					(fill
 						(type background)
+					)
+				)
+				(polyline
+					(pts
+						(xy -0.5334 5.4102) (xy 0.3302 4.572)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
 					)
 				)
 				(polyline
@@ -606,6 +618,18 @@
 				(polyline
 					(pts
 						(xy -0.5334 -4.7498) (xy 0.3302 -5.588)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -0.3556 5.588) (xy 0.508 4.7498)
 					)
 					(stroke
 						(width 0.1524)
@@ -664,6 +688,17 @@
 					)
 				)
 				(circle
+					(center 0 5.08)
+					(radius 0.635)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
 					(center 0 2.54)
 					(radius 0.635)
 					(stroke
@@ -708,7 +743,7 @@
 					)
 				)
 				(pin passive line
-					(at -5.08 2.54 0)
+					(at -5.08 5.08 0)
 					(length 3.81)
 					(name "Pin_1"
 						(effects
@@ -726,7 +761,7 @@
 					)
 				)
 				(pin passive line
-					(at -5.08 0 0)
+					(at -5.08 2.54 0)
 					(length 3.81)
 					(name "Pin_2"
 						(effects
@@ -744,7 +779,7 @@
 					)
 				)
 				(pin passive line
-					(at -5.08 -2.54 0)
+					(at -5.08 0 0)
 					(length 3.81)
 					(name "Pin_3"
 						(effects
@@ -762,7 +797,7 @@
 					)
 				)
 				(pin passive line
-					(at -5.08 -5.08 0)
+					(at -5.08 -2.54 0)
 					(length 3.81)
 					(name "Pin_4"
 						(effects
@@ -772,6 +807,24 @@
 						)
 					)
 					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -5.08 -5.08 0)
+					(length 3.81)
+					(name "Pin_5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2619,7 +2672,7 @@
 	)
 	(wire
 		(pts
-			(xy 208.28 86.36) (xy 201.93 86.36)
+			(xy 217.17 86.36) (xy 201.93 86.36)
 		)
 		(stroke
 			(width 0)
@@ -2689,7 +2742,7 @@
 	)
 	(wire
 		(pts
-			(xy 208.28 88.9) (xy 201.93 88.9)
+			(xy 217.17 88.9) (xy 201.93 88.9)
 		)
 		(stroke
 			(width 0)
@@ -3078,7 +3131,7 @@
 			)
 		)
 	)
-	(global_label "FAULT_N"
+	(global_label "FAULT_N_CLEAN"
 		(shape input)
 		(at 161.29 91.44 0)
 		(fields_autoplaced yes)
@@ -3090,7 +3143,7 @@
 		)
 		(uuid "51b4ad54-7057-449e-b1f7-e3fbb7d7a35b")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 172.0767 91.44 0)
+			(at 178.9105 91.44 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3341,18 +3394,18 @@
 		)
 	)
 	(global_label "DAC_LDAC_N"
-		(shape output)
-		(at 213.36 109.22 0)
+		(shape input)
+		(at 227.33 109.22 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify left)
+			(justify right)
 		)
 		(uuid "af805315-c8ab-41ce-b363-3910e0b97a8c")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 227.8962 109.22 0)
+			(at 212.7938 109.22 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3360,7 +3413,7 @@
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
+				(justify right)
 			)
 		)
 	)
@@ -3484,9 +3537,9 @@
 			)
 		)
 	)
-	(global_label "FAULT_N"
+	(global_label "FAULT_N_CLEAN"
 		(shape output)
-		(at 208.28 91.44 180)
+		(at 217.17 91.44 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3496,7 +3549,7 @@
 		)
 		(uuid "c10bb7cc-3b6d-4363-b93a-67d366b28e95")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 197.4933 91.44 0)
+			(at 199.5495 91.44 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3792,94 +3845,6 @@
 			(project "protoshield"
 				(path "/90f14230-179e-419d-8d57-3db6b8a7c39f"
 					(reference "J4")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Connector:Screw_Terminal_01x04")
-		(at 232.41 104.14 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "0c1a9e12-49db-4e51-8c01-d6a0a08bcd11")
-		(property "Reference" "J7"
-			(at 234.95 104.1399 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "Screw_Terminal_01x04"
-			(at 234.95 106.6799 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-4_1x04_P5.00mm_Horizontal"
-			(at 232.41 104.14 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 232.41 104.14 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Generic screw terminal, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 232.41 104.14 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "3"
-			(uuid "d788fa0e-9221-440f-b8ee-da4f88c21c96")
-		)
-		(pin "4"
-			(uuid "f3593e12-ad93-4e49-8526-ff705af9d2ad")
-		)
-		(pin "2"
-			(uuid "395136c1-202a-42f4-b393-22ada2bdf234")
-		)
-		(pin "1"
-			(uuid "25385404-5a76-4189-bf63-64d98d1cf636")
-		)
-		(instances
-			(project "protoshield"
-				(path "/90f14230-179e-419d-8d57-3db6b8a7c39f"
-					(reference "J7")
 					(unit 1)
 				)
 			)
@@ -4213,7 +4178,6 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "1198b82e-b1ef-419d-b7ca-794c4721873f")
 		(property "Reference" "#PWR014"
 			(at 227.33 78.74 0)
@@ -4227,7 +4191,7 @@
 			)
 		)
 		(property "Value" "+3.3V"
-			(at 227.33 87.63 0)
+			(at 231.648 85.09 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5818,6 +5782,84 @@
 			(project "protoshield"
 				(path "/90f14230-179e-419d-8d57-3db6b8a7c39f"
 					(reference "J3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 227.33 111.76 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "575dc761-6815-4257-8569-419c2932cdf3")
+		(property "Reference" "#PWR024"
+			(at 227.33 118.11 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 227.33 116.84 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 227.33 111.76 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 227.33 111.76 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 227.33 111.76 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "482c33b1-4de4-4eda-b7d8-5169a5a7affd")
+		)
+		(instances
+			(project "protoshield"
+				(path "/90f14230-179e-419d-8d57-3db6b8a7c39f"
+					(reference "#PWR024")
 					(unit 1)
 				)
 			)
@@ -7872,6 +7914,95 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector:Screw_Terminal_01x05")
+		(at 232.41 106.68 0)
+		(mirror x)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "c8dcefd5-d13e-45e8-b5f2-a92c45404ec0")
+		(property "Reference" "J17"
+			(at 232.41 95.25 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "Screw_Terminal_01x05"
+			(at 232.41 97.79 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-5_1x05_P5.00mm_Horizontal"
+			(at 232.41 106.68 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 232.41 106.68 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Generic screw terminal, single row, 01x05, script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(at 232.41 106.68 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "75edb826-cabb-4bc3-81da-7150d97f2865")
+		)
+		(pin "4"
+			(uuid "0c729fcb-c0a6-4590-a384-27033a3ac483")
+		)
+		(pin "5"
+			(uuid "16b99820-a7c8-43c7-a0df-ad9b592482ec")
+		)
+		(pin "2"
+			(uuid "4fb3bb7e-13c6-4fb6-b765-878aeab35992")
+		)
+		(pin "3"
+			(uuid "365265bc-2336-4521-9c85-7172b3167155")
+		)
+		(instances
+			(project "protoshield"
+				(path "/90f14230-179e-419d-8d57-3db6b8a7c39f"
+					(reference "J17")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "xmitter:1N4728A")
 		(at 44.45 59.69 270)
 		(unit 1)
@@ -8294,7 +8425,7 @@
 	)
 	(symbol
 		(lib_id "Connector:Screw_Terminal_01x03")
-		(at 213.36 88.9 0)
+		(at 222.25 88.9 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -8305,7 +8436,7 @@
 		(fields_autoplaced yes)
 		(uuid "ecd60510-4e15-478a-94bb-d376cc475ec3")
 		(property "Reference" "J8"
-			(at 215.9 87.6299 0)
+			(at 224.79 87.6299 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8316,7 +8447,7 @@
 			)
 		)
 		(property "Value" "Screw_Terminal_01x03"
-			(at 215.9 90.1699 0)
+			(at 224.79 90.1699 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8327,7 +8458,7 @@
 			)
 		)
 		(property "Footprint" "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-3_1x03_P5.00mm_Horizontal"
-			(at 213.36 88.9 0)
+			(at 222.25 88.9 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8338,7 +8469,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 213.36 88.9 0)
+			(at 222.25 88.9 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8349,7 +8480,7 @@
 			)
 		)
 		(property "Description" "Generic screw terminal, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 213.36 88.9 0)
+			(at 222.25 88.9 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)

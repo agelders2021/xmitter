@@ -10,33 +10,47 @@ the netlist so this doc never lags the schematics.
 - `[PARTIAL]` some pins defined, some still TBD
 - `[TBD]`     no pin assignment yet, placeholder only
 
-Last updated: 2026-10-16.
+Last updated: 2026-10-23 (Rev D Option-C power rail changes).
 
 ## Board inventory (Rev D architecture)
 
-- **Analog board** — DGFET keyer, RC filter, LM7171 buffer, Metro
-  ESP32-S3 control, I²C/SPI DACs, bias generation. Branch active.
-- **PA board (custom, pre-fab)** — follows QRP Labs 10W Linear kit
-  RF topology (BS170 predriver → T201 → BS170 PP driver → T202 →
-  IRF510 PP → T204) on a custom PCB to integrate `source_sense`
-  telemetry + the `fault_shutdown` latch chain. Schematic in progress.
-- **LPF board (new, pre-fab)** — 4-band switched LPF (10/15/17/20m)
-  with 40m provision, dual relays per band (input + output
-  isolation). Schematic in progress.
-- **Frontpanel board** — encoder, display, LEDs, buttons via PCF8575
-  + MBL-600 RS-422 encoder termination.
+- **Analog board** (`KiCAD/analog/`) — DGFET keyer, RC filter, Chebyshev
+  LPF, LM7171 PP driver, Metro ESP32-S3 control (via protoshield),
+  I²C/SPI DACs (MCP4728 at 5 V, MCP4922 at 5 V with 74HCT125 SPI
+  shifter), Adafruit #757 BSS138 I²C level shifter at Metro entry,
+  Si5351 bringup DPDT isolation switch (SW1), bias generation,
+  shack-input fuse + Schottky, all onboard regulators.
+- **ss_pa board** (`KiCAD/ss_pa/`) — QRP Labs 10 W Linear kit RF
+  topology on custom PCB. BS170 PP pre-driver → T201 → T202 → IRF510
+  PP → T204. Integrates per-FET source-sense telemetry + self-latching
+  `fault_shutdown` chain (LM393 + CD74HC4066 bias switch). Entire
+  board runs at +5 V via LM2936Z-5.0 LDO (Option C, 2026-10-23).
+- **Output LPF board** (`KiCAD/Output LPF/`) — 4-band switched LPF
+  (40/20/17/15 m — 10 m band deliberately dropped). One DPDT Omron
+  G6K-2P-Y-T1 DC12 relay per band, pole 1 switches output, pole 2
+  switches input. 50 Ω swamp Rs on NC side of each pole.
+- **Frontpanel board** (`KiCAD/frontpanel/`) — WH2004A LCD, MBL-600
+  RS-422 differential rotary encoder (NOT I²C), PCF8575 for button
+  matrix + LED, MCP4725 for LCD contrast, local MCP1700x-330 LDO
+  for 3.3 V from the +5 V umbilical rail.
+- **Protoshield** (`KiCAD/protoshield/`) — Metro-mounted Adafruit
+  Proto Shield PID 2077. Carries Metro socket plus GPIO signal
+  conditioning (series Rs, pull-ups, Zener clamps, RC filters,
+  bypass caps). Screw-terminal connectors are the signal boundary
+  to the analog board.
 
 ## Interconnect index
 
-- **J1** — Analog → PA : RF signal (SMA)  [OK]
-- **J2** — Analog → LPF : band select + spare (RJ45)  [OK — 5 bands wired]
+- **J1** — Analog → ss_pa : RF signal (SMA)  [OK]
+- **J2** — Analog → Output LPF : +12 V coil supply + 4 band-select
+  drives (RJ45)  [OK, 4 bands wired after 10 m drop]
 - **J4** — Analog → Frontpanel : control umbilical (RJ45)  [OK, see
   `front_panel_interface.md` for details]
-- **J31** — Analog ↔ PA : bias, sense, fault, control (RJ45)  [OK]
+- **J31** — Analog ↔ ss_pa : bias, sense, fault, control (RJ45)  [OK]
 - **J35** — Analog → (future tube PA) : all tube control signals
-  consolidated on one RJ45  [OK, no destination today]
-- **PA → LPF** — RF out, high level (SMA)  [TBD]
-- **LPF → Antenna** — RF out (SMA)  [TBD]
+  consolidated on one RJ45  [DNP, no destination today]
+- **ss_pa → Output LPF** — RF out, high level (SMA)  [TBD]
+- **Output LPF → Antenna** — RF out (SMA)  [TBD]
 - **Power distribution** — +13.8 V primary + ground scheme  [TBD]
 
 ---

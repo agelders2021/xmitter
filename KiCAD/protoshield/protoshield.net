@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "C:\\Users\\AlAnd\\Git Backed Projects\\xmitter\\KiCAD\\protoshield\\protoshield.kicad_sch")
-		(date "2026-10-22T08:36:31")
+		(date "2026-10-23T14:14:04")
 		(tool "Eeschema 10.0.3")
 		(sheet
 			(number "1")
@@ -1127,66 +1127,6 @@
 			)
 		)
 		(comp
-			(ref "J7")
-			(value "Screw_Terminal_01x04")
-			(footprint "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-4_1x04_P5.00mm_Horizontal")
-			(description "Generic screw terminal, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)")
-			(fields
-				(field
-					(name "Footprint") "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-4_1x04_P5.00mm_Horizontal")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "Generic screw terminal, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)")
-			)
-			(libsource
-				(lib "Connector")
-				(part "Screw_Terminal_01x04")
-				(description "Generic screw terminal, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)")
-			)
-			(property
-				(name "Sheetname")
-				(value "protoshield")
-			)
-			(property
-				(name "Sheetfile")
-				(value "protoshield.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "screw terminal")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "TerminalBlock*:*")
-			)
-			(sheetpath
-				(names "/")
-				(tstamps "/")
-			)
-			(tstamps "0c1a9e12-49db-4e51-8c01-d6a0a08bcd11")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-						(pin
-							(num "3")
-						)
-						(pin
-							(num "4")
-						)
-					)
-				)
-			)
-		)
-		(comp
 			(ref "J8")
 			(value "Screw_Terminal_01x03")
 			(footprint "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-3_1x03_P5.00mm_Horizontal")
@@ -1238,6 +1178,69 @@
 						)
 						(pin
 							(num "3")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "J17")
+			(value "Screw_Terminal_01x05")
+			(footprint "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-5_1x05_P5.00mm_Horizontal")
+			(description "Generic screw terminal, single row, 01x05, script generated (kicad-library-utils/schlib/autogen/connector/)")
+			(fields
+				(field
+					(name "Footprint") "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-5_1x05_P5.00mm_Horizontal")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Generic screw terminal, single row, 01x05, script generated (kicad-library-utils/schlib/autogen/connector/)")
+			)
+			(libsource
+				(lib "Connector")
+				(part "Screw_Terminal_01x05")
+				(description "Generic screw terminal, single row, 01x05, script generated (kicad-library-utils/schlib/autogen/connector/)")
+			)
+			(property
+				(name "Sheetname")
+				(value "protoshield")
+			)
+			(property
+				(name "Sheetfile")
+				(value "protoshield.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "screw terminal")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "TerminalBlock*:*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "c8dcefd5-d13e-45e8-b5f2-a92c45404ec0")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "4")
+						)
+						(pin
+							(num "5")
 						)
 					)
 				)
@@ -1973,8 +1976,8 @@
 		)
 		(libpart
 			(lib "Connector")
-			(part "Screw_Terminal_01x04")
-			(description "Generic screw terminal, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)")
+			(part "Screw_Terminal_01x05")
+			(description "Generic screw terminal, single row, 01x05, script generated (kicad-library-utils/schlib/autogen/connector/)")
 			(footprints
 				(fp "TerminalBlock*:*")
 			)
@@ -1982,7 +1985,7 @@
 				(field
 					(name "Reference") "J")
 				(field
-					(name "Value") "Screw_Terminal_01x04")
+					(name "Value") "Screw_Terminal_01x05")
 				(field
 					(name "Footprint")
 				)
@@ -1990,7 +1993,7 @@
 					(name "Datasheet")
 				)
 				(field
-					(name "Description") "Generic screw terminal, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)")
+					(name "Description") "Generic screw terminal, single row, 01x05, script generated (kicad-library-utils/schlib/autogen/connector/)")
 			)
 			(pins
 				(pin
@@ -2011,6 +2014,11 @@
 				(pin
 					(num "4")
 					(name "Pin_4")
+					(type "passive")
+				)
+				(pin
+					(num "5")
+					(name "Pin_5")
 					(type "passive")
 				)
 			)
@@ -2347,9 +2355,20 @@
 			(name "CS_DAC")
 			(class "Default")
 			(node
-				(ref "J7")
-				(pin "1")
-				(pinfunction "Pin_1_1")
+				(ref "J17")
+				(pin "5")
+				(pinfunction "Pin_5_5")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "3")
+			(name "DAC_LDAC_N")
+			(class "Default")
+			(node
+				(ref "J17")
+				(pin "2")
+				(pinfunction "Pin_2_2")
 				(pintype "passive")
 			)
 		)
@@ -2386,7 +2405,7 @@
 		)
 		(net
 			(code "6")
-			(name "FAULT_N")
+			(name "FAULT_N_CLEAN")
 			(class "Default")
 			(node
 				(ref "J8")
@@ -2471,6 +2490,12 @@
 			)
 			(node
 				(ref "J1")
+				(pin "1")
+				(pinfunction "Pin_1_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "J17")
 				(pin "1")
 				(pinfunction "Pin_1_1")
 				(pintype "passive")
@@ -2609,9 +2634,9 @@
 			(name "MOSI")
 			(class "Default")
 			(node
-				(ref "J7")
-				(pin "2")
-				(pinfunction "Pin_2_2")
+				(ref "J17")
+				(pin "4")
+				(pinfunction "Pin_4_4")
 				(pintype "passive")
 			)
 		)
@@ -2780,7 +2805,7 @@
 			(name "SCK")
 			(class "Default")
 			(node
-				(ref "J7")
+				(ref "J17")
 				(pin "3")
 				(pinfunction "Pin_3_3")
 				(pintype "passive")
@@ -2829,17 +2854,6 @@
 			(node
 				(ref "R10")
 				(pin "2")
-				(pintype "passive")
-			)
-		)
-		(net
-			(code "29")
-			(name "unconnected-(J7-Pin_4-Pad4)")
-			(class "Default")
-			(node
-				(ref "J7")
-				(pin "4")
-				(pinfunction "Pin_4_4")
 				(pintype "passive")
 			)
 		)

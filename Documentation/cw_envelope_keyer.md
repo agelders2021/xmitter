@@ -26,8 +26,18 @@
 > - Predistortion concept — DGFET transconductance also isn't perfectly
 >   linear, so the LUT-inversion calibration approach still applies;
 >   only the specific numbers change
-> - MCP4921 SPI DAC choice — could still be used, but Rev B uses the
->   MCP4728 I²C DAC on the STEMMA chain for the envelope. Update TBD
+> - **Envelope DAC in Rev D is MCP4922 ch A (SPI, on analog U4)**, NOT
+>   the MCP4728 as earlier passages below describe. MCP4728 (U3 on
+>   analog) is used only for PA bias and tube-PA upgrade-path grid
+>   control, not for envelope. The 25 µs envelope-tick timing is
+>   compatible with SPI; MCP4922 at 5 V V_DD gives full 0–5 V output
+>   range, driven over Metro's 3.3 V SPI through a 74HCT125 quad
+>   buffer (U9) that shifts MOSI / SCK / CS_DAC / LDAC up to 5 V.
+> - **STEMMA chain reference below is historical.** Rev D does not
+>   route the main I²C bus via STEMMA; the Metro's I²C goes to the
+>   Adafruit #757 BSS138 shifter on analog, and STEMMA port is now
+>   reserved for the frontpanel encoder chain. See
+>   `revD_prelayout_review_handoff.md` and the updated `i2c_bus.md`.
 >   when firmware scaffolding starts.
 >
 > **What is HISTORICAL and does NOT apply to the current design:**

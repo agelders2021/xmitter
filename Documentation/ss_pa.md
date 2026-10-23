@@ -1,5 +1,24 @@
 # Solid-State PA Board — Current State
 
+> **⚠ 2026-10-23 — Rev D Option C power rail change.**
+>
+> This document was written when the ss_pa logic rail was +3.3 V (fed by
+> an MCP1700x-330 LDO) and FAULT_N was pulled up to +3.3 V. Rev D Option C
+> moved the entire ss_pa logic rail to **+5 V** via a new LM2936Z-5.0 LDO
+> (U13), to allow CD74HC4066 to pass the MCP4728's new 0–5 V bias output
+> cleanly. The V_REF divider was re-sized (R10 10 K → 6.8 K) to preserve
+> the pre-change ~0.30 V fault-trip threshold on the +5 V rail. FAULT_N
+> pullup moved to +5 V on ss_pa; a resistor divider (R3/R4 = 10 K / 20 K)
+> on the analog PCB scales 5 V FAULT_N down to 3.33 V (FAULT_N_CLEAN)
+> before reaching the Metro.
+>
+> Sections below still reference `+3.3V` in several places (pullup
+> target, umbilical pin assignment, bypass caps). Mentally substitute
+> `+5 V` for anything describing the ss_pa logic rail, and consult
+> `revD_prelayout_review_handoff.md` for the authoritative current
+> state. The topology is unchanged; only the supply voltage and R10
+> value changed.
+
 10 W QRP class-AB push-pull PA at 14 MHz, running from the 13.8 V shack
 supply. **This is the active PA for the project.** Topology adapted
 from the QRP Labs 10 W Linear kit — output stage only; the kit's
@@ -27,27 +46,31 @@ Source of truth: `KiCAD/ss_pa/`. Started 2026-10-09.
 - Drive: differential +RF / −RF from LM7171 push-pull on analog board,
   AC-coupled directly into the gate network (no input transformer)
 - Drain supply: +13.8 V shack supply direct, large bulk electrolytic
-  at board entry for keying stiffness; no on-board LDO or buck
-- Bias control: software (MCP4728 VA/VB → DAC outputs `Bias_A_Raw` and
-  `Bias_B_Raw` fed to this board over the umbilical). Firmware zeros
-  the DACs during RX — no hardware TX_ENABLE / PMOS gate
+  at board entry for keying stiffness
+- Bias control: software (MCP4728 VA/VB → DAC outputs `PA_Bias_A_Raw`
+  and `PA_Bias_B_Raw` fed to this board over the umbilical). MCP4728
+  now runs at +5 V V_DD, giving 0–5 V bias output span for full
+  IRF510 Vgs(th) coverage. Firmware zeros the DACs during RX
 - Source current sensing (per FET) for closed-loop bias servo,
   overcurrent protection, and tune-up diagnostics
 - Hardware overcurrent latch on this board shuts down bias
   independently of firmware
-- 4-band LPF lives on this same board (not the analog board) so
-  high-current RF never traverses the umbilical
+- 4-band LPF is on a **separate `Output LPF` board** (not this board,
+  not the analog board). High-current RF leaves ss_pa via its
+  output SMA and travels to the LPF board over coax; the ss_pa ↔
+  Output LPF cable does NOT share the ss_pa ↔ analog umbilical.
+- **Entire ss_pa logic rail runs at +5 V (Rev D Option C, 2026-10-23).**
+  Local LM2936Z-5.0/NOPB LDO (U13, 40 V max input, 50 mA, ultra-low
+  Iq) feeds LM393 V+, CD74HC4066 VCC, FAULT_N pullup, and all bypass
+  caps. +3.3 V rail removed from ss_pa in Rev D.
 
 ## Hierarchical sheet layout
 
-- `ss_pa.kicad_sch` — root; references three sub-sheets
-- `pa_stage.kicad_sch` — PA core (populated as of 2026-10-10):
-  push-pull FETs, drain-feed xfmr, output xfmr, bias network per
-  FET, drain-gate feedback per FET, input DC-blocks, bulk cap,
-  source-sense resistors
-- `lpf.kicad_sch` — 4-band low-pass filter bank (skeleton, to be
-  migrated from the analog project)
-- `fault_shutdown.kicad_sch` — overcurrent latch (skeleton as of
+- `ss_pa.kicad_sch` — root; references two sub-sheets
+- `pa_stage.kicad_sch` — PA core: push-pull FETs, drain-feed
+  transformer, output transformer, bias network per FET, drain-gate
+  feedback per FET, input DC-blocks, bulk cap, source-sense resistors
+- `fault_shutdown.kicad_sch` — overcurrent latch (as of
   2026-10-11, spec pinned, population pending)
 
 ## Signal interface

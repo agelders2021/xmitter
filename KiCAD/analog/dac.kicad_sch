@@ -1288,145 +1288,6 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "power:+3.3V"
-			(power global)
-			(pin_numbers
-				(hide yes)
-			)
-			(pin_names
-				(offset 0)
-				(hide yes)
-			)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(in_pos_files yes)
-			(duplicate_pin_numbers_are_jumpers no)
-			(property "Reference" "#PWR"
-				(at 0 -3.81 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Value" "+3.3V"
-				(at 0 3.556 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" ""
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Datasheet" ""
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Description" "Power symbol creates a global label with name \"+3.3V\""
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "ki_keywords" "global power"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(symbol "+3.3V_0_1"
-				(polyline
-					(pts
-						(xy -0.762 1.27) (xy 0 2.54)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0 2.54) (xy 0.762 1.27)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0 0) (xy 0 2.54)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-			)
-			(symbol "+3.3V_1_1"
-				(pin power_in line
-					(at 0 0 90)
-					(length 0)
-					(name ""
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
 		(symbol "power:+5V"
 			(power global)
 			(pin_numbers
@@ -1681,6 +1542,415 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "xmitter:74HCT125"
+			(pin_names
+				(offset 1.016)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "U"
+				(at 0 1.27 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "74HCT125"
+				(at 0 -1.27 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" "xmitter:DIP-14_W7.62mm"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" "https://www.ti.com/lit/ds/symlink/sn74hct125.pdf"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Quad bus buffer with 3-state outputs, TTL-level inputs (HCT family). Use for 3.3V to 5V unidirectional level shifting."
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "HCT buffer 3State level-shifter 125"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "DIP*W7.62mm*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "74HCT125_1_0"
+				(polyline
+					(pts
+						(xy -3.81 3.81) (xy -3.81 -3.81) (xy 3.81 0) (xy -3.81 3.81)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(pin input inverted
+					(at 0 -6.35 90)
+					(length 4.445)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -7.62 0 0)
+					(length 3.81)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin tri_state line
+					(at 7.62 0 180)
+					(length 3.81)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(symbol "74HCT125_2_0"
+				(polyline
+					(pts
+						(xy -3.81 3.81) (xy -3.81 -3.81) (xy 3.81 0) (xy -3.81 3.81)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(pin input inverted
+					(at 0 -6.35 90)
+					(length 4.445)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -7.62 0 0)
+					(length 3.81)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin tri_state line
+					(at 7.62 0 180)
+					(length 3.81)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(symbol "74HCT125_3_0"
+				(polyline
+					(pts
+						(xy -3.81 3.81) (xy -3.81 -3.81) (xy 3.81 0) (xy -3.81 3.81)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(pin tri_state line
+					(at 7.62 0 180)
+					(length 3.81)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -7.62 0 0)
+					(length 3.81)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "9"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input inverted
+					(at 0 -6.35 90)
+					(length 4.445)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "10"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(symbol "74HCT125_4_0"
+				(polyline
+					(pts
+						(xy -3.81 3.81) (xy -3.81 -3.81) (xy 3.81 0) (xy -3.81 3.81)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(pin tri_state line
+					(at 7.62 0 180)
+					(length 3.81)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "11"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -7.62 0 0)
+					(length 3.81)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "12"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input inverted
+					(at 0 -6.35 90)
+					(length 4.445)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "13"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(symbol "74HCT125_5_0"
+				(pin power_in line
+					(at 0 -12.7 90)
+					(length 5.08)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 0 12.7 270)
+					(length 5.08)
+					(name "VCC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "14"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(symbol "74HCT125_5_1"
+				(rectangle
+					(start -5.08 7.62)
+					(end 5.08 -7.62)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "xmitter:xTP"
 			(pin_numbers
 				(hide yes)
@@ -1833,7 +2103,7 @@
 		(at 100.33 58.42)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "561bbec1-4ba6-4bd9-a9ff-3574525234a2")
+		(uuid "472cf876-f0a4-4c50-8a50-ce05601e2a44")
 	)
 	(junction
 		(at 92.71 78.74)
@@ -1941,7 +2211,17 @@
 	)
 	(wire
 		(pts
-			(xy 73.66 58.42) (xy 100.33 58.42)
+			(xy 92.71 63.5) (xy 92.71 68.58)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "237a7c8b-4431-4775-bdb7-f7c12b58ac53")
+	)
+	(wire
+		(pts
+			(xy 30.48 58.42) (xy 100.33 58.42)
 		)
 		(stroke
 			(width 0)
@@ -1981,13 +2261,23 @@
 	)
 	(wire
 		(pts
-			(xy 110.49 86.36) (xy 110.49 95.25)
+			(xy 110.49 86.36) (xy 110.49 119.38)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "3d894ee7-4908-4ee6-b204-67952f838ab2")
+	)
+	(wire
+		(pts
+			(xy 63.5 109.22) (xy 72.39 109.22)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "474e8fa0-91ef-4064-a542-f5f30cfb107d")
 	)
 	(wire
 		(pts
@@ -2021,6 +2311,16 @@
 	)
 	(wire
 		(pts
+			(xy 67.31 73.66) (xy 92.71 73.66)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6d85ba0c-9f1a-4822-9e31-a73c7ce35c95")
+	)
+	(wire
+		(pts
 			(xy 176.53 63.5) (xy 176.53 71.12)
 		)
 		(stroke
@@ -2031,7 +2331,17 @@
 	)
 	(wire
 		(pts
-			(xy 110.49 95.25) (xy 73.66 95.25)
+			(xy 63.5 63.5) (xy 92.71 63.5)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "731fbc2c-b016-401c-8c16-fba447bbf583")
+	)
+	(wire
+		(pts
+			(xy 110.49 119.38) (xy 30.48 119.38)
 		)
 		(stroke
 			(width 0)
@@ -2061,6 +2371,26 @@
 	)
 	(wire
 		(pts
+			(xy 67.31 91.44) (xy 67.31 73.66)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "87b08aef-6e09-4e14-807f-e460b59561b0")
+	)
+	(wire
+		(pts
+			(xy 63.5 71.12) (xy 92.71 71.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9f5f883d-dd37-4a71-a9bb-cf8f7f67ce92")
+	)
+	(wire
+		(pts
 			(xy 110.49 48.26) (xy 110.49 50.8)
 		)
 		(stroke
@@ -2078,6 +2408,36 @@
 			(type default)
 		)
 		(uuid "a2f480bf-922d-4dde-89fa-fff84873f690")
+	)
+	(wire
+		(pts
+			(xy 63.5 91.44) (xy 67.31 91.44)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "afe974ba-2074-47be-83c6-aeba7f816077")
+	)
+	(wire
+		(pts
+			(xy 72.39 76.2) (xy 92.71 76.2)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b8bdc959-2f2b-4215-9f9c-ae2f2afcf939")
+	)
+	(wire
+		(pts
+			(xy 72.39 109.22) (xy 72.39 76.2)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bd5941a1-0adc-4ed0-848d-7ece23469d22")
 	)
 	(wire
 		(pts
@@ -2161,7 +2521,17 @@
 	)
 	(wire
 		(pts
-			(xy 73.66 95.25) (xy 73.66 58.42)
+			(xy 63.5 77.47) (xy 63.5 71.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e51a824c-be55-4e7e-9dd9-30559858d978")
+	)
+	(wire
+		(pts
+			(xy 30.48 119.38) (xy 30.48 58.42)
 		)
 		(stroke
 			(width 0)
@@ -2243,9 +2613,9 @@
 			)
 		)
 	)
-	(global_label "DAC_LDAC_N"
+	(global_label "MOSI"
 		(shape input)
-		(at 92.71 76.2 180)
+		(at 48.26 63.5 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2253,9 +2623,9 @@
 			)
 			(justify right)
 		)
-		(uuid "43065e31-e552-4373-9bf9-2ccfb8257583")
+		(uuid "4585a198-b19e-4447-b40a-4526b341f15c")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 78.1738 76.2 0)
+			(at 40.6786 63.5 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2291,30 +2661,6 @@
 			)
 		)
 	)
-	(global_label "SCK"
-		(shape input)
-		(at 92.71 71.12 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "4e4a6376-4e2d-417d-8a91-124866321be5")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 85.9753 71.12 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-	)
 	(global_label "DRIVER_BIAS"
 		(shape output)
 		(at 133.35 68.58 0)
@@ -2339,9 +2685,9 @@
 			)
 		)
 	)
-	(global_label "CS_DAC"
+	(global_label "SCK"
 		(shape input)
-		(at 92.71 73.66 180)
+		(at 48.26 77.47 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2349,9 +2695,9 @@
 			)
 			(justify right)
 		)
-		(uuid "d6764ddb-c7b3-4630-b0d4-95757cb06d85")
+		(uuid "77c87122-00f9-45c9-9319-216ee52a34a6")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 82.6491 73.66 0)
+			(at 41.5253 77.47 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2363,9 +2709,9 @@
 			)
 		)
 	)
-	(global_label "MOSI"
+	(global_label "DAC_LDAC_N"
 		(shape input)
-		(at 92.71 68.58 180)
+		(at 48.26 109.22 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2373,9 +2719,33 @@
 			)
 			(justify right)
 		)
-		(uuid "ed511b53-4d9f-452e-a37f-018e36ac0beb")
+		(uuid "982bbe79-69a3-422d-9acc-b18dc2994c51")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 85.1286 68.58 0)
+			(at 33.7238 109.22 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+	)
+	(global_label "CS_DAC"
+		(shape input)
+		(at 48.26 91.44 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "9d3444e0-7d86-405c-8799-13671a7b216c")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 38.1991 91.44 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2759,6 +3129,357 @@
 				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/e880f7dd-82a1-4efe-84f5-e6a9d5641736"
 					(reference "C48")
 					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 55.88 69.85 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "21d786c3-d6f5-40db-8d85-fbf13f4efacb")
+		(property "Reference" "#PWR051"
+			(at 49.53 69.85 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 52.07 69.8499 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" ""
+			(at 55.88 69.85 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 55.88 69.85 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 55.88 69.85 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "042618c1-5656-4010-99e8-9d41461613ba")
+		)
+		(instances
+			(project "analog"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/e880f7dd-82a1-4efe-84f5-e6a9d5641736"
+					(reference "#PWR051")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 52.07 158.75 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "2a16cd3f-8498-4df6-8fb0-7d4325133926")
+		(property "Reference" "#PWR049"
+			(at 52.07 165.1 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 52.07 163.83 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 52.07 158.75 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 52.07 158.75 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 52.07 158.75 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "4adf534b-4226-49bd-a124-cc9b88e6b0f5")
+		)
+		(instances
+			(project "analog"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/e880f7dd-82a1-4efe-84f5-e6a9d5641736"
+					(reference "#PWR049")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 55.88 97.79 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "2c102c39-e3a1-46f4-bf5b-3ba1424e5510")
+		(property "Reference" "#PWR053"
+			(at 49.53 97.79 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 52.07 97.7899 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" ""
+			(at 55.88 97.79 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 55.88 97.79 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 55.88 97.79 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "0f51a024-f71b-4429-9315-721a36bddb2d")
+		)
+		(instances
+			(project "analog"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/e880f7dd-82a1-4efe-84f5-e6a9d5641736"
+					(reference "#PWR053")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "xmitter:74HCT125")
+		(at 55.88 91.44 0)
+		(unit 3)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "32bde222-d2b2-4b03-a507-24d86dd3ae02")
+		(property "Reference" "U9"
+			(at 44.958 82.804 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "74HCT125"
+			(at 44.958 85.344 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "xmitter:DIP-14_W7.62mm"
+			(at 55.88 91.44 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/sn74hct125.pdf"
+			(at 55.88 91.44 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Quad bus buffer with 3-state outputs, TTL-level inputs (HCT family). Use for 3.3V to 5V unidirectional level shifting."
+			(at 55.88 91.44 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "3"
+			(uuid "a2832740-454a-41b1-a1b2-40a6f5c9ef03")
+		)
+		(pin "1"
+			(uuid "a2d959fe-1ab2-40eb-877f-e19f71545995")
+		)
+		(pin "2"
+			(uuid "6031beb8-e70d-4b61-9751-e9dd6310f80e")
+		)
+		(pin "4"
+			(uuid "7663fba8-3f59-483d-a0af-50234ec9f1b3")
+		)
+		(pin "9"
+			(uuid "6eaf3d17-b07f-4f80-b0ab-07e38cc5f379")
+		)
+		(pin "6"
+			(uuid "25b57b5c-7beb-430b-b5b7-39c7d2888e40")
+		)
+		(pin "14"
+			(uuid "8b79584d-c5a6-4722-8926-f0908d87cd20")
+		)
+		(pin "5"
+			(uuid "4dc701c7-b408-42c5-b3d1-718df01a10e7")
+		)
+		(pin "12"
+			(uuid "bce6234b-6589-4710-a04e-e50019a83445")
+		)
+		(pin "13"
+			(uuid "121b886c-8d7e-40d0-bbca-bc3b297762d8")
+		)
+		(pin "8"
+			(uuid "213115f5-a86d-4aaf-a85a-e01dbcd69cc2")
+		)
+		(pin "10"
+			(uuid "78db9b24-b36b-42ed-ba0d-b973f347841a")
+		)
+		(pin "7"
+			(uuid "8da44360-cce5-4ccf-b7c2-074e09b21c90")
+		)
+		(pin "11"
+			(uuid "4eb118e9-c22f-4289-89c4-6fa2eb079403")
+		)
+		(instances
+			(project "analog"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/e880f7dd-82a1-4efe-84f5-e6a9d5641736"
+					(reference "U9")
+					(unit 3)
 				)
 			)
 		)
@@ -3350,6 +4071,121 @@
 		)
 	)
 	(symbol
+		(lib_id "xmitter:74HCT125")
+		(at 55.88 77.47 0)
+		(unit 2)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "9a4916c5-7225-46d4-8e3f-7fe77f08bbee")
+		(property "Reference" "U9"
+			(at 59.944 74.676 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "74HCT125"
+			(at 62.23 71.628 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "xmitter:DIP-14_W7.62mm"
+			(at 55.88 77.47 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/sn74hct125.pdf"
+			(at 55.88 77.47 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Quad bus buffer with 3-state outputs, TTL-level inputs (HCT family). Use for 3.3V to 5V unidirectional level shifting."
+			(at 55.88 77.47 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "3"
+			(uuid "a2832740-454a-41b1-a1b2-40a6f5c9ef04")
+		)
+		(pin "1"
+			(uuid "a2d959fe-1ab2-40eb-877f-e19f71545996")
+		)
+		(pin "2"
+			(uuid "6031beb8-e70d-4b61-9751-e9dd6310f80f")
+		)
+		(pin "4"
+			(uuid "7663fba8-3f59-483d-a0af-50234ec9f1b4")
+		)
+		(pin "9"
+			(uuid "6eaf3d17-b07f-4f80-b0ab-07e38cc5f37a")
+		)
+		(pin "6"
+			(uuid "25b57b5c-7beb-430b-b5b7-39c7d2888e41")
+		)
+		(pin "14"
+			(uuid "8b79584d-c5a6-4722-8926-f0908d87cd21")
+		)
+		(pin "5"
+			(uuid "4dc701c7-b408-42c5-b3d1-718df01a10e8")
+		)
+		(pin "12"
+			(uuid "bce6234b-6589-4710-a04e-e50019a83446")
+		)
+		(pin "13"
+			(uuid "121b886c-8d7e-40d0-bbca-bc3b297762d9")
+		)
+		(pin "8"
+			(uuid "213115f5-a86d-4aaf-a85a-e01dbcd69cc3")
+		)
+		(pin "10"
+			(uuid "78db9b24-b36b-42ed-ba0d-b973f347841b")
+		)
+		(pin "7"
+			(uuid "8da44360-cce5-4ccf-b7c2-074e09b21c91")
+		)
+		(pin "11"
+			(uuid "4eb118e9-c22f-4289-89c4-6fa2eb079404")
+		)
+		(instances
+			(project "analog"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/e880f7dd-82a1-4efe-84f5-e6a9d5641736"
+					(reference "U9")
+					(unit 2)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Analog_DAC:MCP4922-EP")
 		(at 107.95 73.66 0)
 		(unit 1)
@@ -3466,7 +4302,477 @@
 		)
 	)
 	(symbol
-		(lib_id "power:+3.3V")
+		(lib_id "power:GND")
+		(at 55.88 115.57 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "a9eef3a4-9761-4efb-9ebc-fab28d19c0f5")
+		(property "Reference" "#PWR054"
+			(at 49.53 115.57 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 52.07 115.5699 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" ""
+			(at 55.88 115.57 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 55.88 115.57 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 55.88 115.57 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "3fd65e9a-c6d6-4fc8-aa37-b1e5ec832ccd")
+		)
+		(instances
+			(project "analog"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/e880f7dd-82a1-4efe-84f5-e6a9d5641736"
+					(reference "#PWR054")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:+5V")
+		(at 52.07 133.35 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "ad5885ef-da7d-4cd1-9db0-dbf54177b7d9")
+		(property "Reference" "#PWR050"
+			(at 52.07 137.16 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "+5V"
+			(at 52.07 128.27 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 52.07 133.35 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 52.07 133.35 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"+5V\""
+			(at 52.07 133.35 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "9de29a78-16b9-4087-9687-503b55aa3201")
+		)
+		(instances
+			(project "analog"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/e880f7dd-82a1-4efe-84f5-e6a9d5641736"
+					(reference "#PWR050")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "xmitter:74HCT125")
+		(at 52.07 146.05 0)
+		(unit 5)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "af477169-0b98-42fd-8df9-11aadfd325d5")
+		(property "Reference" "U9"
+			(at 58.42 144.7799 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "74HCT125"
+			(at 58.42 147.3199 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "xmitter:DIP-14_W7.62mm"
+			(at 52.07 146.05 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/sn74hct125.pdf"
+			(at 52.07 146.05 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Quad bus buffer with 3-state outputs, TTL-level inputs (HCT family). Use for 3.3V to 5V unidirectional level shifting."
+			(at 52.07 146.05 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "3"
+			(uuid "a2832740-454a-41b1-a1b2-40a6f5c9ef05")
+		)
+		(pin "1"
+			(uuid "a2d959fe-1ab2-40eb-877f-e19f71545997")
+		)
+		(pin "2"
+			(uuid "6031beb8-e70d-4b61-9751-e9dd6310f810")
+		)
+		(pin "4"
+			(uuid "7663fba8-3f59-483d-a0af-50234ec9f1b5")
+		)
+		(pin "9"
+			(uuid "6eaf3d17-b07f-4f80-b0ab-07e38cc5f37b")
+		)
+		(pin "6"
+			(uuid "25b57b5c-7beb-430b-b5b7-39c7d2888e42")
+		)
+		(pin "14"
+			(uuid "8b79584d-c5a6-4722-8926-f0908d87cd22")
+		)
+		(pin "5"
+			(uuid "4dc701c7-b408-42c5-b3d1-718df01a10e9")
+		)
+		(pin "12"
+			(uuid "bce6234b-6589-4710-a04e-e50019a83447")
+		)
+		(pin "13"
+			(uuid "121b886c-8d7e-40d0-bbca-bc3b297762da")
+		)
+		(pin "8"
+			(uuid "213115f5-a86d-4aaf-a85a-e01dbcd69cc4")
+		)
+		(pin "10"
+			(uuid "78db9b24-b36b-42ed-ba0d-b973f347841c")
+		)
+		(pin "7"
+			(uuid "8da44360-cce5-4ccf-b7c2-074e09b21c92")
+		)
+		(pin "11"
+			(uuid "4eb118e9-c22f-4289-89c4-6fa2eb079405")
+		)
+		(instances
+			(project "analog"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/e880f7dd-82a1-4efe-84f5-e6a9d5641736"
+					(reference "U9")
+					(unit 5)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "xmitter:74HCT125")
+		(at 55.88 63.5 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "b85b3590-907d-467d-b9e4-0e0486726e39")
+		(property "Reference" "U9"
+			(at 55.88 54.61 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "74HCT125"
+			(at 55.88 57.15 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "xmitter:DIP-14_W7.62mm"
+			(at 55.88 63.5 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/sn74hct125.pdf"
+			(at 55.88 63.5 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Quad bus buffer with 3-state outputs, TTL-level inputs (HCT family). Use for 3.3V to 5V unidirectional level shifting."
+			(at 55.88 63.5 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "3"
+			(uuid "a2832740-454a-41b1-a1b2-40a6f5c9ef06")
+		)
+		(pin "1"
+			(uuid "a2d959fe-1ab2-40eb-877f-e19f71545998")
+		)
+		(pin "2"
+			(uuid "6031beb8-e70d-4b61-9751-e9dd6310f811")
+		)
+		(pin "4"
+			(uuid "7663fba8-3f59-483d-a0af-50234ec9f1b6")
+		)
+		(pin "9"
+			(uuid "6eaf3d17-b07f-4f80-b0ab-07e38cc5f37c")
+		)
+		(pin "6"
+			(uuid "25b57b5c-7beb-430b-b5b7-39c7d2888e43")
+		)
+		(pin "14"
+			(uuid "8b79584d-c5a6-4722-8926-f0908d87cd23")
+		)
+		(pin "5"
+			(uuid "4dc701c7-b408-42c5-b3d1-718df01a10ea")
+		)
+		(pin "12"
+			(uuid "bce6234b-6589-4710-a04e-e50019a83448")
+		)
+		(pin "13"
+			(uuid "121b886c-8d7e-40d0-bbca-bc3b297762db")
+		)
+		(pin "8"
+			(uuid "213115f5-a86d-4aaf-a85a-e01dbcd69cc5")
+		)
+		(pin "10"
+			(uuid "78db9b24-b36b-42ed-ba0d-b973f347841d")
+		)
+		(pin "7"
+			(uuid "8da44360-cce5-4ccf-b7c2-074e09b21c93")
+		)
+		(pin "11"
+			(uuid "4eb118e9-c22f-4289-89c4-6fa2eb079406")
+		)
+		(instances
+			(project "analog"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/e880f7dd-82a1-4efe-84f5-e6a9d5641736"
+					(reference "U9")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 55.88 83.82 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "bd30577a-53bc-4e2b-b246-61c4069f1064")
+		(property "Reference" "#PWR052"
+			(at 49.53 83.82 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 52.07 83.8199 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" ""
+			(at 55.88 83.82 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 55.88 83.82 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 55.88 83.82 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "6994a2b5-ad61-4b66-93f0-ef7c3d40c8e0")
+		)
+		(instances
+			(project "analog"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/e880f7dd-82a1-4efe-84f5-e6a9d5641736"
+					(reference "#PWR052")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:+5V")
 		(at 120.65 50.8 270)
 		(unit 1)
 		(body_style 1)
@@ -3476,7 +4782,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(fields_autoplaced yes)
-		(uuid "b2cfb346-fdc5-4216-b5bd-3727c6336204")
+		(uuid "bf6aa4e5-23c8-4720-a2da-3c5951c4c6b9")
 		(property "Reference" "#PWR038"
 			(at 116.84 50.8 0)
 			(hide yes)
@@ -3488,7 +4794,7 @@
 				)
 			)
 		)
-		(property "Value" "+3.3V"
+		(property "Value" "+5V"
 			(at 124.46 50.7999 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3521,7 +4827,7 @@
 				)
 			)
 		)
-		(property "Description" "Power symbol creates a global label with name \"+3.3V\""
+		(property "Description" "Power symbol creates a global label with name \"+5V\""
 			(at 120.65 50.8 0)
 			(hide yes)
 			(show_name no)
@@ -3533,13 +4839,129 @@
 			)
 		)
 		(pin "1"
-			(uuid "eeee00e6-f5e7-4f91-8d07-67ddd1f94bcb")
+			(uuid "6953de3f-720b-4950-accf-9935bff80a26")
 		)
 		(instances
 			(project "analog"
 				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/e880f7dd-82a1-4efe-84f5-e6a9d5641736"
 					(reference "#PWR038")
 					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "xmitter:74HCT125")
+		(at 55.88 109.22 0)
+		(unit 4)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "c38f690d-b09c-4ffe-8f5d-d131ba361a10")
+		(property "Reference" "U9"
+			(at 55.88 100.33 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "74HCT125"
+			(at 55.88 102.87 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "xmitter:DIP-14_W7.62mm"
+			(at 55.88 109.22 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/sn74hct125.pdf"
+			(at 55.88 109.22 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Quad bus buffer with 3-state outputs, TTL-level inputs (HCT family). Use for 3.3V to 5V unidirectional level shifting."
+			(at 55.88 109.22 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "3"
+			(uuid "a2832740-454a-41b1-a1b2-40a6f5c9ef07")
+		)
+		(pin "1"
+			(uuid "a2d959fe-1ab2-40eb-877f-e19f71545999")
+		)
+		(pin "2"
+			(uuid "6031beb8-e70d-4b61-9751-e9dd6310f812")
+		)
+		(pin "4"
+			(uuid "7663fba8-3f59-483d-a0af-50234ec9f1b7")
+		)
+		(pin "9"
+			(uuid "6eaf3d17-b07f-4f80-b0ab-07e38cc5f37d")
+		)
+		(pin "6"
+			(uuid "25b57b5c-7beb-430b-b5b7-39c7d2888e44")
+		)
+		(pin "14"
+			(uuid "8b79584d-c5a6-4722-8926-f0908d87cd24")
+		)
+		(pin "5"
+			(uuid "4dc701c7-b408-42c5-b3d1-718df01a10eb")
+		)
+		(pin "12"
+			(uuid "bce6234b-6589-4710-a04e-e50019a83449")
+		)
+		(pin "13"
+			(uuid "121b886c-8d7e-40d0-bbca-bc3b297762dc")
+		)
+		(pin "8"
+			(uuid "213115f5-a86d-4aaf-a85a-e01dbcd69cc6")
+		)
+		(pin "10"
+			(uuid "78db9b24-b36b-42ed-ba0d-b973f347841e")
+		)
+		(pin "7"
+			(uuid "8da44360-cce5-4ccf-b7c2-074e09b21c94")
+		)
+		(pin "11"
+			(uuid "4eb118e9-c22f-4289-89c4-6fa2eb079407")
+		)
+		(instances
+			(project "analog"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/e880f7dd-82a1-4efe-84f5-e6a9d5641736"
+					(reference "U9")
+					(unit 4)
 				)
 			)
 		)
