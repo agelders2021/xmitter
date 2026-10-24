@@ -291,6 +291,32 @@ committed to the project before routing.
       external breakout silk (U8 MCP4728, U17 PCF8575, J5, U1 Si5351)
       whose vendor-supplied text is intentionally smaller.
 
+### 6.1 Power routing guidance (both analog and ss_pa)
+
+Beyond the DRC net-class widths above, apply these conventions during
+placement/routing on **both** the analog and ss_pa boards:
+
+- [ ] **Use the widest practical traces for all power nets** (+13.8 V,
+      +12 V, +5 V, +3.3 V, GND). Don't just rely on the 0.5 mm Power
+      net-class minimum — go to 1.0 mm or wider wherever space allows,
+      especially on high-current paths (shack supply input, IRF510
+      drain feed, relay coil supplies).
+- [ ] **On analog, run a dedicated +13.8 V trace AND a dedicated GND
+      return trace through the relay coils, kept physically separate
+      from the analog signal routing.** Rationale: relay switching
+      transients and coil inrush currents dump high-frequency noise onto
+      shared supply/ground conductors. If the relay coil power and
+      return share copper with analog signals (op-amp supplies, DAC
+      references, sense inputs), the switching noise injects directly
+      into the analog signal path.
+    - Route relay +13.8 V as a star feed from the shack-supply entry
+      node, not daisy-chained through analog supply decoupling
+    - Route relay coil GND return back to the shack-supply entry GND
+      node, not merged with analog signal GND until that single point
+    - Treat this as a star-grounded two-domain layout: "noisy" (relay
+      coils, inrush paths) and "quiet" (op-amps, DACs, Si5351, Metro
+      interface), joined only at the shack-supply entry
+
 ---
 
 ## 7. Two-board directory split — decided (deferred)
