@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "C:\\Users\\AlAnd\\Git Backed Projects\\xmitter\\KiCAD\\protoshield\\protoshield.kicad_sch")
-		(date "2026-10-23T14:14:04")
+		(date "2026-10-24T12:43:12")
 		(tool "Eeschema 10.0.3")
 		(sheet
 			(number "1")
@@ -611,130 +611,6 @@
 			)
 		)
 		(comp
-			(ref "D3")
-			(value "1N4728A")
-			(footprint "Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal")
-			(datasheet "https://www.onsemi.com/pdf/datasheet/1n4736at-d.pdf")
-			(description "3.3V 1W Zener diode, DO-41")
-			(fields
-				(field
-					(name "Manufacturer") "onsemi")
-				(field
-					(name "MPN") "1N4728A")
-				(field
-					(name "Footprint") "Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal")
-				(field
-					(name "Datasheet") "https://www.onsemi.com/pdf/datasheet/1n4736at-d.pdf")
-				(field
-					(name "Description") "3.3V 1W Zener diode, DO-41")
-			)
-			(libsource
-				(lib "xmitter")
-				(part "1N4728A")
-				(description "3.3V 1W Zener diode, DO-41")
-			)
-			(property
-				(name "Manufacturer")
-				(value "onsemi")
-			)
-			(property
-				(name "MPN")
-				(value "1N4728A")
-			)
-			(property
-				(name "Sheetname")
-				(value "protoshield")
-			)
-			(property
-				(name "Sheetfile")
-				(value "protoshield.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "Zener diode 3.3V DO-41 1N4728A")
-			)
-			(sheetpath
-				(names "/")
-				(tstamps "/")
-			)
-			(tstamps "6b2d7c9b-57d7-47ab-8b99-3a50a6ef9226")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "D4")
-			(value "1N4728A")
-			(footprint "Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal")
-			(datasheet "https://www.onsemi.com/pdf/datasheet/1n4736at-d.pdf")
-			(description "3.3V 1W Zener diode, DO-41")
-			(fields
-				(field
-					(name "Manufacturer") "onsemi")
-				(field
-					(name "MPN") "1N4728A")
-				(field
-					(name "Footprint") "Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal")
-				(field
-					(name "Datasheet") "https://www.onsemi.com/pdf/datasheet/1n4736at-d.pdf")
-				(field
-					(name "Description") "3.3V 1W Zener diode, DO-41")
-			)
-			(libsource
-				(lib "xmitter")
-				(part "1N4728A")
-				(description "3.3V 1W Zener diode, DO-41")
-			)
-			(property
-				(name "Manufacturer")
-				(value "onsemi")
-			)
-			(property
-				(name "MPN")
-				(value "1N4728A")
-			)
-			(property
-				(name "Sheetname")
-				(value "protoshield")
-			)
-			(property
-				(name "Sheetfile")
-				(value "protoshield.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "Zener diode 3.3V DO-41 1N4728A")
-			)
-			(sheetpath
-				(names "/")
-				(tstamps "/")
-			)
-			(tstamps "d17ec66f-d65b-4e92-afad-507444856d67")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
 			(ref "D5")
 			(value "1N4728A")
 			(footprint "Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal")
@@ -1184,7 +1060,7 @@
 			)
 		)
 		(comp
-			(ref "J17")
+			(ref "J16")
 			(value "Screw_Terminal_01x05")
 			(footprint "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-5_1x05_P5.00mm_Horizontal")
 			(description "Generic screw terminal, single row, 01x05, script generated (kicad-library-utils/schlib/autogen/connector/)")
@@ -1222,7 +1098,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "c8dcefd5-d13e-45e8-b5f2-a92c45404ec0")
+			(tstamps "8ce6130b-11ff-45a2-bc3c-4da5348d7299")
 			(units
 				(unit
 					(name "A")
@@ -2355,9 +2231,9 @@
 			(name "CS_DAC")
 			(class "Default")
 			(node
-				(ref "J17")
-				(pin "5")
-				(pinfunction "Pin_5_5")
+				(ref "J16")
+				(pin "4")
+				(pinfunction "Pin_4_4")
 				(pintype "passive")
 			)
 		)
@@ -2366,9 +2242,9 @@
 			(name "DAC_LDAC_N")
 			(class "Default")
 			(node
-				(ref "J17")
-				(pin "2")
-				(pinfunction "Pin_2_2")
+				(ref "J16")
+				(pin "5")
+				(pinfunction "Pin_5_5")
 				(pintype "passive")
 			)
 		)
@@ -2471,18 +2347,6 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "D3")
-				(pin "2")
-				(pinfunction "A_2")
-				(pintype "passive")
-			)
-			(node
-				(ref "D4")
-				(pin "2")
-				(pinfunction "A_2")
-				(pintype "passive")
-			)
-			(node
 				(ref "D5")
 				(pin "2")
 				(pinfunction "A_2")
@@ -2495,7 +2359,7 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "J17")
+				(ref "J16")
 				(pin "1")
 				(pinfunction "Pin_1_1")
 				(pintype "passive")
@@ -2597,12 +2461,6 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "D3")
-				(pin "1")
-				(pinfunction "K_1")
-				(pintype "passive")
-			)
-			(node
 				(ref "R13")
 				(pin "2")
 				(pintype "passive")
@@ -2618,12 +2476,6 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "D4")
-				(pin "1")
-				(pinfunction "K_1")
-				(pintype "passive")
-			)
-			(node
 				(ref "R14")
 				(pin "2")
 				(pintype "passive")
@@ -2634,9 +2486,9 @@
 			(name "MOSI")
 			(class "Default")
 			(node
-				(ref "J17")
-				(pin "4")
-				(pinfunction "Pin_4_4")
+				(ref "J16")
+				(pin "3")
+				(pinfunction "Pin_3_3")
 				(pintype "passive")
 			)
 		)
@@ -2805,9 +2657,9 @@
 			(name "SCK")
 			(class "Default")
 			(node
-				(ref "J17")
-				(pin "3")
-				(pinfunction "Pin_3_3")
+				(ref "J16")
+				(pin "2")
+				(pinfunction "Pin_2_2")
 				(pintype "passive")
 			)
 		)

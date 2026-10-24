@@ -3432,6 +3432,16 @@
 		)
 		(uuid "2f39140d-c04f-4036-8e53-8c5201cdfa3f")
 	)
+	(text "2 oz pour from J5, through K5 and J33"
+		(exclude_from_sim no)
+		(at 89.154 31.496 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "760fd456-cc2d-4cdb-be7b-f9b73cc0b318")
+	)
 	(text "Fault LED"
 		(exclude_from_sim no)
 		(at 61.722 117.348 0)
@@ -3512,10 +3522,22 @@
 		(uuid "5d068198-b213-4412-b9c2-fafc3509287a")
 	)
 	(junction
+		(at 68.58 100.33)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "6110e669-e532-4259-81fb-baaf44638554")
+	)
+	(junction
 		(at 128.27 41.91)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "64469985-bec6-4121-817b-28d5e2de67a9")
+	)
+	(junction
+		(at 77.47 128.27)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "7078bbcc-93ce-43fa-976f-f9e9c3913f91")
 	)
 	(junction
 		(at 175.26 67.31)
@@ -3566,6 +3588,12 @@
 		(uuid "cfc10189-7830-4646-94d4-c8228e772be6")
 	)
 	(junction
+		(at 82.55 162.56)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "d4723bb1-6ae5-428c-8fc5-42d7a4a6e26a")
+	)
+	(junction
 		(at 115.57 110.49)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -3588,6 +3616,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "ea535b8e-3609-4ee5-a774-bd0fd9a8dcd4")
+	)
+	(junction
+		(at 82.55 154.94)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "efb529ba-8ff9-4dcd-a611-366d1afb153b")
 	)
 	(junction
 		(at 158.75 41.91)
@@ -3638,6 +3672,16 @@
 			(type default)
 		)
 		(uuid "0d3f0ea1-62a7-4575-b7aa-0ffa61db40db")
+	)
+	(wire
+		(pts
+			(xy 63.5 128.27) (xy 77.47 128.27)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "11ec4da7-7043-4bd8-9daa-2b31abbe7715")
 	)
 	(wire
 		(pts
@@ -3708,6 +3752,16 @@
 			(type default)
 		)
 		(uuid "20c74f28-1aab-4205-980b-31a9a2d4c6b3")
+	)
+	(wire
+		(pts
+			(xy 53.34 100.33) (xy 53.34 157.48)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2d43cc93-5927-4247-9249-19f82249ffac")
 	)
 	(wire
 		(pts
@@ -3791,6 +3845,26 @@
 	)
 	(wire
 		(pts
+			(xy 50.8 162.56) (xy 59.69 162.56)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4108d15c-30e6-49c8-b74b-096317722a77")
+	)
+	(wire
+		(pts
+			(xy 74.93 125.73) (xy 77.47 125.73)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4361910f-8033-4cdc-b136-342db6dd5d45")
+	)
+	(wire
+		(pts
 			(xy 144.78 97.79) (xy 171.45 97.79)
 		)
 		(stroke
@@ -3841,6 +3915,16 @@
 	)
 	(wire
 		(pts
+			(xy 113.03 154.94) (xy 82.55 154.94)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "56067e2a-928b-492e-8a8d-b4c76000d2ab")
+	)
+	(wire
+		(pts
 			(xy 115.57 110.49) (xy 116.84 110.49)
 		)
 		(stroke
@@ -3851,6 +3935,16 @@
 	)
 	(wire
 		(pts
+			(xy 82.55 162.56) (xy 91.44 162.56)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5dec5274-e467-4672-9d2a-edcb455fd9cf")
+	)
+	(wire
+		(pts
 			(xy 97.79 41.91) (xy 102.87 41.91)
 		)
 		(stroke
@@ -3858,6 +3952,16 @@
 			(type default)
 		)
 		(uuid "5fba13a4-44de-407d-a3b8-b12d5b626949")
+	)
+	(wire
+		(pts
+			(xy 77.47 128.27) (xy 82.55 128.27)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7480d4cf-bd9c-4381-b0d8-85219bf70fc7")
 	)
 	(wire
 		(pts
@@ -3908,6 +4012,16 @@
 			(type default)
 		)
 		(uuid "78ccc652-3a73-4cbd-be4e-b979774c7d6f")
+	)
+	(wire
+		(pts
+			(xy 104.14 120.65) (xy 113.03 120.65)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "821f7163-77e8-40c9-b2be-6fb32881e382")
 	)
 	(wire
 		(pts
@@ -4001,6 +4115,16 @@
 	)
 	(wire
 		(pts
+			(xy 53.34 157.48) (xy 59.69 157.48)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a0425c3e-d08e-478d-b1e0-24bfb8ae24f5")
+	)
+	(wire
+		(pts
 			(xy 86.36 41.91) (xy 82.55 41.91)
 		)
 		(stroke
@@ -4021,6 +4145,26 @@
 	)
 	(wire
 		(pts
+			(xy 74.93 162.56) (xy 82.55 162.56)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bc70872a-b491-4a34-a77f-24e1755c61f3")
+	)
+	(wire
+		(pts
+			(xy 74.93 160.02) (xy 74.93 162.56)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "be335a2b-4c6a-4863-9339-ea401620b17d")
+	)
+	(wire
+		(pts
 			(xy 97.79 128.27) (xy 97.79 138.43)
 		)
 		(stroke
@@ -4038,6 +4182,16 @@
 			(type default)
 		)
 		(uuid "bf40331a-ed77-421b-9bc5-8bd37424397f")
+	)
+	(wire
+		(pts
+			(xy 113.03 120.65) (xy 113.03 154.94)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c6143e74-ddea-4089-bd1d-d57d4c7cdacd")
 	)
 	(wire
 		(pts
@@ -4071,6 +4225,16 @@
 	)
 	(wire
 		(pts
+			(xy 60.96 100.33) (xy 53.34 100.33)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "db83552a-33aa-46fb-ba54-07e75e33a437")
+	)
+	(wire
+		(pts
 			(xy 97.79 151.13) (xy 97.79 146.05)
 		)
 		(stroke
@@ -4081,6 +4245,16 @@
 	)
 	(wire
 		(pts
+			(xy 74.93 154.94) (xy 82.55 154.94)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "eab9f4b0-579e-4275-bacd-1d7b1bb3d05a")
+	)
+	(wire
+		(pts
 			(xy 124.46 67.31) (xy 153.67 67.31)
 		)
 		(stroke
@@ -4088,6 +4262,16 @@
 			(type default)
 		)
 		(uuid "ed9dc961-5fb8-46f4-acad-4d9179bc8a62")
+	)
+	(wire
+		(pts
+			(xy 77.47 125.73) (xy 77.47 128.27)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f0f8465e-e969-4dbf-b402-7f96da8209b5")
 	)
 	(wire
 		(pts
@@ -4129,6 +4313,30 @@
 		)
 		(uuid "ff23afc6-fa29-4755-8bbe-629d6b0feb46")
 	)
+	(global_label "SS_PA_Power"
+		(shape output)
+		(at 43.18 162.56 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "04be686c-39bf-48e0-b435-4d7981b3c23e")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 27.8577 162.56 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+	)
 	(global_label "SS_PWR_RLY"
 		(shape output)
 		(at 95.25 151.13 180)
@@ -4142,6 +4350,54 @@
 		(uuid "51d157e5-2953-4939-8259-54452fc8daec")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 80.5325 151.13 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+	)
+	(global_label "SS_PA_Inrush"
+		(shape output)
+		(at 91.44 162.56 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "88d879f2-9e6d-4f2e-9445-8d050573024a")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 107.0041 162.56 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+	)
+	(global_label "SS_PA_Power"
+		(shape input)
+		(at 74.93 125.73 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "a57ea32d-3995-42e7-8ebd-13eac2f111a4")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 59.6077 125.73 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4500,6 +4756,86 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:R_US")
+		(at 64.77 100.33 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "1a76c6e1-c821-4137-ae2f-387d3d4449cc")
+		(property "Reference" "R41"
+			(at 64.77 93.98 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "750R"
+			(at 64.77 96.52 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 65.024 99.314 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 64.77 100.33 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "1W"
+			(at 64.77 100.33 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "9a15db2f-fe25-4480-bdf7-d966254d4325")
+		)
+		(pin "2"
+			(uuid "1a17a2c8-4550-4769-8f79-fb13f6900926")
+		)
+		(instances
+			(project "analog"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9d33972e-4f39-4043-b71d-952850d73035"
+					(reference "R41")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Regulator_SwitchedCapacitor:LT1054")
 		(at 134.62 105.41 0)
 		(unit 1)
@@ -4785,7 +5121,7 @@
 				)
 			)
 		)
-		(property "Value" "220K"
+		(property "Value" "200K"
 			(at 135.89 130.81 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5320,7 +5656,7 @@
 	)
 	(symbol
 		(lib_id "Connector:Screw_Terminal_01x02")
-		(at 77.47 130.81 180)
+		(at 58.42 130.81 180)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -5330,7 +5666,7 @@
 		(dnp no)
 		(uuid "44007ab4-5844-462f-b1ce-e972c5c0b679")
 		(property "Reference" "J33"
-			(at 77.724 135.89 0)
+			(at 58.674 135.89 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5340,7 +5676,7 @@
 			)
 		)
 		(property "Value" "Screw_Terminal_01x02"
-			(at 81.788 138.176 0)
+			(at 62.738 138.176 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5350,7 +5686,7 @@
 			)
 		)
 		(property "Footprint" "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2_1x02_P5.00mm_Horizontal"
-			(at 77.47 130.81 0)
+			(at 58.42 130.81 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5361,7 +5697,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 77.47 130.81 0)
+			(at 58.42 130.81 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5372,7 +5708,7 @@
 			)
 		)
 		(property "Description" "Generic screw terminal, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 77.47 130.81 0)
+			(at 58.42 130.81 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5474,6 +5810,86 @@
 			(project "analog"
 				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9d33972e-4f39-4043-b71d-952850d73035"
 					(reference "C11")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_US")
+		(at 46.99 162.56 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "4d778597-c5fb-49e7-b3d1-07893249b2af")
+		(property "Reference" "R42"
+			(at 46.99 156.21 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "4.7R"
+			(at 46.99 158.75 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 47.244 161.544 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 46.99 162.56 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "10W"
+			(at 46.99 162.56 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "4b77ae8a-2bce-46ba-b3cf-28d53243dba1")
+		)
+		(pin "1"
+			(uuid "cc9f6dfa-2bf6-4050-9d40-7342ff2040cc")
+		)
+		(instances
+			(project "analog"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9d33972e-4f39-4043-b71d-952850d73035"
+					(reference "R42")
 					(unit 1)
 				)
 			)
@@ -5826,7 +6242,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Diode_THT:D_DO-201AD_P15.24mm_Horizontal"
 			(at 90.17 41.91 0)
 			(hide yes)
 			(show_name no)
@@ -5927,7 +6343,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor, US symbol"
+		(property "Description" "1/2W"
 			(at 78.74 118.11 0)
 			(hide yes)
 			(show_name no)
@@ -6886,7 +7302,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 82.55 130.81 0)
+		(at 63.5 130.81 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -6897,7 +7313,7 @@
 		(fields_autoplaced yes)
 		(uuid "95873227-6257-4347-9410-80d079c2b339")
 		(property "Reference" "#PWR0155"
-			(at 82.55 137.16 0)
+			(at 63.5 137.16 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6908,7 +7324,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 82.55 135.89 0)
+			(at 63.5 135.89 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6918,7 +7334,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 82.55 130.81 0)
+			(at 63.5 130.81 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6929,7 +7345,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 82.55 130.81 0)
+			(at 63.5 130.81 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6940,7 +7356,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 82.55 130.81 0)
+			(at 63.5 130.81 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7193,6 +7609,118 @@
 			(project "analog"
 				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9d33972e-4f39-4043-b71d-952850d73035"
 					(reference "#PWR069")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "xmitter:Relay_SPDT_G6RL")
+		(at 67.31 157.48 0)
+		(mirror y)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "a7ae3fd7-d362-4fec-8408-297ef5956cf6")
+		(property "Reference" "K6"
+			(at 67.31 146.05 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "G6RL-1-DC12"
+			(at 67.31 148.59 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "xmitter:Relay_SPDT_Omron_G6RL-1"
+			(at 67.31 157.48 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "Documentation/Components/en_g6rl.pdf"
+			(at 67.31 157.48 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Omron G6RL SPDT PCB power relay, 10A/250VAC or 5A/30VDC NO contact, 12V 220mW coil (18.3mA), 28.5x10.0x12.3mm low-profile THT"
+			(at 67.31 157.48 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Omron"
+			(at 67.31 157.48 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "G6RL-1-DC12"
+			(at 67.31 157.48 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "3"
+			(uuid "f252bd57-3d86-45b0-a417-448fbd520576")
+		)
+		(pin "5"
+			(uuid "d44a01f9-ec64-450a-b6c6-761251c27506")
+		)
+		(pin "1"
+			(uuid "01f1ab9e-3df5-4844-8e2a-373b03499cc5")
+		)
+		(pin "2"
+			(uuid "1bc0fef9-bb08-4bd0-aeb6-76ca35c086fd")
+		)
+		(pin "4"
+			(uuid "733771cb-0d64-4b00-99c6-2d5f2c6c879c")
+		)
+		(instances
+			(project "analog"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9d33972e-4f39-4043-b71d-952850d73035"
+					(reference "K6")
 					(unit 1)
 				)
 			)
@@ -8098,6 +8626,110 @@
 			(project "analog"
 				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9d33972e-4f39-4043-b71d-952850d73035"
 					(reference "C18")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Diode:1N4001")
+		(at 82.55 158.75 90)
+		(mirror x)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "ecaf9b77-ccea-42e2-a300-11521af6ee2b")
+		(property "Reference" "D7"
+			(at 90.678 159.004 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "1N4001"
+			(at 90.678 161.544 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal"
+			(at 82.55 158.75 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "http://www.vishay.com/docs/88503/1n4001.pdf"
+			(at 82.55 158.75 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "50V 1A General Purpose Rectifier Diode, DO-41"
+			(at 82.55 158.75 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Sim.Device" "D"
+			(at 82.55 158.75 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Sim.Pins" "1=K 2=A"
+			(at 82.55 158.75 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "90c45360-60ec-4082-b92f-062c424f53b1")
+		)
+		(pin "2"
+			(uuid "ba30bcaa-cf12-4f1e-872b-480415ae2769")
+		)
+		(instances
+			(project "analog"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9d33972e-4f39-4043-b71d-952850d73035"
+					(reference "D7")
 					(unit 1)
 				)
 			)

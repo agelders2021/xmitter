@@ -2489,12 +2489,6 @@
 		(uuid "419e97b7-537f-49ab-acc7-524393872ad3")
 	)
 	(junction
-		(at 44.45 53.34)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "51f3efab-33c2-445a-9115-b1baad89a125")
-	)
-	(junction
 		(at 43.18 88.9)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -2553,12 +2547,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "d567772a-0f38-4a1e-aab8-eaf770461d2b")
-	)
-	(junction
-		(at 44.45 55.88)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "f6345e56-e0c4-4198-af6a-e279ccb6e516")
 	)
 	(no_connect
 		(at 130.81 72.39)
@@ -2629,16 +2617,6 @@
 			(type default)
 		)
 		(uuid "20eed9e2-6394-4082-af02-ba4d6f31d2d1")
-	)
-	(wire
-		(pts
-			(xy 44.45 55.88) (xy 58.42 55.88)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "2d69d843-8759-4747-a1b1-cc2b5c1d716c")
 	)
 	(wire
 		(pts
@@ -2822,7 +2800,7 @@
 	)
 	(wire
 		(pts
-			(xy 41.91 53.34) (xy 44.45 53.34)
+			(xy 41.91 53.34) (xy 58.42 53.34)
 		)
 		(stroke
 			(width 0)
@@ -2902,16 +2880,6 @@
 	)
 	(wire
 		(pts
-			(xy 44.45 53.34) (xy 58.42 53.34)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "e2e75b33-3dbe-4ddd-b919-9eab59e85993")
-	)
-	(wire
-		(pts
 			(xy 57.15 88.9) (xy 60.96 88.9)
 		)
 		(stroke
@@ -2922,7 +2890,7 @@
 	)
 	(wire
 		(pts
-			(xy 41.91 55.88) (xy 44.45 55.88)
+			(xy 41.91 55.88) (xy 58.42 55.88)
 		)
 		(stroke
 			(width 0)
@@ -3059,19 +3027,19 @@
 			)
 		)
 	)
-	(global_label "SCK"
+	(global_label "CS_DAC"
 		(shape input)
-		(at 227.33 106.68 180)
+		(at 233.68 134.62 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify right)
+			(justify left)
 		)
-		(uuid "2ea56693-6200-4672-b0d2-18a7117b0d15")
+		(uuid "23ea1336-3553-4e20-8b44-5d0323d04131")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 220.5953 106.68 0)
+			(at 243.7409 134.62 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3079,7 +3047,7 @@
 				(font
 					(size 1.27 1.27)
 				)
-				(justify right)
+				(justify left)
 			)
 		)
 	)
@@ -3323,6 +3291,30 @@
 			)
 		)
 	)
+	(global_label "SCK"
+		(shape input)
+		(at 233.68 139.7 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "9c1ccf9d-b076-434c-9d0b-e3df3893e521")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 240.4147 139.7 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+	)
 	(global_label "I_CATHODE_B"
 		(shape input)
 		(at 130.81 100.33 180)
@@ -3390,30 +3382,6 @@
 				(font
 					(size 1.27 1.27)
 				)
-			)
-		)
-	)
-	(global_label "DAC_LDAC_N"
-		(shape input)
-		(at 227.33 109.22 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "af805315-c8ab-41ce-b363-3910e0b97a8c")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 212.7938 109.22 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
 			)
 		)
 	)
@@ -3513,30 +3481,6 @@
 			)
 		)
 	)
-	(global_label "CS_DAC"
-		(shape input)
-		(at 227.33 101.6 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "ba8f129a-19d2-4e43-a8eb-2953b438dd87")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 217.2691 101.6 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-	)
 	(global_label "FAULT_N_CLEAN"
 		(shape output)
 		(at 217.17 91.44 180)
@@ -3558,6 +3502,30 @@
 					(size 1.27 1.27)
 				)
 				(justify right)
+			)
+		)
+	)
+	(global_label "MOSI"
+		(shape input)
+		(at 233.68 137.16 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "c2bf2afd-003f-4b52-8a8e-f4301613d060")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 241.2614 137.16 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
 			)
 		)
 	)
@@ -3604,6 +3572,30 @@
 				(font
 					(size 1.27 1.27)
 				)
+			)
+		)
+	)
+	(global_label "DAC_LDAC_N"
+		(shape input)
+		(at 233.68 132.08 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "c6f54c81-4ffb-4521-97df-5d1a6aac945c")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 248.2162 132.08 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
 			)
 		)
 	)
@@ -3721,30 +3713,6 @@
 					(size 1.27 1.27)
 				)
 				(justify left)
-			)
-		)
-	)
-	(global_label "MOSI"
-		(shape input)
-		(at 227.33 104.14 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "f8ef3169-d0e1-4a42-9703-ece2485663ad")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 219.7486 104.14 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
 			)
 		)
 	)
@@ -5208,84 +5176,6 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
-		(at 44.45 45.72 180)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "39dd4b14-3820-4992-970a-11de3a393e24")
-		(property "Reference" "#PWR017"
-			(at 44.45 39.37 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 44.45 40.64 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 44.45 45.72 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 44.45 45.72 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 44.45 45.72 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "3a33a927-03e4-4002-ad8b-85d3cf209b1f")
-		)
-		(instances
-			(project "protoshield"
-				(path "/90f14230-179e-419d-8d57-3db6b8a7c39f"
-					(reference "#PWR017")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:R_US")
 		(at 36.83 123.19 90)
 		(unit 1)
@@ -5789,84 +5679,6 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 227.33 111.76 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "575dc761-6815-4257-8569-419c2932cdf3")
-		(property "Reference" "#PWR024"
-			(at 227.33 118.11 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 227.33 116.84 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 227.33 111.76 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 227.33 111.76 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 227.33 111.76 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "482c33b1-4de4-4eda-b7d8-5169a5a7affd")
-		)
-		(instances
-			(project "protoshield"
-				(path "/90f14230-179e-419d-8d57-3db6b8a7c39f"
-					(reference "#PWR024")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
 		(at 128.27 69.85 270)
 		(unit 1)
 		(body_style 1)
@@ -6179,112 +5991,8 @@
 		)
 	)
 	(symbol
-		(lib_id "xmitter:1N4728A")
-		(at 44.45 49.53 90)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "6b2d7c9b-57d7-47ab-8b99-3a50a6ef9226")
-		(property "Reference" "D3"
-			(at 46.99 48.2599 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Value" "1N4728A"
-			(at 46.99 50.7999 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" "Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal"
-			(at 44.45 49.53 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" "https://www.onsemi.com/pdf/datasheet/1n4736at-d.pdf"
-			(at 44.45 49.53 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "3.3V 1W Zener diode, DO-41"
-			(at 44.45 49.53 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Manufacturer" "onsemi"
-			(at 44.45 49.53 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "MPN" "1N4728A"
-			(at 44.45 49.53 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "2"
-			(uuid "364d5a49-4182-4e60-8a6b-a103e10b371c")
-		)
-		(pin "1"
-			(uuid "f3f408e4-935f-4b5e-abbe-7a68a775b44e")
-		)
-		(instances
-			(project "protoshield"
-				(path "/90f14230-179e-419d-8d57-3db6b8a7c39f"
-					(reference "D3")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "power:GND")
-		(at 44.45 63.5 0)
+		(at 233.68 142.24 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -6292,10 +6000,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "88e73e64-a8bc-4209-ab8b-107b6e0e20ec")
+		(uuid "72109a9c-3393-46dd-aaf5-d233384e08f2")
 		(property "Reference" "#PWR018"
-			(at 44.45 69.85 0)
+			(at 233.68 148.59 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6306,7 +6013,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 44.45 68.58 0)
+			(at 237.744 144.526 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6316,7 +6023,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 44.45 63.5 0)
+			(at 233.68 142.24 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6327,7 +6034,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 44.45 63.5 0)
+			(at 233.68 142.24 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6338,7 +6045,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 44.45 63.5 0)
+			(at 233.68 142.24 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6349,12 +6056,101 @@
 			)
 		)
 		(pin "1"
-			(uuid "063456c5-ff0d-448d-b05f-5c466e5cc32e")
+			(uuid "e659dfd5-4754-486b-b71c-8f420f568dbf")
 		)
 		(instances
 			(project "protoshield"
 				(path "/90f14230-179e-419d-8d57-3db6b8a7c39f"
 					(reference "#PWR018")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:Screw_Terminal_01x05")
+		(at 228.6 137.16 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "8ce6130b-11ff-45a2-bc3c-4da5348d7299")
+		(property "Reference" "J16"
+			(at 228.6 125.73 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "Screw_Terminal_01x05"
+			(at 228.6 128.27 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-5_1x05_P5.00mm_Horizontal"
+			(at 228.6 137.16 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 228.6 137.16 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Generic screw terminal, single row, 01x05, script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(at 228.6 137.16 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "43b18238-7ead-4275-937f-e3a1ec81a3e2")
+		)
+		(pin "4"
+			(uuid "73a37594-5904-464a-a526-f2db518caea4")
+		)
+		(pin "5"
+			(uuid "7e0a0f87-b61a-46f2-8d27-1a5e2ed01cf5")
+		)
+		(pin "2"
+			(uuid "99ad46a2-0a5e-46f5-86ec-54cf2bef264d")
+		)
+		(pin "3"
+			(uuid "11749710-4460-4067-affb-46ba973d5184")
+		)
+		(instances
+			(project "protoshield"
+				(path "/90f14230-179e-419d-8d57-3db6b8a7c39f"
+					(reference "J16")
 					(unit 1)
 				)
 			)
@@ -7908,199 +7704,6 @@
 			(project "protoshield"
 				(path "/90f14230-179e-419d-8d57-3db6b8a7c39f"
 					(reference "D5")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Connector:Screw_Terminal_01x05")
-		(at 232.41 106.68 0)
-		(mirror x)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "c8dcefd5-d13e-45e8-b5f2-a92c45404ec0")
-		(property "Reference" "J17"
-			(at 232.41 95.25 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "Screw_Terminal_01x05"
-			(at 232.41 97.79 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-5_1x05_P5.00mm_Horizontal"
-			(at 232.41 106.68 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 232.41 106.68 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Generic screw terminal, single row, 01x05, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 232.41 106.68 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "75edb826-cabb-4bc3-81da-7150d97f2865")
-		)
-		(pin "4"
-			(uuid "0c729fcb-c0a6-4590-a384-27033a3ac483")
-		)
-		(pin "5"
-			(uuid "16b99820-a7c8-43c7-a0df-ad9b592482ec")
-		)
-		(pin "2"
-			(uuid "4fb3bb7e-13c6-4fb6-b765-878aeab35992")
-		)
-		(pin "3"
-			(uuid "365265bc-2336-4521-9c85-7172b3167155")
-		)
-		(instances
-			(project "protoshield"
-				(path "/90f14230-179e-419d-8d57-3db6b8a7c39f"
-					(reference "J17")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "xmitter:1N4728A")
-		(at 44.45 59.69 270)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "d17ec66f-d65b-4e92-afad-507444856d67")
-		(property "Reference" "D4"
-			(at 46.99 58.4199 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "1N4728A"
-			(at 46.99 60.9599 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal"
-			(at 44.45 59.69 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" "https://www.onsemi.com/pdf/datasheet/1n4736at-d.pdf"
-			(at 44.45 59.69 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "3.3V 1W Zener diode, DO-41"
-			(at 44.45 59.69 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Manufacturer" "onsemi"
-			(at 44.45 59.69 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "MPN" "1N4728A"
-			(at 44.45 59.69 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "188c74af-d13a-4977-9ac8-8ff4068fea6a")
-		)
-		(pin "2"
-			(uuid "5eb7d3bd-7687-4a9f-bcd0-142726d26063")
-		)
-		(instances
-			(project "protoshield"
-				(path "/90f14230-179e-419d-8d57-3db6b8a7c39f"
-					(reference "D4")
 					(unit 1)
 				)
 			)
