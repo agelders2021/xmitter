@@ -84,9 +84,12 @@ Last updated: 2026-10-23 (Rev D Option-C power rail changes).
     R_g = 333 Ω -> gain = 10 -> hits rails on signal peaks, not
     recommended
   Amplitude control at runtime is via **G2 of Q2 (40673 DGFET)**
-  driven by MCP4921 U4 ch A through the Q11/Q12 KeyUp-mute level
-  shifter. G2 acts as a VCA on the carrier; CW envelope shaping
-  (raised-cosine, 5 ms rise/fall) is applied in firmware.
+  driven by MCP4921 U4 ch A through an LM7171 offset-mute op-amp
+  (U10 on `dac.kicad_sch`) that remaps DAC 0–5 V to G2 −3.1 V to +5 V.
+  G2 acts as a VCA on the carrier; CW envelope shaping (raised-cosine,
+  5 ms rise/fall) is applied in firmware. DAC = 0 drives G2 below the
+  DGFET V_TO = −2 V, giving a clean cutoff — **no separate KEY_UP
+  net** (replaces the retired Q11/Q12 PNP mute path).
 - **Shield — GND**
 
 ---

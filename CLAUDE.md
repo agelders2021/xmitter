@@ -68,14 +68,19 @@ not work on the built board (minimal output, unclean RF, suspected
 feedback path in the balance-trim network). Rev C removed
 `buffer_keyer.kicad_sch` entirely and replaced the keyer with a DGFET
 (dual-gate FET) VCA: G1 receives RF from Si5351, G2 receives the
-envelope voltage from the MCP4921 DAC (via Q11/Q12 KeyUp mute path).
+envelope voltage from the MCP4921 DAC via an LM7171 (U10) **offset-mute
+op-amp** that remaps 0–5 V DAC output to −3.1 V to +5 V on G2 — so
+DAC = 0 drives G2 below the DGFET V_TO = −2 V (clean cutoff, ~10⁹ on/off
+ratio) with no separate KEY_UP GPIO signal needed. The Q11/Q12 PNP
+mute path and the KEY_UP net have been **eliminated in favor of this
+op-amp DC-offset approach** (2026-10-23).
 Current sub-sheets: `analog.kicad_sch` root, `vfo_complete.kicad_sch`
 (Si5351 → DGFET → Chebyshev LPF → op-amp follower → LM7171 PP
 inv/non-inv), `arduino.kicad_sch` (Metro carrier, MCP4728 I²C DAC,
 MCP4922 SPI DAC, control relays, heartbeat monostable, RJ45 J4 to
 frontpanel, RJ45 J31 to ss_pa), `interface.kicad_sch` (frontpanel
 umbilical + RS-422 termination + PCF8575 placeholder),
-`dac.kicad_sch` (DAC + Q11/Q12 KeyUp mute level shifter),
+`dac.kicad_sch` (DAC + U10 LM7171 offset-mute op-amp),
 `power.kicad_sch` (regulators and supply chain), `lpf.kicad_sch` (4-band
 LPF bank — PLANNED to migrate to the ss_pa board, see Next work items).
 Rev C not yet fabricated — merge gate is a new fab order.
@@ -149,7 +154,7 @@ The design docs are the source of truth for both firmware and PCB work:
 | `Documentation/front_panel_interface.md` | RJ45 (Amphenol RJE1D-188-21401) umbilical, T568B pin map, PCF8575 expander, MBL-600 RS-422 termination, RJE1D-188 footprint verification checklist |
 | `Documentation/i2c_bus.md` | **Single source of truth** for I²C device addresses across all PCBs. Update this first when an address changes; other docs, firmware `pin_map.h`, and schematic text notes mirror. Includes bus topology, jumper config, expansion slots, and ruled-out configurations |
 | `Documentation/pcb_fab_checklist.md` | Consolidated pre-flight gate before analog-board gerbers ship: footprint verification, schematic completeness, ERC/DRC, physical, and BOM sign-offs |
-| `Documentation/control_board_functional_blocks.md` | Functional blocks on the analog control board: KeyUp→Gate 2 keying, relay assignments, CD14538B heartbeat watchdog, TR_SENSE interlock, J13 power-migration header |
+| `Documentation/control_board_functional_blocks.md` | Functional blocks on the analog control board. **Partially superseded 2026-10-23** — the "KeyUp signal chain" section describes the retired Q11/Q12 PNP mute topology; current design is the LM7171 (U10) offset-mute op-amp driven directly by the MCP4921 DAC (no KEY_UP net). Relay assignments, CD14538B heartbeat watchdog, TR_SENSE interlock, J13 power-migration header are still current. |
 | `Documentation/ss_pa.md` | SS PA board: topology, RJ45 umbilical pin assignment (T568B pair-aware), pa_stage component inventory, fault_shutdown spec (self-latching V_REF + CD74HC4066 series-pass + startup auto-reset), operating-point math, pending items |
 
 **Tube-era design references** (retained in case a high-power tube PA

@@ -80,9 +80,15 @@ Component datasheets:
 Signal chain from carrier generation to antenna, left to right:
 
 - **Si5351 clock gen** (I²C, on analog board) → carrier RF, ~14.0 MHz for 20 m
-- **DGFET VCA** (Q2 dual-gate FET on analog board, 40673): G1 = RF from Si5351,
-  G2 = envelope voltage from MCP4921 SPI DAC via Q11/Q12 KeyUp mute path →
-  keyed-envelope RF out
+- **DGFET VCA** (Q2 dual-gate FET on analog board, 40673): G1 = RF from Si5351
+  (biased to +2.45 V via 39K/10K from +12 V, 100 nF bypass; R21 1 MΩ feed to
+  G1; C26 AC-couples RF), G2 = envelope voltage from MCP4921 SPI DAC via an
+  **LM7171 offset-mute op-amp (U10)** that remaps DAC 0–5 V to G2 −3.1 V to
+  +5 V. The DAC-at-zero state drives G2 well below V_TO (−2 V), fully cutting
+  off the DGFET (sim-verified ~10⁹ on/off ratio, no DC drain current in
+  key-up). **No separate KEY_UP net or Q11/Q12 PNP mute transistors** — mute
+  is intrinsic to the signal path via the op-amp's negative DC offset.
+  Keyed-state operating point: I_D ≈ 13 mA, V_S ≈ 2.88 V, V_D ≈ 5.85 V.
 - **32 MHz RC snubber** (R1 = 50 Ω series, C1 = 100 pF shunt) on DGFET drain —
   tames VHF ringing
 - **Chebyshev LPF** (small, on-analog) — removes mixing products/sidebands from the
@@ -116,7 +122,9 @@ DGFET → RC snubber → Chebyshev LPF → U1 follower → LM7171 PP),
 `arduino.kicad_sch` (Metro socket, MCP4728 I²C DAC, MCP4921 SPI DAC, control
 relays, CD14538B heartbeat watchdog, RJ45 umbilicals J2/J4/J31/J35),
 `interface.kicad_sch` (frontpanel umbilical + RS-422 termination + PCF8575
-expander), `dac.kicad_sch` (DAC + Q11/Q12 KeyUp mute level shifter),
+expander), `dac.kicad_sch` (MCP4728 I²C DAC + MCP4922 SPI DAC + U10 LM7171
+offset-mute op-amp with 5.1 V Zener reference and R20/R23 feedback network;
+replaces the retired Q11/Q12 PNP mute path),
 `power.kicad_sch` (regulators + supply chain).
 
 **DAC assignments:**
@@ -188,6 +196,40 @@ Rev D runs it at 5 V and translates the Metro's 3.3 V SPI up through a
 - DAC_LDAC_N → U9 pin 12 → pin 11 → U4 LDAC̅ (pin 8)
 - DAC_SHDN_N remains driven by PCF8575 at 5 V (not time-critical, I²C
   write latency is fine for shutdown control).
+
+**DGFET keyer mute topology (changed 2026-10-23):**
+
+Prior design: Q11/Q12 PNP level-shifter clamped G2 to ~0 V (via a 220 Ω
+source resistor R9 on the DGFET source), controlled by a KEY_UP net
+from the Metro. Sim showed this did NOT cut off the DGFET — G1
+biased at 0 V keeps the lower cascode device on, forcing an
+equilibrium at I_D ≈ 5 mA leaking through the stack. Only ~2.6:1
+on/off ratio, unusable for CW mute.
+
+Current design: an LM7171 (U10, on `dac.kicad_sch`) is wired as a
+non-inverting amp with a positive DC reference on the inverting
+summing node. Transfer function: `V_G2 = V_DAC × 1.62 − 3.13`.
+
+- Reference node X: fed from a 1N4733A 5.1 V Zener (D2) via R24 = 1 kΩ
+  from +12 V; summing-node divider R25 = 1 kΩ, R32 = 100 kΩ gives
+  V_X ≈ 5.05 V at the summing side.
+- Feedback: R20 = 6.2 kΩ (feedback) and R23 = 10 kΩ (reference input
+  to summing node) → gain `(1 + R20/R23) = 1.62` on the DAC side,
+  offset `−V_ref × R20/R23 ≈ −3.1 V` at V_DAC = 0.
+- DAC at 0 V → G2 ≈ −3.1 V (0.1 V margin below −3 V target, 1.1 V
+  below 40673 V_TO = −2 V) → clean DGFET cutoff
+- DAC at +5 V → G2 ≈ +5.0 V (matches prior keyed-state operating
+  point, well below 40673 V_G2S_peak = +6 V spec)
+- Op-amp output needs to swing −3.1 V to +5 V — well within LM7171's
+  ±10 V output on the existing ±12 V rails
+- **KEY_UP net eliminated** — mute is intrinsic to the signal path.
+  The firmware controls RF enable/disable solely by what it writes
+  to the MCP4921's envelope channel: write 0 → V_G2 = −3.1 V → DGFET
+  off; write envelope sample → DGFET follows the raised-cosine shape.
+- Sim-verified in `xmitter_prj/dgfet_opamp_offset_mute.cir`
+
+Rationale and sim data for the topology choice: see git log on
+`revD` branch commits touching U10 / R20 / R23 / R32 / D2 (1N4733A).
 
 **Si5351 bringup isolation switch (new, but currently mis-wired — see
 "Known open items"):**

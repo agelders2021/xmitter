@@ -1,5 +1,24 @@
 # Control Board Functional Blocks
 
+> **⚠ 2026-10-23 — KeyUp signal chain retired.**
+>
+> The entire "Keying (KeyUp signal chain)" section below describes the
+> original Q11/Q12 PNP level-shifter mute topology, which was retired
+> when sim showed it did not actually cut off the 40673 DGFET (only
+> ~2.6:1 on/off ratio — the lower cascode stays conducting with G1
+> biased above V_TO). Rev D replaces this with an **LM7171 offset-mute
+> op-amp (U10)** that remaps the DAC's 0–5 V output to G2 −3.1 V to
+> +5 V via a 5.1 V Zener reference and an R20/R23 feedback network. The
+> op-amp's intrinsic DC offset drives G2 below V_TO when the DAC writes
+> 0, with no separate KEY_UP GPIO signal. **The KEY_UP net is
+> eliminated from the design.** See `revD_prelayout_review_handoff.md`
+> "DGFET keyer mute topology" and `Master_Description.md` §2 for the
+> current scheme.
+>
+> Other blocks in this doc (relay assignments, CD14538B heartbeat
+> watchdog, TR_SENSE interlock, J13 power-migration header) remain
+> current and unaffected.
+
 Captures the *function* of each block on the analog (control) board that
 isn't obvious from the schematic. Written 2026-09-29 during a schematic
 review pass; updated 2026-10-12 to reflect SS PA integration and

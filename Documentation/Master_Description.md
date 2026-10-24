@@ -118,16 +118,31 @@ MOSFET)**, used here as a voltage-controlled amplifier (VCA). The
 DGFET conducts current from +12 V (through drain-load resistor R31 =
 470 Ω) when BOTH gates are above cutoff:
 
-- **G1 (Si5351 CMOS):** carries the carrier
+- **G1 (Si5351 CMOS):** carries the carrier. DC-biased to +2.45 V via
+  a 39 K / 10 K divider from +12 V with 100 nF bypass, R21 = 1 MΩ feed;
+  C26 AC-couples the Si5351 RF.
 - **G2 (envelope DAC):** modulated by MCP4921 ch A → routed through
-  the Q11/Q12 KeyUp mute level shifter → sets the instantaneous
-  amplitude of carrier conduction
+  an **LM7171 offset-mute op-amp (U10)** that remaps DAC 0–5 V to G2
+  −3.1 V to +5 V. Transfer: `V_G2 = V_DAC × 1.62 − 3.13`. The negative
+  DC offset is set by a 1N4733A 5.1 V Zener (D2) reference and the
+  R20/R23 feedback ratio (6.2 K / 10 K).
 
-At key-up G2 is pulled to ~0 V → FET cut off → no output. At key-down
-G2 is raised to +4 V DC → FET fully on → carrier passes through at
-maximum amplitude. During CW rise/fall transitions, firmware ramps G2
-through a raised-cosine shape (5 ms edge) so the on-air carrier
-envelope is smoothly shaped — no key clicks.
+At key-up, firmware writes 0 to the DAC → the op-amp's intrinsic
+offset drives G2 to **−3.1 V** (V_G2S well below the 40673 V_TO of
+−2 V) → DGFET fully cut off. Sim shows I_D = 12 pA in this state and
+V_D stays at +12.000 V — on/off ratio ~10⁹. At key-down max, DAC
+writes +5 V → G2 = +5 V → I_D ≈ 13 mA, V_S ≈ 2.9 V, V_D ≈ 5.9 V.
+During CW rise/fall transitions, firmware ramps the DAC through a
+raised-cosine shape (5 ms edge) so the on-air envelope is smoothly
+shaped — no key clicks.
+
+Note: the **KEY_UP GPIO net has been eliminated** in favor of this
+op-amp DC-offset mute. The firmware controls RF enable/disable
+entirely by what it writes to the MCP4921 envelope channel — there is
+no separate hardware mute path. Replaces the prior Q11/Q12 PNP level
+shifter which failed to achieve CW-grade cutoff in simulation (only
+~2.6:1 on/off ratio because biasing G1 above V_TO kept the lower
+cascode device sourcing current regardless of G2 state).
 
 The DGFET drain produces a chopped/modulated RF waveform swinging
 ~1.4 Vpp at full envelope. Rich in Si5351's harmonic content (square
@@ -307,9 +322,11 @@ Device addresses:
 
 Metro SPI drives **MCP4922 (U4)** on the analog board, a dual
 12-bit DAC:
-- **Ch A → envelope** → Q2 (DGFET) Gate 2 via Q11/Q12 KeyUp level
-  shifter. This is the raised-cosine CW envelope DAC. Update rate
-  ~40 kHz (25 µs tick) during key transitions.
+- **Ch A → envelope** → Q2 (DGFET) Gate 2 via U10 LM7171 offset-mute
+  op-amp (V_G2 = V_DAC × 1.62 − 3.13). This is the raised-cosine CW
+  envelope DAC. Update rate ~40 kHz (25 µs tick) during key
+  transitions. DAC output = 0 drives G2 to −3.1 V, cutting off the
+  DGFET (no separate KEY_UP net).
 - **Ch B → DRIVER_BIAS** → J31 pin 6 → ss_pa board → RC filter
   (C19, C20) → T201 secondary CT. Sets the BS170 driver DC bias
   point. Firmware-adjustable at TX/RX transitions.
