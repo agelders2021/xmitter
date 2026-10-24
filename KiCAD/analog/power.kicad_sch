@@ -3642,6 +3642,10 @@
 		(uuid "f92559c6-ec90-48b1-82e9-983efaf9e9d2")
 	)
 	(no_connect
+		(at 59.69 152.4)
+		(uuid "4674ddb9-2ebc-4b07-90c6-2f2d13d1db01")
+	)
+	(no_connect
 		(at 124.46 105.41)
 		(uuid "6a415527-9062-48c6-b6cd-aaa727cdfd54")
 	)
@@ -7422,6 +7426,84 @@
 			(project "analog"
 				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9d33972e-4f39-4043-b71d-952850d73035"
 					(reference "C12")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:PWR_FLAG")
+		(at 144.78 67.31 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "903152fa-13f4-4357-b2bd-9d5ef1aca4ef")
+		(property "Reference" "#FLG04"
+			(at 144.78 65.405 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "PWR_FLAG"
+			(at 144.78 62.23 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 144.78 67.31 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 144.78 67.31 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Special symbol for telling ERC where power comes from"
+			(at 144.78 67.31 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "18a03650-35c6-4fc2-b796-fe22dc3d6e74")
+		)
+		(instances
+			(project "analog"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/9d33972e-4f39-4043-b71d-952850d73035"
+					(reference "#FLG04")
 					(unit 1)
 				)
 			)

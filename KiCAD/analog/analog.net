@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "C:\\Users\\AlAnd\\Git Backed Projects\\xmitter\\KiCAD\\analog\\analog.kicad_sch")
-		(date "2026-10-24T14:55:50")
+		(date "2026-10-24T16:41:12")
 		(tool "Eeschema 10.0.3")
 		(sheet
 			(number "1")
@@ -1507,7 +1507,7 @@
 			(ref "J21")
 			(value "Screw_Terminal_01x02")
 			(footprint "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2_1x02_P5.00mm_Horizontal")
-			(description "Generic screw terminal, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)")
+			(description "Power to Metro")
 			(fields
 				(field
 					(name "Footprint") "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2_1x02_P5.00mm_Horizontal")
@@ -1515,7 +1515,7 @@
 					(name "Datasheet")
 				)
 				(field
-					(name "Description") "Generic screw terminal, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)")
+					(name "Description") "Power to Metro")
 			)
 			(libsource
 				(lib "Connector")
@@ -4997,9 +4997,9 @@
 				(names "/DAC Control/")
 				(tstamps "/e880f7dd-82a1-4efe-84f5-e6a9d5641736/")
 			)
-			(tstamps "af477169-0b98-42fd-8df9-11aadfd325d5" "9a4916c5-7225-46d4-8e3f-7fe77f08bbee"
-				"b85b3590-907d-467d-b9e4-0e0486726e39" "c38f690d-b09c-4ffe-8f5d-d131ba361a10"
-				"32bde222-d2b2-4b03-a507-24d86dd3ae02"
+			(tstamps "c38f690d-b09c-4ffe-8f5d-d131ba361a10" "af477169-0b98-42fd-8df9-11aadfd325d5"
+				"b85b3590-907d-467d-b9e4-0e0486726e39" "b1d8130b-d0b6-4b74-a10e-871a7c809ab1"
+				"9a4916c5-7225-46d4-8e3f-7fe77f08bbee"
 			)
 			(units
 				(unit
@@ -9996,9 +9996,9 @@
 				(names "/Interface/")
 				(tstamps "/5c3f4a2b-7d1e-4f8b-9c6d-0e8a1b2c3d4e/")
 			)
-			(tstamps "fe3d80c8-d5fe-41fa-be84-ba4fef389c9c" "f75d1fab-3183-4cb2-b230-23f62a087b32"
-				"d7566d8f-f6e0-4257-bb84-d8186646a3e4" "d793d684-111d-4ea3-896c-7ead2aa78e7c"
-				"d4b7a461-c127-408f-a342-1ab92ee64c1a" "72b2f714-1db4-4f3f-a0ae-2e2e5f43d026"
+			(tstamps "9715d1a5-a5b5-4926-af87-e9a605e5b81d" "c58c1938-77a1-4c28-ba73-a8f6a798da1c"
+				"a7379bd0-5736-44dd-9e0f-91ffa0fdc649" "72b2f714-1db4-4f3f-a0ae-2e2e5f43d026"
+				"d4b7a461-c127-408f-a342-1ab92ee64c1a" "466d795c-2bc3-43f2-9640-cb0d825d8242"
 				"45a2ca6d-993c-4a04-baa6-fc5686027ce9"
 			)
 			(units
@@ -13682,8 +13682,8 @@
 			)
 			(node
 				(ref "U10")
-				(pin "4")
-				(pintype "output")
+				(pin "5")
+				(pintype "input")
 			)
 		)
 		(net
@@ -13702,8 +13702,8 @@
 			)
 			(node
 				(ref "U10")
-				(pin "2")
-				(pintype "output")
+				(pin "3")
+				(pintype "input")
 			)
 		)
 		(net
@@ -13722,8 +13722,8 @@
 			)
 			(node
 				(ref "U10")
-				(pin "10")
-				(pintype "output")
+				(pin "9")
+				(pintype "input")
 			)
 		)
 		(net
@@ -13742,8 +13742,8 @@
 			)
 			(node
 				(ref "U10")
-				(pin "6")
-				(pintype "output")
+				(pin "7")
+				(pintype "input")
 			)
 		)
 		(net
@@ -14818,8 +14818,8 @@
 			(class "Default")
 			(node
 				(ref "U10")
-				(pin "3")
-				(pintype "input")
+				(pin "2")
+				(pintype "output")
 			)
 			(node
 				(ref "U16")
@@ -14834,8 +14834,8 @@
 			(class "Default")
 			(node
 				(ref "U10")
-				(pin "5")
-				(pintype "input")
+				(pin "4")
+				(pintype "output")
 			)
 			(node
 				(ref "U16")
@@ -14866,8 +14866,8 @@
 			(class "Default")
 			(node
 				(ref "U10")
-				(pin "7")
-				(pintype "input")
+				(pin "6")
+				(pintype "output")
 			)
 			(node
 				(ref "U16")
@@ -14882,8 +14882,8 @@
 			(class "Default")
 			(node
 				(ref "U10")
-				(pin "9")
-				(pintype "input")
+				(pin "10")
+				(pintype "output")
 			)
 			(node
 				(ref "U16")
@@ -15361,7 +15361,7 @@
 				(ref "K6")
 				(pin "2")
 				(pinfunction "NC_2")
-				(pintype "passive")
+				(pintype "passive+no_connect")
 			)
 		)
 		(net

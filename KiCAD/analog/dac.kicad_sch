@@ -2840,7 +2840,7 @@
 		(at 48.26 91.44)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "3202f66f-89a3-466b-8b9d-636afb0fbf37")
+		(uuid "271b06ac-b464-45aa-b22b-d54cb5e382b1")
 	)
 	(junction
 		(at 115.57 43.18)
@@ -3207,16 +3207,6 @@
 			(type default)
 		)
 		(uuid "7caeb861-f694-406e-92b5-670bab137f29")
-	)
-	(wire
-		(pts
-			(xy 49.53 91.44) (xy 48.26 91.44)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "7ecd1fa3-01e5-407e-9fe6-1862777dd8d3")
 	)
 	(wire
 		(pts
@@ -4784,121 +4774,6 @@
 				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/e880f7dd-82a1-4efe-84f5-e6a9d5641736"
 					(reference "#PWR077")
 					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "xmitter:74HCT125")
-		(at 55.88 91.44 0)
-		(unit 3)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "32bde222-d2b2-4b03-a507-24d86dd3ae02")
-		(property "Reference" "U9"
-			(at 44.958 82.804 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "74HCT125"
-			(at 44.958 85.344 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "xmitter:DIP-14_W7.62mm"
-			(at 55.88 91.44 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/sn74hct125.pdf"
-			(at 55.88 91.44 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Quad bus buffer with 3-state outputs, TTL-level inputs (HCT family). Use for 3.3V to 5V unidirectional level shifting."
-			(at 55.88 91.44 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "3"
-			(uuid "a2832740-454a-41b1-a1b2-40a6f5c9ef03")
-		)
-		(pin "1"
-			(uuid "a2d959fe-1ab2-40eb-877f-e19f71545995")
-		)
-		(pin "2"
-			(uuid "6031beb8-e70d-4b61-9751-e9dd6310f80e")
-		)
-		(pin "4"
-			(uuid "7663fba8-3f59-483d-a0af-50234ec9f1b3")
-		)
-		(pin "9"
-			(uuid "6eaf3d17-b07f-4f80-b0ab-07e38cc5f379")
-		)
-		(pin "6"
-			(uuid "25b57b5c-7beb-430b-b5b7-39c7d2888e40")
-		)
-		(pin "14"
-			(uuid "8b79584d-c5a6-4722-8926-f0908d87cd20")
-		)
-		(pin "5"
-			(uuid "4dc701c7-b408-42c5-b3d1-718df01a10e7")
-		)
-		(pin "12"
-			(uuid "bce6234b-6589-4710-a04e-e50019a83445")
-		)
-		(pin "13"
-			(uuid "121b886c-8d7e-40d0-bbca-bc3b297762d8")
-		)
-		(pin "8"
-			(uuid "213115f5-a86d-4aaf-a85a-e01dbcd69cc2")
-		)
-		(pin "10"
-			(uuid "78db9b24-b36b-42ed-ba0d-b973f347841a")
-		)
-		(pin "7"
-			(uuid "8da44360-cce5-4ccf-b7c2-074e09b21c90")
-		)
-		(pin "11"
-			(uuid "4eb118e9-c22f-4289-89c4-6fa2eb079403")
-		)
-		(instances
-			(project "analog"
-				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/e880f7dd-82a1-4efe-84f5-e6a9d5641736"
-					(reference "U9")
-					(unit 3)
 				)
 			)
 		)
@@ -7192,6 +7067,121 @@
 				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/e880f7dd-82a1-4efe-84f5-e6a9d5641736"
 					(reference "U9")
 					(unit 5)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "xmitter:74HCT125")
+		(at 55.88 91.44 0)
+		(unit 3)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "b1d8130b-d0b6-4b74-a10e-871a7c809ab1")
+		(property "Reference" "U9"
+			(at 44.958 82.804 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "74HCT125"
+			(at 44.958 85.344 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "xmitter:DIP-14_W7.62mm"
+			(at 55.88 91.44 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/sn74hct125.pdf"
+			(at 55.88 91.44 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Quad bus buffer with 3-state outputs, TTL-level inputs (HCT family). Use for 3.3V to 5V unidirectional level shifting."
+			(at 55.88 91.44 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "3"
+			(uuid "a2832740-454a-41b1-a1b2-40a6f5c9ef03")
+		)
+		(pin "1"
+			(uuid "a2d959fe-1ab2-40eb-877f-e19f71545995")
+		)
+		(pin "2"
+			(uuid "6031beb8-e70d-4b61-9751-e9dd6310f80e")
+		)
+		(pin "4"
+			(uuid "7663fba8-3f59-483d-a0af-50234ec9f1b3")
+		)
+		(pin "9"
+			(uuid "c0ccec93-e22c-4a4b-980c-68783949b1ab")
+		)
+		(pin "6"
+			(uuid "25b57b5c-7beb-430b-b5b7-39c7d2888e40")
+		)
+		(pin "14"
+			(uuid "8b79584d-c5a6-4722-8926-f0908d87cd20")
+		)
+		(pin "5"
+			(uuid "4dc701c7-b408-42c5-b3d1-718df01a10e7")
+		)
+		(pin "12"
+			(uuid "bce6234b-6589-4710-a04e-e50019a83445")
+		)
+		(pin "13"
+			(uuid "121b886c-8d7e-40d0-bbca-bc3b297762d8")
+		)
+		(pin "8"
+			(uuid "b85850a3-85b9-4a7e-8101-6b2b8c739451")
+		)
+		(pin "10"
+			(uuid "b2497a0c-32c1-4b0e-b571-6dc1346d3736")
+		)
+		(pin "7"
+			(uuid "8da44360-cce5-4ccf-b7c2-074e09b21c90")
+		)
+		(pin "11"
+			(uuid "4eb118e9-c22f-4289-89c4-6fa2eb079403")
+		)
+		(instances
+			(project "analog"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/e880f7dd-82a1-4efe-84f5-e6a9d5641736"
+					(reference "U9")
+					(unit 3)
 				)
 			)
 		)

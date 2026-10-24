@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "C:\\Users\\AlAnd\\Git Backed Projects\\xmitter\\KiCAD\\ss_pa\\ss_pa.kicad_sch")
-		(date "2026-10-24T10:28:04")
+		(date "2026-10-24T16:32:19")
 		(tool "Eeschema 10.0.3")
 		(sheet
 			(number "1")
@@ -3903,6 +3903,114 @@
 			)
 		)
 		(comp
+			(ref "C30")
+			(value "22uF")
+			(description "Polarized capacitor")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Polarized capacitor")
+			)
+			(libsource
+				(lib "Device")
+				(part "C_Polarized")
+				(description "Polarized capacitor")
+			)
+			(property
+				(name "Sheetname")
+				(value "Fault_Shutdown")
+			)
+			(property
+				(name "Sheetfile")
+				(value "fault_shutdown.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "CP_*")
+			)
+			(sheetpath
+				(names "/Fault_Shutdown/")
+				(tstamps "/7e6e5903-d9c4-4499-a3fb-6a30c021fada/")
+			)
+			(tstamps "bef502dd-7847-445a-98eb-fa31aa524555")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C31")
+			(value "100nF")
+			(description "Unpolarized capacitor")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Unpolarized capacitor")
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "Sheetname")
+				(value "Fault_Shutdown")
+			)
+			(property
+				(name "Sheetfile")
+				(value "fault_shutdown.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "C_*")
+			)
+			(sheetpath
+				(names "/Fault_Shutdown/")
+				(tstamps "/7e6e5903-d9c4-4499-a3fb-6a30c021fada/")
+			)
+			(tstamps "505fdb9c-2927-4354-91a3-65b8a321fbbb")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
 			(ref "D1")
 			(value "1N4148")
 			(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
@@ -3954,6 +4062,60 @@
 				(tstamps "/7e6e5903-d9c4-4499-a3fb-6a30c021fada/")
 			)
 			(tstamps "4b48b863-253b-40cd-9bde-0e2b794ba29c")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "D3")
+			(value "BAT85")
+			(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
+			(datasheet "https://assets.nexperia.com/documents/data-sheet/BAT85.pdf")
+			(description "30V 0.2A Schottky barrier single diode, DO-35")
+			(fields
+				(field
+					(name "Footprint") "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
+				(field
+					(name "Datasheet") "https://assets.nexperia.com/documents/data-sheet/BAT85.pdf")
+				(field
+					(name "Description") "30V 0.2A Schottky barrier single diode, DO-35")
+			)
+			(libsource
+				(lib "Diode")
+				(part "BAT85")
+				(description "60V 15mA Schottky diode, DO-35")
+			)
+			(property
+				(name "Sheetname")
+				(value "Fault_Shutdown")
+			)
+			(property
+				(name "Sheetfile")
+				(value "fault_shutdown.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "diode Schottky")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "D*DO?35*")
+			)
+			(sheetpath
+				(names "/Fault_Shutdown/")
+				(tstamps "/7e6e5903-d9c4-4499-a3fb-6a30c021fada/")
+			)
+			(tstamps "a126651c-7b69-4471-88b2-84c24053ea8a")
 			(units
 				(unit
 					(name "A")
@@ -4477,7 +4639,7 @@
 		)
 		(comp
 			(ref "R12")
-			(value "100K")
+			(value "2.2K")
 			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
 			(description "Resistor, US symbol")
 			(fields
@@ -4531,7 +4693,7 @@
 		)
 		(comp
 			(ref "R19")
-			(value "100K")
+			(value "2.2K")
 			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
 			(description "Resistor, US symbol")
 			(fields
@@ -4638,6 +4800,114 @@
 			)
 		)
 		(comp
+			(ref "R21")
+			(value "10K")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "Fault_Shutdown")
+			)
+			(property
+				(name "Sheetfile")
+				(value "fault_shutdown.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/Fault_Shutdown/")
+				(tstamps "/7e6e5903-d9c4-4499-a3fb-6a30c021fada/")
+			)
+			(tstamps "9c354977-00f0-4887-bcaf-8dafacf480df")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R22")
+			(value "10K")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "Fault_Shutdown")
+			)
+			(property
+				(name "Sheetfile")
+				(value "fault_shutdown.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/Fault_Shutdown/")
+				(tstamps "/7e6e5903-d9c4-4499-a3fb-6a30c021fada/")
+			)
+			(tstamps "de2bb141-6c83-4c3d-bf41-e89874132d3b")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
 			(ref "R23")
 			(value "100R")
 			(description "Resistor, US symbol")
@@ -4677,6 +4947,114 @@
 				(tstamps "/7e6e5903-d9c4-4499-a3fb-6a30c021fada/")
 			)
 			(tstamps "f9a051ae-f1f4-4195-bf5b-83d1033a9859")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R24")
+			(value "4.7M")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "Fault_Shutdown")
+			)
+			(property
+				(name "Sheetfile")
+				(value "fault_shutdown.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/Fault_Shutdown/")
+				(tstamps "/7e6e5903-d9c4-4499-a3fb-6a30c021fada/")
+			)
+			(tstamps "f87ac919-768b-409f-b609-8f3e82c24139")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R25")
+			(value "4.7M")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "Fault_Shutdown")
+			)
+			(property
+				(name "Sheetfile")
+				(value "fault_shutdown.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/Fault_Shutdown/")
+				(tstamps "/7e6e5903-d9c4-4499-a3fb-6a30c021fada/")
+			)
+			(tstamps "f4c1c677-3a9b-4b60-8433-f667c357c5f8")
 			(units
 				(unit
 					(name "A")
@@ -5031,23 +5409,23 @@
 			)
 		)
 		(comp
-			(ref "U13")
-			(value "LM2936Z-5.0/NOPB")
-			(footprint "Package_TO_SOT_THT:TO-92_Inline_Wide")
-			(datasheet "http://ww1.microchip.com/downloads/en/DeviceDoc/20001826D.pdf")
-			(description "250mA Low Quiscent Current LDO, 3.3V output, TO-92")
+			(ref "U3")
+			(value "LM2936-5.0_TO92")
+			(footprint "Package_TO_SOT_THT:TO-92_Inline")
+			(datasheet "http://www.ti.com/lit/ds/symlink/lm2936.pdf")
+			(description "50mA Ultra-Low Quiescent Current LDO Voltage Regulator, 5.0V fixed output, TO-92")
 			(fields
 				(field
-					(name "Footprint") "Package_TO_SOT_THT:TO-92_Inline_Wide")
+					(name "Footprint") "Package_TO_SOT_THT:TO-92_Inline")
 				(field
-					(name "Datasheet") "http://ww1.microchip.com/downloads/en/DeviceDoc/20001826D.pdf")
+					(name "Datasheet") "http://www.ti.com/lit/ds/symlink/lm2936.pdf")
 				(field
-					(name "Description") "250mA Low Quiscent Current LDO, 3.3V output, TO-92")
+					(name "Description") "50mA Ultra-Low Quiescent Current LDO Voltage Regulator, 5.0V fixed output, TO-92")
 			)
 			(libsource
 				(lib "Regulator_Linear")
-				(part "MCP1700x-330xxTO")
-				(description "250mA Low Quiscent Current LDO, 3.3V output, TO-92")
+				(part "LM2936-5.0_TO92")
+				(description "Positive 100mA 30V Linear Regulator, Fixed Output 5V, TO-92")
 			)
 			(property
 				(name "Sheetname")
@@ -5059,7 +5437,7 @@
 			)
 			(property
 				(name "ki_keywords")
-				(value "regulator linear ldo")
+				(value "linear regulator ldo fixed positive")
 			)
 			(property
 				(name "ki_fp_filters")
@@ -5069,19 +5447,19 @@
 				(names "/Fault_Shutdown/")
 				(tstamps "/7e6e5903-d9c4-4499-a3fb-6a30c021fada/")
 			)
-			(tstamps "2c3d4585-8a6f-4dba-871f-703478eaa8b4")
+			(tstamps "ccb98c69-641b-491d-9245-7dd96dc20854")
 			(units
 				(unit
 					(name "A")
 					(pins
 						(pin
+							(num "3")
+						)
+						(pin
 							(num "2")
 						)
 						(pin
 							(num "1")
-						)
-						(pin
-							(num "3")
 						)
 					)
 				)
@@ -5727,10 +6105,43 @@
 			)
 		)
 		(libpart
+			(lib "Diode")
+			(part "BAT85")
+			(description "30V 0.2A Schottky barrier single diode, DO-35")
+			(docs "https://assets.nexperia.com/documents/data-sheet/BAT85.pdf")
+			(footprints
+				(fp "D*DO?35*")
+			)
+			(fields
+				(field
+					(name "Reference") "D")
+				(field
+					(name "Value") "BAT85")
+				(field
+					(name "Footprint") "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
+				(field
+					(name "Datasheet") "https://assets.nexperia.com/documents/data-sheet/BAT85.pdf")
+				(field
+					(name "Description") "30V 0.2A Schottky barrier single diode, DO-35")
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "K")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "A")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
 			(lib "Regulator_Linear")
-			(part "MCP1700x-330xxTO")
-			(description "250mA Low Quiscent Current LDO, 3.3V output, TO-92")
-			(docs "http://ww1.microchip.com/downloads/en/DeviceDoc/20001826D.pdf")
+			(part "LM2936-5.0_TO92")
+			(description "50mA Ultra-Low Quiescent Current LDO Voltage Regulator, 5.0V fixed output, TO-92")
+			(docs "http://www.ti.com/lit/ds/symlink/lm2936.pdf")
 			(footprints
 				(fp "TO?92*")
 			)
@@ -5738,29 +6149,29 @@
 				(field
 					(name "Reference") "U")
 				(field
-					(name "Value") "MCP1700x-330xxTO")
+					(name "Value") "LM2936-5.0_TO92")
 				(field
 					(name "Footprint") "Package_TO_SOT_THT:TO-92_Inline")
 				(field
-					(name "Datasheet") "http://ww1.microchip.com/downloads/en/DeviceDoc/20001826D.pdf")
+					(name "Datasheet") "http://www.ti.com/lit/ds/symlink/lm2936.pdf")
 				(field
-					(name "Description") "250mA Low Quiscent Current LDO, 3.3V output, TO-92")
+					(name "Description") "50mA Ultra-Low Quiescent Current LDO Voltage Regulator, 5.0V fixed output, TO-92")
 			)
 			(pins
 				(pin
 					(num "1")
+					(name "VO")
+					(type "power_out")
+				)
+				(pin
+					(num "2")
 					(name "GND")
 					(type "power_in")
 				)
 				(pin
-					(num "2")
+					(num "3")
 					(name "VI")
 					(type "power_in")
-				)
-				(pin
-					(num "3")
-					(name "VO")
-					(type "power_out")
 				)
 			)
 		)
@@ -6027,9 +6438,24 @@
 				(pintype "passive")
 			)
 			(node
+				(ref "C30")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
 				(ref "J5")
 				(pin "1")
 				(pinfunction "Pin_1_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R24")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "R25")
+				(pin "1")
 				(pintype "passive")
 			)
 			(node
@@ -6050,16 +6476,16 @@
 				(pintype "power_in")
 			)
 			(node
-				(ref "U13")
-				(pin "3")
-				(pinfunction "VO_3")
-				(pintype "power_out")
-			)
-			(node
 				(ref "U2")
 				(pin "14")
 				(pinfunction "VCC_14")
 				(pintype "power_in")
+			)
+			(node
+				(ref "U3")
+				(pin "1")
+				(pinfunction "VO_1")
+				(pintype "power_out")
 			)
 		)
 		(net
@@ -6079,6 +6505,11 @@
 			(node
 				(ref "C2")
 				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C31")
+				(pin "1")
 				(pintype "passive")
 			)
 			(node
@@ -6117,9 +6548,9 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "U13")
-				(pin "2")
-				(pinfunction "VI_2")
+				(ref "U3")
+				(pin "3")
+				(pinfunction "VI_3")
 				(pintype "power_in")
 			)
 		)
@@ -6184,8 +6615,9 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "C25")
+				(ref "D3")
 				(pin "1")
+				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
@@ -6196,11 +6628,6 @@
 			(node
 				(ref "R11")
 				(pin "1")
-				(pintype "passive")
-			)
-			(node
-				(ref "R23")
-				(pin "2")
 				(pintype "passive")
 			)
 			(node
@@ -6323,6 +6750,16 @@
 			(node
 				(ref "C29")
 				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "C30")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C31")
+				(pin "2")
 				(pintype "passive")
 			)
 			(node
@@ -6466,12 +6903,6 @@
 				(pintype "power_in")
 			)
 			(node
-				(ref "U13")
-				(pin "1")
-				(pinfunction "GND_1")
-				(pintype "power_in")
-			)
-			(node
 				(ref "U2")
 				(pin "10")
 				(pinfunction "4Z_10")
@@ -6512,6 +6943,12 @@
 				(pin "9")
 				(pinfunction "3Z_9")
 				(pintype "passive")
+			)
+			(node
+				(ref "U3")
+				(pin "2")
+				(pinfunction "GND_2")
+				(pintype "power_in")
 			)
 		)
 		(net
@@ -6627,6 +7064,27 @@
 		)
 		(net
 			(code "13")
+			(name "Net-(D3-A)")
+			(class "Default")
+			(node
+				(ref "C25")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "D3")
+				(pin "2")
+				(pinfunction "A_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "R23")
+				(pin "2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "14")
 			(name "Net-(J1-In)")
 			(class "Default")
 			(node
@@ -6649,7 +7107,7 @@
 			)
 		)
 		(net
-			(code "14")
+			(code "15")
 			(name "Net-(J3-In)")
 			(class "Default")
 			(node
@@ -6672,7 +7130,7 @@
 			)
 		)
 		(net
-			(code "15")
+			(code "16")
 			(name "Net-(J31-Pad7)")
 			(class "Default")
 			(node
@@ -6688,7 +7146,7 @@
 			)
 		)
 		(net
-			(code "16")
+			(code "17")
 			(name "Net-(J31-Pad8)")
 			(class "Default")
 			(node
@@ -6704,7 +7162,7 @@
 			)
 		)
 		(net
-			(code "17")
+			(code "18")
 			(name "Net-(L1-Pad2)")
 			(class "Default")
 			(node
@@ -6720,7 +7178,7 @@
 			)
 		)
 		(net
-			(code "18")
+			(code "19")
 			(name "Net-(L2-Pad2)")
 			(class "Default")
 			(node
@@ -6736,7 +7194,7 @@
 			)
 		)
 		(net
-			(code "19")
+			(code "20")
 			(name "Net-(Q2-D)")
 			(class "Default")
 			(node
@@ -6753,7 +7211,7 @@
 			)
 		)
 		(net
-			(code "20")
+			(code "21")
 			(name "Net-(Q2-G)")
 			(class "Default")
 			(node
@@ -6775,7 +7233,7 @@
 			)
 		)
 		(net
-			(code "21")
+			(code "22")
 			(name "Net-(Q2-S)")
 			(class "Default")
 			(node
@@ -6791,7 +7249,7 @@
 			)
 		)
 		(net
-			(code "22")
+			(code "23")
 			(name "Net-(Q3-D)")
 			(class "Default")
 			(node
@@ -6830,7 +7288,7 @@
 			)
 		)
 		(net
-			(code "23")
+			(code "24")
 			(name "Net-(Q3-G)")
 			(class "Default")
 			(node
@@ -6858,7 +7316,7 @@
 			)
 		)
 		(net
-			(code "24")
+			(code "25")
 			(name "Net-(Q4-D)")
 			(class "Default")
 			(node
@@ -6897,7 +7355,7 @@
 			)
 		)
 		(net
-			(code "25")
+			(code "26")
 			(name "Net-(Q4-G)")
 			(class "Default")
 			(node
@@ -6925,7 +7383,7 @@
 			)
 		)
 		(net
-			(code "26")
+			(code "27")
 			(name "Net-(Q6-D)")
 			(class "Default")
 			(node
@@ -6942,7 +7400,7 @@
 			)
 		)
 		(net
-			(code "27")
+			(code "28")
 			(name "Net-(Q6-G)")
 			(class "Default")
 			(node
@@ -6964,7 +7422,7 @@
 			)
 		)
 		(net
-			(code "28")
+			(code "29")
 			(name "Net-(Q6-S)")
 			(class "Default")
 			(node
@@ -6980,7 +7438,7 @@
 			)
 		)
 		(net
-			(code "29")
+			(code "30")
 			(name "Net-(R23-Pad1)")
 			(class "Default")
 			(node
@@ -7005,7 +7463,7 @@
 			)
 		)
 		(net
-			(code "30")
+			(code "31")
 			(name "Net-(T202-PM)")
 			(class "Default")
 			(node
@@ -7032,7 +7490,7 @@
 			)
 		)
 		(net
-			(code "31")
+			(code "32")
 			(name "Net-(T202-S1)")
 			(class "Default")
 			(node
@@ -7053,7 +7511,7 @@
 			)
 		)
 		(net
-			(code "32")
+			(code "33")
 			(name "Net-(T202-S2)")
 			(class "Default")
 			(node
@@ -7074,7 +7532,49 @@
 			)
 		)
 		(net
-			(code "33")
+			(code "34")
+			(name "Net-(U1A--)")
+			(class "Default")
+			(node
+				(ref "R21")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "R24")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "U1")
+				(pin "2")
+				(pinfunction "-_2")
+				(pintype "input")
+			)
+		)
+		(net
+			(code "35")
+			(name "Net-(U1B--)")
+			(class "Default")
+			(node
+				(ref "R22")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "R25")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "U1")
+				(pin "6")
+				(pinfunction "-_6")
+				(pintype "input")
+			)
+		)
+		(net
+			(code "36")
 			(name "PA_Bias_A")
 			(class "Default")
 			(node
@@ -7101,7 +7601,7 @@
 			)
 		)
 		(net
-			(code "34")
+			(code "37")
 			(name "PA_Bias_A_Raw")
 			(class "Default")
 			(node
@@ -7128,7 +7628,7 @@
 			)
 		)
 		(net
-			(code "35")
+			(code "38")
 			(name "PA_Bias_B")
 			(class "Default")
 			(node
@@ -7155,7 +7655,7 @@
 			)
 		)
 		(net
-			(code "36")
+			(code "39")
 			(name "PA_Bias_B_Raw")
 			(class "Default")
 			(node
@@ -7182,7 +7682,7 @@
 			)
 		)
 		(net
-			(code "37")
+			(code "40")
 			(name "Source_Sense_A")
 			(class "Default")
 			(node
@@ -7207,14 +7707,13 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "U1")
-				(pin "2")
-				(pinfunction "-_2")
-				(pintype "input")
+				(ref "R21")
+				(pin "1")
+				(pintype "passive")
 			)
 		)
 		(net
-			(code "38")
+			(code "41")
 			(name "Source_Sense_A_Raw")
 			(class "Default")
 			(node
@@ -7241,7 +7740,7 @@
 			)
 		)
 		(net
-			(code "39")
+			(code "42")
 			(name "Source_Sense_B")
 			(class "Default")
 			(node
@@ -7266,14 +7765,13 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "U1")
-				(pin "6")
-				(pinfunction "-_6")
-				(pintype "input")
+				(ref "R22")
+				(pin "1")
+				(pintype "passive")
 			)
 		)
 		(net
-			(code "40")
+			(code "43")
 			(name "Source_Sense_B_Raw")
 			(class "Default")
 			(node
@@ -7300,7 +7798,7 @@
 			)
 		)
 		(net
-			(code "41")
+			(code "44")
 			(name "V_REF")
 			(class "Default")
 			(node
