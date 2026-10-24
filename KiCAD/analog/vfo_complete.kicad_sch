@@ -3198,6 +3198,12 @@
 		(uuid "0b9d06ad-6c8c-4298-a57d-46f130dc50ea")
 	)
 	(junction
+		(at 181.61 105.41)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "131b7063-3802-443f-8f72-ac42345f4ca9")
+	)
+	(junction
 		(at 152.4 76.2)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -3268,6 +3274,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "c3f2f4ed-2401-4fcd-9deb-9c6b48765508")
+	)
+	(junction
+		(at 189.23 105.41)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "c6b2dac6-ef55-40d5-b279-85f3aa73c6f5")
 	)
 	(junction
 		(at 134.62 85.09)
@@ -3343,6 +3355,16 @@
 	)
 	(wire
 		(pts
+			(xy 189.23 105.41) (xy 189.23 110.49)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0aaf07af-8d5b-4df5-bc42-ba7ed3bec87c")
+	)
+	(wire
+		(pts
 			(xy 127 102.87) (xy 127 120.65)
 		)
 		(stroke
@@ -3370,6 +3392,16 @@
 			(type default)
 		)
 		(uuid "180a7854-c9ad-42c9-851d-106d25ccf3d2")
+	)
+	(wire
+		(pts
+			(xy 181.61 105.41) (xy 181.61 110.49)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1d74b4d4-c941-41f8-999e-d42679ba4f90")
 	)
 	(wire
 		(pts
@@ -3921,7 +3953,7 @@
 			)
 		)
 	)
-	(global_label "Gate 2"
+	(global_label "GATE_2"
 		(shape input)
 		(at 127 76.2 180)
 		(fields_autoplaced yes)
@@ -3933,7 +3965,7 @@
 		)
 		(uuid "e728de39-cfe3-4cfb-ab34-a84b1b0d3a91")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 117.6044 76.2 0)
+			(at 117.3625 76.2 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5557,7 +5589,7 @@
 		(dnp no)
 		(uuid "6a1670ee-7ebb-4fb3-8ac9-9b045b458f28")
 		(property "Reference" "C3"
-			(at 184.912 100.584 90)
+			(at 189.738 98.298 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5567,7 +5599,7 @@
 			)
 		)
 		(property "Value" "100nF"
-			(at 184.912 103.124 90)
+			(at 189.738 100.838 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -7221,6 +7253,85 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:C")
+		(at 185.42 110.49 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "bf36979f-1da4-4f6e-abe8-5e13334a9d91")
+		(property "Reference" "C23"
+			(at 185.674 115.824 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "2pF"
+			(at 185.674 118.364 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 189.23 109.5248 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 185.42 110.49 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Unpolarized capacitor"
+			(at 185.42 110.49 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "9e6a2ae8-fbd3-4561-b77f-0e370bf2c1d5")
+		)
+		(pin "2"
+			(uuid "3fbdc396-10d0-482e-8d1b-8b9a37479fe9")
+		)
+		(instances
+			(project "analog"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/94bbc356-fa50-4d6f-b6f0-2ea7eca96dd3"
+					(reference "C23")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R_US")
 		(at 149.86 85.09 90)
 		(unit 1)
@@ -8144,7 +8255,7 @@
 		(dnp no)
 		(uuid "ee16c0c8-12a6-4eb8-9caa-3fe2b466c110")
 		(property "Reference" "R8"
-			(at 184.912 109.474 90)
+			(at 182.88 99.568 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8154,7 +8265,7 @@
 			)
 		)
 		(property "Value" "3K"
-			(at 184.912 112.014 90)
+			(at 182.88 102.108 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects

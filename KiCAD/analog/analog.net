@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "C:\\Users\\AlAnd\\Git Backed Projects\\xmitter\\KiCAD\\analog\\analog.kicad_sch")
-		(date "2026-10-23T17:56:14")
+		(date "2026-10-24T10:28:34")
 		(tool "Eeschema 10.0.3")
 		(sheet
 			(number "1")
@@ -150,54 +150,6 @@
 		)
 		(sheet
 			(number "4")
-			(name "/Test sheet/")
-			(tstamps "/285eeda9-2434-4a21-89a2-c0538edb418e/")
-			(title_block
-				(title)
-				(company)
-				(rev)
-				(date)
-				(source "test.kicad_sch")
-				(comment
-					(number "1")
-					(value "")
-				)
-				(comment
-					(number "2")
-					(value "")
-				)
-				(comment
-					(number "3")
-					(value "")
-				)
-				(comment
-					(number "4")
-					(value "")
-				)
-				(comment
-					(number "5")
-					(value "")
-				)
-				(comment
-					(number "6")
-					(value "")
-				)
-				(comment
-					(number "7")
-					(value "")
-				)
-				(comment
-					(number "8")
-					(value "")
-				)
-				(comment
-					(number "9")
-					(value "")
-				)
-			)
-		)
-		(sheet
-			(number "5")
 			(name "/VFO_Complete/")
 			(tstamps "/94bbc356-fa50-4d6f-b6f0-2ea7eca96dd3/")
 			(title_block
@@ -245,7 +197,7 @@
 			)
 		)
 		(sheet
-			(number "6")
+			(number "5")
 			(name "/Power/")
 			(tstamps "/9d33972e-4f39-4043-b71d-952850d73035/")
 			(title_block
@@ -293,7 +245,7 @@
 			)
 		)
 		(sheet
-			(number "7")
+			(number "6")
 			(name "/Interface/")
 			(tstamps "/5c3f4a2b-7d1e-4f8b-9c6d-0e8a1b2c3d4e/")
 			(title_block
@@ -823,6 +775,72 @@
 				(tstamps "/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72/")
 			)
 			(tstamps "295ec284-9533-40ec-b237-6be8063221b3")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "D4")
+			(value "1N4148")
+			(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
+			(datasheet "https://assets.nexperia.com/documents/data-sheet/1N4148_1N4448.pdf")
+			(description "100V 0.15A standard switching diode, DO-35")
+			(fields
+				(field
+					(name "Sim.Device") "D")
+				(field
+					(name "Sim.Pins") "1=K 2=A")
+				(field
+					(name "Footprint") "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
+				(field
+					(name "Datasheet") "https://assets.nexperia.com/documents/data-sheet/1N4148_1N4448.pdf")
+				(field
+					(name "Description") "100V 0.15A standard switching diode, DO-35")
+			)
+			(libsource
+				(lib "Diode")
+				(part "1N4148")
+				(description "100V 0.15A standard switching diode, DO-35")
+			)
+			(property
+				(name "Sim.Device")
+				(value "D")
+			)
+			(property
+				(name "Sim.Pins")
+				(value "1=K 2=A")
+			)
+			(property
+				(name "Sheetname")
+				(value "Arduino")
+			)
+			(property
+				(name "Sheetfile")
+				(value "arduino.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "diode")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "D*DO?35*")
+			)
+			(sheetpath
+				(names "/Arduino/")
+				(tstamps "/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72/")
+			)
+			(tstamps "50809f10-bbcb-4f70-8a9d-8cc87d89923f")
 			(units
 				(unit
 					(name "A")
@@ -2833,57 +2851,6 @@
 			)
 		)
 		(comp
-			(ref "TP10")
-			(value "xTP")
-			(footprint "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical")
-			(description "xmitter project test point on broken-off 0.1 inch square pin header; put signal name in Value field so it becomes silk on the PCB")
-			(fields
-				(field
-					(name "Footprint") "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "xmitter project test point on broken-off 0.1 inch square pin header; put signal name in Value field so it becomes silk on the PCB")
-			)
-			(libsource
-				(lib "xmitter")
-				(part "xTP")
-				(description "xmitter project test point on broken-off 0.1 inch square pin header; put signal name in Value field so it becomes silk on the PCB")
-			)
-			(property
-				(name "Sheetname")
-				(value "Arduino")
-			)
-			(property
-				(name "Sheetfile")
-				(value "arduino.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "test point tp")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "Pin* Test*")
-			)
-			(sheetpath
-				(names "/Arduino/")
-				(tstamps "/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72/")
-			)
-			(tstamps "b202792c-1240-442c-bc8d-b0d2c37fd779")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-					)
-				)
-			)
-		)
-		(comp
 			(ref "TP11")
 			(value "Heartbeat")
 			(footprint "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical")
@@ -3610,6 +3577,330 @@
 			)
 		)
 		(comp
+			(ref "C13")
+			(value "100pF")
+			(description "Unpolarized capacitor")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Unpolarized capacitor")
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "Sheetname")
+				(value "DAC Control")
+			)
+			(property
+				(name "Sheetfile")
+				(value "dac.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "C_*")
+			)
+			(sheetpath
+				(names "/DAC Control/")
+				(tstamps "/e880f7dd-82a1-4efe-84f5-e6a9d5641736/")
+			)
+			(tstamps "ab3d3a2f-abaa-4084-b3e7-ada4d4b5ebac")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C15")
+			(value "100nF")
+			(description "Unpolarized capacitor")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Unpolarized capacitor")
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "Sheetname")
+				(value "DAC Control")
+			)
+			(property
+				(name "Sheetfile")
+				(value "dac.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "C_*")
+			)
+			(sheetpath
+				(names "/DAC Control/")
+				(tstamps "/e880f7dd-82a1-4efe-84f5-e6a9d5641736/")
+			)
+			(tstamps "b904dc25-ca0d-46d9-9f6a-aaac40855c8e")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C22")
+			(value "10uF")
+			(description "Polarized capacitor")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Polarized capacitor")
+			)
+			(libsource
+				(lib "Device")
+				(part "C_Polarized")
+				(description "Polarized capacitor")
+			)
+			(property
+				(name "Sheetname")
+				(value "DAC Control")
+			)
+			(property
+				(name "Sheetfile")
+				(value "dac.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "CP_*")
+			)
+			(sheetpath
+				(names "/DAC Control/")
+				(tstamps "/e880f7dd-82a1-4efe-84f5-e6a9d5641736/")
+			)
+			(tstamps "4e158518-1d1b-476e-99f6-a416cec6d297")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C24")
+			(value "100nF")
+			(description "Unpolarized capacitor")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Unpolarized capacitor")
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "Sheetname")
+				(value "DAC Control")
+			)
+			(property
+				(name "Sheetfile")
+				(value "dac.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "C_*")
+			)
+			(sheetpath
+				(names "/DAC Control/")
+				(tstamps "/e880f7dd-82a1-4efe-84f5-e6a9d5641736/")
+			)
+			(tstamps "9080d5fa-629f-48c5-98d8-7c7c76260d06")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C25")
+			(value "0.1uF")
+			(description "Unpolarized capacitor")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Unpolarized capacitor")
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "Sheetname")
+				(value "DAC Control")
+			)
+			(property
+				(name "Sheetfile")
+				(value "dac.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "C_*")
+			)
+			(sheetpath
+				(names "/DAC Control/")
+				(tstamps "/e880f7dd-82a1-4efe-84f5-e6a9d5641736/")
+			)
+			(tstamps "dd6893ed-886c-425b-9652-dcf4a7e5fda4")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C27")
+			(value "0.1uF")
+			(description "Unpolarized capacitor")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Unpolarized capacitor")
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "Sheetname")
+				(value "DAC Control")
+			)
+			(property
+				(name "Sheetfile")
+				(value "dac.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "C_*")
+			)
+			(sheetpath
+				(names "/DAC Control/")
+				(tstamps "/e880f7dd-82a1-4efe-84f5-e6a9d5641736/")
+			)
+			(tstamps "d7ec3220-9a3c-417e-aeee-b21880bcec92")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
 			(ref "C48")
 			(value "1uF")
 			(footprint "Capacitor_THT:C_Rect_L7.2mm_W4.5mm_P5.00mm")
@@ -3772,23 +4063,35 @@
 			)
 		)
 		(comp
-			(ref "C51")
-			(value "10uF")
-			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
-			(description "Polarized capacitor, US symbol")
+			(ref "D3")
+			(value "1N4733A")
+			(footprint "Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal")
+			(datasheet "https://www.onsemi.com/pdf/datasheet/1n4736at-d.pdf")
+			(description "3.3V 1W Zener diode, DO-41")
 			(fields
 				(field
-					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
+					(name "Manufacturer") "onsemi")
 				(field
-					(name "Datasheet")
-				)
+					(name "MPN") "1N4728A")
 				(field
-					(name "Description") "Polarized capacitor, US symbol")
+					(name "Footprint") "Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal")
+				(field
+					(name "Datasheet") "https://www.onsemi.com/pdf/datasheet/1n4736at-d.pdf")
+				(field
+					(name "Description") "3.3V 1W Zener diode, DO-41")
 			)
 			(libsource
-				(lib "Device")
-				(part "C_Polarized_US")
-				(description "Polarized capacitor, US symbol")
+				(lib "xmitter")
+				(part "1N4728A")
+				(description "3.3V 1W Zener diode, DO-41")
+			)
+			(property
+				(name "Manufacturer")
+				(value "onsemi")
+			)
+			(property
+				(name "MPN")
+				(value "1N4728A")
 			)
 			(property
 				(name "Sheetname")
@@ -3800,17 +4103,13 @@
 			)
 			(property
 				(name "ki_keywords")
-				(value "cap capacitor")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "CP_*")
+				(value "Zener diode 3.3V DO-41 1N4728A")
 			)
 			(sheetpath
 				(names "/DAC Control/")
 				(tstamps "/e880f7dd-82a1-4efe-84f5-e6a9d5641736/")
 			)
-			(tstamps "c93a11e8-4572-488b-89e2-9dd4c5d01446")
+			(tstamps "af1cb79d-d2e3-4c96-8635-5a85210118d2")
 			(units
 				(unit
 					(name "A")
@@ -3820,198 +4119,6 @@
 						)
 						(pin
 							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "C92")
-			(value "100nF")
-			(footprint "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm")
-			(description "Unpolarized capacitor, small symbol")
-			(fields
-				(field
-					(name "Footprint") "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "Unpolarized capacitor, small symbol")
-			)
-			(libsource
-				(lib "Device")
-				(part "C_Small")
-				(description "Unpolarized capacitor, small symbol")
-			)
-			(property
-				(name "Sheetname")
-				(value "DAC Control")
-			)
-			(property
-				(name "Sheetfile")
-				(value "dac.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "capacitor cap")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "C_*")
-			)
-			(sheetpath
-				(names "/DAC Control/")
-				(tstamps "/e880f7dd-82a1-4efe-84f5-e6a9d5641736/")
-			)
-			(tstamps "e5965a7c-1de3-4f39-be16-fa1a60e0a4b6")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "Q11")
-			(value "2N3904")
-			(footprint "Package_TO_SOT_THT:TO-92_Inline_Wide")
-			(datasheet "https://www.onsemi.com/pub/Collateral/2N3903-D.PDF")
-			(description "0.2A Ic, 40V Vce, Small Signal NPN Transistor, TO-92")
-			(fields
-				(field
-					(name "Sim.Device") "NPN")
-				(field
-					(name "Sim.Pins") "1=E 2=B 3=C")
-				(field
-					(name "Footprint") "Package_TO_SOT_THT:TO-92_Inline_Wide")
-				(field
-					(name "Datasheet") "https://www.onsemi.com/pub/Collateral/2N3903-D.PDF")
-				(field
-					(name "Description") "0.2A Ic, 40V Vce, Small Signal NPN Transistor, TO-92")
-			)
-			(libsource
-				(lib "Transistor_BJT")
-				(part "2N3904")
-				(description "0.2A Ic, 40V Vce, Small Signal NPN Transistor, TO-92")
-			)
-			(property
-				(name "Sim.Device")
-				(value "NPN")
-			)
-			(property
-				(name "Sim.Pins")
-				(value "1=E 2=B 3=C")
-			)
-			(property
-				(name "Sheetname")
-				(value "DAC Control")
-			)
-			(property
-				(name "Sheetfile")
-				(value "dac.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "NPN Transistor")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "TO?92*")
-			)
-			(sheetpath
-				(names "/DAC Control/")
-				(tstamps "/e880f7dd-82a1-4efe-84f5-e6a9d5641736/")
-			)
-			(tstamps "17773807-7bbd-4638-aa89-2520ce20cc90")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "2")
-						)
-						(pin
-							(num "3")
-						)
-						(pin
-							(num "1")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "Q12")
-			(value "2N3904")
-			(footprint "Package_TO_SOT_THT:TO-92_Inline_Wide")
-			(datasheet "https://www.onsemi.com/pub/Collateral/2N3903-D.PDF")
-			(description "0.2A Ic, 40V Vce, Small Signal NPN Transistor, TO-92")
-			(fields
-				(field
-					(name "Sim.Device") "NPN")
-				(field
-					(name "Sim.Pins") "1=E 2=B 3=C")
-				(field
-					(name "Footprint") "Package_TO_SOT_THT:TO-92_Inline_Wide")
-				(field
-					(name "Datasheet") "https://www.onsemi.com/pub/Collateral/2N3903-D.PDF")
-				(field
-					(name "Description") "0.2A Ic, 40V Vce, Small Signal NPN Transistor, TO-92")
-			)
-			(libsource
-				(lib "Transistor_BJT")
-				(part "2N3904")
-				(description "0.2A Ic, 40V Vce, Small Signal NPN Transistor, TO-92")
-			)
-			(property
-				(name "Sim.Device")
-				(value "NPN")
-			)
-			(property
-				(name "Sim.Pins")
-				(value "1=E 2=B 3=C")
-			)
-			(property
-				(name "Sheetname")
-				(value "DAC Control")
-			)
-			(property
-				(name "Sheetfile")
-				(value "dac.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "NPN Transistor")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "TO?92*")
-			)
-			(sheetpath
-				(names "/DAC Control/")
-				(tstamps "/e880f7dd-82a1-4efe-84f5-e6a9d5641736/")
-			)
-			(tstamps "4093a047-9cb1-4058-a785-a455c4bc8d35")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "2")
-						)
-						(pin
-							(num "3")
-						)
-						(pin
-							(num "1")
 						)
 					)
 				)
@@ -4126,6 +4233,384 @@
 			)
 		)
 		(comp
+			(ref "R20")
+			(value "100R")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "DAC Control")
+			)
+			(property
+				(name "Sheetfile")
+				(value "dac.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/DAC Control/")
+				(tstamps "/e880f7dd-82a1-4efe-84f5-e6a9d5641736/")
+			)
+			(tstamps "88d36194-1495-4f6b-bc73-c57ee0a469bd")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R22")
+			(value "6.2K")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "DAC Control")
+			)
+			(property
+				(name "Sheetfile")
+				(value "dac.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/DAC Control/")
+				(tstamps "/e880f7dd-82a1-4efe-84f5-e6a9d5641736/")
+			)
+			(tstamps "6a873623-890d-4540-a97b-6eb20f353e20")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R33")
+			(value "1K")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "DAC Control")
+			)
+			(property
+				(name "Sheetfile")
+				(value "dac.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/DAC Control/")
+				(tstamps "/e880f7dd-82a1-4efe-84f5-e6a9d5641736/")
+			)
+			(tstamps "65e2d4c9-7fad-444b-9819-b0cafadef1dc")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R34")
+			(value "1K")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "DAC Control")
+			)
+			(property
+				(name "Sheetfile")
+				(value "dac.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/DAC Control/")
+				(tstamps "/e880f7dd-82a1-4efe-84f5-e6a9d5641736/")
+			)
+			(tstamps "f0697160-f1fb-4e3b-86d9-a8bd6c26bd2a")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R35")
+			(value "100K")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "DAC Control")
+			)
+			(property
+				(name "Sheetfile")
+				(value "dac.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/DAC Control/")
+				(tstamps "/e880f7dd-82a1-4efe-84f5-e6a9d5641736/")
+			)
+			(tstamps "da563540-7a16-43d8-b3e8-6a79b31edc07")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R36")
+			(value "10K")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "DAC Control")
+			)
+			(property
+				(name "Sheetfile")
+				(value "dac.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/DAC Control/")
+				(tstamps "/e880f7dd-82a1-4efe-84f5-e6a9d5641736/")
+			)
+			(tstamps "009b48ae-bd17-43ea-8027-353199048de1")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R37")
+			(value "10K")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "DAC Control")
+			)
+			(property
+				(name "Sheetfile")
+				(value "dac.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/DAC Control/")
+				(tstamps "/e880f7dd-82a1-4efe-84f5-e6a9d5641736/")
+			)
+			(tstamps "a170749e-c0bd-4b1a-957c-f81f2f7db0f9")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
 			(ref "R47")
 			(value "10R")
 			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
@@ -4165,222 +4650,6 @@
 				(tstamps "/e880f7dd-82a1-4efe-84f5-e6a9d5641736/")
 			)
 			(tstamps "5ad5ebbc-a3a0-46db-b457-9f99d63b4496")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "R48")
-			(value "10K")
-			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
-			(description "Resistor, US symbol")
-			(fields
-				(field
-					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "Resistor, US symbol")
-			)
-			(libsource
-				(lib "Device")
-				(part "R_US")
-				(description "Resistor, US symbol")
-			)
-			(property
-				(name "Sheetname")
-				(value "DAC Control")
-			)
-			(property
-				(name "Sheetfile")
-				(value "dac.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "R res resistor")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "R_*")
-			)
-			(sheetpath
-				(names "/DAC Control/")
-				(tstamps "/e880f7dd-82a1-4efe-84f5-e6a9d5641736/")
-			)
-			(tstamps "888d3727-cbf9-4ae4-8f0f-317d95853dd1")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "R49")
-			(value "47K")
-			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
-			(description "Resistor, US symbol")
-			(fields
-				(field
-					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "Resistor, US symbol")
-			)
-			(libsource
-				(lib "Device")
-				(part "R_US")
-				(description "Resistor, US symbol")
-			)
-			(property
-				(name "Sheetname")
-				(value "DAC Control")
-			)
-			(property
-				(name "Sheetfile")
-				(value "dac.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "R res resistor")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "R_*")
-			)
-			(sheetpath
-				(names "/DAC Control/")
-				(tstamps "/e880f7dd-82a1-4efe-84f5-e6a9d5641736/")
-			)
-			(tstamps "08e28af8-47a8-4a02-bd63-e028f3052405")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "R50")
-			(value "10K")
-			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
-			(description "Resistor, US symbol")
-			(fields
-				(field
-					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "Resistor, US symbol")
-			)
-			(libsource
-				(lib "Device")
-				(part "R_US")
-				(description "Resistor, US symbol")
-			)
-			(property
-				(name "Sheetname")
-				(value "DAC Control")
-			)
-			(property
-				(name "Sheetfile")
-				(value "dac.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "R res resistor")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "R_*")
-			)
-			(sheetpath
-				(names "/DAC Control/")
-				(tstamps "/e880f7dd-82a1-4efe-84f5-e6a9d5641736/")
-			)
-			(tstamps "6141f311-e756-49e9-b6ad-14b4418c1453")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "R51")
-			(value "10K")
-			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
-			(description "Resistor, US symbol")
-			(fields
-				(field
-					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "Resistor, US symbol")
-			)
-			(libsource
-				(lib "Device")
-				(part "R_US")
-				(description "Resistor, US symbol")
-			)
-			(property
-				(name "Sheetname")
-				(value "DAC Control")
-			)
-			(property
-				(name "Sheetfile")
-				(value "dac.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "R res resistor")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "R_*")
-			)
-			(sheetpath
-				(names "/DAC Control/")
-				(tstamps "/e880f7dd-82a1-4efe-84f5-e6a9d5641736/")
-			)
-			(tstamps "d317c751-b616-4bdd-82e0-011fbddfca68")
 			(units
 				(unit
 					(name "A")
@@ -4485,7 +4754,7 @@
 				(names "/DAC Control/")
 				(tstamps "/e880f7dd-82a1-4efe-84f5-e6a9d5641736/")
 			)
-			(tstamps "4bc4f1d8-df6e-494f-a962-066986839e72")
+			(tstamps "a4227c0a-8ded-4ff8-8a51-83f6bf8f93a8")
 			(units
 				(unit
 					(name "A")
@@ -4626,8 +4895,8 @@
 				(names "/DAC Control/")
 				(tstamps "/e880f7dd-82a1-4efe-84f5-e6a9d5641736/")
 			)
-			(tstamps "b85b3590-907d-467d-b9e4-0e0486726e39" "af477169-0b98-42fd-8df9-11aadfd325d5"
-				"c38f690d-b09c-4ffe-8f5d-d131ba361a10" "9a4916c5-7225-46d4-8e3f-7fe77f08bbee"
+			(tstamps "b85b3590-907d-467d-b9e4-0e0486726e39" "c38f690d-b09c-4ffe-8f5d-d131ba361a10"
+				"9a4916c5-7225-46d4-8e3f-7fe77f08bbee" "af477169-0b98-42fd-8df9-11aadfd325d5"
 				"32bde222-d2b2-4b03-a507-24d86dd3ae02"
 			)
 			(units
@@ -4701,340 +4970,8 @@
 			)
 		)
 		(comp
-			(ref "D2")
-			(value "1N4728A")
-			(footprint "Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal")
-			(datasheet "https://www.onsemi.com/pdf/datasheet/1n4736at-d.pdf")
-			(description "3.3V 1W Zener diode, DO-41")
-			(fields
-				(field
-					(name "Manufacturer") "onsemi")
-				(field
-					(name "MPN") "1N4728A")
-				(field
-					(name "Footprint") "Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal")
-				(field
-					(name "Datasheet") "https://www.onsemi.com/pdf/datasheet/1n4736at-d.pdf")
-				(field
-					(name "Description") "3.3V 1W Zener diode, DO-41")
-			)
-			(libsource
-				(lib "xmitter")
-				(part "1N4728A")
-				(description "3.3V 1W Zener diode, DO-41")
-			)
-			(property
-				(name "Manufacturer")
-				(value "onsemi")
-			)
-			(property
-				(name "MPN")
-				(value "1N4728A")
-			)
-			(property
-				(name "Sheetname")
-				(value "Test sheet")
-			)
-			(property
-				(name "Sheetfile")
-				(value "test.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "Zener diode 3.3V DO-41 1N4728A")
-			)
-			(sheetpath
-				(names "/Test sheet/")
-				(tstamps "/285eeda9-2434-4a21-89a2-c0538edb418e/")
-			)
-			(tstamps "932bde62-1cff-4023-b3d6-c491fed4ddba")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "R20")
-			(value "R_US")
-			(description "Resistor, US symbol")
-			(fields
-				(field
-					(name "Footprint")
-				)
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "Resistor, US symbol")
-			)
-			(libsource
-				(lib "Device")
-				(part "R_US")
-				(description "Resistor, US symbol")
-			)
-			(property
-				(name "Sheetname")
-				(value "Test sheet")
-			)
-			(property
-				(name "Sheetfile")
-				(value "test.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "R res resistor")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "R_*")
-			)
-			(sheetpath
-				(names "/Test sheet/")
-				(tstamps "/285eeda9-2434-4a21-89a2-c0538edb418e/")
-			)
-			(tstamps "91d7ed4a-46ce-4101-ae7e-3e94f47984f5")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "R23")
-			(value "R_US")
-			(description "Resistor, US symbol")
-			(fields
-				(field
-					(name "Footprint")
-				)
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "Resistor, US symbol")
-			)
-			(libsource
-				(lib "Device")
-				(part "R_US")
-				(description "Resistor, US symbol")
-			)
-			(property
-				(name "Sheetname")
-				(value "Test sheet")
-			)
-			(property
-				(name "Sheetfile")
-				(value "test.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "R res resistor")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "R_*")
-			)
-			(sheetpath
-				(names "/Test sheet/")
-				(tstamps "/285eeda9-2434-4a21-89a2-c0538edb418e/")
-			)
-			(tstamps "5e8ccf85-540c-4099-ba5f-3c7ad3c2fadf")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "R24")
-			(value "R_US")
-			(description "Resistor, US symbol")
-			(fields
-				(field
-					(name "Footprint")
-				)
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "Resistor, US symbol")
-			)
-			(libsource
-				(lib "Device")
-				(part "R_US")
-				(description "Resistor, US symbol")
-			)
-			(property
-				(name "Sheetname")
-				(value "Test sheet")
-			)
-			(property
-				(name "Sheetfile")
-				(value "test.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "R res resistor")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "R_*")
-			)
-			(sheetpath
-				(names "/Test sheet/")
-				(tstamps "/285eeda9-2434-4a21-89a2-c0538edb418e/")
-			)
-			(tstamps "391817ff-6e4a-4932-90ac-13012a833883")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "R25")
-			(value "R_US")
-			(description "Resistor, US symbol")
-			(fields
-				(field
-					(name "Footprint")
-				)
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "Resistor, US symbol")
-			)
-			(libsource
-				(lib "Device")
-				(part "R_US")
-				(description "Resistor, US symbol")
-			)
-			(property
-				(name "Sheetname")
-				(value "Test sheet")
-			)
-			(property
-				(name "Sheetfile")
-				(value "test.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "R res resistor")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "R_*")
-			)
-			(sheetpath
-				(names "/Test sheet/")
-				(tstamps "/285eeda9-2434-4a21-89a2-c0538edb418e/")
-			)
-			(tstamps "83524bd3-0156-41da-af9c-365048fd9678")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "R32")
-			(value "R_US")
-			(description "Resistor, US symbol")
-			(fields
-				(field
-					(name "Footprint")
-				)
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "Resistor, US symbol")
-			)
-			(libsource
-				(lib "Device")
-				(part "R_US")
-				(description "Resistor, US symbol")
-			)
-			(property
-				(name "Sheetname")
-				(value "Test sheet")
-			)
-			(property
-				(name "Sheetfile")
-				(value "test.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "R res resistor")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "R_*")
-			)
-			(sheetpath
-				(names "/Test sheet/")
-				(tstamps "/285eeda9-2434-4a21-89a2-c0538edb418e/")
-			)
-			(tstamps "9525d443-7843-4ddd-a512-08d01e5eed69")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "U10")
-			(value "LM7171xIN")
+			(ref "U11")
+			(value "TL071CP")
 			(footprint "Package_DIP:DIP-8_W7.62mm")
 			(datasheet "https://www.ti.com/lit/ds/symlink/lm7171.pdf")
 			(description "Single Very High Speed High Output Current Voltage Feedback Amplifier, DIP-8")
@@ -5053,11 +4990,11 @@
 			)
 			(property
 				(name "Sheetname")
-				(value "Test sheet")
+				(value "DAC Control")
 			)
 			(property
 				(name "Sheetfile")
-				(value "test.kicad_sch")
+				(value "dac.kicad_sch")
 			)
 			(property
 				(name "ki_keywords")
@@ -5068,10 +5005,10 @@
 				(value "DIP*W7.62mm*")
 			)
 			(sheetpath
-				(names "/Test sheet/")
-				(tstamps "/285eeda9-2434-4a21-89a2-c0538edb418e/")
+				(names "/DAC Control/")
+				(tstamps "/e880f7dd-82a1-4efe-84f5-e6a9d5641736/")
 			)
-			(tstamps "f956f9d9-4f39-4b13-8412-83759e34f6e9")
+			(tstamps "99f53aa0-7a5c-4fe4-a848-42807e7a0a04")
 			(units
 				(unit
 					(name "A")
@@ -5576,6 +5513,60 @@
 				(tstamps "/94bbc356-fa50-4d6f-b6f0-2ea7eca96dd3/")
 			)
 			(tstamps "1e993a52-248f-4c18-ac0b-7857f82267e5")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C23")
+			(value "2pF")
+			(description "Unpolarized capacitor")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Unpolarized capacitor")
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "Sheetname")
+				(value "VFO_Complete")
+			)
+			(property
+				(name "Sheetfile")
+				(value "vfo_complete.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "C_*")
+			)
+			(sheetpath
+				(names "/VFO_Complete/")
+				(tstamps "/94bbc356-fa50-4d6f-b6f0-2ea7eca96dd3/")
+			)
+			(tstamps "bf36979f-1da4-4f6e-abe8-5e13334a9d91")
 			(units
 				(unit
 					(name "A")
@@ -8174,7 +8165,7 @@
 		)
 		(comp
 			(ref "R17")
-			(value "240K")
+			(value "220K")
 			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
 			(description "Resistor, US symbol")
 			(fields
@@ -8869,6 +8860,9 @@
 				(value "interface.kicad_sch")
 			)
 			(property
+				(name "dnp")
+			)
+			(property
 				(name "ki_keywords")
 				(value "R res resistor")
 			)
@@ -8923,6 +8917,9 @@
 				(value "interface.kicad_sch")
 			)
 			(property
+				(name "dnp")
+			)
+			(property
 				(name "ki_keywords")
 				(value "R res resistor")
 			)
@@ -8935,6 +8932,120 @@
 				(tstamps "/5c3f4a2b-7d1e-4f8b-9c6d-0e8a1b2c3d4e/")
 			)
 			(tstamps "58a6313a-e7e7-48c3-9682-49b76e8671cb")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R38")
+			(value "10K")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "Interface")
+			)
+			(property
+				(name "Sheetfile")
+				(value "interface.kicad_sch")
+			)
+			(property
+				(name "dnp")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/Interface/")
+				(tstamps "/5c3f4a2b-7d1e-4f8b-9c6d-0e8a1b2c3d4e/")
+			)
+			(tstamps "9ee0a237-ea89-40ec-966f-0205c8d392a0")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R39")
+			(value "10K")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "Interface")
+			)
+			(property
+				(name "Sheetfile")
+				(value "interface.kicad_sch")
+			)
+			(property
+				(name "dnp")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/Interface/")
+				(tstamps "/5c3f4a2b-7d1e-4f8b-9c6d-0e8a1b2c3d4e/")
+			)
+			(tstamps "cb284113-7c46-4b43-a831-2fa473b0b0af")
 			(units
 				(unit
 					(name "A")
@@ -9963,6 +10074,43 @@
 			)
 		)
 		(libpart
+			(lib "Diode")
+			(part "1N4148")
+			(description "100V 0.15A standard switching diode, DO-35")
+			(docs "https://assets.nexperia.com/documents/data-sheet/1N4148_1N4448.pdf")
+			(footprints
+				(fp "D*DO?35*")
+			)
+			(fields
+				(field
+					(name "Reference") "D")
+				(field
+					(name "Value") "1N4148")
+				(field
+					(name "Footprint") "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
+				(field
+					(name "Datasheet") "https://assets.nexperia.com/documents/data-sheet/1N4148_1N4448.pdf")
+				(field
+					(name "Description") "100V 0.15A standard switching diode, DO-35")
+				(field
+					(name "Sim.Device") "D")
+				(field
+					(name "Sim.Pins") "1=K 2=A")
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "K")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "A")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
 			(lib "Regulator_Linear")
 			(part "MCP1700x-330xxTO")
 			(description "250mA Low Quiscent Current LDO, 3.3V output, TO-92")
@@ -10111,48 +10259,6 @@
 				)
 				(pin
 					(num "6")
-					(name "C")
-					(type "passive")
-				)
-			)
-		)
-		(libpart
-			(lib "Transistor_BJT")
-			(part "2N3904")
-			(description "0.2A Ic, 40V Vce, Small Signal NPN Transistor, TO-92")
-			(docs "https://www.onsemi.com/pub/Collateral/2N3903-D.PDF")
-			(footprints
-				(fp "TO?92*")
-			)
-			(fields
-				(field
-					(name "Reference") "Q")
-				(field
-					(name "Value") "2N3904")
-				(field
-					(name "Footprint") "Package_TO_SOT_THT:TO-92_Inline")
-				(field
-					(name "Datasheet") "https://www.onsemi.com/pub/Collateral/2N3903-D.PDF")
-				(field
-					(name "Description") "0.2A Ic, 40V Vce, Small Signal NPN Transistor, TO-92")
-				(field
-					(name "Sim.Device") "NPN")
-				(field
-					(name "Sim.Pins") "1=E 2=B 3=C")
-			)
-			(pins
-				(pin
-					(num "1")
-					(name "E")
-					(type "passive")
-				)
-				(pin
-					(num "2")
-					(name "B")
-					(type "input")
-				)
-				(pin
-					(num "3")
 					(name "C")
 					(type "passive")
 				)
@@ -11171,10 +11277,6 @@
 			(uri "${KICAD10_SYMBOL_DIR}/Switch.kicad_sym")
 		)
 		(library
-			(logical "Transistor_BJT")
-			(uri "${KICAD10_SYMBOL_DIR}/Transistor_BJT.kicad_sym")
-		)
-		(library
 			(logical "Transistor_FET")
 			(uri "${KICAD10_SYMBOL_DIR}/Transistor_FET.kicad_sym")
 		)
@@ -11195,6 +11297,21 @@
 			)
 			(node
 				(ref "C7")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "R37")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R38")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R39")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -11227,6 +11344,11 @@
 			)
 			(node
 				(ref "C16")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "C22")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -11271,11 +11393,6 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "C51")
-				(pin "1")
-				(pintype "passive")
-			)
-			(node
 				(ref "C6")
 				(pin "2")
 				(pintype "passive")
@@ -11283,11 +11400,6 @@
 			(node
 				(ref "C8")
 				(pin "2")
-				(pintype "passive")
-			)
-			(node
-				(ref "C92")
-				(pin "1")
 				(pintype "passive")
 			)
 			(node
@@ -11302,23 +11414,12 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "Q12")
-				(pin "3")
-				(pinfunction "C_3")
-				(pintype "passive")
-			)
-			(node
 				(ref "R30")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
 				(ref "R47")
-				(pin "1")
-				(pintype "passive")
-			)
-			(node
-				(ref "R51")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -11421,6 +11522,11 @@
 				(pintype "passive")
 			)
 			(node
+				(ref "C27")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
 				(ref "C30")
 				(pin "1")
 				(pintype "passive")
@@ -11428,6 +11534,12 @@
 			(node
 				(ref "Cx3")
 				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "D4")
+				(pin "1")
+				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
@@ -11475,12 +11587,12 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "R24")
+				(ref "R31")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
-				(ref "R31")
+				(ref "R33")
 				(pin "1")
 				(pintype "passive")
 			)
@@ -11491,7 +11603,7 @@
 				(pintype "power_in")
 			)
 			(node
-				(ref "U10")
+				(ref "U11")
 				(pin "7")
 				(pinfunction "V+_7")
 				(pintype "power_in")
@@ -11518,6 +11630,11 @@
 				(pintype "passive")
 			)
 			(node
+				(ref "C25")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
 				(ref "C3")
 				(pin "1")
 				(pintype "passive")
@@ -11534,7 +11651,7 @@
 				(pintype "power_in")
 			)
 			(node
-				(ref "U10")
+				(ref "U11")
 				(pin "4")
 				(pinfunction "V-_4")
 				(pintype "power_in")
@@ -11554,6 +11671,11 @@
 				(ref "J16")
 				(pin "4")
 				(pinfunction "Pin_4_4")
+				(pintype "passive")
+			)
+			(node
+				(ref "R37")
+				(pin "2")
 				(pintype "passive")
 			)
 			(node
@@ -11706,14 +11828,20 @@
 			(name "GATE_2")
 			(class "Default")
 			(node
-				(ref "R20")
-				(pin "2")
+				(ref "C13")
+				(pin "1")
 				(pintype "passive")
 			)
 			(node
-				(ref "U10")
-				(pin "6")
-				(pintype "output")
+				(ref "Q2")
+				(pin "2")
+				(pinfunction "G2_2")
+				(pintype "input")
+			)
+			(node
+				(ref "R20")
+				(pin "2")
+				(pintype "passive")
 			)
 		)
 		(net
@@ -11761,6 +11889,16 @@
 				(pintype "passive")
 			)
 			(node
+				(ref "C13")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C15")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
 				(ref "C16")
 				(pin "2")
 				(pintype "passive")
@@ -11782,6 +11920,26 @@
 			)
 			(node
 				(ref "C21")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C22")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C24")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C25")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "C27")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -11861,11 +12019,6 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "C51")
-				(pin "2")
-				(pintype "passive")
-			)
-			(node
 				(ref "C6")
 				(pin "1")
 				(pintype "passive")
@@ -11881,17 +12034,12 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "C92")
-				(pin "2")
-				(pintype "passive")
-			)
-			(node
 				(ref "Cx3")
 				(pin "1")
 				(pintype "passive")
 			)
 			(node
-				(ref "D2")
+				(ref "D3")
 				(pin "2")
 				(pinfunction "A_2")
 				(pintype "passive")
@@ -12036,12 +12184,6 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "Q11")
-				(pin "1")
-				(pinfunction "E_1")
-				(pintype "passive")
-			)
-			(node
 				(ref "Q4")
 				(pin "1")
 				(pinfunction "S_1")
@@ -12090,17 +12232,12 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "R32")
+				(ref "R35")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
 				(ref "R4")
-				(pin "2")
-				(pintype "passive")
-			)
-			(node
-				(ref "R49")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -12310,34 +12447,6 @@
 		)
 		(net
 			(code "18")
-			(name "Gate 2")
-			(class "Default")
-			(node
-				(ref "Q11")
-				(pin "3")
-				(pinfunction "C_3")
-				(pintype "passive")
-			)
-			(node
-				(ref "Q2")
-				(pin "2")
-				(pinfunction "G2_2")
-				(pintype "input")
-			)
-			(node
-				(ref "R13")
-				(pin "2")
-				(pintype "passive")
-			)
-			(node
-				(ref "TP20")
-				(pin "1")
-				(pinfunction "1_1")
-				(pintype "passive")
-			)
-		)
-		(net
-			(code "19")
 			(name "I_CATHODE_A")
 			(class "Default")
 			(node
@@ -12364,7 +12473,7 @@
 			)
 		)
 		(net
-			(code "20")
+			(code "19")
 			(name "I_CATHODE_B")
 			(class "Default")
 			(node
@@ -12391,40 +12500,7 @@
 			)
 		)
 		(net
-			(code "21")
-			(name "KeyUp")
-			(class "Default")
-			(node
-				(ref "J14")
-				(pin "5")
-				(pinfunction "Pin_5_5")
-				(pintype "passive")
-			)
-			(node
-				(ref "R50")
-				(pin "2")
-				(pintype "passive")
-			)
-			(node
-				(ref "R51")
-				(pin "2")
-				(pintype "passive")
-			)
-			(node
-				(ref "TP10")
-				(pin "1")
-				(pinfunction "1_1")
-				(pintype "passive")
-			)
-			(node
-				(ref "U17")
-				(pin "P8")
-				(pinfunction "P8_P8")
-				(pintype "bidirectional")
-			)
-		)
-		(net
-			(code "22")
+			(code "20")
 			(name "LDAC_4728")
 			(class "Default")
 			(node
@@ -12441,7 +12517,7 @@
 			)
 		)
 		(net
-			(code "23")
+			(code "21")
 			(name "MBL600_A")
 			(class "Default")
 			(node
@@ -12466,9 +12542,14 @@
 				(pin "2")
 				(pintype "passive")
 			)
+			(node
+				(ref "R38")
+				(pin "2")
+				(pintype "passive")
+			)
 		)
 		(net
-			(code "24")
+			(code "22")
 			(name "MBL600_B")
 			(class "Default")
 			(node
@@ -12493,9 +12574,14 @@
 				(pin "1")
 				(pintype "passive")
 			)
+			(node
+				(ref "R39")
+				(pin "1")
+				(pintype "passive")
+			)
 		)
 		(net
-			(code "25")
+			(code "23")
 			(name "MBL_A_N")
 			(class "Default")
 			(node
@@ -12516,7 +12602,7 @@
 			)
 		)
 		(net
-			(code "26")
+			(code "24")
 			(name "MBL_A_P")
 			(class "Default")
 			(node
@@ -12537,7 +12623,7 @@
 			)
 		)
 		(net
-			(code "27")
+			(code "25")
 			(name "MBL_B_N")
 			(class "Default")
 			(node
@@ -12558,7 +12644,7 @@
 			)
 		)
 		(net
-			(code "28")
+			(code "26")
 			(name "MBL_B_P")
 			(class "Default")
 			(node
@@ -12579,7 +12665,7 @@
 			)
 		)
 		(net
-			(code "29")
+			(code "27")
 			(name "MOSI")
 			(class "Default")
 			(node
@@ -12595,7 +12681,7 @@
 			)
 		)
 		(net
-			(code "30")
+			(code "28")
 			(name "Net-(C4-Pad1)")
 			(class "Default")
 			(node
@@ -12610,7 +12696,7 @@
 			)
 		)
 		(net
-			(code "31")
+			(code "29")
 			(name "Net-(C9-Pad2)")
 			(class "Default")
 			(node
@@ -12625,7 +12711,7 @@
 			)
 		)
 		(net
-			(code "32")
+			(code "30")
 			(name "Net-(C10-Pad1)")
 			(class "Default")
 			(node
@@ -12646,6 +12732,62 @@
 			(node
 				(ref "R21")
 				(pin "2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "31")
+			(name "Net-(C23-Pad2)")
+			(class "Default")
+			(node
+				(ref "C23")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "R2")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R8")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "TP21")
+				(pin "1")
+				(pinfunction "1_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "U1")
+				(pin "6")
+				(pintype "output")
+			)
+		)
+		(net
+			(code "32")
+			(name "Net-(C24-Pad1)")
+			(class "Default")
+			(node
+				(ref "C24")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R34")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "R35")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R36")
+				(pin "1")
 				(pintype "passive")
 			)
 		)
@@ -12749,27 +12891,55 @@
 		)
 		(net
 			(code "36")
-			(name "Net-(D2-K)")
+			(name "Net-(D3-K)")
 			(class "Default")
 			(node
-				(ref "D2")
+				(ref "C15")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "D3")
 				(pin "1")
 				(pinfunction "K_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "R24")
+				(ref "R33")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "R25")
+				(ref "R34")
 				(pin "1")
 				(pintype "passive")
 			)
 		)
 		(net
 			(code "37")
+			(name "Net-(D4-A)")
+			(class "Default")
+			(node
+				(ref "D4")
+				(pin "2")
+				(pinfunction "A_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "J6")
+				(pin "1")
+				(pinfunction "Pin_1_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "Q4")
+				(pin "3")
+				(pinfunction "D_3")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "38")
 			(name "Net-(D5-A)")
 			(class "Default")
 			(node
@@ -12791,7 +12961,7 @@
 			)
 		)
 		(net
-			(code "38")
+			(code "39")
 			(name "Net-(J1-In)")
 			(class "Default")
 			(node
@@ -12807,7 +12977,7 @@
 			)
 		)
 		(net
-			(code "39")
+			(code "40")
 			(name "Net-(J5-Pin_2)")
 			(class "Default")
 			(node
@@ -12819,23 +12989,6 @@
 				(ref "J5")
 				(pin "2")
 				(pinfunction "Pin_2_2")
-				(pintype "passive")
-			)
-		)
-		(net
-			(code "40")
-			(name "Net-(J6-Pin_1)")
-			(class "Default")
-			(node
-				(ref "J6")
-				(pin "1")
-				(pinfunction "Pin_1_1")
-				(pintype "passive")
-			)
-			(node
-				(ref "Q4")
-				(pin "3")
-				(pinfunction "D_3")
 				(pintype "passive")
 			)
 		)
@@ -13160,105 +13313,32 @@
 		)
 		(net
 			(code "58")
-			(name "Net-(Q11-B)")
+			(name "Net-(R20-Pad1)")
 			(class "Default")
 			(node
-				(ref "Q11")
-				(pin "2")
-				(pinfunction "B_2")
-				(pintype "input")
-			)
-			(node
-				(ref "R48")
+				(ref "R20")
 				(pin "1")
 				(pintype "passive")
 			)
-		)
-		(net
-			(code "59")
-			(name "Net-(Q12-B)")
-			(class "Default")
 			(node
-				(ref "Q12")
-				(pin "2")
-				(pinfunction "B_2")
-				(pintype "input")
-			)
-			(node
-				(ref "R50")
-				(pin "1")
-				(pintype "passive")
-			)
-		)
-		(net
-			(code "60")
-			(name "Net-(Q12-E)")
-			(class "Default")
-			(node
-				(ref "Q12")
-				(pin "1")
-				(pinfunction "E_1")
-				(pintype "passive")
-			)
-			(node
-				(ref "R48")
+				(ref "R22")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "R49")
-				(pin "1")
-				(pintype "passive")
-			)
-		)
-		(net
-			(code "61")
-			(name "Net-(R2-Pad1)")
-			(class "Default")
-			(node
-				(ref "R2")
-				(pin "1")
-				(pintype "passive")
-			)
-			(node
-				(ref "R8")
-				(pin "2")
-				(pintype "passive")
-			)
-			(node
-				(ref "TP21")
+				(ref "TP20")
 				(pin "1")
 				(pinfunction "1_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "U1")
+				(ref "U11")
 				(pin "6")
 				(pintype "output")
 			)
 		)
 		(net
-			(code "62")
-			(name "Net-(R23-Pad1)")
-			(class "Default")
-			(node
-				(ref "R23")
-				(pin "1")
-				(pintype "passive")
-			)
-			(node
-				(ref "R25")
-				(pin "2")
-				(pintype "passive")
-			)
-			(node
-				(ref "R32")
-				(pin "1")
-				(pintype "passive")
-			)
-		)
-		(net
-			(code "63")
+			(code "59")
 			(name "Net-(RS2-Pad1)")
 			(class "Default")
 			(node
@@ -13274,7 +13354,7 @@
 			)
 		)
 		(net
-			(code "64")
+			(code "60")
 			(name "Net-(SW1-B-Pad2)")
 			(class "Default")
 			(node
@@ -13291,7 +13371,7 @@
 			)
 		)
 		(net
-			(code "65")
+			(code "61")
 			(name "Net-(SW1-B-Pad5)")
 			(class "Default")
 			(node
@@ -13308,7 +13388,7 @@
 			)
 		)
 		(net
-			(code "66")
+			(code "62")
 			(name "Net-(U1-+)")
 			(class "Default")
 			(node
@@ -13334,9 +13414,14 @@
 			)
 		)
 		(net
-			(code "67")
+			(code "63")
 			(name "Net-(U1--)")
 			(class "Default")
+			(node
+				(ref "C23")
+				(pin "1")
+				(pintype "passive")
+			)
 			(node
 				(ref "R5")
 				(pin "1")
@@ -13355,7 +13440,7 @@
 			)
 		)
 		(net
-			(code "68")
+			(code "64")
 			(name "Net-(U4-SCK)")
 			(class "Default")
 			(node
@@ -13371,7 +13456,7 @@
 			)
 		)
 		(net
-			(code "69")
+			(code "65")
 			(name "Net-(U4-SDI)")
 			(class "Default")
 			(node
@@ -13387,7 +13472,7 @@
 			)
 		)
 		(net
-			(code "70")
+			(code "66")
 			(name "Net-(U4-VoutB)")
 			(class "Default")
 			(node
@@ -13403,7 +13488,7 @@
 			)
 		)
 		(net
-			(code "71")
+			(code "67")
 			(name "Net-(U4-VrefA)")
 			(class "Default")
 			(node
@@ -13430,7 +13515,7 @@
 			)
 		)
 		(net
-			(code "72")
+			(code "68")
 			(name "Net-(U4-~{CS})")
 			(class "Default")
 			(node
@@ -13446,7 +13531,7 @@
 			)
 		)
 		(net
-			(code "73")
+			(code "69")
 			(name "Net-(U4-~{LDAC})")
 			(class "Default")
 			(node
@@ -13462,7 +13547,7 @@
 			)
 		)
 		(net
-			(code "74")
+			(code "70")
 			(name "Net-(U7-CAP+)")
 			(class "Default")
 			(node
@@ -13478,7 +13563,7 @@
 			)
 		)
 		(net
-			(code "75")
+			(code "71")
 			(name "Net-(U7-CAP-)")
 			(class "Default")
 			(node
@@ -13494,7 +13579,7 @@
 			)
 		)
 		(net
-			(code "76")
+			(code "72")
 			(name "Net-(U7-FB{slash}SHDN)")
 			(class "Default")
 			(node
@@ -13520,7 +13605,7 @@
 			)
 		)
 		(net
-			(code "77")
+			(code "73")
 			(name "Net-(U7-VREF)")
 			(class "Default")
 			(node
@@ -13536,28 +13621,44 @@
 			)
 		)
 		(net
-			(code "78")
-			(name "Net-(U10--)")
+			(code "74")
+			(name "Net-(U11-+)")
 			(class "Default")
 			(node
-				(ref "R20")
-				(pin "1")
-				(pintype "passive")
-			)
-			(node
-				(ref "R23")
+				(ref "R13")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "U10")
+				(ref "U11")
+				(pin "3")
+				(pinfunction "+_3")
+				(pintype "input")
+			)
+		)
+		(net
+			(code "75")
+			(name "Net-(U11--)")
+			(class "Default")
+			(node
+				(ref "R22")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R36")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "U11")
 				(pin "2")
 				(pinfunction "-_2")
 				(pintype "input")
 			)
 		)
 		(net
-			(code "79")
+			(code "76")
 			(name "Net-(U16-1Y)")
 			(class "Default")
 			(node
@@ -13573,7 +13674,7 @@
 			)
 		)
 		(net
-			(code "80")
+			(code "77")
 			(name "Net-(U16-2Y)")
 			(class "Default")
 			(node
@@ -13589,7 +13690,7 @@
 			)
 		)
 		(net
-			(code "81")
+			(code "78")
 			(name "Net-(U18-+TR_A)")
 			(class "Default")
 			(node
@@ -13612,7 +13713,7 @@
 			)
 		)
 		(net
-			(code "82")
+			(code "79")
 			(name "Net-(U18-C_A)")
 			(class "Default")
 			(node
@@ -13628,7 +13729,7 @@
 			)
 		)
 		(net
-			(code "83")
+			(code "80")
 			(name "Net-(U18-RC_A)")
 			(class "Default")
 			(node
@@ -13649,7 +13750,7 @@
 			)
 		)
 		(net
-			(code "84")
+			(code "81")
 			(name "PA_Bias_A_Raw")
 			(class "Default")
 			(node
@@ -13677,7 +13778,7 @@
 			)
 		)
 		(net
-			(code "85")
+			(code "82")
 			(name "PA_Bias_B_Raw")
 			(class "Default")
 			(node
@@ -13705,7 +13806,7 @@
 			)
 		)
 		(net
-			(code "86")
+			(code "83")
 			(name "PCF_P5_SPARE")
 			(class "Default")
 			(node
@@ -13716,7 +13817,7 @@
 			)
 		)
 		(net
-			(code "87")
+			(code "84")
 			(name "RLY_15")
 			(class "Default")
 			(node
@@ -13732,7 +13833,7 @@
 			)
 		)
 		(net
-			(code "88")
+			(code "85")
 			(name "RLY_17")
 			(class "Default")
 			(node
@@ -13748,7 +13849,7 @@
 			)
 		)
 		(net
-			(code "89")
+			(code "86")
 			(name "RLY_20")
 			(class "Default")
 			(node
@@ -13764,7 +13865,7 @@
 			)
 		)
 		(net
-			(code "90")
+			(code "87")
 			(name "RLY_40")
 			(class "Default")
 			(node
@@ -13780,7 +13881,7 @@
 			)
 		)
 		(net
-			(code "91")
+			(code "88")
 			(name "SCK")
 			(class "Default")
 			(node
@@ -13796,7 +13897,7 @@
 			)
 		)
 		(net
-			(code "92")
+			(code "89")
 			(name "SCL")
 			(class "Default")
 			(node
@@ -13830,7 +13931,7 @@
 			)
 		)
 		(net
-			(code "93")
+			(code "90")
 			(name "SCL_IN")
 			(class "Default")
 			(node
@@ -13847,7 +13948,7 @@
 			)
 		)
 		(net
-			(code "94")
+			(code "91")
 			(name "SDA")
 			(class "Default")
 			(node
@@ -13881,7 +13982,7 @@
 			)
 		)
 		(net
-			(code "95")
+			(code "92")
 			(name "SDA_IN")
 			(class "Default")
 			(node
@@ -13898,7 +13999,7 @@
 			)
 		)
 		(net
-			(code "96")
+			(code "93")
 			(name "SS_PWR_RLY")
 			(class "Default")
 			(node
@@ -13920,7 +14021,7 @@
 			)
 		)
 		(net
-			(code "97")
+			(code "94")
 			(name "Source_Sense_A")
 			(class "Default")
 			(node
@@ -13942,7 +14043,7 @@
 			)
 		)
 		(net
-			(code "98")
+			(code "95")
 			(name "Source_Sense_B")
 			(class "Default")
 			(node
@@ -13964,7 +14065,7 @@
 			)
 		)
 		(net
-			(code "99")
+			(code "96")
 			(name "unconnected-(J2-Pad1)")
 			(class "Default")
 			(node
@@ -13974,7 +14075,18 @@
 			)
 		)
 		(net
-			(code "100")
+			(code "97")
+			(name "unconnected-(J14-Pin_5-Pad5)")
+			(class "Default")
+			(node
+				(ref "J14")
+				(pin "5")
+				(pinfunction "Pin_5_5")
+				(pintype "passive+no_connect")
+			)
+		)
+		(net
+			(code "98")
 			(name "unconnected-(SW1-A-Pad4)")
 			(class "Default")
 			(node
@@ -13985,7 +14097,7 @@
 			)
 		)
 		(net
-			(code "101")
+			(code "99")
 			(name "unconnected-(SW1-C-Pad3)")
 			(class "Default")
 			(node
@@ -13996,7 +14108,7 @@
 			)
 		)
 		(net
-			(code "102")
+			(code "100")
 			(name "unconnected-(U1-NC-Pad1)")
 			(class "Default")
 			(node
@@ -14007,7 +14119,7 @@
 			)
 		)
 		(net
-			(code "103")
+			(code "101")
 			(name "unconnected-(U1-NC-Pad5)")
 			(class "Default")
 			(node
@@ -14018,7 +14130,7 @@
 			)
 		)
 		(net
-			(code "104")
+			(code "102")
 			(name "unconnected-(U1-NC-Pad8)")
 			(class "Default")
 			(node
@@ -14029,7 +14141,7 @@
 			)
 		)
 		(net
-			(code "105")
+			(code "103")
 			(name "unconnected-(U2-HV3-Pad11)")
 			(class "Default")
 			(node
@@ -14040,7 +14152,7 @@
 			)
 		)
 		(net
-			(code "106")
+			(code "104")
 			(name "unconnected-(U2-HV4-Pad12)")
 			(class "Default")
 			(node
@@ -14051,7 +14163,7 @@
 			)
 		)
 		(net
-			(code "107")
+			(code "105")
 			(name "unconnected-(U2-LV3-Pad5)")
 			(class "Default")
 			(node
@@ -14062,7 +14174,7 @@
 			)
 		)
 		(net
-			(code "108")
+			(code "106")
 			(name "unconnected-(U2-LV4-Pad6)")
 			(class "Default")
 			(node
@@ -14073,7 +14185,7 @@
 			)
 		)
 		(net
-			(code "109")
+			(code "107")
 			(name "unconnected-(U3-RDY-Pad6)")
 			(class "Default")
 			(node
@@ -14084,7 +14196,7 @@
 			)
 		)
 		(net
-			(code "110")
+			(code "108")
 			(name "unconnected-(U4-NC-Pad2)")
 			(class "Default")
 			(node
@@ -14095,7 +14207,7 @@
 			)
 		)
 		(net
-			(code "111")
+			(code "109")
 			(name "unconnected-(U4-NC-Pad6)")
 			(class "Default")
 			(node
@@ -14106,7 +14218,7 @@
 			)
 		)
 		(net
-			(code "112")
+			(code "110")
 			(name "unconnected-(U4-NC-Pad7)")
 			(class "Default")
 			(node
@@ -14117,7 +14229,7 @@
 			)
 		)
 		(net
-			(code "113")
+			(code "111")
 			(name "unconnected-(U5-PadCLK0)")
 			(class "Default")
 			(node
@@ -14128,7 +14240,7 @@
 			)
 		)
 		(net
-			(code "114")
+			(code "112")
 			(name "unconnected-(U5-PadCLK1)")
 			(class "Default")
 			(node
@@ -14139,7 +14251,7 @@
 			)
 		)
 		(net
-			(code "115")
+			(code "113")
 			(name "unconnected-(U7-OSC-Pad7)")
 			(class "Default")
 			(node
@@ -14150,51 +14262,40 @@
 			)
 		)
 		(net
-			(code "116")
-			(name "unconnected-(U10-+-Pad3)")
+			(code "114")
+			(name "unconnected-(U11-NC-Pad1)")
 			(class "Default")
 			(node
-				(ref "U10")
-				(pin "3")
-				(pinfunction "+_3")
-				(pintype "input")
-			)
-		)
-		(net
-			(code "117")
-			(name "unconnected-(U10-NC-Pad1)")
-			(class "Default")
-			(node
-				(ref "U10")
+				(ref "U11")
 				(pin "1")
 				(pinfunction "NC_1")
 				(pintype "no_connect")
 			)
 		)
 		(net
-			(code "118")
-			(name "unconnected-(U10-NC-Pad5)")
+			(code "115")
+			(name "unconnected-(U11-NC-Pad5)")
 			(class "Default")
 			(node
-				(ref "U10")
+				(ref "U11")
 				(pin "5")
 				(pinfunction "NC_5")
 				(pintype "no_connect")
 			)
 		)
 		(net
-			(code "119")
-			(name "unconnected-(U10-NC-Pad8)")
+			(code "116")
+			(name "unconnected-(U11-NC-Pad8)")
 			(class "Default")
 			(node
-				(ref "U10")
+				(ref "U11")
 				(pin "8")
 				(pinfunction "NC_8")
 				(pintype "no_connect")
 			)
 		)
 		(net
-			(code "120")
+			(code "117")
 			(name "unconnected-(U16-3A-Pad10)")
 			(class "Default")
 			(node
@@ -14205,7 +14306,7 @@
 			)
 		)
 		(net
-			(code "121")
+			(code "118")
 			(name "unconnected-(U16-3B-Pad9)")
 			(class "Default")
 			(node
@@ -14216,7 +14317,7 @@
 			)
 		)
 		(net
-			(code "122")
+			(code "119")
 			(name "unconnected-(U16-3Y-Pad11)")
 			(class "Default")
 			(node
@@ -14227,7 +14328,7 @@
 			)
 		)
 		(net
-			(code "123")
+			(code "120")
 			(name "unconnected-(U16-4A-Pad14)")
 			(class "Default")
 			(node
@@ -14238,7 +14339,7 @@
 			)
 		)
 		(net
-			(code "124")
+			(code "121")
 			(name "unconnected-(U16-4B-Pad15)")
 			(class "Default")
 			(node
@@ -14249,7 +14350,7 @@
 			)
 		)
 		(net
-			(code "125")
+			(code "122")
 			(name "unconnected-(U16-4Y-Pad13)")
 			(class "Default")
 			(node
@@ -14260,7 +14361,7 @@
 			)
 		)
 		(net
-			(code "126")
+			(code "123")
 			(name "unconnected-(U17-PadA0)")
 			(class "Default")
 			(node
@@ -14271,7 +14372,7 @@
 			)
 		)
 		(net
-			(code "127")
+			(code "124")
 			(name "unconnected-(U17-PadA1)")
 			(class "Default")
 			(node
@@ -14282,7 +14383,7 @@
 			)
 		)
 		(net
-			(code "128")
+			(code "125")
 			(name "unconnected-(U17-PadA2)")
 			(class "Default")
 			(node
@@ -14293,7 +14394,7 @@
 			)
 		)
 		(net
-			(code "129")
+			(code "126")
 			(name "unconnected-(U17-PadIRQ)")
 			(class "Default")
 			(node
@@ -14304,7 +14405,7 @@
 			)
 		)
 		(net
-			(code "130")
+			(code "127")
 			(name "unconnected-(U17-PadP0)")
 			(class "Default")
 			(node
@@ -14315,7 +14416,7 @@
 			)
 		)
 		(net
-			(code "131")
+			(code "128")
 			(name "unconnected-(U17-PadP1)")
 			(class "Default")
 			(node
@@ -14326,7 +14427,7 @@
 			)
 		)
 		(net
-			(code "132")
+			(code "129")
 			(name "unconnected-(U17-PadP7)")
 			(class "Default")
 			(node
@@ -14337,7 +14438,18 @@
 			)
 		)
 		(net
-			(code "133")
+			(code "130")
+			(name "unconnected-(U17-PadP8)")
+			(class "Default")
+			(node
+				(ref "U17")
+				(pin "P8")
+				(pinfunction "P8_P8")
+				(pintype "bidirectional+no_connect")
+			)
+		)
+		(net
+			(code "131")
 			(name "unconnected-(U17-PadP9)")
 			(class "Default")
 			(node
@@ -14348,7 +14460,7 @@
 			)
 		)
 		(net
-			(code "134")
+			(code "132")
 			(name "unconnected-(U17-PadP10)")
 			(class "Default")
 			(node
@@ -14359,7 +14471,7 @@
 			)
 		)
 		(net
-			(code "135")
+			(code "133")
 			(name "unconnected-(U17-PadP11)")
 			(class "Default")
 			(node
@@ -14370,7 +14482,7 @@
 			)
 		)
 		(net
-			(code "136")
+			(code "134")
 			(name "unconnected-(U18-C_B-Pad15)")
 			(class "Default")
 			(node
@@ -14381,7 +14493,7 @@
 			)
 		)
 		(net
-			(code "137")
+			(code "135")
 			(name "unconnected-(U18-Q_B-Pad10)")
 			(class "Default")
 			(node
@@ -14392,7 +14504,7 @@
 			)
 		)
 		(net
-			(code "138")
+			(code "136")
 			(name "unconnected-(U18-RC_B-Pad14)")
 			(class "Default")
 			(node
@@ -14403,7 +14515,7 @@
 			)
 		)
 		(net
-			(code "139")
+			(code "137")
 			(name "unconnected-(U18-~{Q}_B-Pad9)")
 			(class "Default")
 			(node
