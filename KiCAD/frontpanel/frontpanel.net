@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "C:\\Users\\AlAnd\\Git Backed Projects\\xmitter\\KiCAD\\frontpanel\\frontpanel.kicad_sch")
-		(date "2026-10-23T14:51:19")
+		(date "2026-10-24T17:43:12")
 		(tool "Eeschema 10.0.3")
 		(sheet
 			(number "1")
@@ -745,22 +745,22 @@
 		)
 		(comp
 			(ref "J2")
-			(value "Conn_01x03_Pin")
-			(footprint "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical")
-			(description "Generic connector, single row, 01x03, script generated")
+			(value "Conn_01x05_Pin")
+			(description "Generic connector, single row, 01x05, script generated")
 			(fields
 				(field
-					(name "Footprint") "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical")
+					(name "Footprint")
+				)
 				(field
 					(name "Datasheet")
 				)
 				(field
-					(name "Description") "Generic connector, single row, 01x03, script generated")
+					(name "Description") "Generic connector, single row, 01x05, script generated")
 			)
 			(libsource
 				(lib "Connector")
-				(part "Conn_01x03_Pin")
-				(description "Generic connector, single row, 01x03, script generated")
+				(part "Conn_01x05_Pin")
+				(description "Generic connector, single row, 01x05, script generated")
 			)
 			(property
 				(name "Sheetname")
@@ -782,7 +782,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "31b1efce-358f-40c4-9ac1-22eba8629988")
+			(tstamps "605a6463-1870-4637-8609-73b8a02129c5")
 			(units
 				(unit
 					(name "A")
@@ -795,6 +795,12 @@
 						)
 						(pin
 							(num "3")
+						)
+						(pin
+							(num "4")
+						)
+						(pin
+							(num "5")
 						)
 					)
 				)
@@ -1180,7 +1186,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "566bf7ac-11f3-4eea-a372-37e789859a65")
+			(tstamps "da2c1f4d-d29c-4870-8168-e5be8ea6f84a")
 			(units
 				(unit
 					(name "A")
@@ -1234,7 +1240,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "3a9ef375-3cf2-41d5-bda4-41608da63b00")
+			(tstamps "de448052-9f10-4ea7-a62b-14fc779459b9")
 			(units
 				(unit
 					(name "A")
@@ -1288,7 +1294,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "c70c1e05-9cd4-4fc6-863a-72d5a6803194")
+			(tstamps "a06ac14d-b015-4fc4-8681-68ab606823bb")
 			(units
 				(unit
 					(name "A")
@@ -1397,6 +1403,177 @@
 				(tstamps "/")
 			)
 			(tstamps "e3ab87bb-abb1-49ca-97fe-cd8b5e081d35")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R6")
+			(value "0R")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "Root")
+			)
+			(property
+				(name "Sheetfile")
+				(value "frontpanel.kicad_sch")
+			)
+			(property
+				(name "dnp")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "46dd6866-34f1-4c93-bc44-c276780374f4")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R7")
+			(value "0R")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "Root")
+			)
+			(property
+				(name "Sheetfile")
+				(value "frontpanel.kicad_sch")
+			)
+			(property
+				(name "dnp")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "f6d813bb-b68e-4031-bc7a-9f448354c3f4")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R8")
+			(value "0R")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "Root")
+			)
+			(property
+				(name "Sheetfile")
+				(value "frontpanel.kicad_sch")
+			)
+			(property
+				(name "dnp")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "fc902d33-2027-4f33-ab44-b51a39c51895")
 			(units
 				(unit
 					(name "A")
@@ -1616,159 +1793,6 @@
 			)
 		)
 		(comp
-			(ref "TP5")
-			(value "BLUE_OUT")
-			(footprint "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical")
-			(description "xmitter project test point on broken-off 0.1 inch square pin header; put signal name in Value field so it becomes silk on the PCB")
-			(fields
-				(field
-					(name "Footprint") "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "xmitter project test point on broken-off 0.1 inch square pin header; put signal name in Value field so it becomes silk on the PCB")
-			)
-			(libsource
-				(lib "xmitter")
-				(part "xTP")
-				(description "xmitter project test point on broken-off 0.1 inch square pin header; put signal name in Value field so it becomes silk on the PCB")
-			)
-			(property
-				(name "Sheetname")
-				(value "Root")
-			)
-			(property
-				(name "Sheetfile")
-				(value "frontpanel.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "test point tp")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "Pin* Test*")
-			)
-			(sheetpath
-				(names "/")
-				(tstamps "/")
-			)
-			(tstamps "fe569cdf-dce0-4ed3-88ab-1d478f049815")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "TP6")
-			(value "GREEN_OUT")
-			(footprint "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical")
-			(description "xmitter project test point on broken-off 0.1 inch square pin header; put signal name in Value field so it becomes silk on the PCB")
-			(fields
-				(field
-					(name "Footprint") "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "xmitter project test point on broken-off 0.1 inch square pin header; put signal name in Value field so it becomes silk on the PCB")
-			)
-			(libsource
-				(lib "xmitter")
-				(part "xTP")
-				(description "xmitter project test point on broken-off 0.1 inch square pin header; put signal name in Value field so it becomes silk on the PCB")
-			)
-			(property
-				(name "Sheetname")
-				(value "Root")
-			)
-			(property
-				(name "Sheetfile")
-				(value "frontpanel.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "test point tp")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "Pin* Test*")
-			)
-			(sheetpath
-				(names "/")
-				(tstamps "/")
-			)
-			(tstamps "6f7eadc2-ea13-494d-ab64-0e728c259b7f")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "TP7")
-			(value "RED_OUT")
-			(footprint "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical")
-			(description "xmitter project test point on broken-off 0.1 inch square pin header; put signal name in Value field so it becomes silk on the PCB")
-			(fields
-				(field
-					(name "Footprint") "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "xmitter project test point on broken-off 0.1 inch square pin header; put signal name in Value field so it becomes silk on the PCB")
-			)
-			(libsource
-				(lib "xmitter")
-				(part "xTP")
-				(description "xmitter project test point on broken-off 0.1 inch square pin header; put signal name in Value field so it becomes silk on the PCB")
-			)
-			(property
-				(name "Sheetname")
-				(value "Root")
-			)
-			(property
-				(name "Sheetfile")
-				(value "frontpanel.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "test point tp")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "Pin* Test*")
-			)
-			(sheetpath
-				(names "/")
-				(tstamps "/")
-			)
-			(tstamps "1c4a736d-a136-40d7-b691-89f2f2e51b12")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-					)
-				)
-			)
-		)
-		(comp
 			(ref "TP8")
 			(value "ENABLE")
 			(footprint "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical")
@@ -1808,57 +1832,6 @@
 				(tstamps "/")
 			)
 			(tstamps "0ca77b98-e30b-4ebf-b2ff-4cef1c97c9a8")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "TP9")
-			(value "GND")
-			(footprint "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical")
-			(description "xmitter project test point on broken-off 0.1 inch square pin header; put signal name in Value field so it becomes silk on the PCB")
-			(fields
-				(field
-					(name "Footprint") "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "xmitter project test point on broken-off 0.1 inch square pin header; put signal name in Value field so it becomes silk on the PCB")
-			)
-			(libsource
-				(lib "xmitter")
-				(part "xTP")
-				(description "xmitter project test point on broken-off 0.1 inch square pin header; put signal name in Value field so it becomes silk on the PCB")
-			)
-			(property
-				(name "Sheetname")
-				(value "Root")
-			)
-			(property
-				(name "Sheetfile")
-				(value "frontpanel.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "test point tp")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "Pin* Test*")
-			)
-			(sheetpath
-				(names "/")
-				(tstamps "/")
-			)
-			(tstamps "7ef6bea1-a547-41d0-b917-3aaed780e16a")
 			(units
 				(unit
 					(name "A")
@@ -2213,8 +2186,8 @@
 		)
 		(libpart
 			(lib "Connector")
-			(part "Conn_01x03_Pin")
-			(description "Generic connector, single row, 01x03, script generated")
+			(part "Conn_01x05_Pin")
+			(description "Generic connector, single row, 01x05, script generated")
 			(footprints
 				(fp "Connector*:*_1x??_*")
 			)
@@ -2222,7 +2195,7 @@
 				(field
 					(name "Reference") "J")
 				(field
-					(name "Value") "Conn_01x03_Pin")
+					(name "Value") "Conn_01x05_Pin")
 				(field
 					(name "Footprint")
 				)
@@ -2230,7 +2203,7 @@
 					(name "Datasheet")
 				)
 				(field
-					(name "Description") "Generic connector, single row, 01x03, script generated")
+					(name "Description") "Generic connector, single row, 01x05, script generated")
 			)
 			(pins
 				(pin
@@ -2246,6 +2219,16 @@
 				(pin
 					(num "3")
 					(name "Pin_3")
+					(type "passive")
+				)
+				(pin
+					(num "4")
+					(name "Pin_4")
+					(type "passive")
+				)
+				(pin
+					(num "5")
+					(name "Pin_5")
 					(type "passive")
 				)
 			)
@@ -3007,6 +2990,12 @@
 				(pintype "passive")
 			)
 			(node
+				(ref "J2")
+				(pin "2")
+				(pinfunction "Pin_2_2")
+				(pintype "passive")
+			)
+			(node
 				(ref "LCD1")
 				(pin "15")
 				(pinfunction "A_15")
@@ -3322,6 +3311,12 @@
 				(pintype "passive")
 			)
 			(node
+				(ref "J2")
+				(pin "1")
+				(pinfunction "Pin_1_1")
+				(pintype "passive")
+			)
+			(node
 				(ref "LCD1")
 				(pin "1")
 				(pinfunction "VSS_1")
@@ -3334,24 +3329,21 @@
 				(pintype "input")
 			)
 			(node
-				(ref "R1")
-				(pin "2")
-				(pintype "passive")
-			)
-			(node
-				(ref "R2")
-				(pin "2")
-				(pintype "passive")
-			)
-			(node
-				(ref "R3")
-				(pin "2")
-				(pintype "passive")
-			)
-			(node
-				(ref "TP9")
+				(ref "Q1")
 				(pin "1")
-				(pinfunction "1_1")
+				(pinfunction "S_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "Q2")
+				(pin "1")
+				(pinfunction "S_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "Q3")
+				(pin "1")
+				(pinfunction "S_1")
 				(pintype "passive")
 			)
 			(node
@@ -3462,40 +3454,6 @@
 		)
 		(net
 			(code "20")
-			(name "Net-(J2-Pin_1)")
-			(class "Default")
-			(node
-				(ref "J2")
-				(pin "1")
-				(pinfunction "Pin_1_1")
-				(pintype "passive")
-			)
-			(node
-				(ref "U1")
-				(pin "P13")
-				(pinfunction "P13_P13")
-				(pintype "bidirectional")
-			)
-		)
-		(net
-			(code "21")
-			(name "Net-(J2-Pin_2)")
-			(class "Default")
-			(node
-				(ref "J2")
-				(pin "2")
-				(pinfunction "Pin_2_2")
-				(pintype "passive")
-			)
-			(node
-				(ref "U1")
-				(pin "P14")
-				(pinfunction "P14_P14")
-				(pintype "bidirectional")
-			)
-		)
-		(net
-			(code "22")
 			(name "Net-(J2-Pin_3)")
 			(class "Default")
 			(node
@@ -3505,10 +3463,41 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "U1")
-				(pin "P15")
-				(pinfunction "P15_P15")
-				(pintype "bidirectional")
+				(ref "R6")
+				(pin "2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "21")
+			(name "Net-(J2-Pin_4)")
+			(class "Default")
+			(node
+				(ref "J2")
+				(pin "4")
+				(pinfunction "Pin_4_4")
+				(pintype "passive")
+			)
+			(node
+				(ref "R7")
+				(pin "2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "22")
+			(name "Net-(J2-Pin_5)")
+			(class "Default")
+			(node
+				(ref "J2")
+				(pin "5")
+				(pinfunction "Pin_5_5")
+				(pintype "passive")
+			)
+			(node
+				(ref "R8")
+				(pin "2")
+				(pintype "passive")
 			)
 		)
 		(net
@@ -3522,15 +3511,8 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "Q3")
-				(pin "3")
-				(pinfunction "D_3")
-				(pintype "passive")
-			)
-			(node
-				(ref "TP5")
-				(pin "1")
-				(pinfunction "1_1")
+				(ref "R3")
+				(pin "2")
 				(pintype "passive")
 			)
 		)
@@ -3568,15 +3550,8 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "Q2")
-				(pin "3")
-				(pinfunction "D_3")
-				(pintype "passive")
-			)
-			(node
-				(ref "TP6")
-				(pin "1")
-				(pinfunction "1_1")
+				(ref "R2")
+				(pin "2")
 				(pintype "passive")
 			)
 		)
@@ -3591,15 +3566,8 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "Q1")
-				(pin "3")
-				(pinfunction "D_3")
-				(pintype "passive")
-			)
-			(node
-				(ref "TP7")
-				(pin "1")
-				(pinfunction "1_1")
+				(ref "R1")
+				(pin "2")
 				(pintype "passive")
 			)
 		)
@@ -3645,12 +3613,12 @@
 		)
 		(net
 			(code "29")
-			(name "Net-(Q1-S)")
+			(name "Net-(Q1-D)")
 			(class "Default")
 			(node
 				(ref "Q1")
-				(pin "1")
-				(pinfunction "S_1")
+				(pin "3")
+				(pinfunction "D_3")
 				(pintype "passive")
 			)
 			(node
@@ -3661,12 +3629,12 @@
 		)
 		(net
 			(code "30")
-			(name "Net-(Q2-S)")
+			(name "Net-(Q2-D)")
 			(class "Default")
 			(node
 				(ref "Q2")
-				(pin "1")
-				(pinfunction "S_1")
+				(pin "3")
+				(pinfunction "D_3")
 				(pintype "passive")
 			)
 			(node
@@ -3677,12 +3645,12 @@
 		)
 		(net
 			(code "31")
-			(name "Net-(Q3-S)")
+			(name "Net-(Q3-D)")
 			(class "Default")
 			(node
 				(ref "Q3")
-				(pin "1")
-				(pinfunction "S_1")
+				(pin "3")
+				(pinfunction "D_3")
 				(pintype "passive")
 			)
 			(node
@@ -3693,6 +3661,54 @@
 		)
 		(net
 			(code "32")
+			(name "Net-(R6-Pad1)")
+			(class "Default")
+			(node
+				(ref "R6")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "U1")
+				(pin "P15")
+				(pinfunction "P15_P15")
+				(pintype "bidirectional")
+			)
+		)
+		(net
+			(code "33")
+			(name "Net-(R7-Pad1)")
+			(class "Default")
+			(node
+				(ref "R7")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "U1")
+				(pin "P14")
+				(pinfunction "P14_P14")
+				(pintype "bidirectional")
+			)
+		)
+		(net
+			(code "34")
+			(name "Net-(R8-Pad1)")
+			(class "Default")
+			(node
+				(ref "R8")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "U1")
+				(pin "P13")
+				(pinfunction "P13_P13")
+				(pintype "bidirectional")
+			)
+		)
+		(net
+			(code "35")
 			(name "RED")
 			(class "Default")
 			(node
@@ -3715,7 +3731,7 @@
 			)
 		)
 		(net
-			(code "33")
+			(code "36")
 			(name "SCL")
 			(class "Default")
 			(node
@@ -3737,7 +3753,7 @@
 			)
 		)
 		(net
-			(code "34")
+			(code "37")
 			(name "SDA")
 			(class "Default")
 			(node
@@ -3759,7 +3775,7 @@
 			)
 		)
 		(net
-			(code "35")
+			(code "38")
 			(name "unconnected-(U1-PadA1)")
 			(class "Default")
 			(node
@@ -3770,7 +3786,7 @@
 			)
 		)
 		(net
-			(code "36")
+			(code "39")
 			(name "unconnected-(U1-PadA2)")
 			(class "Default")
 			(node
@@ -3781,7 +3797,7 @@
 			)
 		)
 		(net
-			(code "37")
+			(code "40")
 			(name "unconnected-(U1-PadIRQ)")
 			(class "Default")
 			(node
@@ -3792,7 +3808,7 @@
 			)
 		)
 		(net
-			(code "38")
+			(code "41")
 			(name "unconnected-(U2-A0-Pad5)")
 			(class "Default")
 			(node
