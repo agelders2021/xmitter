@@ -5755,6 +5755,30 @@
 			)
 		)
 	)
+	(global_label "SCL_IN"
+		(shape bidirectional)
+		(at 29.21 27.94 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "11a0c87b-860e-4433-83e5-a5baa5424d83")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 39.717 27.94 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+	)
 	(global_label "Source_Sense_A"
 		(shape input)
 		(at 31.75 128.27 0)
@@ -5851,9 +5875,9 @@
 			)
 		)
 	)
-	(global_label "SCL_IN"
+	(global_label "SDA_IN"
 		(shape bidirectional)
-		(at 30.48 48.26 0)
+		(at 29.21 30.48 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -5861,9 +5885,9 @@
 			)
 			(justify left)
 		)
-		(uuid "1dafceaf-ecfd-4253-b2a3-00687b0f442d")
+		(uuid "1b9b565e-9b1c-4e7e-970b-50eaf505afa8")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 40.987 48.26 0)
+			(at 39.7775 30.48 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6583,30 +6607,6 @@
 		(uuid "b7553499-6cd8-4ec1-b00c-34082289b795")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 67.6947 102.87 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-	)
-	(global_label "SDA_IN"
-		(shape bidirectional)
-		(at 30.48 50.8 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "b7555e57-d631-44be-8989-7933fe2e5cb7")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 41.0475 50.8 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7360,86 +7360,6 @@
 			(project "analog"
 				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72"
 					(reference "C39")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Connector:Screw_Terminal_01x02")
-		(at 25.4 50.8 180)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "05e607c3-3e4d-47e4-a1a5-acb4f3e0e448")
-		(property "Reference" "J10"
-			(at 25.4 41.91 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "Screw_Terminal_01x02"
-			(at 25.4 44.45 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2_1x02_P5.00mm_Horizontal"
-			(at 25.4 50.8 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 25.4 50.8 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Generic screw terminal, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 25.4 50.8 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "9376177c-3ba6-4bdb-9946-300f13e95ea9")
-		)
-		(pin "2"
-			(uuid "e3e6de9b-05fb-4e7c-bdee-550a2d85c196")
-		)
-		(instances
-			(project "analog"
-				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72"
-					(reference "J10")
 					(unit 1)
 				)
 			)
@@ -11410,6 +11330,89 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector:Screw_Terminal_01x03")
+		(at 24.13 30.48 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "75515e67-e2b7-416e-9d50-e1e2b41ea5ae")
+		(property "Reference" "J8"
+			(at 24.13 21.59 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "Screw_Terminal_01x03"
+			(at 24.13 24.13 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-3_1x03_P5.00mm_Horizontal"
+			(at 24.13 30.48 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 24.13 30.48 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Generic screw terminal, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(at 24.13 30.48 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "3"
+			(uuid "950d48a6-b505-4ce5-a334-5e779c66e256")
+		)
+		(pin "2"
+			(uuid "f20fe0a1-03ba-4f0a-a7df-f6de7d34326a")
+		)
+		(pin "1"
+			(uuid "f554e7ca-89ca-4c25-af31-73763a6e49e0")
+		)
+		(instances
+			(project "analog"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72"
+					(reference "J8")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Connector:8P8C_Shielded")
 		(at 124.46 76.2 0)
 		(unit 1)
@@ -13003,6 +13006,84 @@
 			(project "analog"
 				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72"
 					(reference "#PWR021")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 29.21 33.02 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "a000811f-b04d-47f6-89ab-dfb958453531")
+		(property "Reference" "#PWR0139"
+			(at 29.21 39.37 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 29.21 38.1 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 29.21 33.02 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 29.21 33.02 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 29.21 33.02 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "c570a58a-1c5d-47be-af0c-48b7dacab028")
+		)
+		(instances
+			(project "analog"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72"
+					(reference "#PWR0139")
 					(unit 1)
 				)
 			)

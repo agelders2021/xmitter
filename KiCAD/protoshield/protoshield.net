@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "C:\\Users\\AlAnd\\Git Backed Projects\\xmitter\\KiCAD\\protoshield\\protoshield.kicad_sch")
-		(date "2026-10-24T12:43:12")
+		(date "2026-10-24T19:05:32")
 		(tool "Eeschema 10.0.3")
 		(sheet
 			(number "1")
@@ -147,7 +147,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "911fef3a-e2e1-4842-925e-c4af6971fede")
+			(tstamps "01bf4019-9cba-41b7-8c59-7091c9bb8ff2")
 			(units
 				(unit
 					(name "A")
@@ -201,7 +201,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "a9f29bfd-108f-44b5-80b5-4f592ce6b2c4")
+			(tstamps "a1f5009f-df5d-48cf-aec6-280a6956c728")
 			(units
 				(unit
 					(name "A")
@@ -242,6 +242,9 @@
 			(property
 				(name "Sheetfile")
 				(value "protoshield.kicad_sch")
+			)
+			(property
+				(name "dnp")
 			)
 			(property
 				(name "ki_keywords")
@@ -296,6 +299,9 @@
 			(property
 				(name "Sheetfile")
 				(value "protoshield.kicad_sch")
+			)
+			(property
+				(name "dnp")
 			)
 			(property
 				(name "ki_keywords")
@@ -526,6 +532,9 @@
 				(value "protoshield.kicad_sch")
 			)
 			(property
+				(name "dnp")
+			)
+			(property
 				(name "ki_keywords")
 				(value "Zener diode 3.3V DO-41 1N4728A")
 			)
@@ -586,6 +595,9 @@
 			(property
 				(name "Sheetfile")
 				(value "protoshield.kicad_sch")
+			)
+			(property
+				(name "dnp")
 			)
 			(property
 				(name "ki_keywords")
@@ -1003,6 +1015,63 @@
 			)
 		)
 		(comp
+			(ref "J7")
+			(value "Screw_Terminal_01x03")
+			(footprint "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-3_1x03_P5.00mm_Horizontal")
+			(description "Generic screw terminal, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)")
+			(fields
+				(field
+					(name "Footprint") "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-3_1x03_P5.00mm_Horizontal")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Generic screw terminal, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)")
+			)
+			(libsource
+				(lib "Connector")
+				(part "Screw_Terminal_01x03")
+				(description "Generic screw terminal, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)")
+			)
+			(property
+				(name "Sheetname")
+				(value "protoshield")
+			)
+			(property
+				(name "Sheetfile")
+				(value "protoshield.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "screw terminal")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "TerminalBlock*:*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "066ec6a8-ba80-475c-ac03-dde8d6424624")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+					)
+				)
+			)
+		)
+		(comp
 			(ref "J8")
 			(value "Screw_Terminal_01x03")
 			(footprint "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-3_1x03_P5.00mm_Horizontal")
@@ -1041,7 +1110,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "ecd60510-4e15-478a-94bb-d376cc475ec3")
+			(tstamps "215ea74d-8339-411c-a85d-2b84aea974fb")
 			(units
 				(unit
 					(name "A")
@@ -1161,7 +1230,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "265652a0-305c-4cd9-ad69-d9a2b8b4ade6")
+			(tstamps "149a0451-7aff-45a7-a2cd-6349b1af26ca")
 			(units
 				(unit
 					(name "A")
@@ -1215,7 +1284,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "18ea6702-493a-4263-86ea-082d5ed0df10")
+			(tstamps "b2ca05d3-d8cd-40d7-bcc9-6d1c0a9aaaba")
 			(units
 				(unit
 					(name "A")
@@ -1256,6 +1325,9 @@
 			(property
 				(name "Sheetfile")
 				(value "protoshield.kicad_sch")
+			)
+			(property
+				(name "dnp")
 			)
 			(property
 				(name "ki_keywords")
@@ -1310,6 +1382,9 @@
 			(property
 				(name "Sheetfile")
 				(value "protoshield.kicad_sch")
+			)
+			(property
+				(name "dnp")
 			)
 			(property
 				(name "ki_keywords")
@@ -2183,6 +2258,16 @@
 					(name "RESET")
 					(type "input")
 				)
+				(pin
+					(num "SCL")
+					(name "SCL")
+					(type "bidirectional")
+				)
+				(pin
+					(num "SDA")
+					(name "SDA")
+					(type "bidirectional")
+				)
 			)
 		)
 	)
@@ -2374,6 +2459,12 @@
 				(ref "J6")
 				(pin "3")
 				(pinfunction "Pin_3_3")
+				(pintype "passive")
+			)
+			(node
+				(ref "J7")
+				(pin "1")
+				(pinfunction "Pin_1_1")
 				(pintype "passive")
 			)
 		)
@@ -2665,6 +2756,28 @@
 		)
 		(net
 			(code "26")
+			(name "SCL_IN")
+			(class "Default")
+			(node
+				(ref "J7")
+				(pin "3")
+				(pinfunction "Pin_3_3")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "27")
+			(name "SDA_IN")
+			(class "Default")
+			(node
+				(ref "J7")
+				(pin "2")
+				(pinfunction "Pin_2_2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "28")
 			(name "Source_Sense_A")
 			(class "Default")
 			(node
@@ -2679,7 +2792,7 @@
 			)
 		)
 		(net
-			(code "27")
+			(code "29")
 			(name "Source_Sense_B")
 			(class "Default")
 			(node
@@ -2694,7 +2807,7 @@
 			)
 		)
 		(net
-			(code "28")
+			(code "30")
 			(name "TR_SENSE")
 			(class "Default")
 			(node

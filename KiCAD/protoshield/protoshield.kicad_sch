@@ -1887,7 +1887,7 @@
 			(in_pos_files yes)
 			(duplicate_pin_numbers_are_jumpers no)
 			(property "Reference" "U"
-				(at 0 18.415 0)
+				(at 0 22.86 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(effects
@@ -1974,7 +1974,7 @@
 			)
 			(symbol "Metro_ESP32S3_0_1"
 				(rectangle
-					(start -12.7 17.145)
+					(start -12.7 21.59)
 					(end 12.7 -17.145)
 					(stroke
 						(width 0)
@@ -2436,11 +2436,47 @@
 						)
 					)
 				)
+				(pin bidirectional line
+					(at 15.24 19.05 180)
+					(length 2.54)
+					(name "SCL"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "SCL"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 15.24 16.51 180)
+					(length 2.54)
+					(name "SDA"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "SDA"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
 			)
 			(embedded_fonts no)
 		)
 	)
-	(text "SCL_IN and SDA_IN go to SCL and SDA\non Metro (not shown in symbol)"
+	(text "SCL_IN and SDA_IN go to SCL and SDA"
 		(exclude_from_sim no)
 		(at 118.618 143.764 0)
 		(effects
@@ -2920,7 +2956,7 @@
 		(uuid "f83e1a7c-4b75-4948-9f35-2837633ea8ac")
 	)
 	(global_label "SCL_IN"
-		(shape output)
+		(shape bidirectional)
 		(at 107.95 142.24 0)
 		(fields_autoplaced yes)
 		(effects
@@ -2931,7 +2967,7 @@
 		)
 		(uuid "015accdc-39ff-4313-8923-331d8aa54c71")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 117.3457 142.24 0)
+			(at 118.457 142.24 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3194,6 +3230,30 @@
 		(uuid "45861079-c53e-4a65-8516-cd1107c13b61")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 56.6879 158.75 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+	)
+	(global_label "SCL_IN"
+		(shape bidirectional)
+		(at 181.61 64.77 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "50328aba-262c-4b66-97e6-4dd436da0ac1")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 192.117 64.77 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3659,7 +3719,7 @@
 		)
 	)
 	(global_label "SDA_IN"
-		(shape output)
+		(shape bidirectional)
 		(at 107.95 144.78 0)
 		(fields_autoplaced yes)
 		(effects
@@ -3670,7 +3730,7 @@
 		)
 		(uuid "d0f0cc80-e394-4b18-9723-5bb48dba6d3a")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 117.4062 144.78 0)
+			(at 118.5175 144.78 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3726,6 +3786,30 @@
 				(font
 					(size 1.27 1.27)
 				)
+			)
+		)
+	)
+	(global_label "SDA_IN"
+		(shape bidirectional)
+		(at 181.61 67.31 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "eb1f6e51-5c50-4ed7-b86b-49eaa9151634")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 192.1775 67.31 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
 			)
 		)
 	)
@@ -6708,6 +6792,12 @@
 		)
 		(pin "RESET"
 			(uuid "9ce5fadc-3328-4c49-ab12-ffef534ebbb2")
+		)
+		(pin "SCL"
+			(uuid "70a0dd6c-8e1a-459c-9a67-e2a9d18c1ad3")
+		)
+		(pin "SDA"
+			(uuid "8601774e-f069-4c02-9d7d-ebc02aa7c1ee")
 		)
 		(instances
 			(project "protoshield"

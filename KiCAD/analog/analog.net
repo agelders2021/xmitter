@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "C:\\Users\\AlAnd\\Git Backed Projects\\xmitter\\KiCAD\\analog\\analog.kicad_sch")
-		(date "2026-10-24T16:41:12")
+		(date "2026-10-24T19:08:51")
 		(tool "Eeschema 10.0.3")
 		(sheet
 			(number "1")
@@ -1153,6 +1153,63 @@
 			)
 		)
 		(comp
+			(ref "J8")
+			(value "Screw_Terminal_01x03")
+			(footprint "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-3_1x03_P5.00mm_Horizontal")
+			(description "Generic screw terminal, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)")
+			(fields
+				(field
+					(name "Footprint") "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-3_1x03_P5.00mm_Horizontal")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Generic screw terminal, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)")
+			)
+			(libsource
+				(lib "Connector")
+				(part "Screw_Terminal_01x03")
+				(description "Generic screw terminal, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)")
+			)
+			(property
+				(name "Sheetname")
+				(value "Arduino")
+			)
+			(property
+				(name "Sheetfile")
+				(value "arduino.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "screw terminal")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "TerminalBlock*:*")
+			)
+			(sheetpath
+				(names "/Arduino/")
+				(tstamps "/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72/")
+			)
+			(tstamps "75515e67-e2b7-416e-9d50-e1e2b41ea5ae")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+					)
+				)
+			)
+		)
+		(comp
 			(ref "J9")
 			(value "Screw_Terminal_01x02")
 			(footprint "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2_1x02_P5.00mm_Horizontal")
@@ -1192,60 +1249,6 @@
 				(tstamps "/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72/")
 			)
 			(tstamps "6337cb89-64ef-408c-b0ab-ae792ad17d86")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "J10")
-			(value "Screw_Terminal_01x02")
-			(footprint "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2_1x02_P5.00mm_Horizontal")
-			(description "Generic screw terminal, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)")
-			(fields
-				(field
-					(name "Footprint") "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2_1x02_P5.00mm_Horizontal")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "Generic screw terminal, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)")
-			)
-			(libsource
-				(lib "Connector")
-				(part "Screw_Terminal_01x02")
-				(description "Generic screw terminal, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)")
-			)
-			(property
-				(name "Sheetname")
-				(value "Arduino")
-			)
-			(property
-				(name "Sheetfile")
-				(value "arduino.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "screw terminal")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "TerminalBlock*:*")
-			)
-			(sheetpath
-				(names "/Arduino/")
-				(tstamps "/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72/")
-			)
-			(tstamps "05e607c3-3e4d-47e4-a1a5-acb4f3e0e448")
 			(units
 				(unit
 					(name "A")
@@ -4997,8 +5000,8 @@
 				(names "/DAC Control/")
 				(tstamps "/e880f7dd-82a1-4efe-84f5-e6a9d5641736/")
 			)
-			(tstamps "c38f690d-b09c-4ffe-8f5d-d131ba361a10" "af477169-0b98-42fd-8df9-11aadfd325d5"
-				"b85b3590-907d-467d-b9e4-0e0486726e39" "b1d8130b-d0b6-4b74-a10e-871a7c809ab1"
+			(tstamps "af477169-0b98-42fd-8df9-11aadfd325d5" "b1d8130b-d0b6-4b74-a10e-871a7c809ab1"
+				"b85b3590-907d-467d-b9e4-0e0486726e39" "c38f690d-b09c-4ffe-8f5d-d131ba361a10"
 				"9a4916c5-7225-46d4-8e3f-7fe77f08bbee"
 			)
 			(units
@@ -9996,8 +9999,8 @@
 				(names "/Interface/")
 				(tstamps "/5c3f4a2b-7d1e-4f8b-9c6d-0e8a1b2c3d4e/")
 			)
-			(tstamps "9715d1a5-a5b5-4926-af87-e9a605e5b81d" "c58c1938-77a1-4c28-ba73-a8f6a798da1c"
-				"a7379bd0-5736-44dd-9e0f-91ffa0fdc649" "72b2f714-1db4-4f3f-a0ae-2e2e5f43d026"
+			(tstamps "c58c1938-77a1-4c28-ba73-a8f6a798da1c" "a7379bd0-5736-44dd-9e0f-91ffa0fdc649"
+				"9715d1a5-a5b5-4926-af87-e9a605e5b81d" "72b2f714-1db4-4f3f-a0ae-2e2e5f43d026"
 				"d4b7a461-c127-408f-a342-1ab92ee64c1a" "466d795c-2bc3-43f2-9640-cb0d825d8242"
 				"45a2ca6d-993c-4a04-baa6-fc5686027ce9"
 			)
@@ -12348,7 +12351,7 @@
 		(net
 			(code "2")
 			(name "+5V")
-			(class "Default")
+			(class "Power")
 			(node
 				(ref "C11")
 				(pin "1")
@@ -12537,7 +12540,7 @@
 		(net
 			(code "3")
 			(name "+12V")
-			(class "Default")
+			(class "Power")
 			(node
 				(ref "C110")
 				(pin "1")
@@ -12878,7 +12881,7 @@
 		(net
 			(code "14")
 			(name "GND")
-			(class "Default")
+			(class "Power")
 			(node
 				(ref "C1")
 				(pin "2")
@@ -13218,6 +13221,12 @@
 			)
 			(node
 				(ref "J5")
+				(pin "1")
+				(pinfunction "Pin_1_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "J8")
 				(pin "1")
 				(pinfunction "Pin_1_1")
 				(pintype "passive")
@@ -15165,9 +15174,9 @@
 			(name "SCL_IN")
 			(class "Default")
 			(node
-				(ref "J10")
-				(pin "2")
-				(pinfunction "Pin_2_2")
+				(ref "J8")
+				(pin "3")
+				(pinfunction "Pin_3_3")
 				(pintype "passive")
 			)
 			(node
@@ -15216,9 +15225,9 @@
 			(name "SDA_IN")
 			(class "Default")
 			(node
-				(ref "J10")
-				(pin "1")
-				(pinfunction "Pin_1_1")
+				(ref "J8")
+				(pin "2")
+				(pinfunction "Pin_2_2")
 				(pintype "passive")
 			)
 			(node
