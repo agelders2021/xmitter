@@ -10,7 +10,7 @@ the netlist so this doc never lags the schematics.
 - `[PARTIAL]` some pins defined, some still TBD
 - `[TBD]`     no pin assignment yet, placeholder only
 
-Last updated: 2026-10-23 (Rev D Option-C power rail changes).
+Last updated: 2026-10-25.
 
 ## Board inventory (Rev D architecture)
 
@@ -41,17 +41,38 @@ Last updated: 2026-10-23 (Rev D Option-C power rail changes).
 
 ## Interconnect index
 
+**Umbilicals (RJ45 / SMA):**
+
 - **J1** — Analog → ss_pa : RF signal (SMA)  [OK]
 - **J2** — Analog → Output LPF : +12 V coil supply + 4 band-select
-  drives (RJ45)  [OK, 4 bands wired after 10 m drop]
+  drives + T/R + status sense (RJ45, 8-pin)  [OK]
 - **J4** — Analog → Frontpanel : control umbilical (RJ45)  [OK, see
   `front_panel_interface.md` for details]
-- **J31** — Analog ↔ ss_pa : bias, sense, fault, control (RJ45)  [OK]
+- **J31** — Analog ↔ ss_pa : bias, sense, fault, DRIVER_BIAS (RJ45)  [OK]
 - **J35** — Analog → (future tube PA) : all tube control signals
   consolidated on one RJ45  [DNP, no destination today]
-- **ss_pa → Output LPF** — RF out, high level (SMA)  [TBD]
-- **Output LPF → Antenna** — RF out (SMA)  [TBD]
-- **Power distribution** — +13.8 V primary + ground scheme  [TBD]
+
+**Analog ↔ Protoshield screw-terminal harness (6 pairs, all 1:1):**
+
+See the dedicated section `Analog ↔ Protoshield harness table` below.
+
+**RF chain:**
+
+- **ss_pa → Output LPF** — RF out, high level (SMA, J1 ss_pa → J28 LPF)  [OK]
+- **Output LPF → Antenna** — RF out, filtered (SMA, J1 LPF)  [OK]
+- **Output LPF → Receiver** — isolated RX port with Schottky clamp
+  protection (SMA, J3 LPF)  [OK]
+
+**Power distribution:**
+
+- +13.8 V enters via analog J5 (shack supply, 3 A fuse + Schottky)
+- Analog generates +12 V, −12 V, +5 V, +3.3 V locally
+- ss_pa gets +13.8 V from J33 analog → J2 ss_pa (via heartbeat relay
+  K5); generates its own +5 V locally (LM2936Z-5.0, U13)
+- LPF gets +12 V from J2 analog pin 8 (shared umbilical with band
+  selects)
+- Frontpanel gets +5 V from J4 analog pin 4 (shared umbilical);
+  generates its own +3.3 V locally
 
 ---
 
@@ -102,87 +123,96 @@ Last updated: 2026-10-23 (Rev D Option-C power rail changes).
 - **Cable:** CAT6 shielded patch, chassis-length (~30 cm max)
 - **Wire-pair layout:** T568B
 
-### Pins
+### Pins (as wired 2026-10-25)
 
-- **Pin 1 — RLY_10:** analog → LPF, 3.3 V CMOS from PCF8575 (U17)
-  pin P2. High = energize 10 m band's input AND output relays.
-- **Pin 2 — RLY_15:** analog → LPF, 3.3 V CMOS from PCF8575 P3.
-- **Pin 3 — RLY_17:** analog → LPF, 3.3 V CMOS from PCF8575 P4.
-- **Pin 4 — RLY_20:** analog → LPF, 3.3 V CMOS from PCF8575 P5.
-- **Pin 5 — RLY_40:** analog → LPF, 3.3 V CMOS from PCF8575 P6.
-  Wired through this connector; LPF board 40 m filter population
-  still optional (user may defer stocking the 40 m toroids/caps).
-- **Pin 6 — GND**
-- **Pin 7 — unconnected** (spare; could carry a 6th band later)
-- **Pin 8 — unconnected** (spare; could carry a 6th band later)
+- **Pin 1 — T/R:** analog → LPF, open-drain FET sink drive for the
+  T/R relay (K5 on LPF). Low = energized = TX; high = de-energized
+  = RX (fail-safe default).
+- **Pin 2 — RLY_15:** analog → LPF, open-drain FET sink from analog's
+  PCF8575 (U17) via Q7. Low = energize 15 m band's K1 relay.
+- **Pin 3 — RLY_17:** analog → LPF, same, 17 m band K2.
+- **Pin 4 — RLY_20:** analog → LPF, same, 20 m band K3.
+- **Pin 5 — RLY_40:** analog → LPF, same, 40 m band K4.
+- **Pin 6 — RECEIVE_N:** LPF → analog, open contact from K5 pole 1
+  pulled LOW when K5 in RX state (de-energized). Metro reads via
+  PCF8575 input (U17) with internal pullup giving HIGH when inactive.
+- **Pin 7 — TRANSMIT_N:** LPF → analog, open contact from K5 pole 1
+  pulled LOW when K5 in TX state (energized). Metro reads via PCF8575
+  input, HIGH via internal pullup when inactive.
+- **Pin 8 — +12 V:** analog → LPF, coil supply for all five relays.
 - **Shield (SH) — GND**
 
-**Note:** Earlier revD had GRID_CTL_A/B squatting on J2 pins 7, 8
-as a tube-PA future provision. That was retired when **J35 was
-added as a dedicated tube-PA control umbilical** — J2 is now
-purely band-select, and the two spare pins are available for
-future expansion (6th band, aux relay, etc.).
+**Note:** 10 m band deliberately dropped from Rev D. The T/R relay
+sense pair (RECEIVE_N / TRANSMIT_N) replaces what used to be spare
+pins on J2 in earlier revisions — now carrying real signals.
 
 ---
 
 ## J4 — Analog → Frontpanel (control umbilical, RJ45)  [OK]
 
-Details in `Documentation/front_panel_interface.md`. Carries:
-- I²C SDA/SCL (3.3 V, from analog's PCF8575 bus)
-- MBL-600 RS-422 differential pair for encoder (MBL_A_P/N, MBL_B_P/N)
-- +5 V to front-panel electronics
-- GND, Shield
+### Pins (as wired 2026-10-25)
 
-Do not change pinout without updating `front_panel_interface.md`
-first — it is the authoritative doc for J4.
+- **Pin 1 — SDA:** I²C data, +5 V HV bus (post Adafruit #757 shifter on analog)
+- **Pin 2 — SCL:** I²C clock, +5 V HV bus
+- **Pin 3 — MBL_A_P:** MBL-600 encoder channel A, differential positive
+- **Pin 4 — +5 V:** power to frontpanel electronics
+- **Pin 5 — ENC_INT_CLEAN:** encoder interrupt (level-shifted to 3.3 V)
+- **Pin 6 — MBL_A_N:** MBL-600 encoder channel A, differential negative
+- **Pin 7 — MBL_B_P:** MBL-600 encoder channel B, differential positive
+- **Pin 8 — MBL_B_N:** MBL-600 encoder channel B, differential negative
+- **Shield (SH) — GND**
+
+Further details in `Documentation/front_panel_interface.md`. Do not
+change pinout without updating `front_panel_interface.md` first — it
+is the authoritative doc for J4.
 
 ---
 
-## J31 — Analog ↔ PA (bias + sense + fault + control, RJ45)  [TBD]
+## J31 — Analog ↔ ss_pa (bias + sense + fault + control, RJ45)  [OK]
 
 - **Connector type:** 8P8C Shielded, footprint
   `xmitter:Amphenol_RJE1D-188_Horizontal_Shielded`
-- **Mates with:** matching RJE1D-188 on PA board (TBD)
+- **Mates with:** matching RJE1D-188 on ss_pa board (J31)
 - **Cable:** CAT6 shielded patch, chassis-length
 
-### Needed signals (Rev D with kit-compatible bias scheme)
+### Pins (as wired 2026-10-25)
 
-- **Bias_A_Raw** — analog → PA. 0 to ~5 V DC from MCP4728 ch A.
-  Sets the trim DAC voltage that overrides the kit's R211 trimmer
-  for IRF510 Q207 bias. Needs level shift / isolation at the PA end
-  since the kit's bias network expects a trimmer wiper (slow DC).
-- **Bias_B_Raw** — analog → PA. Same, for Q208 via MCP4728 ch B /
-  R215 position.
-- **Source_Sense_A** — PA → analog. DC voltage proportional to
-  Q207 average source current. From a low-value sense R (0.1 to
-  0.33 Ω typical) in series with the IRF510 source, filtered on
-  the PA board to kill RF, then up to the Metro's ADC. Expected
-  range: 0–500 mV DC for 0–5 A drain current.
-- **Source_Sense_B** — PA → analog. Same, for Q208.
-- **FAULT_N** — PA → analog (active low). From the LM393
-  self-latching comparator in fault_shutdown. Latches on
-  overcurrent; cleared by TX_ENABLE cycling. Metro reads this as a
-  digital input; also pulls down the kit's bias enable to kill
-  conduction immediately.
-- **TX_ENABLE** — analog → PA. 3.3 V CMOS. High = PA bias
-  on (keyed); low = PA biased off (RX / fault). Drives the
-  kit's Q206 bias switch at the PA end.
-- **+13.8 V** — power from PA board back to analog? OR analog's
-  +13.8 V input shared from PA? See Power distribution below.
-- **GND** — common return.
+- **Pin 1 — Source_Sense_A:** ss_pa → analog. DC voltage proportional
+  to IRF510A source current (R1||R2 = 0.11 Ω sense). RF-filtered on
+  ss_pa (L8 1 µH + C23 100 nF) before leaving the board. Expected
+  range 0–500 mV DC for 0–4.5 A drain current. On analog, divided
+  down for Metro ADC via the protoshield J3 → J9 harness.
+- **Pin 2 — GND**
+- **Pin 3 — FAULT_N:** ss_pa → analog. Open-collector from LM393
+  self-latching comparator, pulled up to +5 V on ss_pa (R9 = 4.7 kΩ).
+  Low = latched fault; high = no fault. On analog, divided down
+  (R3 10 K + R4 20 K) to FAULT_N_CLEAN (max 3.3 V) before reaching
+  the Metro via protoshield.
+- **Pin 4 — Source_Sense_B:** same as pin 1, for IRF510B.
+- **Pin 5 — GND**
+- **Pin 6 — DRIVER_BIAS:** analog → ss_pa. DC from MCP4922 ch B,
+  shifted through 74HCT125 (U9) to 5 V, buffered. Sets BS170 driver
+  bias point via T201 center-tap. On ss_pa: R20 100 Ω series + C19
+  0.1 µF + C20 100 pF bypass at J31 entry.
+- **Pin 7 — PA_Bias_A_Raw:** analog → ss_pa. From MCP4728 ch A
+  (I²C DAC, 0 to 5 V). On ss_pa: L6 1 µH + C13 100 nF + C26 100 pF
+  bypass at J31 entry, then through CD74HC4066 (U2) series switch
+  for fault-triggered kill, then through 220 Ω series into IRF510A
+  gate.
+- **Pin 8 — PA_Bias_B_Raw:** same as pin 7, for IRF510B via MCP4728
+  ch B.
 - **Shield (SH) — GND**
 
-### Open on J31
+### Design notes
 
-- Pin assignment: unassigned pending kit-compatible bias design
-  review. Current revC J31 pinout was built for the LM7171 PP
-  driver scheme and is now obsolete.
-- Whether +13.8 V is carried through J31 or on a separate power
-  connector depends on current budget (CAT6 wire is ~24 AWG, limited
-  to ~1 A per conductor; PA draws 3–5 A, so power on J31 would need
-  multiple parallel conductors or a separate heavier connector).
-- Whether the kit's Q206 BIAS line is accepted on the PA board as
-  a simple 3.3 V logic input, or needs a level-shift/driver stage.
+- **Power is NOT on J31.** ss_pa draws +13.8 V on a dedicated screw
+  terminal pair (analog J33 → ss_pa J2) and generates its own +5 V
+  locally (LM2936Z-5.0 LDO, U13). This keeps umbilical conductors
+  low-current.
+- **No TX_ENABLE signal.** The MCP4728 bias DACs are driven to zero
+  by firmware for RX (and FAULT_N automatically opens the
+  CD74HC4066 bias switch via hardware when a fault latches), so a
+  separate enable isn't needed.
 
 ---
 
@@ -291,8 +321,46 @@ here on one CAT6-mateable connector.
 
 ---
 
+## Analog ↔ Protoshield harness table
+
+Six 1:1 screw-terminal pairs between the analog board and the Metro-mounted
+protoshield. Every pair below has matching pin count AND matching pin order
+AND matching signal set, verified in the netlist 2026-10-25.
+
+Build the harness as six independent terminal-to-terminal patch runs,
+one connector pair at a time. Keep the pair references labeled on the
+cable to simplify re-plug after service.
+
+| Pair | Analog ref | Protoshield ref | Pins | Signals (pin 1 → pin N) | Function |
+|---|---|---|---|---|---|
+| 1 | **J8** | **J7** | 3 | GND, SDA_IN, SCL_IN | I²C bus to analog HV side (post Adafruit #757 shifter) |
+| 2 | **J16** | **J16** | 5 | GND, SCK, MOSI, CS_DAC, DAC_LDAC_N | SPI to MCP4922 envelope DAC (shifted 3.3→5 V by 74HCT125) |
+| 3 | **J9** | **J4** | 2 | GND, ENC_INT | Encoder interrupt (from analog's AM26LS32 → shifted → protoshield → Metro) |
+| 4 | **J11** | **J11** | 4 | GND, GRID_BLOCK_CRASH, I_CATHODE_B, I_CATHODE_A | Tube-PA monitor signals (**DNP** for first fab; connectors in place for future tube-PA upgrade) |
+| 5 | **J12** | **J13** | 4 | GND, MBL600_B, MBL600_A, LDAC_4728 | MBL-600 encoder PCNT inputs + MCP4728 LDAC strobe |
+| 6 | **J3** | **J9** | 4 | GND, FAULT_N_CLEAN, Source_Sense_B, Source_Sense_A | PA telemetry back to Metro (fault latch state + per-FET source current) |
+
+### Protoshield-only connectors (not harnessed to analog)
+
+- **J1** (2-pin: GND, RESET_N) — reset pushbutton plugs directly here
+- **J6** (3-pin: GND, PADDLE_B, PADDLE_A) — CW paddle jack plugs directly here (text note on protoshield schematic)
+
+### Analog-only connectors (not harnessed to protoshield)
+
+Umbilicals / RF: J1 (SMA ss_pa), J2 (RJ45 LPF), J4 (RJ45 frontpanel), J31 (RJ45 ss_pa), J35 (RJ45 future tube-PA, DNP). Power: J5 (shack supply in), J13 (power header spare), J33 (SS_PA_Power out). Discrete: J6 (TX LED cathode), J7 and J10 (DNP future tube-PA relay drives), J21/J32/J34 (spare 2-pin terminals).
+
+**Note on duplicate protoshield connectors.** Protoshield schematic currently has both J3 (4-pin tube signals via conditioning Rs) and J11 (4-pin tube signals direct) — these carry the same signal set. If this is a leftover from an earlier revision, J3 can be deleted. Verify intent before fab.
+
+---
+
 ## Change log
 
+- 2026-10-25: Added analog↔protoshield harness table (6 pairs, all 1:1
+  matching). Rewrote J2, J31 pin lists to reflect current wiring
+  (T/R and sense signals added on J2, DRIVER_BIAS and PA_Bias on J31).
+  Added J4 pin list. Rewrote top-of-doc board inventory and
+  interconnect index. Removed stale "TBD / needed signals"
+  placeholders now that the signals are assigned.
 - 2026-10-18: U1 gain-hedge documented in J1. Default R_g unpopulated
   = unity gain = ~500 mVpp drive. Populate R_g = 1 kΩ to get gain = 4
   = ~2 Vpp drive for class-C PA operation. Amplitude control via

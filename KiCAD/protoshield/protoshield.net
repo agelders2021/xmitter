@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "C:\\Users\\AlAnd\\Git Backed Projects\\xmitter\\KiCAD\\protoshield\\protoshield.kicad_sch")
-		(date "2026-10-24T19:40:42")
+		(date "2026-10-26T14:15:54")
 		(tool "Eeschema 10.0.3")
 		(sheet
 			(number "1")
@@ -358,6 +358,9 @@
 				(value "protoshield.kicad_sch")
 			)
 			(property
+				(name "dnp")
+			)
+			(property
 				(name "ki_keywords")
 				(value "cap capacitor")
 			)
@@ -493,67 +496,13 @@
 			)
 		)
 		(comp
-			(ref "C10")
-			(value "10nF")
-			(description "Unpolarized capacitor")
-			(fields
-				(field
-					(name "Footprint")
-				)
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "Unpolarized capacitor")
-			)
-			(libsource
-				(lib "Device")
-				(part "C")
-				(description "Unpolarized capacitor")
-			)
-			(property
-				(name "Sheetname")
-				(value "protoshield")
-			)
-			(property
-				(name "Sheetfile")
-				(value "protoshield.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "cap capacitor")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "C_*")
-			)
-			(sheetpath
-				(names "/")
-				(tstamps "/")
-			)
-			(tstamps "999f2a68-7a6a-4553-9d0e-6e1353c65b99")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
 			(ref "C11")
 			(value "10nF")
+			(footprint "Capacitor_THT:C_Disc_D6.0mm_W2.5mm_P5.00mm")
 			(description "Unpolarized capacitor")
 			(fields
 				(field
-					(name "Footprint")
-				)
+					(name "Footprint") "Capacitor_THT:C_Disc_D6.0mm_W2.5mm_P5.00mm")
 				(field
 					(name "Datasheet")
 				)
@@ -603,11 +552,11 @@
 		(comp
 			(ref "C12")
 			(value "10nF")
+			(footprint "Capacitor_THT:C_Disc_D6.0mm_W2.5mm_P5.00mm")
 			(description "Unpolarized capacitor")
 			(fields
 				(field
-					(name "Footprint")
-				)
+					(name "Footprint") "Capacitor_THT:C_Disc_D6.0mm_W2.5mm_P5.00mm")
 				(field
 					(name "Datasheet")
 				)
@@ -657,11 +606,11 @@
 		(comp
 			(ref "C13")
 			(value "10nF")
+			(footprint "Capacitor_THT:C_Disc_D6.0mm_W2.5mm_P5.00mm")
 			(description "Unpolarized capacitor")
 			(fields
 				(field
-					(name "Footprint")
-				)
+					(name "Footprint") "Capacitor_THT:C_Disc_D6.0mm_W2.5mm_P5.00mm")
 				(field
 					(name "Datasheet")
 				)
@@ -694,6 +643,63 @@
 				(tstamps "/")
 			)
 			(tstamps "6c068557-6d63-42bf-aae7-a34c5772893b")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C14")
+			(value "100nF")
+			(footprint "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P2.50mm")
+			(description "capacitor, US symbol")
+			(fields
+				(field
+					(name "Footprint") "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P2.50mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "capacitor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "C_US")
+				(description "capacitor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "protoshield")
+			)
+			(property
+				(name "Sheetfile")
+				(value "protoshield.kicad_sch")
+			)
+			(property
+				(name "dnp")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "C_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "5dcc2d85-4c87-468d-8779-b2d49e9616d7")
 			(units
 				(unit
 					(name "A")
@@ -878,6 +884,9 @@
 				(value "protoshield.kicad_sch")
 			)
 			(property
+				(name "dnp")
+			)
+			(property
 				(name "ki_keywords")
 				(value "Zener diode 3.3V DO-41 1N4728A")
 			)
@@ -901,23 +910,35 @@
 			)
 		)
 		(comp
-			(ref "J1")
-			(value "Screw_Terminal_01x03")
-			(footprint "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-3_1x03_P5.00mm_Horizontal")
-			(description "Generic screw terminal, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)")
+			(ref "D6")
+			(value "1N4728A")
+			(footprint "Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal")
+			(datasheet "https://www.onsemi.com/pdf/datasheet/1n4736at-d.pdf")
+			(description "3.3V 1W Zener diode, DO-41")
 			(fields
 				(field
-					(name "Footprint") "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-3_1x03_P5.00mm_Horizontal")
+					(name "Manufacturer") "onsemi")
 				(field
-					(name "Datasheet")
-				)
+					(name "MPN") "1N4728A")
 				(field
-					(name "Description") "Generic screw terminal, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)")
+					(name "Footprint") "Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal")
+				(field
+					(name "Datasheet") "https://www.onsemi.com/pdf/datasheet/1n4736at-d.pdf")
+				(field
+					(name "Description") "3.3V 1W Zener diode, DO-41")
 			)
 			(libsource
-				(lib "Connector")
-				(part "Screw_Terminal_01x03")
-				(description "Generic screw terminal, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)")
+				(lib "xmitter")
+				(part "1N4728A")
+				(description "3.3V 1W Zener diode, DO-41")
+			)
+			(property
+				(name "Manufacturer")
+				(value "onsemi")
+			)
+			(property
+				(name "MPN")
+				(value "1N4728A")
 			)
 			(property
 				(name "Sheetname")
@@ -928,18 +949,17 @@
 				(value "protoshield.kicad_sch")
 			)
 			(property
-				(name "ki_keywords")
-				(value "screw terminal")
+				(name "dnp")
 			)
 			(property
-				(name "ki_fp_filters")
-				(value "TerminalBlock*:*")
+				(name "ki_keywords")
+				(value "Zener diode 3.3V DO-41 1N4728A")
 			)
 			(sheetpath
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "c3360099-95e6-45bc-80df-16353ffbffa4")
+			(tstamps "72221b24-ff0f-4de2-a483-8275eddaffc3")
 			(units
 				(unit
 					(name "A")
@@ -950,15 +970,12 @@
 						(pin
 							(num "2")
 						)
-						(pin
-							(num "3")
-						)
 					)
 				)
 			)
 		)
 		(comp
-			(ref "J2")
+			(ref "J1")
 			(value "Screw_Terminal_01x02")
 			(footprint "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2_1x02_P5.00mm_Horizontal")
 			(description "Generic screw terminal, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)")
@@ -996,7 +1013,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "b5862591-7e70-4054-a446-a170d2bd5b5e")
+			(tstamps "7a7f88aa-9aeb-41d6-aeda-6282fde4b20e")
 			(units
 				(unit
 					(name "A")
@@ -1013,22 +1030,22 @@
 		)
 		(comp
 			(ref "J3")
-			(value "Screw_Terminal_01x02")
-			(footprint "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2_1x02_P5.00mm_Horizontal")
-			(description "Generic screw terminal, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)")
+			(value "Screw_Terminal_01x04")
+			(footprint "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-4_1x04_P5.00mm_Horizontal")
+			(description "Generic screw terminal, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)")
 			(fields
 				(field
-					(name "Footprint") "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2_1x02_P5.00mm_Horizontal")
+					(name "Footprint") "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-4_1x04_P5.00mm_Horizontal")
 				(field
 					(name "Datasheet")
 				)
 				(field
-					(name "Description") "Generic screw terminal, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)")
+					(name "Description") "Generic screw terminal, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)")
 			)
 			(libsource
 				(lib "Connector")
-				(part "Screw_Terminal_01x02")
-				(description "Generic screw terminal, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)")
+				(part "Screw_Terminal_01x04")
+				(description "Generic screw terminal, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)")
 			)
 			(property
 				(name "Sheetname")
@@ -1037,6 +1054,9 @@
 			(property
 				(name "Sheetfile")
 				(value "protoshield.kicad_sch")
+			)
+			(property
+				(name "dnp")
 			)
 			(property
 				(name "ki_keywords")
@@ -1050,7 +1070,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "565b876b-6835-4dfc-8373-14922d9da872")
+			(tstamps "e911838e-d72c-4cf9-8c81-0f94c564134a")
 			(units
 				(unit
 					(name "A")
@@ -1060,6 +1080,12 @@
 						)
 						(pin
 							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "4")
 						)
 					)
 				)
@@ -1120,60 +1146,6 @@
 			)
 		)
 		(comp
-			(ref "J5")
-			(value "Screw_Terminal_01x02")
-			(footprint "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2_1x02_P5.00mm_Horizontal")
-			(description "Generic screw terminal, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)")
-			(fields
-				(field
-					(name "Footprint") "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2_1x02_P5.00mm_Horizontal")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "Generic screw terminal, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)")
-			)
-			(libsource
-				(lib "Connector")
-				(part "Screw_Terminal_01x02")
-				(description "Generic screw terminal, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)")
-			)
-			(property
-				(name "Sheetname")
-				(value "protoshield")
-			)
-			(property
-				(name "Sheetfile")
-				(value "protoshield.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "screw terminal")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "TerminalBlock*:*")
-			)
-			(sheetpath
-				(names "/")
-				(tstamps "/")
-			)
-			(tstamps "fb786e64-89a5-4cc5-a959-542c2de84fc3")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
 			(ref "J6")
 			(value "Screw_Terminal_01x03")
 			(footprint "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-3_1x03_P5.00mm_Horizontal")
@@ -1212,7 +1184,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "3138f691-5667-4418-baab-bdbbc05c04ae")
+			(tstamps "f206feb9-8b0d-4825-88b4-b84ab52b7b22")
 			(units
 				(unit
 					(name "A")
@@ -1288,23 +1260,23 @@
 			)
 		)
 		(comp
-			(ref "J8")
-			(value "Screw_Terminal_01x03")
-			(footprint "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-3_1x03_P5.00mm_Horizontal")
-			(description "Generic screw terminal, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)")
+			(ref "J9")
+			(value "Screw_Terminal_01x04")
+			(footprint "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-4_1x04_P5.00mm_Horizontal")
+			(description "Generic screw terminal, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)")
 			(fields
 				(field
-					(name "Footprint") "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-3_1x03_P5.00mm_Horizontal")
+					(name "Footprint") "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-4_1x04_P5.00mm_Horizontal")
 				(field
 					(name "Datasheet")
 				)
 				(field
-					(name "Description") "Generic screw terminal, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)")
+					(name "Description") "Generic screw terminal, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)")
 			)
 			(libsource
 				(lib "Connector")
-				(part "Screw_Terminal_01x03")
-				(description "Generic screw terminal, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)")
+				(part "Screw_Terminal_01x04")
+				(description "Generic screw terminal, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)")
 			)
 			(property
 				(name "Sheetname")
@@ -1326,7 +1298,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "215ea74d-8339-411c-a85d-2b84aea974fb")
+			(tstamps "9d222189-3345-4db1-a58a-e471fab8697f")
 			(units
 				(unit
 					(name "A")
@@ -1339,6 +1311,69 @@
 						)
 						(pin
 							(num "3")
+						)
+						(pin
+							(num "4")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "J13")
+			(value "Screw_Terminal_01x04")
+			(footprint "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-4_1x04_P5.00mm_Horizontal")
+			(description "To protoshield")
+			(fields
+				(field
+					(name "Footprint") "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-4_1x04_P5.00mm_Horizontal")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "To protoshield")
+			)
+			(libsource
+				(lib "Connector")
+				(part "Screw_Terminal_01x04")
+				(description "Generic screw terminal, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)")
+			)
+			(property
+				(name "Sheetname")
+				(value "protoshield")
+			)
+			(property
+				(name "Sheetfile")
+				(value "protoshield.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "screw terminal")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "TerminalBlock*:*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "6e96e802-7e4a-468e-9ff3-b2e8538dd66b")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "4")
 						)
 					)
 				)
@@ -1518,11 +1553,11 @@
 		(comp
 			(ref "R3")
 			(value "1K")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
 			(description "Resistor, US symbol")
 			(fields
 				(field
-					(name "Footprint")
-				)
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
 				(field
 					(name "Datasheet")
 				)
@@ -1572,11 +1607,11 @@
 		(comp
 			(ref "R4")
 			(value "1K")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
 			(description "Resistor, US symbol")
 			(fields
 				(field
-					(name "Footprint")
-				)
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
 				(field
 					(name "Datasheet")
 				)
@@ -1876,6 +1911,9 @@
 				(value "protoshield.kicad_sch")
 			)
 			(property
+				(name "dnp")
+			)
+			(property
 				(name "ki_keywords")
 				(value "R res resistor")
 			)
@@ -1888,60 +1926,6 @@
 				(tstamps "/")
 			)
 			(tstamps "d4367328-2a44-4488-b03e-e2ed3afd456d")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "R10")
-			(value "10K")
-			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
-			(description "Resistor, US symbol")
-			(fields
-				(field
-					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "Resistor, US symbol")
-			)
-			(libsource
-				(lib "Device")
-				(part "R_US")
-				(description "Resistor, US symbol")
-			)
-			(property
-				(name "Sheetname")
-				(value "protoshield")
-			)
-			(property
-				(name "Sheetfile")
-				(value "protoshield.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "R res resistor")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "R_*")
-			)
-			(sheetpath
-				(names "/")
-				(tstamps "/")
-			)
-			(tstamps "b5192763-0842-4235-9e3c-7e51792ca904")
 			(units
 				(unit
 					(name "A")
@@ -2173,67 +2157,13 @@
 			)
 		)
 		(comp
-			(ref "R15")
-			(value "1K")
-			(description "Resistor, US symbol")
-			(fields
-				(field
-					(name "Footprint")
-				)
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "Resistor, US symbol")
-			)
-			(libsource
-				(lib "Device")
-				(part "R_US")
-				(description "Resistor, US symbol")
-			)
-			(property
-				(name "Sheetname")
-				(value "protoshield")
-			)
-			(property
-				(name "Sheetfile")
-				(value "protoshield.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "R res resistor")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "R_*")
-			)
-			(sheetpath
-				(names "/")
-				(tstamps "/")
-			)
-			(tstamps "61069e6d-eebf-4813-8ad4-19968ed0dca6")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
 			(ref "R16")
 			(value "1K")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
 			(description "Resistor, US symbol")
 			(fields
 				(field
-					(name "Footprint")
-				)
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
 				(field
 					(name "Datasheet")
 				)
@@ -2283,11 +2213,11 @@
 		(comp
 			(ref "R17")
 			(value "1K")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
 			(description "Resistor, US symbol")
 			(fields
 				(field
-					(name "Footprint")
-				)
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
 				(field
 					(name "Datasheet")
 				)
@@ -2320,6 +2250,63 @@
 				(tstamps "/")
 			)
 			(tstamps "eb9212d2-27e5-4c94-bff1-6a9ae7cfd411")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R18")
+			(value "1K")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "protoshield")
+			)
+			(property
+				(name "Sheetfile")
+				(value "protoshield.kicad_sch")
+			)
+			(property
+				(name "dnp")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "c09aa18f-6904-4b52-8c67-c16b8ebdfc0e")
 			(units
 				(unit
 					(name "A")
@@ -2407,6 +2394,50 @@
 				(pin
 					(num "3")
 					(name "Pin_3")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "Connector")
+			(part "Screw_Terminal_01x04")
+			(description "Generic screw terminal, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)")
+			(footprints
+				(fp "TerminalBlock*:*")
+			)
+			(fields
+				(field
+					(name "Reference") "J")
+				(field
+					(name "Value") "Screw_Terminal_01x04")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Generic screw terminal, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)")
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "Pin_1")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "Pin_2")
+					(type "passive")
+				)
+				(pin
+					(num "3")
+					(name "Pin_3")
+					(type "passive")
+				)
+				(pin
+					(num "4")
+					(name "Pin_4")
 					(type "passive")
 				)
 			)
@@ -2777,11 +2808,6 @@
 			(name "+3.3V")
 			(class "Default")
 			(node
-				(ref "R10")
-				(pin "1")
-				(pintype "passive")
-			)
-			(node
 				(ref "R11")
 				(pin "2")
 				(pintype "passive")
@@ -2855,9 +2881,9 @@
 			(name "FAULT_N_CLEAN")
 			(class "Default")
 			(node
-				(ref "J8")
-				(pin "3")
-				(pinfunction "Pin_3_3")
+				(ref "J9")
+				(pin "2")
+				(pinfunction "Pin_2_2")
 				(pintype "passive")
 			)
 			(node
@@ -2891,11 +2917,6 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "C10")
-				(pin "1")
-				(pintype "passive")
-			)
-			(node
 				(ref "C11")
 				(pin "1")
 				(pintype "passive")
@@ -2907,6 +2928,11 @@
 			)
 			(node
 				(ref "C13")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C14")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -2964,13 +2990,31 @@
 				(pintype "passive")
 			)
 			(node
+				(ref "D6")
+				(pin "2")
+				(pinfunction "A_2")
+				(pintype "passive")
+			)
+			(node
 				(ref "J1")
 				(pin "1")
 				(pinfunction "Pin_1_1")
 				(pintype "passive")
 			)
 			(node
+				(ref "J13")
+				(pin "1")
+				(pinfunction "Pin_1_1")
+				(pintype "passive")
+			)
+			(node
 				(ref "J16")
+				(pin "1")
+				(pinfunction "Pin_1_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "J3")
 				(pin "1")
 				(pinfunction "Pin_1_1")
 				(pintype "passive")
@@ -2983,8 +3027,8 @@
 			)
 			(node
 				(ref "J6")
-				(pin "3")
-				(pinfunction "Pin_3_3")
+				(pin "1")
+				(pinfunction "Pin_1_1")
 				(pintype "passive")
 			)
 			(node
@@ -2993,10 +3037,42 @@
 				(pinfunction "Pin_1_1")
 				(pintype "passive")
 			)
+			(node
+				(ref "J9")
+				(pin "1")
+				(pinfunction "Pin_1_1")
+				(pintype "passive")
+			)
 		)
 		(net
 			(code "9")
 			(name "GRID_BLOCK_CRASH")
+			(class "Default")
+			(node
+				(ref "C14")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "D6")
+				(pin "1")
+				(pinfunction "K_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R18")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "R9")
+				(pin "1")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "10")
+			(name "GRID_BLOCK_CRASH_FINAL")
 			(class "Default")
 			(node
 				(ref "C6")
@@ -3016,7 +3092,7 @@
 			)
 		)
 		(net
-			(code "10")
+			(code "11")
 			(name "I_CATHODE_A")
 			(class "Default")
 			(node
@@ -3037,7 +3113,7 @@
 			)
 		)
 		(net
-			(code "11")
+			(code "12")
 			(name "I_CATHODE_B")
 			(class "Default")
 			(node
@@ -3058,19 +3134,35 @@
 			)
 		)
 		(net
-			(code "12")
+			(code "13")
 			(name "LDAC_4728")
 			(class "Default")
 			(node
-				(ref "J1")
-				(pin "2")
-				(pinfunction "Pin_2_2")
+				(ref "J13")
+				(pin "4")
+				(pinfunction "Pin_4_4")
 				(pintype "passive")
 			)
 		)
 		(net
-			(code "13")
+			(code "14")
 			(name "MBL600_A")
+			(class "Default")
+			(node
+				(ref "J13")
+				(pin "3")
+				(pinfunction "Pin_3_3")
+				(pintype "passive")
+			)
+			(node
+				(ref "R13")
+				(pin "1")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "15")
+			(name "MBL600_A_CLEAN")
 			(class "Default")
 			(node
 				(ref "C8")
@@ -3084,8 +3176,24 @@
 			)
 		)
 		(net
-			(code "14")
+			(code "16")
 			(name "MBL600_B")
+			(class "Default")
+			(node
+				(ref "J13")
+				(pin "2")
+				(pinfunction "Pin_2_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "R14")
+				(pin "1")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "17")
+			(name "MBL600_B_CLEAN")
 			(class "Default")
 			(node
 				(ref "C9")
@@ -3099,61 +3207,13 @@
 			)
 		)
 		(net
-			(code "15")
+			(code "18")
 			(name "MOSI")
 			(class "Default")
 			(node
 				(ref "J16")
 				(pin "3")
 				(pinfunction "Pin_3_3")
-				(pintype "passive")
-			)
-		)
-		(net
-			(code "16")
-			(name "Net-(J2-Pin_1)")
-			(class "Default")
-			(node
-				(ref "J2")
-				(pin "1")
-				(pinfunction "Pin_1_1")
-				(pintype "passive")
-			)
-			(node
-				(ref "R14")
-				(pin "1")
-				(pintype "passive")
-			)
-		)
-		(net
-			(code "17")
-			(name "Net-(J2-Pin_2)")
-			(class "Default")
-			(node
-				(ref "J2")
-				(pin "2")
-				(pinfunction "Pin_2_2")
-				(pintype "passive")
-			)
-			(node
-				(ref "R13")
-				(pin "1")
-				(pintype "passive")
-			)
-		)
-		(net
-			(code "18")
-			(name "Net-(J3-Pin_1)")
-			(class "Default")
-			(node
-				(ref "J3")
-				(pin "1")
-				(pinfunction "Pin_1_1")
-				(pintype "passive")
-			)
-			(node
-				(ref "R6")
-				(pin "1")
 				(pintype "passive")
 			)
 		)
@@ -3168,76 +3228,45 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "R5")
+				(ref "R18")
 				(pin "1")
 				(pintype "passive")
 			)
 		)
 		(net
 			(code "20")
-			(name "Net-(J5-Pin_1)")
+			(name "Net-(J3-Pin_3)")
 			(class "Default")
 			(node
-				(ref "J5")
-				(pin "1")
-				(pinfunction "Pin_1_1")
+				(ref "J3")
+				(pin "3")
+				(pinfunction "Pin_3_3")
 				(pintype "passive")
 			)
 			(node
-				(ref "R9")
+				(ref "R6")
 				(pin "1")
 				(pintype "passive")
 			)
 		)
 		(net
 			(code "21")
-			(name "Net-(J5-Pin_2)")
+			(name "Net-(J3-Pin_4)")
 			(class "Default")
 			(node
-				(ref "J5")
-				(pin "2")
-				(pinfunction "Pin_2_2")
+				(ref "J3")
+				(pin "4")
+				(pinfunction "Pin_4_4")
 				(pintype "passive")
 			)
 			(node
-				(ref "R10")
-				(pin "2")
-				(pintype "passive")
-			)
-			(node
-				(ref "R15")
+				(ref "R5")
 				(pin "1")
 				(pintype "passive")
 			)
 		)
 		(net
 			(code "22")
-			(name "Net-(J6-Pin_1)")
-			(class "Default")
-			(node
-				(ref "C11")
-				(pin "2")
-				(pintype "passive")
-			)
-			(node
-				(ref "J6")
-				(pin "1")
-				(pinfunction "Pin_1_1")
-				(pintype "passive")
-			)
-			(node
-				(ref "R12")
-				(pin "2")
-				(pintype "passive")
-			)
-			(node
-				(ref "R3")
-				(pin "2")
-				(pintype "passive")
-			)
-		)
-		(net
-			(code "23")
 			(name "Net-(J6-Pin_2)")
 			(class "Default")
 			(node
@@ -3263,39 +3292,33 @@
 			)
 		)
 		(net
+			(code "23")
+			(name "Net-(J6-Pin_3)")
+			(class "Default")
+			(node
+				(ref "C11")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "J6")
+				(pin "3")
+				(pinfunction "Pin_3_3")
+				(pintype "passive")
+			)
+			(node
+				(ref "R12")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "R3")
+				(pin "2")
+				(pintype "passive")
+			)
+		)
+		(net
 			(code "24")
-			(name "Net-(J8-Pin_1)")
-			(class "Default")
-			(node
-				(ref "J8")
-				(pin "1")
-				(pinfunction "Pin_1_1")
-				(pintype "passive")
-			)
-			(node
-				(ref "R1")
-				(pin "2")
-				(pintype "passive")
-			)
-		)
-		(net
-			(code "25")
-			(name "Net-(J8-Pin_2)")
-			(class "Default")
-			(node
-				(ref "J8")
-				(pin "2")
-				(pinfunction "Pin_2_2")
-				(pintype "passive")
-			)
-			(node
-				(ref "R2")
-				(pin "2")
-				(pintype "passive")
-			)
-		)
-		(net
-			(code "26")
 			(name "Net-(R17-Pad2)")
 			(class "Default")
 			(node
@@ -3305,7 +3328,7 @@
 			)
 		)
 		(net
-			(code "27")
+			(code "25")
 			(name "PADDLE_A")
 			(class "Default")
 			(node
@@ -3315,7 +3338,7 @@
 			)
 		)
 		(net
-			(code "28")
+			(code "26")
 			(name "PADDLE_B")
 			(class "Default")
 			(node
@@ -3325,7 +3348,7 @@
 			)
 		)
 		(net
-			(code "29")
+			(code "27")
 			(name "RESET_N")
 			(class "Default")
 			(node
@@ -3335,8 +3358,8 @@
 			)
 			(node
 				(ref "J1")
-				(pin "3")
-				(pinfunction "Pin_3_3")
+				(pin "2")
+				(pinfunction "Pin_2_2")
 				(pintype "passive")
 			)
 			(node
@@ -3346,7 +3369,7 @@
 			)
 		)
 		(net
-			(code "30")
+			(code "28")
 			(name "SCK")
 			(class "Default")
 			(node
@@ -3357,7 +3380,7 @@
 			)
 		)
 		(net
-			(code "31")
+			(code "29")
 			(name "SCL_IN")
 			(class "Default")
 			(node
@@ -3368,7 +3391,7 @@
 			)
 		)
 		(net
-			(code "32")
+			(code "30")
 			(name "SDA_IN")
 			(class "Default")
 			(node
@@ -3379,8 +3402,24 @@
 			)
 		)
 		(net
-			(code "33")
+			(code "31")
 			(name "Source_Sense_A")
+			(class "Default")
+			(node
+				(ref "J9")
+				(pin "4")
+				(pinfunction "Pin_4_4")
+				(pintype "passive")
+			)
+			(node
+				(ref "R1")
+				(pin "2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "32")
+			(name "Source_Sense_A_FINAL")
 			(class "Default")
 			(node
 				(ref "C3")
@@ -3394,8 +3433,24 @@
 			)
 		)
 		(net
-			(code "34")
+			(code "33")
 			(name "Source_Sense_B")
+			(class "Default")
+			(node
+				(ref "J9")
+				(pin "3")
+				(pinfunction "Pin_3_3")
+				(pintype "passive")
+			)
+			(node
+				(ref "R2")
+				(pin "2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "34")
+			(name "Source_Sense_B_FINAL")
 			(class "Default")
 			(node
 				(ref "C2")
@@ -3405,21 +3460,6 @@
 			(node
 				(ref "R2")
 				(pin "1")
-				(pintype "passive")
-			)
-		)
-		(net
-			(code "35")
-			(name "TR_SENSE")
-			(class "Default")
-			(node
-				(ref "C10")
-				(pin "2")
-				(pintype "passive")
-			)
-			(node
-				(ref "R15")
-				(pin "2")
 				(pintype "passive")
 			)
 		)

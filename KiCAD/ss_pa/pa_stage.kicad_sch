@@ -4080,7 +4080,7 @@
 		(at 257.81 130.81)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "edd684b6-026d-4c8b-8ab0-530dce3ced04")
+		(uuid "f3a83253-b1e9-462e-a2db-eaa38afd6e7d")
 	)
 	(junction
 		(at 50.8 92.71)
@@ -5965,6 +5965,88 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector:Screw_Terminal_01x02")
+		(at 262.89 130.81 0)
+		(mirror x)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "2ed8b9a2-fc53-40ec-acec-41859c50dd90")
+		(property "Reference" "J2"
+			(at 259.334 137.668 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Screw_Terminal_01x02"
+			(at 259.334 135.128 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2_1x02_P5.00mm_Horizontal"
+			(at 262.89 130.81 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 262.89 130.81 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Generic screw terminal, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(at 262.89 130.81 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "30b5719c-034d-4685-a22c-adca1aee1904")
+		)
+		(pin "2"
+			(uuid "5b8cbfe1-77b5-40da-ac4d-89d73a04d249")
+		)
+		(instances
+			(project "ss_pa"
+				(path "/7b9fe991-54d6-43c4-a637-0ed9ee982c42/6995ca2b-35a4-4871-8cf2-3a0067e62105"
+					(reference "J2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R_US")
 		(at 157.48 57.15 90)
 		(mirror x)
@@ -6462,7 +6544,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "0.22R"
+		(property "Value" "0.22R 2W"
 			(at 153.162 101.854 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6473,7 +6555,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0516_L15.5mm_D5.0mm_P20.32mm_Horizontal"
 			(at 158.496 96.774 90)
 			(hide yes)
 			(show_name no)
@@ -7274,7 +7356,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "0.22R"
+		(property "Value" "0.22R 2W"
 			(at 163.83 97.7899 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7285,7 +7367,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0516_L15.5mm_D5.0mm_P20.32mm_Horizontal"
 			(at 162.306 96.774 90)
 			(hide yes)
 			(show_name no)
@@ -8242,7 +8324,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "0.22R"
+		(property "Value" "0.22R 2W"
 			(at 163.83 87.6299 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8253,7 +8335,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0516_L15.5mm_D5.0mm_P20.32mm_Horizontal"
 			(at 162.306 86.614 90)
 			(hide yes)
 			(show_name no)
@@ -9389,7 +9471,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "0.22R"
+		(property "Value" "0.22R 2W"
 			(at 151.384 88.392 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9400,7 +9482,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0516_L15.5mm_D5.0mm_P20.32mm_Horizontal"
 			(at 158.496 86.614 90)
 			(hide yes)
 			(show_name no)
@@ -10196,87 +10278,6 @@
 			(project "ss_pa"
 				(path "/7b9fe991-54d6-43c4-a637-0ed9ee982c42/6995ca2b-35a4-4871-8cf2-3a0067e62105"
 					(reference "L3")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Connector:Screw_Terminal_01x02")
-		(at 262.89 128.27 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "d64f9698-5c2b-420d-b89e-1178f7bd8f3b")
-		(property "Reference" "J2"
-			(at 259.334 121.412 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "Screw_Terminal_01x02"
-			(at 259.334 123.952 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2_1x02_P5.00mm_Horizontal"
-			(at 262.89 128.27 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 262.89 128.27 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Generic screw terminal, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 262.89 128.27 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "44f6922f-8cba-45dd-8768-805c7b357a9b")
-		)
-		(pin "2"
-			(uuid "42f37b05-e544-469c-a3f9-50f935fdcfe0")
-		)
-		(instances
-			(project "ss_pa"
-				(path "/7b9fe991-54d6-43c4-a637-0ed9ee982c42/6995ca2b-35a4-4871-8cf2-3a0067e62105"
-					(reference "J2")
 					(unit 1)
 				)
 			)

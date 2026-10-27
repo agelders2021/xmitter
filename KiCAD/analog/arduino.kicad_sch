@@ -4623,6 +4623,10 @@
 		(uuid "b9ea542b-4c8b-4395-a742-7ce022c6c2d1")
 	)
 	(no_connect
+		(at 30.48 113.03)
+		(uuid "c5a1f6db-a37e-4ea4-b808-72ef70556cb4")
+	)
+	(no_connect
 		(at 193.04 60.96)
 		(uuid "e1f3cdb5-6b16-4470-b9b5-1970cdac4639")
 	)
@@ -4712,16 +4716,6 @@
 	)
 	(wire
 		(pts
-			(xy 29.21 133.35) (xy 31.75 133.35)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "1f3eef73-7740-4ba9-9067-0deb8c3bff9c")
-	)
-	(wire
-		(pts
 			(xy 224.79 116.84) (xy 224.79 115.57)
 		)
 		(stroke
@@ -4752,16 +4746,6 @@
 	)
 	(wire
 		(pts
-			(xy 29.21 130.81) (xy 31.75 130.81)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "2510279b-df85-4007-b7a0-9d7c76706c3d")
-	)
-	(wire
-		(pts
 			(xy 80.01 39.37) (xy 86.36 39.37)
 		)
 		(stroke
@@ -4772,7 +4756,7 @@
 	)
 	(wire
 		(pts
-			(xy 199.39 147.32) (xy 210.82 147.32)
+			(xy 199.39 147.32) (xy 212.09 147.32)
 		)
 		(stroke
 			(width 0)
@@ -4912,16 +4896,6 @@
 	)
 	(wire
 		(pts
-			(xy 50.8 113.03) (xy 30.48 113.03)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "50e82cb1-737b-427b-a36b-f5dd3e8c2ab5")
-	)
-	(wire
-		(pts
 			(xy 218.44 91.44) (xy 218.44 97.79)
 		)
 		(stroke
@@ -4989,16 +4963,6 @@
 			(type default)
 		)
 		(uuid "6175249d-417e-4397-90b4-fa1e2d0b1a2f")
-	)
-	(wire
-		(pts
-			(xy 30.48 66.04) (xy 60.96 66.04)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "633bf27f-cd44-4f6c-8516-f100657de297")
 	)
 	(wire
 		(pts
@@ -5212,6 +5176,26 @@
 	)
 	(wire
 		(pts
+			(xy 91.44 102.87) (xy 95.25 102.87)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ad29bcbd-b9fd-440a-9855-4c5f228b28b7")
+	)
+	(wire
+		(pts
+			(xy 91.44 100.33) (xy 95.25 100.33)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "aeb32778-e717-40fd-bf50-baf4cfb36a37")
+	)
+	(wire
+		(pts
 			(xy 187.96 39.37) (xy 190.5 39.37)
 		)
 		(stroke
@@ -5322,6 +5306,16 @@
 	)
 	(wire
 		(pts
+			(xy 212.09 144.78) (xy 210.82 144.78)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ce085d51-05c7-4433-ad8b-81c39068371a")
+	)
+	(wire
+		(pts
 			(xy 147.32 96.52) (xy 147.32 130.81)
 		)
 		(stroke
@@ -5359,16 +5353,6 @@
 			(type default)
 		)
 		(uuid "d2ea6450-e728-437d-9277-bd3cd8445163")
-	)
-	(wire
-		(pts
-			(xy 29.21 128.27) (xy 31.75 128.27)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "d3cf8745-f15c-453d-8b28-02dcd0c1543b")
 	)
 	(wire
 		(pts
@@ -5462,16 +5446,6 @@
 	)
 	(wire
 		(pts
-			(xy 29.21 135.89) (xy 31.75 135.89)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "ec1c3e05-a48c-4852-90fc-bf985d43946a")
-	)
-	(wire
-		(pts
 			(xy 224.79 128.27) (xy 254 128.27)
 		)
 		(stroke
@@ -5544,19 +5518,19 @@
 			)
 		)
 	)
-	(global_label "PA_Bias_A_Raw"
+	(global_label "ENC_INT"
 		(shape output)
-		(at 31.75 133.35 0)
+		(at 60.96 66.04 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify left)
+			(justify right)
 		)
-		(uuid "0ede62d5-ff23-4dc2-89a7-9609ffc01a2f")
+		(uuid "10ec33e8-9035-4b84-a15a-55feb602b22c")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 48.8866 133.35 0)
+			(at 50.3548 66.04 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5564,7 +5538,7 @@
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
+				(justify right)
 			)
 		)
 	)
@@ -5594,7 +5568,7 @@
 	)
 	(global_label "Source_Sense_A"
 		(shape input)
-		(at 31.75 128.27 0)
+		(at 29.21 128.27 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -5604,7 +5578,7 @@
 		)
 		(uuid "12a9ab11-d41f-461b-8f0c-40af83380f2c")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 49.7937 128.27 0)
+			(at 47.2537 128.27 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5642,7 +5616,7 @@
 	)
 	(global_label "Source_Sense_B"
 		(shape input)
-		(at 31.75 130.81 0)
+		(at 29.21 130.81 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -5652,7 +5626,7 @@
 		)
 		(uuid "15e33261-7519-44b7-a083-c80d884359e2")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 49.9751 130.81 0)
+			(at 47.4351 130.81 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6024,9 +5998,9 @@
 			)
 		)
 	)
-	(global_label "ENC_INT"
+	(global_label "I_CATHODE_B"
 		(shape input)
-		(at 46.99 66.04 90)
+		(at 33.02 148.59 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -6034,9 +6008,9 @@
 			)
 			(justify left)
 		)
-		(uuid "57850ae7-d5d1-48f4-9771-2983c277f81e")
+		(uuid "58b9ac53-5ab0-4f88-b4b7-a4d9f304034d")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 46.99 48.601 90)
+			(at 48.2214 148.59 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6108,30 +6082,6 @@
 		(uuid "5e8e4b9d-1302-418e-bdc7-45fdaa8ca813")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 104.7666 16.51 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-	)
-	(global_label "PA_Bias_B_Raw"
-		(shape output)
-		(at 31.75 135.89 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "6396bb7e-64ab-40f1-ad20-bfd9d2e59872")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 49.068 135.89 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6455,6 +6405,30 @@
 			)
 		)
 	)
+	(global_label "I_CATHODE_A"
+		(shape input)
+		(at 33.02 146.05 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "bd4e8e59-0556-4acc-961d-2c50774e0cdb")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 48.04 146.05 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+	)
 	(global_label "SDA"
 		(shape bidirectional)
 		(at 52.07 36.83 180)
@@ -6492,6 +6466,30 @@
 		(uuid "beb45fd0-351a-4dbd-a1c0-63c3265a5b81")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 71.0209 97.79 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+	)
+	(global_label "GRID_BLOCK_CRASH"
+		(shape input)
+		(at 33.02 151.13 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "beb47a8a-dbf4-48c7-b7de-a3ddb73908b6")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 54.6924 151.13 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6622,6 +6620,30 @@
 			)
 		)
 	)
+	(global_label "ENC_INT"
+		(shape input)
+		(at 30.48 66.04 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "d768b06b-e253-4eb1-8428-d787d64a736b")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 41.0852 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+	)
 	(global_label "GRID_CTL_B"
 		(shape input)
 		(at 110.49 132.08 180)
@@ -6643,6 +6665,30 @@
 					(size 1.27 1.27)
 				)
 				(justify right)
+			)
+		)
+	)
+	(global_label "FAULT_N_CLEAN"
+		(shape input)
+		(at 29.21 133.35 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "d8ec81eb-8338-4a6e-b248-44120ad1e0d7")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 46.8305 133.35 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
 			)
 		)
 	)
@@ -6883,6 +6929,84 @@
 					(size 1.27 1.27)
 				)
 				(justify right)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 29.21 135.89 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "00059cb8-b050-4993-b9f8-e4d3162281c9")
+		(property "Reference" "#PWR0106"
+			(at 29.21 142.24 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 29.21 140.97 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 29.21 135.89 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 29.21 135.89 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 29.21 135.89 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "7a78c4a7-05d4-43a8-8214-29cb23e5a7a7")
+		)
+		(instances
+			(project "analog"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72"
+					(reference "#PWR0106")
+					(unit 1)
+				)
 			)
 		)
 	)
@@ -7845,7 +7969,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
 			(at 236.474 62.484 90)
 			(hide yes)
 			(show_name no)
@@ -9069,7 +9193,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2_1x02_P5.00mm_Horizontal"
 			(at 245.11 63.5 0)
 			(hide yes)
 			(show_name no)
@@ -9206,7 +9330,7 @@
 	)
 	(symbol
 		(lib_id "power:+12V")
-		(at 255.27 78.74 90)
+		(at 254 78.74 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -9217,7 +9341,7 @@
 		(fields_autoplaced yes)
 		(uuid "40c86d4a-bb6e-48fb-979e-135e1c2abdcc")
 		(property "Reference" "#PWR036"
-			(at 259.08 78.74 0)
+			(at 257.81 78.74 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9228,7 +9352,7 @@
 			)
 		)
 		(property "Value" "+12V"
-			(at 251.46 78.7399 90)
+			(at 250.19 78.7399 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -9239,7 +9363,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 255.27 78.74 0)
+			(at 254 78.74 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9250,7 +9374,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 255.27 78.74 0)
+			(at 254 78.74 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9261,7 +9385,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+12V\""
-			(at 255.27 78.74 0)
+			(at 254 78.74 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9474,7 +9598,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2_1x02_P5.00mm_Horizontal"
 			(at 259.08 78.74 0)
 			(hide yes)
 			(show_name no)
@@ -10378,7 +10502,7 @@
 	)
 	(symbol
 		(lib_id "Connector:Screw_Terminal_01x02")
-		(at 90.17 102.87 180)
+		(at 86.36 102.87 180)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -10389,7 +10513,7 @@
 		(fields_autoplaced yes)
 		(uuid "5e80e348-2d88-4b88-82a0-135803d2f9bb")
 		(property "Reference" "J21"
-			(at 90.17 93.98 0)
+			(at 86.36 93.98 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -10399,7 +10523,7 @@
 			)
 		)
 		(property "Value" "Screw_Terminal_01x02"
-			(at 90.17 96.52 0)
+			(at 86.36 96.52 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -10409,7 +10533,7 @@
 			)
 		)
 		(property "Footprint" "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2_1x02_P5.00mm_Horizontal"
-			(at 90.17 102.87 0)
+			(at 86.36 102.87 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10420,7 +10544,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 90.17 102.87 0)
+			(at 86.36 102.87 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10431,7 +10555,7 @@
 			)
 		)
 		(property "Description" "Power to Metro"
-			(at 90.17 102.87 0)
+			(at 86.36 102.87 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11845,6 +11969,91 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector:Screw_Terminal_01x04")
+		(at 27.94 151.13 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp yes)
+		(uuid "87621de6-d71a-44d1-9dfd-9a8a6bb7017c")
+		(property "Reference" "J11"
+			(at 27.94 160.02 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "Screw_Terminal_01x04"
+			(at 27.94 157.48 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-4_1x04_P5.00mm_Horizontal"
+			(at 27.94 151.13 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 27.94 151.13 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "connect to protoshield"
+			(at 27.94 151.13 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "3"
+			(uuid "f97992d9-4fe4-4994-b4d3-78b532343162")
+		)
+		(pin "4"
+			(uuid "fbb4f9f7-9be0-4619-8961-556aa87580c9")
+		)
+		(pin "1"
+			(uuid "42c8d125-55d5-43c1-8dce-233250368fec")
+		)
+		(pin "2"
+			(uuid "4965a0ab-95c2-40af-b2de-72af62e29042")
+		)
+		(instances
+			(project "analog"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72"
+					(reference "J11")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:C")
 		(at 161.29 128.27 90)
 		(unit 1)
@@ -12633,7 +12842,7 @@
 	)
 	(symbol
 		(lib_id "power:+12V")
-		(at 226.06 107.95 90)
+		(at 224.79 107.95 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -12644,7 +12853,7 @@
 		(fields_autoplaced yes)
 		(uuid "a648b77e-52ce-43e1-88b7-27327b6dde29")
 		(property "Reference" "#PWR0104"
-			(at 229.87 107.95 0)
+			(at 228.6 107.95 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12655,7 +12864,7 @@
 			)
 		)
 		(property "Value" "+12V"
-			(at 222.25 107.9499 90)
+			(at 220.98 107.9499 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -12666,7 +12875,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 226.06 107.95 0)
+			(at 224.79 107.95 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12677,7 +12886,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 226.06 107.95 0)
+			(at 224.79 107.95 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12688,7 +12897,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+12V\""
-			(at 226.06 107.95 0)
+			(at 224.79 107.95 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12783,6 +12992,84 @@
 			(project "analog"
 				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72"
 					(reference "#PWR032")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 33.02 153.67 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "ab5eb3c5-fcae-4e96-9b81-7aa5fcbf9cba")
+		(property "Reference" "#PWR034"
+			(at 33.02 160.02 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 33.02 158.75 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 33.02 153.67 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 33.02 153.67 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 33.02 153.67 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "acc8495f-5971-47c5-b798-f63b1ff850b8")
+		)
+		(instances
+			(project "analog"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72"
+					(reference "#PWR034")
 					(unit 1)
 				)
 			)
@@ -14034,7 +14321,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2_1x02_P5.00mm_Horizontal"
 			(at 229.87 107.95 0)
 			(hide yes)
 			(show_name no)
@@ -14077,92 +14364,6 @@
 			(project "analog"
 				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72"
 					(reference "J10")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Connector:Screw_Terminal_01x04")
-		(at 24.13 133.35 180)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "df3d3c41-e4c6-47a0-8431-51abce5651fe")
-		(property "Reference" "J3"
-			(at 24.13 121.92 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "Screw_Terminal_01x04"
-			(at 24.13 124.46 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-4_1x04_P5.00mm_Horizontal"
-			(at 24.13 133.35 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 24.13 133.35 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "To protoshield"
-			(at 24.13 133.35 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "4"
-			(uuid "28b3ebd1-b168-4ccd-be56-68f23e24942f")
-		)
-		(pin "1"
-			(uuid "1b123e6c-bbd3-4bb8-b5f6-15a82ff0d477")
-		)
-		(pin "2"
-			(uuid "02729d9c-7959-445b-b36e-3c1870282751")
-		)
-		(pin "3"
-			(uuid "8c1b1b0c-5782-4015-9adb-f5c290d039b3")
-		)
-		(instances
-			(project "analog"
-				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72"
-					(reference "J3")
 					(unit 1)
 				)
 			)
@@ -14405,7 +14606,7 @@
 	)
 	(symbol
 		(lib_id "Connector:Screw_Terminal_01x02")
-		(at 215.9 147.32 0)
+		(at 217.17 147.32 0)
 		(mirror x)
 		(unit 1)
 		(body_style 1)
@@ -14416,7 +14617,7 @@
 		(dnp no)
 		(uuid "e8e1d0b1-aea1-43cb-af80-9c9bd67fe892")
 		(property "Reference" "J32"
-			(at 228.6 146.05 0)
+			(at 229.87 146.05 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -14426,7 +14627,7 @@
 			)
 		)
 		(property "Value" "Screw_Terminal_01x02"
-			(at 228.6 148.59 0)
+			(at 229.87 148.59 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -14436,7 +14637,7 @@
 			)
 		)
 		(property "Footprint" "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2_1x02_P5.00mm_Horizontal"
-			(at 215.9 147.32 0)
+			(at 217.17 147.32 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -14447,7 +14648,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 215.9 147.32 0)
+			(at 217.17 147.32 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -14458,7 +14659,7 @@
 			)
 		)
 		(property "Description" "Generic screw terminal, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 215.9 147.32 0)
+			(at 217.17 147.32 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -14818,6 +15019,92 @@
 			(project "analog"
 				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72"
 					(reference "J35")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:Screw_Terminal_01x04")
+		(at 24.13 133.35 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "f36adb7f-5d95-43d2-a36e-88cce907275b")
+		(property "Reference" "J3"
+			(at 24.13 121.92 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "Screw_Terminal_01x04"
+			(at 24.13 124.46 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-4_1x04_P5.00mm_Horizontal"
+			(at 24.13 133.35 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 24.13 133.35 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Generic screw terminal, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(at 24.13 133.35 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "511fcffe-5def-4ea5-9461-ada3eda4c9b3")
+		)
+		(pin "2"
+			(uuid "9797ebc4-386e-42f5-b97a-51e29f6e5a00")
+		)
+		(pin "4"
+			(uuid "fa884d51-438e-437d-a204-de3e6c027b1c")
+		)
+		(pin "3"
+			(uuid "862b7f77-e462-4d58-b4a5-7ca8c6fd2e68")
+		)
+		(instances
+			(project "analog"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72"
+					(reference "J3")
 					(unit 1)
 				)
 			)

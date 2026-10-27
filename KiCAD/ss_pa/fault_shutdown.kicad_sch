@@ -3244,6 +3244,12 @@
 		(uuid "760cc587-0fce-4b7c-aa86-a98a6a32e1ef")
 	)
 	(junction
+		(at 198.12 157.48)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "7b45d1ef-a6c6-46f6-947c-1fc51adead9f")
+	)
+	(junction
 		(at 152.4 52.07)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -3344,6 +3350,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "c844cc31-c6f1-40df-825a-e53cd5b61332")
+	)
+	(junction
+		(at 198.12 149.86)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "c8723d90-8cd6-4988-a0dc-fc6c2ae1ac17")
 	)
 	(junction
 		(at 95.25 72.39)
@@ -3559,6 +3571,16 @@
 	)
 	(wire
 		(pts
+			(xy 208.28 157.48) (xy 198.12 157.48)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2d109610-016e-4926-891b-03111cb554e3")
+	)
+	(wire
+		(pts
 			(xy 73.66 132.08) (xy 77.47 132.08)
 		)
 		(stroke
@@ -3656,6 +3678,16 @@
 			(type default)
 		)
 		(uuid "43e4b5f5-c0fb-47c7-94d7-4b13665bf9a1")
+	)
+	(wire
+		(pts
+			(xy 208.28 149.86) (xy 198.12 149.86)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "441bd88b-a2e0-44ab-90c1-f25ea6117ecd")
 	)
 	(wire
 		(pts
@@ -5439,7 +5471,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
 			(at 79.7052 123.19 0)
 			(hide yes)
 			(show_name no)
@@ -5601,7 +5633,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
 			(at 78.4352 139.7 0)
 			(hide yes)
 			(show_name no)
@@ -5760,7 +5792,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_THT:C_Rect_L7.0mm_W3.5mm_P5.00mm"
 			(at 124.1552 57.15 0)
 			(hide yes)
 			(show_name no)
@@ -5842,7 +5874,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_THT:C_Rect_L7.0mm_W3.5mm_P5.00mm"
 			(at 122.2248 59.69 0)
 			(hide yes)
 			(show_name no)
@@ -6002,7 +6034,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_THT:C_Rect_L7.0mm_W3.5mm_P5.00mm"
 			(at 63.1952 129.54 0)
 			(hide yes)
 			(show_name no)
@@ -6602,7 +6634,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
 			(at 197.8152 96.52 0)
 			(hide yes)
 			(show_name no)
@@ -6802,6 +6834,88 @@
 			(project "ss_pa"
 				(path "/7b9fe991-54d6-43c4-a637-0ed9ee982c42/7e6e5903-d9c4-4499-a3fb-6a30c021fada"
 					(reference "L6")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:Screw_Terminal_01x02")
+		(at 212.09 142.24 0)
+		(mirror x)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "57136a08-eb3a-41f9-a2ab-b6c28e57e77d")
+		(property "Reference" "J5"
+			(at 214.63 142.2401 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Screw_Terminal_01x02"
+			(at 214.63 139.7001 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2_1x02_P5.00mm_Horizontal"
+			(at 212.09 142.24 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 212.09 142.24 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Generic screw terminal, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(at 212.09 142.24 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "d46c4439-2f36-44ff-9d04-70557d8ef03c")
+		)
+		(pin "2"
+			(uuid "969038ac-c3b9-4953-92f0-f6776bc42bef")
+		)
+		(instances
+			(project "ss_pa"
+				(path "/7b9fe991-54d6-43c4-a637-0ed9ee982c42/7e6e5903-d9c4-4499-a3fb-6a30c021fada"
+					(reference "J5")
 					(unit 1)
 				)
 			)
@@ -8055,7 +8169,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_THT:C_Rect_L7.0mm_W3.5mm_P5.00mm"
 			(at 147.0152 128.27 0)
 			(hide yes)
 			(show_name no)
@@ -8215,7 +8329,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
 			(at 131.7752 57.15 0)
 			(hide yes)
 			(show_name no)
@@ -8502,7 +8616,7 @@
 				)
 			)
 		)
-		(property "Value" "10K"
+		(property "Value" "100K"
 			(at 88.9 111.76 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8512,7 +8626,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
 			(at 89.154 114.554 90)
 			(hide yes)
 			(show_name no)
@@ -8693,7 +8807,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
 			(at 131.7752 67.31 0)
 			(hide yes)
 			(show_name no)
@@ -9060,88 +9174,6 @@
 		)
 	)
 	(symbol
-		(lib_id "Connector:Screw_Terminal_01x02")
-		(at 212.09 139.7 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "b907678d-751a-4a94-971b-7908ef1f49b0")
-		(property "Reference" "J5"
-			(at 214.63 139.6999 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "Screw_Terminal_01x02"
-			(at 214.63 142.2399 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2_1x02_P5.00mm_Horizontal"
-			(at 212.09 139.7 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 212.09 139.7 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Generic screw terminal, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 212.09 139.7 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "47308bda-184b-4543-b420-6f97bb06e6db")
-		)
-		(pin "2"
-			(uuid "c5d3d45d-5c78-4c38-bb9b-d7dffeaea1ac")
-		)
-		(instances
-			(project "ss_pa"
-				(path "/7b9fe991-54d6-43c4-a637-0ed9ee982c42/7e6e5903-d9c4-4499-a3fb-6a30c021fada"
-					(reference "J5")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:R_US")
 		(at 170.18 147.32 90)
 		(unit 1)
@@ -9253,7 +9285,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm"
 			(at 239.7252 96.52 0)
 			(hide yes)
 			(show_name no)
@@ -10059,7 +10091,7 @@
 				)
 			)
 		)
-		(property "Value" "10K"
+		(property "Value" "100K"
 			(at 87.63 128.27 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10069,7 +10101,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
 			(at 87.884 131.064 90)
 			(hide yes)
 			(show_name no)
@@ -10352,6 +10384,88 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:R_US")
+		(at 208.28 153.67 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "eaa27c30-96d3-450f-b431-4ce670f0ee25")
+		(property "Reference" "R26"
+			(at 210.82 152.3999 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "100K"
+			(at 210.82 154.9399 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
+			(at 209.296 153.924 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 208.28 153.67 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor, US symbol"
+			(at 208.28 153.67 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "86b4baf5-34af-417d-b8b4-dcbcea938156")
+		)
+		(pin "1"
+			(uuid "57678a3f-5ccc-405e-adb3-98de50181b53")
+		)
+		(instances
+			(project "ss_pa"
+				(path "/7b9fe991-54d6-43c4-a637-0ed9ee982c42/7e6e5903-d9c4-4499-a3fb-6a30c021fada"
+					(reference "R26")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:GND")
 		(at 162.56 154.94 0)
 		(unit 1)
@@ -10618,7 +10732,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
 			(at 94.996 128.524 90)
 			(hide yes)
 			(show_name no)
@@ -10778,7 +10892,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_THT:C_Rect_L7.0mm_W3.5mm_P5.00mm"
 			(at 63.1952 113.03 0)
 			(hide yes)
 			(show_name no)
@@ -10939,7 +11053,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
 			(at 94.996 119.634 90)
 			(hide yes)
 			(show_name no)
@@ -11019,7 +11133,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
 			(at 139.954 119.634 90)
 			(hide yes)
 			(show_name no)
@@ -11181,7 +11295,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
 			(at 139.954 43.434 90)
 			(hide yes)
 			(show_name no)

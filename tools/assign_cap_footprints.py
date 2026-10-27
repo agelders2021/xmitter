@@ -66,6 +66,10 @@ VALUE_TO_FOOTPRINT = {
     # Small body ~ 4 x 6 x 3 mm, LS=5.08 mm.
     '0.33uF':  'Capacitor_THT:C_Rect_L7.0mm_W3.5mm_P5.00mm',
 
+    # 0.47 uF X7R ceramic, LT1054 charge-pump / supply bypass on analog
+    # power sub-sheet. Same compact-rect case family as 0.33uF / 1nF.
+    '0.47uF':  'Capacitor_THT:C_Rect_L7.0mm_W3.5mm_P5.00mm',
+
     # 1 nF C0G 25V, KEMET C327C102J3G5TA (GoldMax case 327).
     # Small body ~ 5 x 6 x 3 mm, LS=5.08 mm.
     '1nF':     'Capacitor_THT:C_Rect_L7.0mm_W3.5mm_P5.00mm',

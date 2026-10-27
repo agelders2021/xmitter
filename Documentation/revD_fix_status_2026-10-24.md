@@ -1,4 +1,4 @@
-# Rev D pre-layout fixes — status handoff (2026-10-24)
+# Rev D pre-layout fixes — status handoff (2026-10-24, updated 2026-10-25)
 
 Handoff from the claude.ai review sessions (2026-10-22 → 10-24) to Claude Code.
 It records what was reviewed, what was decided, what Al has already changed in
@@ -9,6 +9,11 @@ the schematics, and what is still to do. Item IDs (A1, P2, F3, …) match the
 2026-10-23 (analog, ss_pa, protoshield) and 2026-10-22 (Output LPF,
 frontpanel). Several changes below were made after those netlists, so
 regenerate all five before checking anything.
+
+**2026-10-25 progress update.** The majority of the §3 "still to do" items
+have been closed since this doc was written. See the per-item strikethroughs
+and the "Verified in netlist 2026-10-25" rows added in §2. The remaining
+open items are flagged at the bottom of §3 and in a new §3.1.
 
 ---
 
@@ -57,6 +62,42 @@ regenerate all five before checking anything.
 | P2 (partly) | 1 µH RFC in the source-sense filter replaced by 1 kΩ. Raw nodes renamed Source_Sense_Raw_A/B; filtered Source_Sense_A/B feed the comparator and the umbilical. **Comparator branch / latch fix still to do — see P2/P3.** |
 | FAULT_N_CLEAN | 10 nF to GND added. |
 | PS1 pin map (partial) | Source_Sense_A = D7 (ADC1), Source_Sense_B = D8 (ADC1), I_CATHODE_A = D9 (ADC1), I_CATHODE_B = A5 (ADC1), TR_SENSE = A1 (digital), LDAC_4728 = A3 (digital). Strapping pins (GPIO0/3/45/46) checked clear. |
+
+### Verified in netlist 2026-10-25
+
+| Item | Verified state |
+| --- | --- |
+| A3 | R17 = 200K (−10.9 V target per the doc). |
+| A5 | D1 value = `1N5822`, footprint `Diode_THT:D_DO-201AD_P15.24mm_Horizontal`. L1 (270 nH, Bourns 78F) footprint `Inductor_THT:L_Axial_L7.0mm_D3.3mm_P10.16mm_Horizontal_Fastron_MICC`. |
+| A6 | 74HCT125 (U9) pulldowns R23/R24/R25 = 10 K to GND on MOSI/SCK/DAC_LDAC_N; pullup R37 = 10 K to +3.3 V on CS_DAC. |
+| A7 (M14) | CD74HC4050E (U10) placed, powered from +3.3 V. MBL_A_P/N and MBL_B_P/N routed through it. Unused inputs tied to GND. |
+| A9 | **All relays have flyback diodes:** analog K5 (G6RL-1) = D5 (1N4001); analog K6 (G6RL-1, inrush bypass) = D7 (1N4001); Output LPF K1/K2/K3/K4 band-select = D8/D9/D7/D11 (1N4148); Output LPF K5 (T/R) = D10 (1N4148). |
+| L1 (M15) | G6K relay Description text corrected on K1-K4 instances and the embedded lib symbol: pole 2 = NO/COM/NC. User confirmed wiring. |
+| L2 (S7) | Each coil driver Q1/Q5/Q8/Q10: 10 nF debounce cap to GND + 470 K gate pulldown to GND + 10 K series from the RLY_xx signal (10 K instead of the doc's 1 K; PCF8575 can easily drive the FET gate through 10 K). |
+| L3 (partial) | "2 in parallel" text stripped from CF7/8/12/16. L6-L20 inductor Descriptions updated T68-6 → T50-6. BOM tagging (100 V C0G for CFx) **deferred** — see follow-up note in §3.1. |
+| P1 | ss_pa U13 pin-to-signal map rewired for LM2936 (not MCP1700) pinout. +5 V bulk cap C30 = 22 µF added. |
+| P2 (decision) | Keep 1 µH RFC in the source-sense filter (do NOT swap to 1 K). Comparator-branch 10 K resistors added (R21, R22). |
+| P3 | BAT85 added on ss_pa fault latch; 4.7 M comparator floor resistors added (×2 for A and B channels). |
+| P4 | R12, R19 both = 2.2 K (was 100 K). |
+| P5 | R9 = 4.7 K confirmed. |
+| F2 (M12) | Backlight resistors moved to drain side: R1 (200 Ω) between LCD red and Q1 drain, R2 (120 Ω) between LCD green and Q2 drain, R3 (120 Ω) between LCD blue and Q3 drain. |
+| F4 | Frontpanel J2 is 5-pin. |
+| F5 | RJE1D-188-21401 footprint — works in Rev A as fabricated, carrying over unchanged. |
+| MCP4725 | Voltage domain confirmed. |
+| PS2 (via J7) | New J7 (3-pin: GND, SDA_IN, SCL_IN) placed on protoshield. Analog J8 (3-pin: GND, SDA_IN, SCL_IN) matches pin-for-pin. |
+| PS3 | Protoshield C8/C9 = 100 pF (was 100 nF). |
+| PS4 | PADDLE R11/R12 = 4.7 K pullups ✓. TR_SENSE and FAULT_N_CLEAN RC verified by user. |
+| PS5 (via J16) | Protoshield J16 and analog J16 both 5-pin: GND, SCK, MOSI, CS_DAC, DAC_LDAC_N — pin orders identical. |
+| S8 harness (partial) | Confirmed matching pin orders on: J8↔J7 (SDA/SCL, 3-pin) and J16↔J16 (SPI, 5-pin). Full harness-pair table still to be published in `revD_interconnect.md`. |
+
+### Decisions made 2026-10-25
+
+- **A4**: SW1 stays as the slide switch (keep DPDT; no 2×2 header + shunts swap).
+- **A5**: D1 updated to 1N5822 with DO-201AD footprint — closed.
+- **A10**: Inrush topology confirmed OK.
+- **P2**: Keep the 1 µH RFC in source-sense; do NOT swap to 1 K.
+- **P6**: Mechanical only — document in assembly notes (see §3.1).
+- **PS1**: Skip (Metro symbol will not be placed on the protoshield schematic). The Metro socket is physical only; signals go through the shield's screw terminals.
 
 ---
 
@@ -169,6 +210,28 @@ regenerate all five before checking anything.
 - [ ] Make every analog ↔ protoshield terminal pair identical in pin count and
       order (table in the plan doc). Delete the KeyUp row (signal removed).
       Put the final table in `revD_interconnect.md` as the authoritative map.
+      **2026-10-25 status:** two pairs verified identical in the netlist —
+      J8↔J7 (SDA/SCL 3-pin) and J16↔J16 (SPI 5-pin). Remaining pairs
+      (paddle, encoder, T/R drive, source sense, etc.) still need the
+      authoritative table published.
+
+---
+
+## 3.1 Follow-ups outside the schematic (added 2026-10-25)
+
+- [ ] **L3 BOM tagging** — "100 V C0G" tag for CFx caps on Output LPF cannot
+      be captured in the current workflow (no BOM-generation tool wired in
+      yet). **Action: add the C0G / 100 V requirement to the parts-order
+      checklist when placing capacitor orders for the LPF fab.** Also
+      track whether the T50-6 toroid turn counts (from the L6-L20
+      Description text) match the physical cores being wound; a BOM would
+      cross-check this automatically.
+- [ ] **P6 IRF510 insulation (mechanical)** — IRF510 tabs are drains at
+      opposite phase on ss_pa. On the shared heatsink: insulated pads
+      (silicone or mica) + shoulder washers under each IRF510, and a
+      "do not share metal between device tabs" note on the assembly
+      drawing. Not a schematic edit; needs to land in the assembly /
+      mechanical doc when that's created.
 
 ---
 

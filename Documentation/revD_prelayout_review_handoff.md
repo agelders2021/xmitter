@@ -360,8 +360,23 @@ from the signal path (no active-path insertion loss).
 
 **Coil drivers:** 2N7000 (Q1/Q5/Q8/Q10) one per band, open-drain to GND from a
 +12 V coil supply. 1N4148 flyback (D7/D8/D9/D11) across each coil, cathode on
-+12 V. The RLY_xx logic from the Metro (via analog's J2) drives each 2N7000
-gate directly.
++12 V. Gate network per driver: 10 K series from analog's RLY_xx signal + 10 nF
+X7R debounce to GND + 470 K pulldown to GND. The RLY_xx logic from the Metro
+(via analog's J2) drives each 2N7000 through the gate network.
+
+**T/R relay (K5):** fifth G6K DPDT, added at the LPF output. Pole 2 switches
+the antenna port (J1) between RF_FINAL_OUT (TX side, from the LPF bank
+outputs — energized) and the Schottky-protected RX port (de-energized,
+fail-safe default). Pole 1 provides TX/RX state sense back to analog on
+pins J2.6 (RECEIVE_N) and J2.7 (TRANSMIT_N): both signals use the PCF8575
+internal pullup for the inactive HIGH state and the K5 pole-1 contact to
+pull the active one LOW. Coil driver Q10 (2N7000) with 1N4148 flyback D10.
+
+**RX port protection:** antiparallel Schottky clamp pair D1/D2 (1N5711) +
+R19 10 Ω series fuse resistor between K5 pin 7 (NC, antenna in RX mode)
+and the RX SMA J3. Clamps RX line to ±~0.4 V on any T/R-relay fault or
+nearby strong-signal transient; the 10 Ω series limits peak current into
+the clamp during a hard fault.
 
 **No sub-sheets.** Everything is on a flat root schematic.
 
