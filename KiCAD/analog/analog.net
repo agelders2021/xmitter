@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "C:\\Users\\AlAnd\\Git Backed Projects\\xmitter\\KiCAD\\analog\\analog.kicad_sch")
-		(date "2026-10-27T15:10:29")
+		(date "2026-10-27T20:53:47")
 		(tool "Eeschema 10.0.3")
 		(sheet
 			(number "1")
@@ -430,60 +430,6 @@
 				(tstamps "/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72/")
 			)
 			(tstamps "2d5cc0ac-66af-49e1-b989-776cd36731a1")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "C14")
-			(value "22uF")
-			(description "Polarized capacitor")
-			(fields
-				(field
-					(name "Footprint")
-				)
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "Polarized capacitor")
-			)
-			(libsource
-				(lib "Device")
-				(part "C_Polarized")
-				(description "Polarized capacitor")
-			)
-			(property
-				(name "Sheetname")
-				(value "Arduino")
-			)
-			(property
-				(name "Sheetfile")
-				(value "arduino.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "cap capacitor")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "CP_*")
-			)
-			(sheetpath
-				(names "/Arduino/")
-				(tstamps "/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72/")
-			)
-			(tstamps "f9580576-e988-448c-8592-af23a1273d71")
 			(units
 				(unit
 					(name "A")
@@ -11770,9 +11716,9 @@
 				(names "/Interface/")
 				(tstamps "/5c3f4a2b-7d1e-4f8b-9c6d-0e8a1b2c3d4e/")
 			)
-			(tstamps "6ce5a008-491f-4c78-9b27-b0c616456bf1" "50cd3ac0-c038-490b-a721-7e2cfd9fd51d"
-				"8959fc3b-a1e7-467b-acbb-6870eada87c9" "586e1bfa-d04b-4d23-959e-0b0404a759df"
-				"29678d6e-b605-4f57-82f6-9e711032f355" "b1d51dd8-442d-47d2-996b-136b8ba968a7"
+			(tstamps "b1d51dd8-442d-47d2-996b-136b8ba968a7" "6ce5a008-491f-4c78-9b27-b0c616456bf1"
+				"586e1bfa-d04b-4d23-959e-0b0404a759df" "8959fc3b-a1e7-467b-acbb-6870eada87c9"
+				"29678d6e-b605-4f57-82f6-9e711032f355" "50cd3ac0-c038-490b-a721-7e2cfd9fd51d"
 				"1d615edb-1eef-4143-bf43-53314cf207f1"
 			)
 			(units
@@ -16237,7 +16183,7 @@
 		(net
 			(code "2")
 			(name "+5V")
-			(class "Default")
+			(class "Power")
 			(node
 				(ref "C11")
 				(pin "1")
@@ -16503,15 +16449,15 @@
 			)
 			(node
 				(ref "U18")
-				(pin "13")
-				(pinfunction "~{RST}_B_13")
-				(pintype "input")
-			)
-			(node
-				(ref "U18")
 				(pin "16")
 				(pinfunction "VDD_16")
 				(pintype "power_in")
+			)
+			(node
+				(ref "U18")
+				(pin "4")
+				(pinfunction "+TR_A_4")
+				(pintype "input")
 			)
 			(node
 				(ref "U2")
@@ -16565,7 +16511,7 @@
 		(net
 			(code "3")
 			(name "+12V")
-			(class "Default")
+			(class "Power")
 			(node
 				(ref "C110")
 				(pin "1")
@@ -17143,7 +17089,7 @@
 		(net
 			(code "26")
 			(name "GND")
-			(class "Default")
+			(class "Power")
 			(node
 				(ref "C1")
 				(pin "2")
@@ -17186,11 +17132,6 @@
 			)
 			(node
 				(ref "C13")
-				(pin "2")
-				(pintype "passive")
-			)
-			(node
-				(ref "C14")
 				(pin "2")
 				(pintype "passive")
 			)
@@ -17774,8 +17715,8 @@
 			)
 			(node
 				(ref "U18")
-				(pin "5")
-				(pinfunction "-TR_A_5")
+				(pin "13")
+				(pinfunction "~{RST}_B_13")
 				(pintype "input")
 			)
 			(node
@@ -19626,7 +19567,7 @@
 		)
 		(net
 			(code "112")
-			(name "Net-(U18-+TR_A)")
+			(name "Net-(U18--TR_A)")
 			(class "Default")
 			(node
 				(ref "TP19")
@@ -19642,8 +19583,8 @@
 			)
 			(node
 				(ref "U18")
-				(pin "4")
-				(pinfunction "+TR_A_4")
+				(pin "5")
+				(pinfunction "-TR_A_5")
 				(pintype "input")
 			)
 		)
@@ -19688,11 +19629,6 @@
 			(code "115")
 			(name "Net-(U18-~{RST}_A)")
 			(class "Default")
-			(node
-				(ref "C14")
-				(pin "1")
-				(pintype "passive")
-			)
 			(node
 				(ref "R48")
 				(pin "2")

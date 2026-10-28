@@ -112,27 +112,46 @@ Coil-driver MOSFETs on the arduino sheet:
   monostable Q_A output, drain → J7 (HV primary relay). This is
   the hardware kill-switch (see next section).
 
-## Heartbeat watchdog (CD14538B monostable) — reserved for tube-PA upgrade
+## Heartbeat watchdog (CD14538B monostable)
 
-Will protect the HV rail against firmware hangs if a tube PA is
-added later. The Metro ESP32-S3 is expected to periodically toggle
-PCF8575 U17 P12, which triggers the CD14538B U18 dual monostable's
-A-side. As long as the retriggers keep arriving, Q_A stays asserted
-and Q7 keeps the HV primary relay enabled. If the retriggers stop
-(firmware crash, I²C hang, whatever), the monostable times out, Q_A
-drops, Q7 opens, and J7 (HV primary) opens.
+Protects the +13.8 V feed to the ss_pa (gated by K5) against
+firmware hangs, and will protect the HV rail the same way if a
+tube PA is ever added later. The Metro ESP32-S3 is expected to
+periodically pulse PCF8575 U17 P12, which triggers the CD14538B
+U18 A-side. As long as the retriggers keep arriving, Q_A stays
+asserted and K5 (SS_PWR_RLY) stays closed. If the retriggers
+stop (firmware crash, I²C hang, whatever), the monostable times
+out, Q_A drops, and K5 opens — the ss_pa loses +13.8 V and the
+PA goes dark.
 
-Not functionally relevant for the current SS PA build because there
-is no HV rail — but the circuitry is in place for the future upgrade.
+**Trigger polarity: trailing-edge (negative-going).** The P12
+signal is fed to the A-side **−TR input (pin 5)** with the +TR
+input (pin 4) tied LOW. First trigger event is a HIGH→LOW edge.
+
+Reason: PCF8575 outputs default **HIGH** on power-up (quasi-
+bidirectional with weak pullup to +5 V) and stay HIGH until the
+Metro writes new values over I²C. A positive-edge trigger would
+fire on the PCF8575's own Vcc-ramp rising edge, enabling K5
+before firmware has booted. The negative-edge trigger sees the
+default-HIGH state as inactive and waits for firmware to issue
+the first HIGH→LOW→HIGH pulse before enabling K5. Clean cold-
+start, no RC reset delay needed on RST_A.
+
 The SS PA has its own independent hardware fault latch (see
-`Documentation/ss_pa.md` fault_shutdown section) that doesn't
-depend on this watchdog.
+`Documentation/ss_pa.md` fault_shutdown section) which handles
+microsecond-scale overcurrent trips; the heartbeat watchdog
+handles the slower firmware-hang case.
 
-Practical firmware requirement: toggle the P12 line at an interval
-comfortably shorter than the monostable's RC time constant (set by
-C41 = 1 µF and R30 = 470 kΩ on the arduino sheet, so nominal
-`t = 0.7 * R * C ≈ 0.33 s`; firmware should refresh every 100 ms or
-faster with margin).
+Practical firmware requirement: issue a HIGH→LOW→HIGH pulse on
+P12 at an interval comfortably shorter than the monostable's RC
+time constant (set by C41 = 1 µF and R30 = 470 kΩ on the arduino
+sheet, so nominal `t = 0.7 * R * C ≈ 0.33 s`; firmware should
+refresh every 100 ms or faster with margin). Idle state between
+pulses is HIGH.
+
+RST_A (pin 3) is pulled HIGH to +5 V via R48 (10 kΩ) — no cap on
+this node. The pullup leaves a jumper/probe pad available if a
+GPIO-driven reset is ever wanted.
 
 ## TR_SENSE (RF-power interlock)
 

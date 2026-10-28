@@ -653,10 +653,14 @@ Not an exhaustive list — follow the smell:
   inverter → −12 V bus feeding op-amp −rails, LM7171 +rails, one G6K
   coil active at a time.)
 - **Watchdog + heartbeat chain.** CD14538B monostable gates the shack
-  supply path to ss_pa via K5 (G6RL SPDT). Firmware must pulse the +TR_A
-  input periodically. Reviewer: are the monostable timing R/C values
-  sensible for a few-Hz heartbeat, and does the SS_PWR_RLY actually drop
-  the ss_pa safely if firmware hangs?
+  supply path to ss_pa via K5 (G6RL SPDT). Firmware must pulse the
+  A-side **−TR input (pin 5, negative-going edge)** periodically — the
+  +TR input (pin 4) is tied LOW. Trailing-edge trigger was chosen so the
+  PCF8575 default-HIGH output state does not fire the monostable before
+  firmware has booted. RST_A (pin 3) pulled HIGH via R48 (10 kΩ) — no
+  RC on reset. Reviewer: are the monostable timing R/C values sensible
+  for a few-Hz heartbeat, and does the SS_PWR_RLY actually drop the
+  ss_pa safely if firmware hangs?
 - **Any ESD / inrush / power-sequencing gotchas** on initial power-on
   (shack supply applied cold, no firmware running yet).
 - **BOM realism.** Any part that'll be hard to source for a hobbyist?

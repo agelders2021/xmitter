@@ -355,9 +355,14 @@ Metro SPI drives **MCP4922 (U4)** on the analog board, a dual
   - Other outputs: control relays K1-K4 on analog board for
     T/R switching, bias control, etc.
 - **CD14538B (U18)**: hardware heartbeat watchdog. Metro must
-  pulse this periodically or it de-energizes a critical safety
-  relay — kills HV path if ever added, or just cuts PA bias in
-  the current SS implementation.
+  pulse a PCF8575 output (P12) HIGH→LOW→HIGH at ≥ 3 Hz into the
+  A-side **negative-going (−TR) trigger input**, or the
+  monostable times out, Q_A drops, and K5 (SS_PWR_RLY) opens —
+  removing +13.8 V from the ss_pa. Trailing-edge trigger is used
+  so that the PCF8575's default-HIGH power-up state looks
+  inactive (no false trigger before firmware has configured the
+  pin). Same chain protects HV if a tube PA is ever added later.
+  RST_A pulled HIGH via R48 (10 kΩ) — no RC on reset.
 - **AM26LS32 (U16)**: RS-422 differential receiver for front-
   panel encoder signals (MBL-600 encoder) over the CAT6
   umbilical J4.
