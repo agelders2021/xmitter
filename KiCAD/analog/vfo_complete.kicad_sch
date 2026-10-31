@@ -3228,6 +3228,12 @@
 		(uuid "4699c3ab-ac88-4d8b-aad9-e8f877f01bd5")
 	)
 	(junction
+		(at 62.23 129.54)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "4f76738b-afd9-4d5b-99a5-29125e1ef86b")
+	)
+	(junction
 		(at 194.31 87.63)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -3246,18 +3252,6 @@
 		(uuid "688bae41-084c-49b3-9f4b-ec6b723bcc6d")
 	)
 	(junction
-		(at 87.63 129.54)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "694c38f0-4866-497b-ad68-788ad22269d2")
-	)
-	(junction
-		(at 62.23 129.54)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "7b2392e5-5925-4f27-a9f0-3ab891b7b94f")
-	)
-	(junction
 		(at 172.72 105.41)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -3268,6 +3262,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "a374c942-d469-4bdf-9b3e-ecf4bb9094d7")
+	)
+	(junction
+		(at 87.63 129.54)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "a5960edc-6e4a-4b31-9c4b-cb1b72c610eb")
 	)
 	(junction
 		(at 162.56 85.09)
@@ -3316,10 +3316,6 @@
 		(uuid "26a2996d-3e1e-448e-ba7c-a6fcddc2f81d")
 	)
 	(no_connect
-		(at 62.23 139.7)
-		(uuid "71c38c3c-7bf0-44f2-b4b4-59b7f61e700a")
-	)
-	(no_connect
 		(at 96.52 87.63)
 		(uuid "7d260dde-db8e-4c2e-b502-3c9b11b096fb")
 	)
@@ -3334,10 +3330,6 @@
 	(no_connect
 		(at 62.23 83.82)
 		(uuid "b80f77c7-7c24-44b5-84ef-2f7019d52d6f")
-	)
-	(no_connect
-		(at 87.63 139.7)
-		(uuid "ca9f8e6c-669a-4156-8629-9af970368eb5")
 	)
 	(no_connect
 		(at 87.63 142.24)
@@ -3870,6 +3862,54 @@
 		(uuid "b07f3632-b034-4d2b-9394-fc240e3b6b6e")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 41.8654 96.52 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+	)
+	(global_label "LDAC_4728"
+		(shape output)
+		(at 87.63 139.7 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "bfb4cb87-10f4-425b-be86-a16581fd48cd")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 101.0775 139.7 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+	)
+	(global_label "LDAC_4728_IN"
+		(shape input)
+		(at 62.23 139.7 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "c0ee5273-1007-4ef1-b100-d0620fa9adb2")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 45.8796 139.7 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6243,6 +6283,137 @@
 		)
 	)
 	(symbol
+		(lib_id "xmitter:Adafruit_757_LevelShifter")
+		(at 74.93 135.89 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "7e2bef58-6285-4e06-b224-251fa1587a47")
+		(property "Reference" "U2"
+			(at 77.47 148.336 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "LevelShifter_BSS138_x4"
+			(at 77.47 150.876 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "xmitter:Adafruit_757_BSS138_LevelShifter"
+			(at 74.93 135.89 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "https://www.adafruit.com/product/757"
+			(at 74.93 135.89 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Adafruit 757 4-channel I2C-safe bidirectional logic level converter breakout (BSS138). Pre-linked to xmitter:Adafruit_757_BSS138_LevelShifter footprint. LV side pins 1-6 (LV, GND, LV1-LV4). HV side pins 7-12 (HV, GND, HV1-HV4). 10K pull-ups to LV and HV on-board. Both GND pins tied."
+			(at 74.93 135.89 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Adafruit Industries"
+			(at 74.93 135.89 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "757"
+			(at 74.93 135.89 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "7"
+			(uuid "8499f6f5-e6b2-4948-b8c1-95c3febd71aa")
+		)
+		(pin "3"
+			(uuid "712200b3-24eb-47ce-8cfa-86ea5f88987d")
+		)
+		(pin "2"
+			(uuid "27553361-ea71-4a08-82bd-200ebb38f9d6")
+		)
+		(pin "1"
+			(uuid "cea22073-0baa-4f7e-a5d8-61b985c59ec3")
+		)
+		(pin "4"
+			(uuid "1382689d-1408-414e-ba35-748ef45eeed2")
+		)
+		(pin "5"
+			(uuid "360d0546-50c3-4c44-b39b-a13f810f507e")
+		)
+		(pin "6"
+			(uuid "ca58df7b-9d1d-4741-aa8e-96f429f1c9a0")
+		)
+		(pin "10"
+			(uuid "7b8df150-5bef-44ea-9aa7-2c9c1e40d1f5")
+		)
+		(pin "11"
+			(uuid "763b47e6-1bf1-43ca-846d-b5be10a3123b")
+		)
+		(pin "9"
+			(uuid "b4e20d04-dcd7-4870-891f-dc57cdcd1bc6")
+		)
+		(pin "8"
+			(uuid "d1d0159e-e99c-48dc-89e4-a4dd351c9e95")
+		)
+		(pin "12"
+			(uuid "107ef593-8b13-4f92-a539-a0b2f3053d15")
+		)
+		(instances
+			(project "analog"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/94bbc356-fa50-4d6f-b6f0-2ea7eca96dd3"
+					(reference "U2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:C")
 		(at 146.05 97.79 0)
 		(unit 1)
@@ -6325,137 +6496,6 @@
 		)
 	)
 	(symbol
-		(lib_id "xmitter:Adafruit_757_LevelShifter")
-		(at 74.93 135.89 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "8b40cfb9-7ad4-40a7-a24b-b8431607e354")
-		(property "Reference" "U2"
-			(at 77.47 148.336 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "LevelShifter_BSS138_x4"
-			(at 77.47 150.876 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "xmitter:Adafruit_757_BSS138_LevelShifter"
-			(at 74.93 135.89 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" "https://www.adafruit.com/product/757"
-			(at 74.93 135.89 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Adafruit 757 4-channel I2C-safe bidirectional logic level converter breakout (BSS138). Pre-linked to xmitter:Adafruit_757_BSS138_LevelShifter footprint. LV side pins 1-6 (LV, GND, LV1-LV4). HV side pins 7-12 (HV, GND, HV1-HV4). 10K pull-ups to LV and HV on-board. Both GND pins tied."
-			(at 74.93 135.89 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Manufacturer" "Adafruit Industries"
-			(at 74.93 135.89 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "MPN" "757"
-			(at 74.93 135.89 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "7"
-			(uuid "3e1975a6-95f9-4404-8d63-627ed43a8e2d")
-		)
-		(pin "3"
-			(uuid "6596699f-46da-413b-8a48-7bba08aa3a8e")
-		)
-		(pin "2"
-			(uuid "5f9a2ba5-21dc-4b04-b171-6feb0c274f67")
-		)
-		(pin "1"
-			(uuid "182739c4-34f7-4f54-bbb5-1cbcac5aa667")
-		)
-		(pin "4"
-			(uuid "58052b82-85da-49ef-98d8-8075e144b9d5")
-		)
-		(pin "5"
-			(uuid "c6db4951-cc89-4e81-a1e6-e7e78071729c")
-		)
-		(pin "6"
-			(uuid "4d3af078-0a80-444f-9866-1c443bbc817c")
-		)
-		(pin "10"
-			(uuid "f08d6d64-5b44-4f0e-b3c4-09ab37211ce6")
-		)
-		(pin "11"
-			(uuid "d51f0389-e911-4556-9185-3a63cf3af477")
-		)
-		(pin "9"
-			(uuid "6f94b55f-8a69-464c-9689-cdca0922cc10")
-		)
-		(pin "8"
-			(uuid "9562865a-cb0f-41fe-835c-6d3084342e91")
-		)
-		(pin "12"
-			(uuid "05fec085-3dd1-43a9-951c-fba52e10f83a")
-		)
-		(instances
-			(project "analog"
-				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/94bbc356-fa50-4d6f-b6f0-2ea7eca96dd3"
-					(reference "U2")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:R_US")
 		(at 138.43 116.84 0)
 		(unit 1)
@@ -6478,7 +6518,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "R_US"
+		(property "Value" "39K"
 			(at 140.97 118.1099 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6796,7 +6836,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "R_US"
+		(property "Value" "10K"
 			(at 140.97 125.7299 0)
 			(show_name no)
 			(do_not_autoplace no)

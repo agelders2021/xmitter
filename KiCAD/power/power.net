@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "C:\\Users\\AlAnd\\Git Backed Projects\\xmitter\\KiCAD\\power\\power.kicad_sch")
-		(date "2026-10-08T16:47:50")
+		(date "2026-10-29T16:05:20")
 		(tool "Eeschema 10.0.3")
 		(sheet
 			(number "1")
@@ -55,121 +55,13 @@
 	)
 	(components
 		(comp
-			(ref "C13")
-			(value "10uF")
-			(description "Polarized capacitor, US symbol")
-			(fields
-				(field
-					(name "Footprint")
-				)
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "Polarized capacitor, US symbol")
-			)
-			(libsource
-				(lib "Device")
-				(part "C_Polarized_US")
-				(description "Polarized capacitor, US symbol")
-			)
-			(property
-				(name "Sheetname")
-				(value "power")
-			)
-			(property
-				(name "Sheetfile")
-				(value "power.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "cap capacitor")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "CP_*")
-			)
-			(sheetpath
-				(names "/")
-				(tstamps "/")
-			)
-			(tstamps "cfc9087b-51ac-4994-b97e-4864f6cb1dd4")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "C14")
-			(value "100uF")
-			(description "Polarized capacitor, US symbol")
-			(fields
-				(field
-					(name "Footprint")
-				)
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "Polarized capacitor, US symbol")
-			)
-			(libsource
-				(lib "Device")
-				(part "C_Polarized_US")
-				(description "Polarized capacitor, US symbol")
-			)
-			(property
-				(name "Sheetname")
-				(value "power")
-			)
-			(property
-				(name "Sheetfile")
-				(value "power.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "cap capacitor")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "CP_*")
-			)
-			(sheetpath
-				(names "/")
-				(tstamps "/")
-			)
-			(tstamps "2c0fe6db-24b9-4c62-9d86-f1bde2d16eb5")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "C15")
-			(value "2uF")
+			(ref "C211")
+			(value "0.01uF")
+			(footprint "Capacitor_THT:C_Disc_D6.0mm_W2.5mm_P5.00mm")
 			(description "Unpolarized capacitor")
 			(fields
 				(field
-					(name "Footprint")
-				)
+					(name "Footprint") "Capacitor_THT:C_Disc_D6.0mm_W2.5mm_P5.00mm")
 				(field
 					(name "Datasheet")
 				)
@@ -201,7 +93,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "a007b2fd-3500-4f97-9227-f3fe697a221b")
+			(tstamps "48e47272-e309-41ba-b380-85d4fb733f4b")
 			(units
 				(unit
 					(name "A")
@@ -217,23 +109,23 @@
 			)
 		)
 		(comp
-			(ref "D1")
-			(value "1N5817")
-			(footprint "Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal")
-			(datasheet "http://www.vishay.com/docs/88525/1n5817.pdf")
-			(description "20V 1A Schottky Barrier Rectifier Diode, DO-41")
+			(ref "C212")
+			(value "1uF")
+			(footprint "Capacitor_THT:C_Rect_L7.2mm_W4.5mm_P5.00mm")
+			(description "Unpolarized capacitor")
 			(fields
 				(field
-					(name "Footprint") "Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal")
+					(name "Footprint") "Capacitor_THT:C_Rect_L7.2mm_W4.5mm_P5.00mm")
 				(field
-					(name "Datasheet") "http://www.vishay.com/docs/88525/1n5817.pdf")
+					(name "Datasheet")
+				)
 				(field
-					(name "Description") "20V 1A Schottky Barrier Rectifier Diode, DO-41")
+					(name "Description") "Unpolarized capacitor")
 			)
 			(libsource
-				(lib "Diode")
-				(part "1N5817")
-				(description "20V 1A Schottky Barrier Rectifier Diode, DO-41")
+				(lib "Device")
+				(part "C")
+				(description "Unpolarized capacitor")
 			)
 			(property
 				(name "Sheetname")
@@ -245,17 +137,17 @@
 			)
 			(property
 				(name "ki_keywords")
-				(value "diode Schottky")
+				(value "cap capacitor")
 			)
 			(property
 				(name "ki_fp_filters")
-				(value "D*DO?41*")
+				(value "C_*")
 			)
 			(sheetpath
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "33178319-ddbe-49d6-ab0c-fb61d71a4709")
+			(tstamps "304da597-c76f-4b88-b911-6ebc817e1f02")
 			(units
 				(unit
 					(name "A")
@@ -271,23 +163,35 @@
 			)
 		)
 		(comp
-			(ref "D2")
-			(value "1N5817")
-			(footprint "Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal")
-			(datasheet "http://www.vishay.com/docs/88525/1n5817.pdf")
-			(description "20V 1A Schottky Barrier Rectifier Diode, DO-41")
+			(ref "D201")
+			(value "1N4148")
+			(footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
+			(datasheet "https://assets.nexperia.com/documents/data-sheet/1N4148_1N4448.pdf")
+			(description "100V 0.15A standard switching diode, DO-35")
 			(fields
 				(field
-					(name "Footprint") "Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal")
+					(name "Sim.Device") "D")
 				(field
-					(name "Datasheet") "http://www.vishay.com/docs/88525/1n5817.pdf")
+					(name "Sim.Pins") "1=K 2=A")
 				(field
-					(name "Description") "20V 1A Schottky Barrier Rectifier Diode, DO-41")
+					(name "Footprint") "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
+				(field
+					(name "Datasheet") "https://assets.nexperia.com/documents/data-sheet/1N4148_1N4448.pdf")
+				(field
+					(name "Description") "100V 0.15A standard switching diode, DO-35")
 			)
 			(libsource
 				(lib "Diode")
-				(part "1N5817")
-				(description "20V 1A Schottky Barrier Rectifier Diode, DO-41")
+				(part "1N4148")
+				(description "100V 0.15A standard switching diode, DO-35")
+			)
+			(property
+				(name "Sim.Device")
+				(value "D")
+			)
+			(property
+				(name "Sim.Pins")
+				(value "1=K 2=A")
 			)
 			(property
 				(name "Sheetname")
@@ -299,17 +203,17 @@
 			)
 			(property
 				(name "ki_keywords")
-				(value "diode Schottky")
+				(value "diode")
 			)
 			(property
 				(name "ki_fp_filters")
-				(value "D*DO?41*")
+				(value "D*DO?35*")
 			)
 			(sheetpath
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "065ad8ec-284e-4e91-b571-2d4cb6319f53")
+			(tstamps "688f0257-9212-418c-b058-0168fef54925")
 			(units
 				(unit
 					(name "A")
@@ -325,13 +229,13 @@
 			)
 		)
 		(comp
-			(ref "J4")
+			(ref "J205")
 			(value "Screw_Terminal_01x02")
+			(footprint "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2_1x02_P5.00mm_Horizontal")
 			(description "Generic screw terminal, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)")
 			(fields
 				(field
-					(name "Footprint")
-				)
+					(name "Footprint") "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2_1x02_P5.00mm_Horizontal")
 				(field
 					(name "Datasheet")
 				)
@@ -363,7 +267,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "bcd16f27-002d-42d7-bf68-3eab82585af0")
+			(tstamps "40b58198-701e-4689-a92c-fb5c85fd81eb")
 			(units
 				(unit
 					(name "A")
@@ -379,23 +283,23 @@
 			)
 		)
 		(comp
-			(ref "U9")
-			(value "LT1054")
-			(datasheet "https://www.analog.com/media/en/technical-documentation/data-sheets/1054lfh.pdf")
-			(description "Switched-Capacitor Voltage Converter with Regulator, output current 100mA, operating range 3.5V to 15V, low loss 1.1V at 100mA, DIP-8/SO-8")
+			(ref "R1")
+			(value "R_US")
+			(description "Resistor, US symbol")
 			(fields
 				(field
 					(name "Footprint")
 				)
 				(field
-					(name "Datasheet") "https://www.analog.com/media/en/technical-documentation/data-sheets/1054lfh.pdf")
+					(name "Datasheet")
+				)
 				(field
-					(name "Description") "Switched-Capacitor Voltage Converter with Regulator, output current 100mA, operating range 3.5V to 15V, low loss 1.1V at 100mA, DIP-8/SO-8")
+					(name "Description") "Resistor, US symbol")
 			)
 			(libsource
-				(lib "Regulator_SwitchedCapacitor")
-				(part "LT1054")
-				(description "Switched-Capacitor Voltage Converter with Regulator, output current 100mA, operating range 3.5V to 15V, low loss 1.1V at 100mA, DIP-8/SO-8")
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
 			)
 			(property
 				(name "Sheetname")
@@ -407,44 +311,242 @@
 			)
 			(property
 				(name "ki_keywords")
-				(value "monolithic bipolar switched capacitor voltage converter regulator inverter doubler shutdown")
+				(value "R res resistor")
 			)
 			(property
 				(name "ki_fp_filters")
-				(value "DIP*W7.62mm* SOIC*3.9x4.9mm*")
+				(value "R_*")
 			)
 			(sheetpath
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "72175bbb-7347-422f-826c-13b253e28cb7")
+			(tstamps "0afe0d3a-7999-468f-9aff-3da902b7b87d")
 			(units
 				(unit
 					(name "A")
 					(pins
 						(pin
-							(num "8")
-						)
-						(pin
 							(num "1")
-						)
-						(pin
-							(num "7")
-						)
-						(pin
-							(num "6")
-						)
-						(pin
-							(num "3")
-						)
-						(pin
-							(num "5")
 						)
 						(pin
 							(num "2")
 						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R2")
+			(value "R_US")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "power")
+			)
+			(property
+				(name "Sheetfile")
+				(value "power.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "41fea416-584d-4128-abe7-63e4960c9046")
+			(units
+				(unit
+					(name "A")
+					(pins
 						(pin
-							(num "4")
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R210")
+			(value "6.8K")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "power")
+			)
+			(property
+				(name "Sheetfile")
+				(value "power.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "3297e434-e4a4-4262-b92c-e179bcc0d4e5")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R211")
+			(value "100K")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "power")
+			)
+			(property
+				(name "Sheetfile")
+				(value "power.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "448856f2-7fa4-4e06-a5bc-81c58423589b")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R226")
+			(value "1M")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "power")
+			)
+			(property
+				(name "Sheetfile")
+				(value "power.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "eaebd3b6-2e32-49ef-98ce-deb6523b41cd")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
 						)
 					)
 				)
@@ -524,16 +626,16 @@
 		)
 		(libpart
 			(lib "Device")
-			(part "C_Polarized_US")
-			(description "Polarized capacitor, US symbol")
+			(part "R_US")
+			(description "Resistor, US symbol")
 			(footprints
-				(fp "CP_*")
+				(fp "R_*")
 			)
 			(fields
 				(field
-					(name "Reference") "C")
+					(name "Reference") "R")
 				(field
-					(name "Value") "C_Polarized_US")
+					(name "Value") "R_US")
 				(field
 					(name "Footprint")
 				)
@@ -541,7 +643,7 @@
 					(name "Datasheet")
 				)
 				(field
-					(name "Description") "Polarized capacitor, US symbol")
+					(name "Description") "Resistor, US symbol")
 			)
 			(pins
 				(pin
@@ -558,23 +660,27 @@
 		)
 		(libpart
 			(lib "Diode")
-			(part "1N5817")
-			(description "20V 1A Schottky Barrier Rectifier Diode, DO-41")
-			(docs "http://www.vishay.com/docs/88525/1n5817.pdf")
+			(part "1N4148")
+			(description "100V 0.15A standard switching diode, DO-35")
+			(docs "https://assets.nexperia.com/documents/data-sheet/1N4148_1N4448.pdf")
 			(footprints
-				(fp "D*DO?41*")
+				(fp "D*DO?35*")
 			)
 			(fields
 				(field
 					(name "Reference") "D")
 				(field
-					(name "Value") "1N5817")
+					(name "Value") "1N4148")
 				(field
-					(name "Footprint") "Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal")
+					(name "Footprint") "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
 				(field
-					(name "Datasheet") "http://www.vishay.com/docs/88525/1n5817.pdf")
+					(name "Datasheet") "https://assets.nexperia.com/documents/data-sheet/1N4148_1N4448.pdf")
 				(field
-					(name "Description") "20V 1A Schottky Barrier Rectifier Diode, DO-41")
+					(name "Description") "100V 0.15A standard switching diode, DO-35")
+				(field
+					(name "Sim.Device") "D")
+				(field
+					(name "Sim.Pins") "1=K 2=A")
 			)
 			(pins
 				(pin
@@ -586,71 +692,6 @@
 					(num "2")
 					(name "A")
 					(type "passive")
-				)
-			)
-		)
-		(libpart
-			(lib "Regulator_SwitchedCapacitor")
-			(part "LT1054")
-			(description "Switched-Capacitor Voltage Converter with Regulator, output current 100mA, operating range 3.5V to 15V, low loss 1.1V at 100mA, DIP-8/SO-8")
-			(docs "https://www.analog.com/media/en/technical-documentation/data-sheets/1054lfh.pdf")
-			(footprints
-				(fp "DIP*W7.62mm*")
-				(fp "SOIC*3.9x4.9mm*")
-			)
-			(fields
-				(field
-					(name "Reference") "U")
-				(field
-					(name "Value") "LT1054")
-				(field
-					(name "Footprint")
-				)
-				(field
-					(name "Datasheet") "https://www.analog.com/media/en/technical-documentation/data-sheets/1054lfh.pdf")
-				(field
-					(name "Description") "Switched-Capacitor Voltage Converter with Regulator, output current 100mA, operating range 3.5V to 15V, low loss 1.1V at 100mA, DIP-8/SO-8")
-			)
-			(pins
-				(pin
-					(num "1")
-					(name "FB/SHDN")
-					(type "input")
-				)
-				(pin
-					(num "2")
-					(name "CAP+")
-					(type "input")
-				)
-				(pin
-					(num "3")
-					(name "GND")
-					(type "power_in")
-				)
-				(pin
-					(num "4")
-					(name "CAP-")
-					(type "input")
-				)
-				(pin
-					(num "5")
-					(name "-VOUT")
-					(type "power_out")
-				)
-				(pin
-					(num "6")
-					(name "VREF")
-					(type "output")
-				)
-				(pin
-					(num "7")
-					(name "OSC")
-					(type "input")
-				)
-				(pin
-					(num "8")
-					(name "V+")
-					(type "power_in")
 				)
 			)
 		)
@@ -668,169 +709,135 @@
 			(logical "Diode")
 			(uri "${KICAD10_SYMBOL_DIR}/Diode.kicad_sym")
 		)
-		(library
-			(logical "Regulator_SwitchedCapacitor")
-			(uri "${KICAD10_SYMBOL_DIR}/Regulator_SwitchedCapacitor.kicad_sym")
-		)
 	)
 	(nets
 		(net
 			(code "1")
-			(name "+28V")
+			(name "+5V")
 			(class "Default")
 			(node
-				(ref "C14")
-				(pin "1")
-				(pintype "passive")
-			)
-			(node
-				(ref "D2")
-				(pin "1")
-				(pinfunction "K_1")
-				(pintype "passive")
-			)
-		)
-		(net
-			(code "2")
-			(name "GND")
-			(class "Default")
-			(node
-				(ref "C14")
+				(ref "C212")
 				(pin "2")
 				(pintype "passive")
 			)
 			(node
-				(ref "C15")
-				(pin "2")
-				(pintype "passive")
-			)
-			(node
-				(ref "J4")
-				(pin "1")
-				(pinfunction "Pin_1_1")
-				(pintype "passive")
-			)
-			(node
-				(ref "U9")
-				(pin "3")
-				(pinfunction "GND_3")
-				(pintype "power_in")
-			)
-			(node
-				(ref "U9")
-				(pin "5")
-				(pinfunction "-VOUT_5")
-				(pintype "power_out")
-			)
-		)
-		(net
-			(code "3")
-			(name "Net-(D1-A)")
-			(class "Default")
-			(node
-				(ref "C15")
-				(pin "1")
-				(pintype "passive")
-			)
-			(node
-				(ref "D1")
-				(pin "2")
-				(pinfunction "A_2")
-				(pintype "passive")
-			)
-			(node
-				(ref "J4")
+				(ref "J205")
 				(pin "2")
 				(pinfunction "Pin_2_2")
 				(pintype "passive")
 			)
 			(node
-				(ref "U9")
-				(pin "8")
-				(pinfunction "V+_8")
-				(pintype "power_in")
+				(ref "R226")
+				(pin "2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "2")
+			(name "-12V")
+			(class "Default")
+			(node
+				(ref "R1")
+				(pin "2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "3")
+			(name "FAULT_N")
+			(class "Default")
+			(node
+				(ref "C211")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R211")
+				(pin "1")
+				(pintype "passive")
 			)
 		)
 		(net
 			(code "4")
-			(name "Net-(D1-K)")
+			(name "GND")
 			(class "Default")
 			(node
-				(ref "C13")
-				(pin "1")
-				(pintype "passive")
-			)
-			(node
-				(ref "D1")
-				(pin "1")
-				(pinfunction "K_1")
-				(pintype "passive")
-			)
-			(node
-				(ref "D2")
+				(ref "C211")
 				(pin "2")
-				(pinfunction "A_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "R2")
+				(pin "2")
 				(pintype "passive")
 			)
 		)
 		(net
 			(code "5")
-			(name "Net-(U9-CAP+)")
+			(name "Net-(D201-A)")
 			(class "Default")
 			(node
-				(ref "C13")
-				(pin "2")
+				(ref "C212")
+				(pin "1")
 				(pintype "passive")
 			)
 			(node
-				(ref "U9")
+				(ref "D201")
 				(pin "2")
-				(pinfunction "CAP+_2")
-				(pintype "input")
+				(pinfunction "A_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "R226")
+				(pin "1")
+				(pintype "passive")
 			)
 		)
 		(net
 			(code "6")
-			(name "unconnected-(U9-CAP--Pad4)")
+			(name "Net-(R1-Pad1)")
 			(class "Default")
 			(node
-				(ref "U9")
-				(pin "4")
-				(pinfunction "CAP-_4")
-				(pintype "input+no_connect")
+				(ref "R1")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R2")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R210")
+				(pin "2")
+				(pintype "passive")
 			)
 		)
 		(net
 			(code "7")
-			(name "unconnected-(U9-FB{slash}SHDN-Pad1)")
+			(name "V_REF")
 			(class "Default")
 			(node
-				(ref "U9")
+				(ref "D201")
 				(pin "1")
-				(pinfunction "FB/SHDN_1")
-				(pintype "input+no_connect")
+				(pinfunction "K_1")
+				(pintype "passive")
 			)
-		)
-		(net
-			(code "8")
-			(name "unconnected-(U9-OSC-Pad7)")
-			(class "Default")
 			(node
-				(ref "U9")
-				(pin "7")
-				(pinfunction "OSC_7")
-				(pintype "input+no_connect")
+				(ref "J205")
+				(pin "1")
+				(pinfunction "Pin_1_1")
+				(pintype "passive")
 			)
-		)
-		(net
-			(code "9")
-			(name "unconnected-(U9-VREF-Pad6)")
-			(class "Default")
 			(node
-				(ref "U9")
-				(pin "6")
-				(pinfunction "VREF_6")
-				(pintype "output+no_connect")
+				(ref "R210")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R211")
+				(pin "2")
+				(pintype "passive")
 			)
 		)
 	)

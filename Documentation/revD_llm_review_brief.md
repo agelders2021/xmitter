@@ -62,7 +62,9 @@ dropped from Rev D** (the operator has a main transceiver covering
 that band; dropping 10 m saved one LPF bank and shrank the LPF
 board). The retained bands are:
 
-- **40 m** (7.000–7.300 MHz) — LPF Fc ≈ 10.5 MHz
+- **40 m** (7.000–7.300 MHz) — LPF Fc ≈ 8.0 MHz
+  *(7.3 MHz sits at 0.91·Fc — in-band but tolerance margin is tight;
+  component tolerances could shift the passband edge toward 7.3 MHz)*
 - **20 m** (14.000–14.350 MHz) — LPF Fc ≈ 17.09 MHz
 - **17 m** (18.068–18.168 MHz) — LPF Fc ≈ 20.90 MHz
 - **15 m** (21.000–21.450 MHz) — LPF Fc ≈ 25.07 MHz

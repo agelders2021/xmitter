@@ -264,14 +264,12 @@ loading or resonance leakage into the active path. Band select
 signals come from analog U17 (PCF8575 I/O expander) via **J2 RJ45**
 umbilical.
 
-Band plan:
-- 10 m: Fc ≈ 36 MHz
+Band plan (10 m deliberately dropped from Rev D):
 - 15 m: Fc ≈ 26 MHz
 - 17 m: Fc ≈ 22 MHz
 - 20 m: Fc ≈ 18 MHz
-- 40 m: provisioned (RLY_40 label present, J2 pin assignment
-  pending — current J2 handles 4 bands; needs one more pin or
-  encoded multiplexing)
+- 40 m: Fc ≈ 8.0 MHz (7.3 MHz sits at 0.91·Fc — in-band but
+  tolerance margin is tight)
 
 Simulated 20 m LPF (7-pole Chebyshev 0.1 dB ripple, Fc = 18 MHz)
 rejects 3rd harmonic by 68 dB and 5th by 84 dB → every harmonic
