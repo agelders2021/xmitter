@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "C:\\Users\\AlAnd\\Git Backed Projects\\xmitter\\KiCAD\\analog\\analog.kicad_sch")
-		(date "2026-10-31T16:22:49")
+		(date "2026-11-01T16:16:34")
 		(tool "Eeschema 10.0.3")
 		(sheet
 			(number "1")
@@ -13100,6 +13100,7 @@
 		(comp
 			(ref "RV1")
 			(value "1.5K")
+			(footprint "Potentiometer_THT:Potentiometer_Bourns_3296W_Vertical")
 			(description "Potentiometer, US symbol")
 			(fields
 				(field
@@ -13109,8 +13110,7 @@
 				(field
 					(name "Sim.Pins") "1=r0 2=wiper 3=r1")
 				(field
-					(name "Footprint")
-				)
+					(name "Footprint") "Potentiometer_THT:Potentiometer_Bourns_3296W_Vertical")
 				(field
 					(name "Datasheet")
 				)
@@ -16113,7 +16113,7 @@
 		(net
 			(code "2")
 			(name "+5V")
-			(class "Default")
+			(class "Power")
 			(node
 				(ref "C11")
 				(pin "1")
@@ -16445,7 +16445,7 @@
 		(net
 			(code "3")
 			(name "+12V")
-			(class "Default")
+			(class "Power")
 			(node
 				(ref "C110")
 				(pin "1")
@@ -17087,7 +17087,7 @@
 		(net
 			(code "28")
 			(name "GND")
-			(class "Default")
+			(class "Power")
 			(node
 				(ref "C1")
 				(pin "2")
