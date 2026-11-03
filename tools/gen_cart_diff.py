@@ -40,7 +40,7 @@ from gen_board_boms import (
 )
 
 
-CART_XLS = Path(r"C:\Users\AlAnd\Downloads\Cart_Nov03_0411PM.xls")
+CART_XLS = Path(r"C:\Users\AlAnd\Downloads\Cart_Nov03_0446PM.xls")
 OUT      = Path(__file__).resolve().parent / "_cart_diff.xlsx"
 
 
@@ -534,33 +534,49 @@ def match_cart_to_demand(demand_groups, cart_lines):
                 note = f"cart is {c.extras}, BOM assumed 1/4W"
             consume(d, c, note)
 
-    # ── Capacitors (match on pF; SMD prefers SMD) ───────────────────────────
+    # ── Capacitors (match on pF; package must agree) ────────────────────────
+    #
+    # A capacitor's footprint carries two attributes the matcher cares
+    # about: SMD-vs-leaded, and (for SMD) the imperial pad size (0603,
+    # 0805, 1206).  We refuse to cross-match any of those — a 0603 SMD
+    # cart line must NEVER satisfy a 0805 BOM demand (or vice versa), and
+    # a leaded cart line must never satisfy an SMD BOM demand.  (This was
+    # a real bug: a leaded THT disc 220 nF on analog was getting consumed
+    # by a stray 0603 SMD cart line, leaving the actual 0805 SMD demand
+    # covered but the THT disc demand hidden from the Add tab.)
+    def pkg_of(text: str) -> str:
+        t = (text or "").lower()
+        if "0603" in t: return "0603"
+        if "0805" in t: return "0805"
+        if "1206" in t: return "1206"
+        if "0402" in t: return "0402"
+        if "smd" in t or "smt" in t: return "smd"
+        return "leaded"
+
     for d in demand_items:
         if d.kind != "C" or d.farads_pf is None:
             continue
         if demand_remaining[id(d)] <= 0:
             continue
-        fp = (d.footprint or "").lower()
-        d_is_smd = ("0805" in fp or "0603" in fp or "smd" in fp)
-        # Rank candidate cart lines
-        candidates = []
+        d_pkg = pkg_of(d.footprint)
         for c in cart_lines:
+            if demand_remaining[id(d)] <= 0:
+                break
             if c.kind_hint != "C" or c.farads_pf is None:
                 continue
             if cart_remaining[c.line] <= 0:
                 continue
             if abs(c.farads_pf - d.farads_pf) / max(d.farads_pf, 1e-9) >= 0.03:
                 continue
-            c_desc = c.desc.lower()
-            c_is_smd = ("smd" in c_desc or "0805" in c_desc or "0603" in c_desc)
-            # SMD-SMD match preferred, else leaded-leaded, else cross
-            if d_is_smd == c_is_smd:
-                candidates.insert(0, c)
-            else:
-                candidates.append(c)
-        for c in candidates:
-            if demand_remaining[id(d)] <= 0:
-                break
+            c_pkg = pkg_of(c.desc + " " + c.mfr)
+            # Hard rule: never cross SMD/leaded.
+            if (d_pkg == "leaded") != (c_pkg == "leaded"):
+                continue
+            # When both are SMD with specific sizes, sizes must match.  If
+            # one side is a generic "smd" (no numeric size), allow it.
+            if d_pkg != "leaded" and c_pkg != "leaded":
+                if d_pkg != c_pkg and d_pkg != "smd" and c_pkg != "smd":
+                    continue
             consume(d, c)
 
     # ── Trimmers (RV) ───────────────────────────────────────────────────────
@@ -704,6 +720,26 @@ GREEN_FILL  = PatternFill("solid", fgColor="E6F4EA")
 YELLOW_FILL = PatternFill("solid", fgColor="FFF8DC")
 
 
+def connector_positions(d: Demand) -> str:
+    """Return a human-readable position/pin-count label for a connector-type
+    BOM entry so the Add tab can show e.g. '2 positions (wires)' for a
+    Screw_Terminal_01x02.  Empty string for anything we can't classify."""
+    if d.kind != "J":
+        return ""
+    v = d.value or ""
+    # KiCad connector-symbol convention: "01xNN" means 1 row, NN positions
+    m = re.search(r"01x(\d+)", v)
+    if m:
+        n = int(m.group(1))
+        return f"{n} positions ({n} wires)"
+    # Conn_01x05_Pin pattern (already matched above) — handled
+    # 8P8C_Shielded: 8 contacts
+    m = re.match(r"(\d+)P(\d+)C", v)
+    if m:
+        return f"{m.group(1)}-position {m.group(2)}-contact modular jack"
+    return ""
+
+
 def refs_display(d: Demand) -> str:
     by_board = defaultdict(list)
     for b, r in d.board_refs:
@@ -734,7 +770,8 @@ def write_diff(matches, add_rows, remove_rows, overstock_rows):
         extras_note = ""
         if d.kind == "R" and d.extras:
             extras_note = f"wattage: {d.extras}"
-        combined = "  |  ".join(filter(None, [note, extras_note]))
+        pos_note = connector_positions(d)
+        combined = "  |  ".join(filter(None, [pos_note, note, extras_note]))
         row = [d.kind, d.value, short, order_qty, d.footprint, refs_display(d), combined]
         ws.append(row)
         ws.cell(row=ws.max_row, column=1).fill = RED_FILL
