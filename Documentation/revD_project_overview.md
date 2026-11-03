@@ -438,14 +438,14 @@ The latch mechanism makes V_REF go **negative** when FAULT_N
 drops. Values:
 
 - **R16 = 100 kΩ** — hysteresis coupling from FAULT_N to V_REF
-- **R17 = 3.3 kΩ** — V_REF to NODEX
+- **R17 = 6.8 kΩ** — V_REF to NODEX
 - **R41 = 2.7 kΩ** — NODEX to GND
 - **R59 = 180 kΩ** — NODEX to −12 V
-- **RV1 = 1.5 kΩ** — Bourns 3296W-152 top-adjust trimmer in series
+- **RV1 = 5 kΩ** — Bourns 3296W-502LF top-adjust trimmer in series
   between R17 and R41, with the wiper tapped to R59. Rotating RV1
   shifts the −12 V tap along the R17–R41 chain, giving an
   **operator-adjustable trip current of approximately
-  1.5 A to 4.2 A per FET** (verified in a QUCS-S simulation
+  1.7 A to 4.2 A per FET** (verified in a QUCS-S simulation
   mirroring the fault-chain topology).
 
 In the no-fault state, FAULT_N is near +5 V (via R46), V_REF is

@@ -22,17 +22,21 @@ Last updated: 2026-10-25.
   shack-input fuse + Schottky, all onboard regulators.
 - **ss_pa board** (`KiCAD/ss_pa/`) — QRP Labs 10 W Linear kit RF
   topology on custom PCB. BS170 PP pre-driver → T201 → T202 → IRF510
-  PP → T204. Integrates per-FET source-sense telemetry + self-latching
-  `fault_shutdown` chain (LM393 + CD74HC4066 bias switch). Entire
-  board runs at +5 V via LM2936Z-5.0 LDO (Option C, 2026-10-23).
+  PP → T204. Carries only RF stages + per-FET source-sense resistors
+  (R1–R4) + 220 nF 0805 source RF bypass caps + J31 umbilical.
+  **No LDO, no fault chain on ss_pa** — the `fault_shutdown`
+  subsystem (LM393 + CD74HC4066 bias switch + V_REF generator) was
+  moved to the analog board (see analog sub-sheet
+  `fault_shutdown.kicad_sch`, +200-series ref designators).
 - **Output LPF board** (`KiCAD/Output LPF/`) — 4-band switched LPF
   (40/20/17/15 m — 10 m band deliberately dropped). One DPDT Omron
   G6K-2P-Y-T1 DC12 relay per band, pole 1 switches output, pole 2
   switches input. 50 Ω swamp Rs on NC side of each pole.
-- **Frontpanel board** (`KiCAD/frontpanel/`) — WH2004A LCD, MBL-600
-  RS-422 differential rotary encoder (NOT I²C), PCF8575 for button
-  matrix + LED, MCP4725 for LCD contrast, local MCP1700x-330 LDO
-  for 3.3 V from the +5 V umbilical rail.
+- **Front panel** — no longer a separate board. All front-panel
+  circuitry (WH2004A LCD interface, MBL-600 encoder socket, button
+  matrix / LED, MCP4725 for LCD contrast, local +3.3 V LDO) was
+  absorbed into the analog board as sub-sheets. The `frontpanel/`
+  project directory and `frontpanel.net` no longer exist.
 - **Protoshield** (`KiCAD/protoshield/`) — Metro-mounted Adafruit
   Proto Shield PID 2077. Carries Metro socket plus GPIO signal
   conditioning (series Rs, pull-ups, Zener clamps, RC filters,
@@ -68,11 +72,12 @@ See the dedicated section `Analog ↔ Protoshield harness table` below.
 - +13.8 V enters via analog J5 (shack supply, 3 A fuse + Schottky)
 - Analog generates +12 V, −12 V, +5 V, +3.3 V locally
 - ss_pa gets +13.8 V from J33 analog → J2 ss_pa (via heartbeat relay
-  K5); generates its own +5 V locally (LM2936Z-5.0, U13)
+  K5 and the 24R 10W inrush limiter R42 bypassed by K6). ss_pa has
+  no local LDO; it uses only +13.8 V.
 - LPF gets +12 V from J2 analog pin 8 (shared umbilical with band
   selects)
-- Frontpanel gets +5 V from J4 analog pin 4 (shared umbilical);
-  generates its own +3.3 V locally
+- Front-panel circuitry (now on analog) uses analog's local
+  MCP1700x-330 LDO for +3.3 V from the +5 V analog rail
 
 ---
 

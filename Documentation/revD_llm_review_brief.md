@@ -1,5 +1,15 @@
 # xmitter Rev D — External LLM Review Brief
 
+> **⚠ Superseded.** This is the original Rev D review brief, kept as
+> a historical snapshot of the pre-reviewer-fix design. The current
+> standalone brief, reflecting the live schematics (including the
+> fault-chain migration to analog, the R17/RV1 retune for 1.7–4.2 A
+> adjustable trip, and the Metro-side loading fixes R46/R3/R4), is
+> **`revD_project_overview.md`**. Use that one for any new review.
+>
+> Known staleness in this file is extensive and not corrected
+> inline — treat as read-only.
+
 **Purpose.** This document, together with the five board netlists listed
 below, is intended to be given to a reviewing LLM as a self-contained
 package. The reviewer is asked to perform a **deep technical dive** on

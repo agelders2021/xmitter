@@ -365,34 +365,68 @@ Metro SPI drives **MCP4922 (U4)** on the analog board, a dual
   panel encoder signals (MBL-600 encoder) over the CAT6
   umbilical J4.
 
-### Fault protection chain (ss_pa board)
+### Fault protection chain (analog board, sub-sheet `fault_shutdown.kicad_sch`)
 
 Dedicated hardware chain, independent of firmware, that detects
-overcurrent and cuts PA bias within microseconds:
+overcurrent and cuts PA bias within microseconds. The entire chain
+lives on the analog board (reference designators in the +200 series:
+U201, U202, R-/C-/D- series). ss_pa carries only passive source-sense
+networks; the Source_Sense_A/B signals cross the J31 umbilical into
+the analog board.
 
-- **U1 (LM393)** — open-collector dual comparator. Compares each
-  IRF510's source voltage (Source_Sense_A/B, proportional to drain
-  current via 0.11 Ω) against V_REF. On overcurrent, output goes
-  low → latches via R10 (10 kΩ) + R11 (100 kΩ) + D1 self-latching
-  divider.
-- **R9 (4.7 kΩ)** — pullup from LM393 open-collector output to
-  +3.3 V. Normal state: FAULT_N held high.
-- **FAULT_N** net routes to:
-  - **U2 (CD74HC4066)** control pins — when FAULT_N goes low, the
-    bias switch opens, severing PA_Bias_A/B from the DAC drive
-  - **J31 pin 3** umbilical back to Metro — firmware reads this
-    as a digital input, logs the fault, and provides reset
-    command via I²C
-- **R12 and R19 (both 100 kΩ)** — pulldowns on PA_Bias_A and
-  PA_Bias_B nodes (switch output side). When U2 opens, these
-  discharge the IRF510 Ciss (~180 pF) + trace capacitance in
-  ~18 µs — fast enough to cut PA conduction well before thermal
-  damage.
-- **V_REF** generated locally from +3.3 V via R10/R11 divider,
-  routed to J5 pin 2 for external monitoring.
-- **+3.3 V** generated locally on ss_pa by **U13 (MCP1700x-330)**
-  LDO from +13.8 V — ss_pa does not require any logic rail
-  through the umbilical.
+- **U201 (LM393)** — open-collector dual comparator powered from
+  +5 V. Both halves are used, one per Source_Sense input.
+    - Pin 2 (half-A −in) ← R221 100 kΩ ← Source_Sense_A; pin 2 also
+      has R224 = 4.7 MΩ bias pullup to +5 V
+    - Pin 6 (half-B −in) ← R222 100 kΩ ← Source_Sense_B; pin 6 also
+      has R225 = 4.7 MΩ bias pullup to +5 V
+    - Pins 3 and 5 (both + inputs) = V_REF
+    - Pins 1 and 7 (outputs) wire-OR'd into FAULT_N_RAW
+    - Trip condition: Source_Sense > V_REF on either channel →
+      output pulls FAULT_N_RAW low
+- **RF π-filter** on each Source_Sense input before the LM393:
+  L208/L209 (1 µH series) + C223/C229 (100 nF + 100 pF to GND) on
+  channel A, L209 + C224/C228 on channel B.
+- **FAULT_N_RAW** has R209 = 100 kΩ pullup to +5 V (defensive;
+  defines idle state when switch 3 is open during reset).
+- **U202 (CD74HC4066)** quad bilateral switch:
+    - Switch 3 couples FAULT_N_RAW ↔ FAULT_N; enabled by
+      FAULT_N_OVERRIDE_N (from CD14538B monostable half-B);
+      closed in normal operation, open for 1 ms during a reset pulse
+    - Switches 1 and 2 are the series-pass bias switches between
+      PA_Bias_A/B_Raw (from the DACs) and PA_Bias_A/B (to the
+      IRF510 gates); both enabled by FAULT_N
+    - **R219 = 2.2 kΩ** (PA_Bias_A to GND) and **R212 = 2.2 kΩ**
+      (PA_Bias_B to GND) are the stiff gate pull-downs that collapse
+      IRF510 C_iss (~180 pF) in τ ≈ 0.4 µs when the bias switch
+      opens on fault — PA conduction cuts well inside the thermal
+      damage window
+- **FAULT_N** has R46 = 2.2 kΩ pullup to +5 V (dominant pullup) and
+  C14 = 0.01 µF + C225 = 100 pF RF/noise bypass to GND. FAULT_N also
+  feeds R3 = 100 kΩ + R4 = 200 kΩ divider to produce FAULT_N_CLEAN
+  at 3.3 V levels for the Metro's digital input.
+- **V_REF generator** with operator-adjustable trip range: NODEX is
+  divided from GND and −12 V by R41 = 2.7 kΩ and R59 = 180 kΩ.
+  V_REF connects to NODEX through R17 = 6.8 kΩ in series with the
+  wiper arm of **RV1 = 5 kΩ Bourns 3296W-502LF** top-adjust trimmer;
+  R16 = 100 kΩ provides hysteresis coupling from FAULT_N back to
+  V_REF. In the no-fault state V_REF sits positive (adjustable
+  173–459 mV via RV1); in the latched state FAULT_N drops to
+  ~0.2 V and the hysteresis path pulls V_REF negative so that
+  V_REF < Source_Sense even at zero source current (true latch,
+  not Schmitt hysteresis). Operator-adjustable trip current:
+  **~1.7 A to ~4.2 A per IRF510** across RV1's travel.
+- **Fault reset** via Metro: firmware pulses PCF8575 pin P11
+  (FAULT_CLEAR) LOW; the trailing edge triggers CD14538B half-B
+  (U18B), which drives FAULT_N_OVERRIDE_N low for 1 ms (R61 = 10 kΩ,
+  C19 = 0.1 µF). Switch 3 opens during that 1 ms, releasing FAULT_N
+  to +5 V via R46, restoring V_REF positive. If the fault has
+  cleared, the chain stays released; if still faulting, it re-latches
+  on switch-3 re-close.
+- **No LDO on ss_pa** — the +5 V rail for the fault chain is
+  generated on analog by U6 (LM2940CT-5.0). ss_pa receives only
+  +13.8 V through its dedicated screw terminals (gated upstream by
+  the heartbeat relay K5 and the inrush limiter / K6 bypass).
 
 ### Operating classes
 
@@ -432,8 +466,7 @@ receiver for encoder).
 
 Connectors:
 - **J1** (SMA) — RF out to ss_pa
-- **J2** (RJ45) — band select (5 bands) to Output LPF
-- **J4** (RJ45) — control umbilical to frontpanel (I²C + encoder)
+- **J2** (RJ45) — band select (4 bands) to Output LPF
 - **J31** (RJ45) — bias + sense + fault + control to ss_pa
 - **J35** (RJ45) — all future tube-PA control signals
   consolidated on one umbilical (I_CATHODE_A/B,
@@ -452,36 +485,40 @@ Status: schematic complete, 100% footprinted, PCB layout pending.
 
 **This board is essentially a direct schematic copy of the QRP Labs
 10 W Linear PA kit** (same RF topology, same transformer core choices
-and winding ratios, same drain-gate feedback network, same bias-switch
-philosophy). The deliberate departures from the kit are:
-- **Bias control:** replaces the kit's R211/R215 mechanical trimmers
+and winding ratios, same drain-gate feedback network). The deliberate
+departures from the kit are:
+- **DAC-controlled bias:** replaces the kit's mechanical trimmers
   with DAC-driven PA_Bias_A/B (MCP4728 ch A/B on analog) for the
   IRF510 finals, and DRIVER_BIAS (MCP4922 ch B on analog) for the
-  BS170 driver. All three bias points are now firmware-adjustable.
-- **Fault tolerance additions:** adds per-FET source-sense resistors
-  (R1||R2 and R3||R4, 0.11 Ω each) feeding Source_Sense_A/B back to
-  the Metro ADC; an LM393-based self-latching overcurrent comparator
-  with CD74HC4066 bias-switch and 100 kΩ pulldowns to collapse
-  PA_Bias on fault; and a local +3.3 V LDO (U13 MCP1700x-330) so the
-  fault chain has its own clean rail independent of the analog
-  board.
+  BS170 driver. All three bias points are firmware-adjustable.
+- **Per-FET source-sense resistors:** R1||R2 and R3||R4
+  (0.22 Ω Yageo RSF200JT 2 W × 2 parallel = 0.11 Ω effective) feed
+  Source_Sense_A/B back to the Metro ADC via J31 and to the fault
+  chain on analog. Source nodes are RF-bypassed on-board by four
+  220 nF 0805 X7R caps (C11||C12 at Q3 source, C13||C15 at Q4
+  source — same value to parallel ESL without anti-resonance).
 - **PCB (not kit's):** laid out from scratch rather than using the
-  QRP Labs PCB because the added telemetry + fault chain can't be
-  cleanly bolted onto the stock board without disturbing RF layout.
+  QRP Labs PCB because the added telemetry + bias-DAC routing
+  can't be cleanly bolted onto the stock board without disturbing
+  RF layout.
+
+**No LDO, no comparators, no bias switch on ss_pa.** The entire
+hardware fault chain (LM393 + CD74HC4066 + V_REF generator) lives
+on the analog board — see "Fault protection chain" above. ss_pa
+carries only RF stages (BS170 PP driver, IRF510 PP finals, four
+hand-wound ferrite transformers T201–T204), the source-sense
+networks, the bias feeds, and the J31 umbilical.
 
 RF topology, winding counts, feedback R/L/C values, and
-component-reference-designator numbering (T201–T204, Q201-ish) all
+component-reference-designator numbering (T201–T204, etc.) all
 mirror the kit so documentation and build knowledge transfer
-directly. Hosts BS170 PP driver, IRF510 PP finals, four hand-wound
-ferrite transformers (T201–T204), the fault_shutdown chain (U1
-LM393 + U2 CD74HC4066 + R12/R19 pulldowns + R9 FAULT_N pullup), and
-the local +3.3 V LDO (U13).
+directly.
 
 Connectors:
 - **J3** (SMA) — RF in from analog
 - **J1** (SMA) — RF out to Output LPF
 - **J2** (2-pin screw terminal) — +13.8 V in, GND
-- **J5** (2-pin screw terminal) — +3.3 V and V_REF test/monitor
+- **J31** (RJ45) — bias, sense, FAULT_N, DRIVER_BIAS to/from analog
 - **J31** (RJ45) — bias + sense + fault + control from analog
 
 Status: schematic complete, 100% footprinted, PCB layout pending.

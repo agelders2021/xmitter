@@ -137,9 +137,11 @@ default-HIGH state as inactive and waits for firmware to issue
 the first HIGH→LOW→HIGH pulse before enabling K5. Clean cold-
 start, no RC reset delay needed on RST_A.
 
-The SS PA has its own independent hardware fault latch (see
-`Documentation/ss_pa.md` fault_shutdown section) which handles
-microsecond-scale overcurrent trips; the heartbeat watchdog
+The analog board hosts the hardware fault latch on sub-sheet
+`fault_shutdown.kicad_sch` (U201 LM393 + U202 CD74HC4066 + V_REF
+reference generator with RV1 trim, see `Documentation/revD_project_overview.md`
+§6.6), which handles microsecond-scale overcurrent trips sensed
+from the ss_pa Source_Sense_A/B signals; the heartbeat watchdog
 handles the slower firmware-hang case.
 
 Practical firmware requirement: issue a HIGH→LOW→HIGH pulse on

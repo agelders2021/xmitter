@@ -1,5 +1,15 @@
 # xmitter Rev D — Final External LLM Review Brief
 
+> **⚠ Superseded.** This document is kept as a historical snapshot
+> of the Rev D design at an earlier point. The current standalone
+> brief, reflecting the live schematics, is
+> **`revD_project_overview.md`** — use that one for any new review.
+>
+> Known staleness in this file (not corrected): R17 shown as 3.3 kΩ
+> (now 6.8 kΩ), R46 shown as 10 kΩ (now 2.2 kΩ), RV1 trim pot not
+> mentioned (now Bourns 3296W-502LF, 5 kΩ), trip values quoted at
+> ~1 A/FET (now operator-adjustable 1.7–4.2 A/FET via RV1).
+
 **Purpose.** This is the **final** pre-fab review package. Given to a
 reviewing LLM, together with the four board netlists listed below, it
 is intended to be self-contained. The reviewer is asked to perform a

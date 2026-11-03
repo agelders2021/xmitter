@@ -1,23 +1,26 @@
 # Solid-State PA Board — Current State
 
-> **⚠ 2026-10-23 — Rev D Option C power rail change.**
+> **⚠ Major design change — fault chain migrated off ss_pa.**
 >
-> This document was written when the ss_pa logic rail was +3.3 V (fed by
-> an MCP1700x-330 LDO) and FAULT_N was pulled up to +3.3 V. Rev D Option C
-> moved the entire ss_pa logic rail to **+5 V** via a new LM2936Z-5.0 LDO
-> (U13), to allow CD74HC4066 to pass the MCP4728's new 0–5 V bias output
-> cleanly. The V_REF divider was re-sized (R10 10 K → 6.8 K) to preserve
-> the pre-change ~0.30 V fault-trip threshold on the +5 V rail. FAULT_N
-> pullup moved to +5 V on ss_pa; a resistor divider (R3/R4 = 10 K / 20 K)
-> on the analog PCB scales 5 V FAULT_N down to 3.33 V (FAULT_N_CLEAN)
-> before reaching the Metro.
+> The entire `fault_shutdown` subsystem (LM393 comparator, CD74HC4066
+> bias switch, V_REF generator, FAULT_N pullup, D1 forward-coupling,
+> J5 reset button, LM2936Z local LDO) **no longer lives on the ss_pa
+> board**. It has been moved to the analog board as sub-sheet
+> `fault_shutdown.kicad_sch` (reference designators U201 LM393,
+> U202 CD74HC4066, R-/C-/D-series in the +200 range). The ss_pa
+> board now carries **only** the RF stages, the per-FET source-sense
+> resistors (R1–R4), the on-board RF bypass on the source nodes
+> (C11/C12/C13/C15 × 220 nF 0805 X7R), the bias feeds, and the J31
+> umbilical. **There is no LDO on ss_pa in the current design.**
 >
-> Sections below still reference `+3.3V` in several places (pullup
-> target, umbilical pin assignment, bypass caps). Mentally substitute
-> `+5 V` for anything describing the ss_pa logic rail, and consult
-> `revD_prelayout_review_handoff.md` for the authoritative current
-> state. The topology is unchanged; only the supply voltage and R10
-> value changed.
+> See `Documentation/revD_project_overview.md` §6.6 for the current
+> fault-chain topology on analog, and `KiCAD/analog/fault_shutdown.kicad_sch`
+> for the authoritative schematic.
+>
+> The entire **"Component inventory — fault_shutdown sheet"** section
+> below (and the J5 reset-button / V_REF divider / FAULT_N pullup
+> discussion) describes the **retired** on-ss_pa topology and is
+> kept only as a historical reference. Do not treat it as current.
 
 10 W QRP class-AB push-pull PA at 14 MHz, running from the 13.8 V shack
 supply. **This is the active PA for the project.** Topology adapted
