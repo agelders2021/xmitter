@@ -46,7 +46,17 @@ Blocks described here fall into two groups:
   firmware-ready — un-DNP the connectors and build the external
   cables if a tube amp is added later.
 
-## Keying (KeyUp signal chain)
+## Keying (KeyUp signal chain) — HISTORICAL / RETIRED
+
+> **This section describes the retired Q11/Q12 PNP mute topology
+> and the separate `KeyUp` GPIO net, both removed from the current
+> design.** The current keying path uses the **U11 TL071CP
+> offset-mute op-amp** driven by **MCP4922 (U4) Ch B (VoutB,
+> pin 10)** — at DAC = 0 the op-amp pulls DGFET G2 to −3.1 V (well
+> below V_TO = −2 V), which cuts the DGFET off with ~10⁹ on/off
+> ratio. There is no `KEY_UP` signal and no transistor mute pair.
+> See `Documentation/revD_project_overview.md` §5 for the current
+> envelope / mute topology. Text below is kept as design history.
 
 **KeyUp** is the firmware-driven RF enable/disable line. It exits the
 Metro ESP32-S3 through the PCF8575 I²C port expander (U17 P8) and

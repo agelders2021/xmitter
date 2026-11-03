@@ -121,11 +121,11 @@ DGFET conducts current from +12 V (through drain-load resistor R31 =
 - **G1 (Si5351 CMOS):** carries the carrier. DC-biased to +2.45 V via
   a 39 K / 10 K divider from +12 V with 100 nF bypass, R21 = 1 MΩ feed;
   C26 AC-couples the Si5351 RF.
-- **G2 (envelope DAC):** modulated by MCP4921 ch A → routed through
-  an **LM7171 offset-mute op-amp (U10)** that remaps DAC 0–5 V to G2
-  −3.1 V to +5 V. Transfer: `V_G2 = V_DAC × 1.62 − 3.13`. The negative
-  DC offset is set by a 1N4733A 5.1 V Zener (D2) reference and the
-  R20/R23 feedback ratio (6.2 K / 10 K).
+- **G2 (envelope DAC):** modulated by MCP4922 ch B (VoutB, pin 10)
+  → routed through a **TL071CP offset-mute op-amp (U11)** that remaps
+  DAC 0–5 V to G2 −3.1 V to +5 V. Transfer: `V_G2 = V_DAC × 1.62 − 3.13`.
+  The negative DC offset is set by a 1N4733A 5.1 V Zener (D3)
+  reference and the R20/R23 feedback ratio (6.2 K / 10 K).
 
 At key-up, firmware writes 0 to the DAC → the op-amp's intrinsic
 offset drives G2 to **−3.1 V** (V_G2S well below the 40673 V_TO of
@@ -138,7 +138,7 @@ shaped — no key clicks.
 
 Note: the **KEY_UP GPIO net has been eliminated** in favor of this
 op-amp DC-offset mute. The firmware controls RF enable/disable
-entirely by what it writes to the MCP4921 envelope channel — there is
+entirely by what it writes to the MCP4922 envelope channel — there is
 no separate hardware mute path. Replaces the prior Q11/Q12 PNP level
 shifter which failed to achieve CW-grade cutoff in simulation (only
 ~2.6:1 on/off ratio because biasing G1 above V_TO kept the lower
@@ -320,20 +320,21 @@ Device addresses:
 
 Metro SPI drives **MCP4922 (U4)** on the analog board, a dual
 12-bit DAC:
-- **Ch A → envelope** → Q2 (DGFET) Gate 2 via U10 LM7171 offset-mute
-  op-amp (V_G2 = V_DAC × 1.62 − 3.13). This is the raised-cosine CW
-  envelope DAC. Update rate ~40 kHz (25 µs tick) during key
-  transitions. DAC output = 0 drives G2 to −3.1 V, cutting off the
-  DGFET (no separate KEY_UP net).
-- **Ch B → DRIVER_BIAS** → J31 pin 6 → ss_pa board → RC filter
-  (C19, C20) → T201 secondary CT. Sets the BS170 driver DC bias
-  point. Firmware-adjustable at TX/RX transitions.
+- **Ch A (VoutA, pin 14) → DRIVER_BIAS** → J31 pin 6 → ss_pa board
+  → RC filter (C19, C20) → T201 secondary CT. Sets the BS170 driver
+  DC bias point. Firmware-adjustable at TX/RX transitions (slow,
+  per-TX setting).
+- **Ch B (VoutB, pin 10) → envelope** → Q2 (DGFET) Gate 2 via U11
+  TL071CP offset-mute op-amp (V_G2 = V_DAC × 1.62 − 3.13). This is
+  the raised-cosine CW envelope DAC. Update rate ~40 kHz (25 µs
+  tick) during key transitions. DAC output = 0 drives G2 to −3.1 V,
+  cutting off the DGFET (no separate KEY_UP net).
 
 ### DAC assignments (full picture)
 
 - **MCP4922 (U4, SPI, 2 channels, on analog):**
-  - Ch A: envelope → DGFET G2 (fast, per-dit shaping)
-  - Ch B: DRIVER_BIAS → BS170 driver bias (slower, per-TX setting)
+  - **Ch A (pin 14): DRIVER_BIAS** → BS170 driver bias (slower, per-TX setting)
+  - **Ch B (pin 10): envelope** → DGFET G2 (fast, per-dit shaping)
 - **MCP4728 (U3, I²C, 4 channels, on analog):**
   - Ch A: **PA_Bias_A_Raw** → J31 pin 7 → ss_pa U2 (CD74HC4066
     fault switch) ch A input → PA_Bias_A → Q3 (IRF510) gate via

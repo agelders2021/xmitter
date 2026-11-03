@@ -105,11 +105,9 @@ The analog board hosts:
   bias setpoints
 - **MCP4922** (U4) — SPI 2-channel DAC on the +5 V rail, drives the
   envelope voltage and the BS170 driver bias
-- **U10 LM7171 offset-mute op-amp** — remaps the envelope DAC's
+- **U11 TL071CP offset-mute op-amp** — remaps the envelope DAC's
   0 V…+5 V output to −3.1 V…+5 V at the DGFET G2 (so DAC = 0 drives
   G2 below V_TO ≈ −2 V for clean cutoff)
-- **TL071CP** (U11) and other op-amps for DAC post-filtering /
-  level translation
 - **PCF8575** (U17) — 16-bit I²C I/O expander at address `0x20`,
   handles band selects, T/R, button input, fault clear, and other
   slow digital I/O
@@ -235,17 +233,18 @@ umbilical signals keep the same net name on both ends.
 1. **Si5351A** output pin drives Q2 (40673 DGFET) **Gate 1** through
    a 100 nF AC coupling cap. G1 is DC-biased to roughly +2.45 V by
    a 39 kΩ / 10 kΩ divider from +12 V. R21 = 1 MΩ gate return.
-2. **Gate 2 of Q2** receives the envelope voltage. MCP4921 (U4) ch
-   A outputs 0 V…+5 V; this feeds **U10 (LM7171)** configured as an
-   offset-mute op-amp whose transfer function is
-   `V_G2 = V_DAC × 1.62 − 3.13`, mapping 0 V…+5 V DAC output to
-   −3.1 V…+5 V on G2. The negative DC offset is set by a 1N4733A
-   5.1 V Zener (D2) reference and the R20/R23 feedback ratio
+2. **Gate 2 of Q2** receives the envelope voltage. MCP4922 (U4) ch
+   **B** (VoutB, pin 10) outputs 0 V…+5 V; this feeds **U11
+   (TL071CP)** configured as an offset-mute op-amp whose transfer
+   function is `V_G2 = V_DAC × 1.62 − 3.13`, mapping 0 V…+5 V DAC
+   output to −3.1 V…+5 V on G2. The negative DC offset is set by a
+   1N4733A 5.1 V Zener (D3) reference and the R20/R23 feedback ratio
    (6.2 kΩ / 10 kΩ). At DAC = 0 V the DGFET sits well below
    V_TO = −2 V (simulated I_D = 12 pA, on/off ratio ~10⁹). At
    DAC = +5 V the DGFET is fully conducting (I_D ≈ 13 mA,
    V_D ≈ +5.9 V). **There is no separate KEY_UP GPIO.** Firmware
-   controls RF on/off entirely by what it writes to the envelope DAC.
+   controls RF on/off entirely by what it writes to the envelope DAC
+   channel.
 3. **DGFET drain** → **R1 (50 Ω) + C1 (100 pF) snubber** → single-
    pole ~32 MHz LPF to tame Si5351's sub-nanosecond CMOS edges.
 4. **U1 LM7171** non-inverting amp with **build-time gain hedge**:
@@ -328,11 +327,12 @@ board. MCP4922 runs on +5 V V_DD, so SPI lines (SCK, MOSI, CS_DAC,
 LDAC_N) are level-shifted 3.3 → 5 V by a **74HCT125 quad buffer**
 (U9) before reaching the DAC. MCP4922 channels:
 
-- **Ch A → envelope** → U10 LM7171 offset-mute op-amp → DGFET Q2
-  Gate 2. Updated at ~40 kHz (25 µs tick) during CW rise/fall edges
-  following the raised-cosine LUT.
-- **Ch B → DRIVER_BIAS** → J31 pin 6 → ss_pa → RC filter → T201
-  secondary center-tap. Sets BS170 driver bias.
+- **Ch A (VoutA, pin 14) → DRIVER_BIAS** → J31 pin 6 → ss_pa →
+  RC filter → T201 secondary center-tap. Sets BS170 driver bias
+  (slow, per-TX setting).
+- **Ch B (VoutB, pin 10) → envelope** → U11 TL071CP offset-mute
+  op-amp → DGFET Q2 Gate 2. Updated at ~40 kHz (25 µs tick) during
+  CW rise/fall edges following the raised-cosine LUT.
 
 ### 6.4 Rotary encoders
 

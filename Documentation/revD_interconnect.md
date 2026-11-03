@@ -110,8 +110,9 @@ See the dedicated section `Analog ↔ Protoshield harness table` below.
     R_g = 333 Ω -> gain = 10 -> hits rails on signal peaks, not
     recommended
   Amplitude control at runtime is via **G2 of Q2 (40673 DGFET)**
-  driven by MCP4921 U4 ch A through an LM7171 offset-mute op-amp
-  (U10 on `dac.kicad_sch`) that remaps DAC 0–5 V to G2 −3.1 V to +5 V.
+  driven by MCP4922 U4 **ch B (VoutB, pin 10)** through a **TL071CP
+  offset-mute op-amp (U11)** on `dac.kicad_sch`, which remaps DAC
+  0–5 V to G2 −3.1 V to +5 V.
   G2 acts as a VCA on the carrier; CW envelope shaping (raised-cosine,
   5 ms rise/fall) is applied in firmware. DAC = 0 drives G2 below the
   DGFET V_TO = −2 V, giving a clean cutoff — **no separate KEY_UP
