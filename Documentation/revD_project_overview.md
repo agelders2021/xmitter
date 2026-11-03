@@ -619,10 +619,8 @@ RF path during initial bringup.
 - Pin assignments split across pole A and pole B
 
 The schematic wiring of SW1 may not match the actual C&K
-JS202011CQN pin numbering. The reviewer is asked to walk the
-connectivity through SW1 in both switch positions and flag any
-pin assignment that looks mirrored, swapped between poles, or
-crosses pole-A and pole-B inappropriately.
+JS202011CQN pin numbering. The reviewer is asked to ignore any connectivity issues.
+The actual part will be compared to the KiCad footprint prior to fab.
 
 ## 13. Known open items the reviewer should NOT re-flag
 
