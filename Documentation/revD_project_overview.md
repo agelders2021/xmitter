@@ -173,14 +173,22 @@ drain-gate feedback network per IRF510 — laid out on a custom
    connection. The source voltage is RF-bypassed on-board by two
    220 nF 0805 X7R caps per source node (C11||C12 at Q3 source,
    C13||C15 at Q4 source — same value to parallel ESL without
-   anti-resonance) and routed back to the Metro ADC via J31 as
-   Source_Sense_A/B. The source-sense signals also feed the
-   hardware fault chain on the analog board.
+   anti-resonance).
+3. **On-board 10× sense pre-amplifier (U1 MCP6002).** A dual
+   RRIO op-amp amplifies each source voltage 10× (R_g = 1 kΩ to
+   GND, R_f = 9 kΩ in feedback) before the signal crosses the J31
+   umbilical to analog. Powered from +5 V delivered by J31 pin 3
+   (0.1 µF bypass at pin 8). Boosting at the sensor dramatically
+   reduces the impact of GND-return IR drop on the sense accuracy.
+   Op-amp outputs are routed to J31 pins 1 and 4 as
+   `Source_Sense_A/B_Raw` (10× scale). The analog board attenuates
+   back to 5× via a 2:1 divider before the LM393/ADC consumers
+   (keeps the ADC within the ESP32's 3.3 V range).
 
 **No LDO, no comparators, no bias switch on ss_pa.** The entire
-fault chain and its +5 V local supply live on the analog board.
-ss_pa carries only RF stages, the bias feeds, the passive
-source-sense networks, and the J31 umbilical connector.
+fault chain lives on the analog board. ss_pa carries only RF
+stages, bias feeds, the passive source-sense networks, the MCP6002
+sense op-amp, and the J31 umbilical connector.
 
 ### 3.3 Output LPF board (`KiCAD/Output LPF/`)
 
@@ -274,8 +282,26 @@ umbilical signals keep the same net name on both ends.
    PA_Bias_A/B through 47 Ω each. Each source: through R1||R2 or
    R3||R4 (0.22 Ω × 2 in parallel = 0.11 Ω effective) for current
    sensing and thermal degeneration. Source voltage is RF-filtered
-   on-board (four 220 nF 0805 X7R caps, two per source node) and
-   routed to the Metro ADC via J31 as Source_Sense_A/B.
+   on-board (four 220 nF 0805 X7R caps, two per source node).
+9a. **ss_pa Source_Sense gain stage** (U1 MCP6002 dual op-amp,
+    powered from +5 V via J31 pin 3). Each source voltage goes to
+    one op-amp half configured as a non-inverting 10× amp
+    (R_g = 1 kΩ to GND, R_f = 9 kΩ in feedback). Output =
+    `Source_Sense_X_Raw = 10 × V(source resistor)`. Boosting the
+    signal before it crosses the J31 umbilical greatly reduces
+    error from GND-return IR drop between ss_pa and analog.
+    Op-amp output goes to J31 pins 1 (A) and 4 (B).
+9b. **Analog-side 2:1 divider at LM393 input**: R65 + R68 = 10 kΩ
+    each form a 2:1 attenuator from `Source_Sense_A_Raw` to GND
+    with the midpoint feeding the existing LC input filter
+    (L208/C223/C229). Same for channel B (R66/R67/L209/C224/C228).
+    **Net effective gain seen at the LM393 input (and at the Metro
+    ADC tap on `Source_Sense_X`) = 5×**, i.e. 10× op-amp divided
+    by the 2:1 divider. The 5× scaling keeps the signal within the
+    ESP32-S3 ADC's 3.3 V range (worst-case 4.2 A × 0.11 Ω × 5 =
+    2.3 V) and keeps the fault chain's trip-current math scaled
+    cleanly (see §6.6). **Firmware ADC note:**
+    `I_source = ADC_voltage / (5 × 0.11 Ω) = ADC_voltage / 0.55`.
 10. **ss_pa T203** (Amidon T50-43) bifilar drain feed, DC +13.8 V to
     each IRF510 drain, transparent to differential-mode RF.
 11. **ss_pa T204** (BN43-202) output transformer, 2:3 ratio →
@@ -303,6 +329,21 @@ is a core part of the design because **both class-AB and class-C
 operation will be explored**, and firmware needs to adapt bias
 setpoints, log drain current waveforms, and respond to overcurrent
 trips that differ between the two classes.
+
+**⚠ ADC scaling (firmware): Source_Sense_A/B signals arrive at
+the Metro ADC pre-amplified by 5×** (10× op-amp at ss_pa divided
+by the 2:1 attenuator at analog). To recover the actual per-FET
+source current from the ADC reading:
+
+```c
+float I_source_amps = adc_voltage_volts / (5.0f * 0.11f);  // = V / 0.55
+```
+
+So an ADC reading of 2.3 V corresponds to ~4.2 A per FET (the top
+of the RV1-adjustable trip range). The 5× scaling keeps all
+sensible operating currents comfortably within the ESP32's 3.3 V
+ADC range while giving ~5× better LSB resolution than reading the
+raw 0.11 Ω voltage directly.
 
 ### 6.2 I²C bus
 
@@ -438,15 +479,16 @@ The latch mechanism makes V_REF go **negative** when FAULT_N
 drops. Values:
 
 - **R16 = 100 kΩ** — hysteresis coupling from FAULT_N to V_REF
-- **R17 = 6.8 kΩ** — V_REF to NODEX
+- **R17 = 160 kΩ** — V_REF to NODEX
 - **R41 = 2.7 kΩ** — NODEX to GND
-- **R59 = 180 kΩ** — NODEX to −12 V
-- **RV1 = 5 kΩ** — Bourns 3296W-502LF top-adjust trimmer in series
+- **R59 = 15 kΩ** — NODEX to −12 V
+- **RV1 = 10 kΩ** — Bourns 3296W-103LF top-adjust trimmer in series
   between R17 and R41, with the wiper tapped to R59. Rotating RV1
   shifts the −12 V tap along the R17–R41 chain, giving an
   **operator-adjustable trip current of approximately
-  1.7 A to 4.2 A per FET** (verified in a QUCS-S simulation
-  mirroring the fault-chain topology).
+  1.6 A to 4.3 A per FET** (verified in QUCS-S simulation mirroring
+  the fault-chain topology including the 5× effective gain seen at
+  the LM393 input — see §5.9b for signal conditioning details).
 
 In the no-fault state, FAULT_N is near +5 V (via R46), V_REF is
 positive (a few hundred mV, settable by RV1), and the LM393 output
@@ -565,11 +607,20 @@ to tune bias safely without burning IRF510s.
 - **J2** Analog → Output LPF — RJ45 CAT6; carries +12 V coil rail,
   four band selects (RLY_15/17/20/40), T/R control, T/R status
   back. Shield = GND.
-- **J31** Analog ↔ ss_pa — RJ45 CAT6; carries Source_Sense_A/B,
-  FAULT_N, DRIVER_BIAS, PA_Bias_A_Raw, PA_Bias_B_Raw, GNDs.
-  **No power on this umbilical** — ss_pa gets +13.8 V on dedicated
-  screw terminals (J33 on analog → J2 on ss_pa) gated upstream by
-  the inrush limiter and the heartbeat relay K5.
+- **J31** Analog ↔ ss_pa — RJ45 CAT6:
+  - Pins 1, 4: `Source_Sense_A_Raw`, `Source_Sense_B_Raw` (10×
+    pre-amplified source voltage, ss_pa → analog)
+  - Pin 3: **+5 V** supply to the ss_pa MCP6002 sense op-amp
+    (analog → ss_pa; only logic-level supply this umbilical carries)
+  - Pin 6: `DRIVER_BIAS` (analog → ss_pa)
+  - Pins 7, 8: `PA_Bias_A`, `PA_Bias_B` (analog → ss_pa)
+  - Pins 2, 5, shield: GND
+  Note: `FAULT_N` does **not** cross this umbilical — the fault
+  signal and its latch live entirely on analog. The +13.8 V main
+  supply for the ss_pa RF stages goes through dedicated screw
+  terminals (J33 on analog → J2 on ss_pa) gated upstream by the
+  inrush limiter R42 (24 Ω 10 W, bypassed by K6) and the heartbeat
+  relay K5.
 - **Analog ↔ protoshield** — multiple screw-terminal headers along
   the shared board edge (no RJ45, no ribbon cable).
 - **J35** Analog → (future tube PA) — RJ45 provisioned on analog

@@ -406,17 +406,29 @@ the analog board.
   C14 = 0.01 µF + C225 = 100 pF RF/noise bypass to GND. FAULT_N also
   feeds R3 = 100 kΩ + R4 = 200 kΩ divider to produce FAULT_N_CLEAN
   at 3.3 V levels for the Metro's digital input.
-- **V_REF generator** with operator-adjustable trip range: NODEX is
-  divided from GND and −12 V by R41 = 2.7 kΩ and R59 = 180 kΩ.
-  V_REF connects to NODEX through R17 = 6.8 kΩ in series with the
-  wiper arm of **RV1 = 5 kΩ Bourns 3296W-502LF** top-adjust trimmer;
-  R16 = 100 kΩ provides hysteresis coupling from FAULT_N back to
-  V_REF. In the no-fault state V_REF sits positive (adjustable
-  173–459 mV via RV1); in the latched state FAULT_N drops to
-  ~0.2 V and the hysteresis path pulls V_REF negative so that
-  V_REF < Source_Sense even at zero source current (true latch,
-  not Schmitt hysteresis). Operator-adjustable trip current:
-  **~1.7 A to ~4.2 A per IRF510** across RV1's travel.
+- **Source_Sense signal conditioning**: Source_Sense_A/B on ss_pa
+  are amplified 10× by U1 MCP6002 (dual RRIO op-amp, +5 V single
+  supply from J31 pin 3) before crossing the J31 umbilical as
+  `Source_Sense_A_Raw` and `Source_Sense_B_Raw`. On analog, a 2:1
+  resistive divider (R65 + R68 = 10 kΩ each for channel A, R66 +
+  R67 for channel B) attenuates back to 5× effective gain,
+  keeping ADC readings inside the ESP32's 3.3 V input range and
+  giving a cleaner trip-reference scale. **Firmware ADC scaling:**
+  `I_source = ADC_voltage / 0.55` (A), i.e. 2.3 V ADC reading ≈
+  4.2 A per FET.
+- **V_REF generator** with operator-adjustable trip range: NODEX
+  is divided from GND and −12 V by R41 = 2.7 kΩ and R59 = 15 kΩ.
+  V_REF connects to NODEX through R17 = 160 kΩ in series with the
+  wiper arm of **RV1 = 10 kΩ Bourns 3296W-103LF** top-adjust
+  trimmer; R16 = 100 kΩ provides hysteresis coupling from FAULT_N
+  back to V_REF. In the no-fault state V_REF sits positive
+  (adjustable **~0.98 V to ~2.40 V** via RV1); in the latched
+  state FAULT_N drops to ~0.2 V and the hysteresis path pulls
+  V_REF solidly negative (−1.9 V at min-trip pot position, −0.55 V
+  at max-trip pot position) so that V_REF < Source_Sense at zero
+  current across the full pot range (true latch, not Schmitt
+  hysteresis). Operator-adjustable trip current:
+  **~1.6 A to ~4.3 A per IRF510** across RV1's travel.
 - **Fault reset** via Metro: firmware pulses PCF8575 pin P11
   (FAULT_CLEAR) LOW; the trailing edge triggers CD14538B half-B
   (U18B), which drives FAULT_N_OVERRIDE_N low for 1 ms (R61 = 10 kΩ,
@@ -508,7 +520,9 @@ hardware fault chain (LM393 + CD74HC4066 + V_REF generator) lives
 on the analog board — see "Fault protection chain" above. ss_pa
 carries only RF stages (BS170 PP driver, IRF510 PP finals, four
 hand-wound ferrite transformers T201–T204), the source-sense
-networks, the bias feeds, and the J31 umbilical.
+networks, the **MCP6002 10× sense pre-amplifier (U1)** that
+boosts Source_Sense_A/B before they cross J31 to analog, the
+bias feeds, and the J31 umbilical.
 
 RF topology, winding counts, feedback R/L/C values, and
 component-reference-designator numbering (T201–T204, etc.) all

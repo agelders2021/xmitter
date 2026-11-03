@@ -181,40 +181,47 @@ is the authoritative doc for J4.
 - **Mates with:** matching RJE1D-188 on ss_pa board (J31)
 - **Cable:** CAT6 shielded patch, chassis-length
 
-### Pins (as wired 2026-10-25)
+### Pins (current)
 
-- **Pin 1 — Source_Sense_A:** ss_pa → analog. DC voltage proportional
-  to IRF510A source current (R1||R2 = 0.11 Ω sense). RF-filtered on
-  ss_pa (L8 1 µH + C23 100 nF) before leaving the board. Expected
-  range 0–500 mV DC for 0–4.5 A drain current. On analog, divided
-  down for Metro ADC via the protoshield J3 → J9 harness.
+- **Pin 1 — Source_Sense_A_Raw:** ss_pa → analog. **10× amplified**
+  DC voltage proportional to IRF510A source current. On ss_pa,
+  Source_Sense_A (= R1||R2 = 0.11 Ω × I) is fed into U1A (MCP6002)
+  configured as a 10× non-inverting amp (R_g = 1 kΩ, R_f = 9 kΩ);
+  output ranges 0 V to ~4.6 V for 0 to ~4.2 A IRF510 drain current.
+  On analog, R65/R68 (10 kΩ each) attenuate 2:1 and the midpoint
+  feeds the existing LC filter (L208 + C223/C229) → `Source_Sense_A`
+  at 5× effective gain. From there it goes to the LM393 fault
+  comparator and the Metro ADC (via protoshield). **Firmware ADC
+  scaling: I = V_adc / 0.55 A.**
 - **Pin 2 — GND**
-- **Pin 3 — FAULT_N:** ss_pa → analog. Open-collector from LM393
-  self-latching comparator, pulled up to +5 V on ss_pa (R9 = 4.7 kΩ).
-  Low = latched fault; high = no fault. On analog, divided down
-  (R3 10 K + R4 20 K) to FAULT_N_CLEAN (max 3.3 V) before reaching
-  the Metro via protoshield.
-- **Pin 4 — Source_Sense_B:** same as pin 1, for IRF510B.
+- **Pin 3 — +5 V:** analog → ss_pa. Powers the MCP6002 sense
+  op-amp (U1 pin 8). Low-current (~1 mA total). Decoupled on ss_pa
+  by C20 = 0.1 µF.
+- **Pin 4 — Source_Sense_B_Raw:** same as pin 1, for IRF510B
+  (U1B op-amp half, R10/R11 feedback network, R66/R67 divider on
+  analog).
 - **Pin 5 — GND**
-- **Pin 6 — DRIVER_BIAS:** analog → ss_pa. DC from MCP4922 ch B,
-  shifted through 74HCT125 (U9) to 5 V, buffered. Sets BS170 driver
-  bias point via T201 center-tap. On ss_pa: R20 100 Ω series + C19
-  0.1 µF + C20 100 pF bypass at J31 entry.
-- **Pin 7 — PA_Bias_A_Raw:** analog → ss_pa. From MCP4728 ch A
-  (I²C DAC, 0 to 5 V). On ss_pa: L6 1 µH + C13 100 nF + C26 100 pF
-  bypass at J31 entry, then through CD74HC4066 (U2) series switch
-  for fault-triggered kill, then through 220 Ω series into IRF510A
-  gate.
-- **Pin 8 — PA_Bias_B_Raw:** same as pin 7, for IRF510B via MCP4728
-  ch B.
+- **Pin 6 — DRIVER_BIAS:** analog → ss_pa. DC from MCP4922 ch A
+  (pin 14). Sets BS170 driver bias point via T201 center-tap. On
+  ss_pa: bypass caps at J31 entry.
+- **Pin 7 — PA_Bias_A:** analog → ss_pa. From MCP4728 ch A, routed
+  through U202 (CD74HC4066) switch 1 on analog for fault-triggered
+  kill. On ss_pa: 47 Ω series into IRF510A gate.
+- **Pin 8 — PA_Bias_B:** same as pin 7, for IRF510B via MCP4728
+  ch B through switch 2.
 - **Shield (SH) — GND**
 
 ### Design notes
 
-- **Power is NOT on J31.** ss_pa draws +13.8 V on a dedicated screw
-  terminal pair (analog J33 → ss_pa J2) and generates its own +5 V
-  locally (LM2936Z-5.0 LDO, U13). This keeps umbilical conductors
-  low-current.
+- **FAULT_N is NOT on J31.** The entire hardware fault chain
+  (LM393 + CD74HC4066 + V_REF generator with RV1 trim) lives on
+  the analog board; ss_pa only sources the pre-amplified Source_Sense
+  signals and consumes the switched PA_Bias signals.
+- **Only +5 V on the umbilical.** The ss_pa RF stages' +13.8 V main
+  supply goes through dedicated screw terminals (J33 analog → J2
+  ss_pa) gated by K5 (heartbeat relay) and bypassed by K6
+  (bypasses R42 24 Ω 10 W inrush limiter in normal operation).
+  ss_pa has no local LDO.
 - **No TX_ENABLE signal.** The MCP4728 bias DACs are driven to zero
   by firmware for RX (and FAULT_N automatically opens the
   CD74HC4066 bias switch via hardware when a fault latches), so a

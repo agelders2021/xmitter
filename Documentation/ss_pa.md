@@ -17,6 +17,15 @@
 > fault-chain topology on analog, and `KiCAD/analog/fault_shutdown.kicad_sch`
 > for the authoritative schematic.
 >
+> **Also added to ss_pa (not reflected in the sections below):**
+> a **MCP6002 dual op-amp (U1)** powered from +5 V (delivered over
+> J31 pin 3 from analog) that amplifies Source_Sense_A/B by 10×
+> before they cross the J31 umbilical — reduces GND-return
+> IR-drop error on the sense signal. R_g = 1 kΩ (R11, R12), R_f =
+> 9 kΩ (R9, R10). Analog's `fault_shutdown.kicad_sch` applies a
+> 2:1 divider to recover a 5× effective gain at the LM393 and
+> Metro ADC.
+>
 > The entire **"Component inventory — fault_shutdown sheet"** section
 > below (and the J5 reset-button / V_REF divider / FAULT_N pullup
 > discussion) describes the **retired** on-ss_pa topology and is
