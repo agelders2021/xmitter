@@ -40,7 +40,7 @@ from gen_board_boms import (
 )
 
 
-CART_XLS = Path(r"C:\Users\AlAnd\Downloads\Cart_Nov03_0244PM.xls")
+CART_XLS = Path(r"C:\Users\AlAnd\Downloads\Cart_Nov03_0411PM.xls")
 OUT      = Path(__file__).resolve().parent / "_cart_diff.xlsx"
 
 
@@ -624,16 +624,34 @@ def match_cart_to_demand(demand_groups, cart_lines):
             mfr_canon = canon(c.mfr)
             if len(mfr_canon) < 3 or not re.search(r"\d", mfr_canon):
                 continue
-            if mfr_canon not in fp_canon:
-                continue
-            # Short Mfr#s (3 chars, e.g. Adafruit SKUs like "757") are too
-            # weak on their own — also require the cart manufacturer name
-            # to appear in the BOM footprint before accepting the match.
-            if len(mfr_canon) < 4:
-                manuf_canon = canon(c.manufacturer)
-                if not manuf_canon or manuf_canon not in fp_canon:
+            manuf_canon = canon(c.manufacturer)
+            manuf_in_fp = bool(manuf_canon) and manuf_canon in fp_canon
+
+            # Path 1: full canonical Mfr# is embedded in the BOM footprint.
+            # Short (3-char) MPNs need manufacturer corroboration to avoid
+            # "757"-style false positives in unrelated footprints.
+            if mfr_canon in fp_canon:
+                if len(mfr_canon) < 4 and not manuf_in_fp:
                     continue
-            consume(d, c, note=f"matched via footprint hint ({c.mfr})")
+                consume(d, c, note=f"matched via footprint hint ({c.mfr})")
+                continue
+
+            # Path 2: manufacturer is baked into the BOM footprint (e.g.
+            # xmitter:Fuse_Littelfuse_60R_*, xmitter:Adafruit_*_Breakout,
+            # xmitter:SMA_Cinch_*) and a leading-prefix of the cart Mfr#
+            # appears in the footprint.  This catches "60R050XU" against
+            # a footprint whose author only named the family (60R), and
+            # won't fire on unrelated footprints because they don't carry
+            # the manufacturer name.
+            if manuf_in_fp:
+                for plen in range(len(mfr_canon) - 1, 2, -1):
+                    prefix = mfr_canon[:plen]
+                    if not re.search(r"\d", prefix):
+                        continue
+                    if prefix in fp_canon:
+                        consume(d, c, note=f"matched via footprint hint "
+                                            f"({c.mfr} family prefix {prefix})")
+                        break
 
     # ── Build output lists ─────────────────────────────────────────────────
     add_rows = []
@@ -753,23 +771,30 @@ def write_diff(matches, add_rows, remove_rows, overstock_rows):
     ws.append(headers)
     for cell in ws[1]:
         cell.font = Font(bold=True); cell.fill = HEADER_FILL
-    # Sort high→low by cart line number: Mouser renumbers lines after each
-    # delete, so operating top-down from the highest line keeps the lower
-    # line numbers stable while the user works through deletions.
-    for c in sorted(remove_rows, key=lambda c: c.line, reverse=True):
-        hint = fp_hint_for(c.mfr)
-        reason = "No matching BOM demand"
-        if hint:
-            reason += f"  (may match: {hint} — verify before removing)"
-        ws.append(["", c.line, c.mouser, c.mfr, c.manufacturer, c.desc,
-                   c.qty, 0, "REMOVE", reason])
-        ws.cell(row=ws.max_row, column=9).fill = (YELLOW_FILL if hint else RED_FILL)
-    for c, used in sorted(overstock_rows, key=lambda t: t[0].line, reverse=True):
-        excess = c.qty - used
-        ws.append(["", c.line, c.mouser, c.mfr, c.manufacturer, c.desc,
-                   c.qty, used, f"REDUCE by {excess}",
-                   f"Only {used} needed by BOM, {excess} overstock"])
-        ws.cell(row=ws.max_row, column=9).fill = YELLOW_FILL
+    # Single pass, primary sort: cart line number descending.  Mouser
+    # renumbers lines after each delete, so operating top-down from the
+    # highest line keeps the lower line numbers stable while the user
+    # works through deletions.  REMOVE and REDUCE rows are interleaved
+    # so the user walks the cart in one consistent top-down order.
+    combined = [("REMOVE", c, 0) for c in remove_rows] + \
+               [("REDUCE", c, used) for c, used in overstock_rows]
+    combined.sort(key=lambda t: t[1].line, reverse=True)
+    for action, c, used in combined:
+        if action == "REMOVE":
+            hint = fp_hint_for(c.mfr)
+            reason = "No matching BOM demand"
+            if hint:
+                reason += f"  (may match: {hint} — verify before removing)"
+            ws.append(["", c.line, c.mouser, c.mfr, c.manufacturer, c.desc,
+                       c.qty, 0, "REMOVE", reason])
+            ws.cell(row=ws.max_row, column=9).fill = (
+                YELLOW_FILL if hint else RED_FILL)
+        else:  # REDUCE
+            excess = c.qty - used
+            ws.append(["", c.line, c.mouser, c.mfr, c.manufacturer, c.desc,
+                       c.qty, used, f"REDUCE by {excess}",
+                       f"Only {used} needed by BOM, {excess} overstock"])
+            ws.cell(row=ws.max_row, column=9).fill = YELLOW_FILL
 
     # ── Matched (sanity) tab ──
     ws = wb.create_sheet("Matched")
