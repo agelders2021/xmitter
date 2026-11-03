@@ -23,9 +23,10 @@ from openpyxl import Workbook
 from openpyxl.styles import Font, PatternFill, Alignment
 
 BOARDS = [
-    ("analog",     r"C:\Users\AlAnd\Git Backed Projects\xmitter\KiCAD\analog\analog.net"),
-    ("frontpanel", r"C:\Users\AlAnd\Git Backed Projects\xmitter\KiCAD\frontpanel\frontpanel.net"),
-    ("ss_pa",      r"C:\Users\AlAnd\Git Backed Projects\xmitter\KiCAD\ss_pa\ss_pa.net"),
+    ("analog",      r"C:\Users\AlAnd\Git Backed Projects\xmitter\KiCAD\analog\analog.net"),
+    ("ss_pa",       r"C:\Users\AlAnd\Git Backed Projects\xmitter\KiCAD\ss_pa\ss_pa.net"),
+    ("lpf",         r"C:\Users\AlAnd\Git Backed Projects\xmitter\KiCAD\Output LPF\Output LPF.net"),
+    ("protoshield", r"C:\Users\AlAnd\Git Backed Projects\xmitter\KiCAD\protoshield\protoshield.net"),
 ]
 
 OUT_DIR = Path(r"C:\Users\AlAnd\Git Backed Projects\xmitter\tools")
@@ -119,9 +120,18 @@ def get_dnp_refs(sch_file: Path) -> set:
     return dnp_refs
 
 
+BOARD_DIR_MAP = {
+    "analog":      "analog",
+    "ss_pa":       "ss_pa",
+    "lpf":         "Output LPF",
+    "protoshield": "protoshield",
+}
+
+
 def collect_dnp_refs(board_name: str) -> set:
     """Collect DNP refs across all sheets in a board's directory."""
-    board_dir = Path(r"C:\Users\AlAnd\Git Backed Projects\xmitter\KiCAD") / board_name
+    sub = BOARD_DIR_MAP.get(board_name, board_name)
+    board_dir = Path(r"C:\Users\AlAnd\Git Backed Projects\xmitter\KiCAD") / sub
     all_dnp = set()
     for sch in board_dir.glob("*.kicad_sch"):
         all_dnp |= get_dnp_refs(sch)
@@ -153,7 +163,8 @@ def refs_in_sheet(sch_file: Path) -> set:
 
 def ref_to_sheet(board_name: str) -> dict:
     """Build ref -> sheet-stem mapping."""
-    board_dir = Path(r"C:\Users\AlAnd\Git Backed Projects\xmitter\KiCAD") / board_name
+    sub = BOARD_DIR_MAP.get(board_name, board_name)
+    board_dir = Path(r"C:\Users\AlAnd\Git Backed Projects\xmitter\KiCAD") / sub
     mapping = {}
     for sch in board_dir.glob("*.kicad_sch"):
         for ref in refs_in_sheet(sch):
