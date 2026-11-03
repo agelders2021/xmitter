@@ -120,6 +120,24 @@ def build_parts_list():
 
 def build_cart_diff_copy():
     out = DOCS / f"Cart_Diff_{date.today().isoformat()}.xlsx"
+
+    # Preserve any "Done" marks the user added to column A of
+    # Remove_Overstock in the prior Documentation file.  Keyed by cart
+    # line number (column B).  Marks for lines that no longer appear
+    # in the new diff are silently dropped.
+    prior_marks: dict[int, str] = {}
+    if out.exists():
+        try:
+            prior = load_workbook(out)
+            if "Remove_Overstock" in prior.sheetnames:
+                pws = prior["Remove_Overstock"]
+                for row in pws.iter_rows(min_row=2, values_only=True):
+                    if row and row[0] and isinstance(row[1], (int, float)):
+                        prior_marks[int(row[1])] = row[0]
+            prior.close()
+        except Exception:
+            pass
+
     src = load_workbook(TOOLS / "_cart_diff.xlsx")
     dst = Workbook()
     dst.remove(dst.active)
@@ -155,6 +173,14 @@ def build_cart_diff_copy():
                     new_cell.alignment = cell.alignment.copy()
         for col_letter, dim in src_ws.column_dimensions.items():
             dst_ws.column_dimensions[col_letter].width = dim.width
+
+        # Restore user "Done" marks on Remove_Overstock.  Column B is the
+        # cart line number; column A is the mark.
+        if sn == "Remove_Overstock" and prior_marks:
+            for r in range(2, dst_ws.max_row + 1):
+                ln_cell = dst_ws.cell(row=r, column=2).value
+                if isinstance(ln_cell, (int, float)) and int(ln_cell) in prior_marks:
+                    dst_ws.cell(row=r, column=1, value=prior_marks[int(ln_cell)])
 
     dst.save(out)
     return out

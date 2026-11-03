@@ -594,6 +594,47 @@ def match_cart_to_demand(demand_groups, cart_lines):
             if mpn_match(d_key, c.mpn_key, c.mpn_raw):
                 consume(d, c)
 
+    # ── Footprint-token fallback ────────────────────────────────────────────
+    # Some BOM values are generic descriptors (SW_Slide_DPDT, Polyfuse,
+    # LevelShifter_BSS138_x4, Fuse_3A_SlowBlow, Conn_Coaxial_Small) with the
+    # real MPN baked into the footprint string instead.  Match those by
+    # looking for the full canonicalized cart Mfr# inside the canonicalized
+    # BOM footprint.  Canonicalize both sides to alnum-only uppercase so
+    # hyphens, slashes, spaces are irrelevant.  Require the Mfr# chunk to
+    # be ≥4 chars AND contain a digit — short tokens like "757" would false-
+    # match too easily (e.g. ingesting into an unrelated footprint).
+    def canon(s): return re.sub(r"[^A-Z0-9]", "", (s or "").upper())
+    for d in demand_items:
+        if d.kind not in ("U", "D", "Q", "K", "F", "SW", "J"):
+            continue
+        if demand_remaining[id(d)] <= 0:
+            continue
+        fp_canon = canon(d.footprint)
+        if not fp_canon:
+            continue
+        # No guard on d.value here: strict MPN match already ran first for
+        # every kind in this list, so demand that reaches this fallback is
+        # genuinely unresolved regardless of whether its value text had
+        # digits in it ("Fuse_3A_SlowBlow", "LM2940CT-5.0", etc.).
+        for c in cart_lines:
+            if demand_remaining[id(d)] <= 0:
+                break
+            if cart_remaining[c.line] <= 0:
+                continue
+            mfr_canon = canon(c.mfr)
+            if len(mfr_canon) < 3 or not re.search(r"\d", mfr_canon):
+                continue
+            if mfr_canon not in fp_canon:
+                continue
+            # Short Mfr#s (3 chars, e.g. Adafruit SKUs like "757") are too
+            # weak on their own — also require the cart manufacturer name
+            # to appear in the BOM footprint before accepting the match.
+            if len(mfr_canon) < 4:
+                manuf_canon = canon(c.manufacturer)
+                if not manuf_canon or manuf_canon not in fp_canon:
+                    continue
+            consume(d, c, note=f"matched via footprint hint ({c.mfr})")
+
     # ── Build output lists ─────────────────────────────────────────────────
     add_rows = []
     for d in demand_items:
@@ -703,8 +744,12 @@ def write_diff(matches, add_rows, remove_rows, overstock_rows):
 
     # ── Remove / Overstock tab ──
     ws = wb.create_sheet("Remove_Overstock")
-    headers = ["Line", "Mouser #", "Mfr #", "Manufacturer", "Description",
-               "Cart qty", "BOM need", "Action", "Reason"]
+    # Column A is reserved for the user to mark progress ("x", "done", etc.)
+    # — leave it blank here so reruns don't trample those marks.  The
+    # packager (package_bom_deliverables.py) migrates values from the prior
+    # Documentation file into this column keyed by cart line number.
+    headers = ["Done", "Line", "Mouser #", "Mfr #", "Manufacturer",
+               "Description", "Cart qty", "BOM need", "Action", "Reason"]
     ws.append(headers)
     for cell in ws[1]:
         cell.font = Font(bold=True); cell.fill = HEADER_FILL
@@ -716,15 +761,15 @@ def write_diff(matches, add_rows, remove_rows, overstock_rows):
         reason = "No matching BOM demand"
         if hint:
             reason += f"  (may match: {hint} — verify before removing)"
-        ws.append([c.line, c.mouser, c.mfr, c.manufacturer, c.desc,
+        ws.append(["", c.line, c.mouser, c.mfr, c.manufacturer, c.desc,
                    c.qty, 0, "REMOVE", reason])
-        ws.cell(row=ws.max_row, column=8).fill = (YELLOW_FILL if hint else RED_FILL)
+        ws.cell(row=ws.max_row, column=9).fill = (YELLOW_FILL if hint else RED_FILL)
     for c, used in sorted(overstock_rows, key=lambda t: t[0].line, reverse=True):
         excess = c.qty - used
-        ws.append([c.line, c.mouser, c.mfr, c.manufacturer, c.desc,
+        ws.append(["", c.line, c.mouser, c.mfr, c.manufacturer, c.desc,
                    c.qty, used, f"REDUCE by {excess}",
                    f"Only {used} needed by BOM, {excess} overstock"])
-        ws.cell(row=ws.max_row, column=8).fill = YELLOW_FILL
+        ws.cell(row=ws.max_row, column=9).fill = YELLOW_FILL
 
     # ── Matched (sanity) tab ──
     ws = wb.create_sheet("Matched")
@@ -743,7 +788,7 @@ def write_diff(matches, add_rows, remove_rows, overstock_rows):
 
     widths = {
         "Add":              [6, 22, 14, 18, 50, 50, 50],
-        "Remove_Overstock": [6, 22, 24, 20, 60, 8, 8, 16, 40],
+        "Remove_Overstock": [6, 6, 22, 24, 20, 60, 8, 8, 16, 40],
         "Matched":          [6, 22, 14, 14, 6, 22, 22, 8, 60, 40],
     }
     for sn, ws_widths in widths.items():
