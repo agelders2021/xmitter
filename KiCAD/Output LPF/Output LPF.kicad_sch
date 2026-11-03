@@ -3005,6 +3005,12 @@
 		(uuid "35b90955-52ea-43a9-81b8-a170e81654f3")
 	)
 	(junction
+		(at 59.69 162.56)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "3b59c2d6-113e-4a41-ab52-2d9d5e351a52")
+	)
+	(junction
 		(at 48.26 77.47)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -3171,12 +3177,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "b6e118a3-272b-4b72-83d7-3364c7bd0a7b")
-	)
-	(junction
-		(at 41.91 162.56)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "b98e7abd-f2dd-4158-93f4-5a127627c4eb")
 	)
 	(junction
 		(at 166.37 138.43)
@@ -4071,6 +4071,16 @@
 			(type default)
 		)
 		(uuid "f3853b03-4497-4504-8f72-63fd2ec86c0e")
+	)
+	(wire
+		(pts
+			(xy 49.53 162.56) (xy 59.69 162.56)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f6ce1bb3-607a-463b-b9ab-3155a82190fa")
 	)
 	(wire
 		(pts
@@ -5105,6 +5115,86 @@
 			(project "Output LPF"
 				(path "/007eb1af-0bdc-4199-b14f-f7b02ad55c1c"
 					(reference "CF12")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_US")
+		(at 45.72 162.56 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "0452764f-bd8d-4ff7-acd4-4ad66f343ae4")
+		(property "Reference" "R28"
+			(at 45.72 156.21 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "62R 1W"
+			(at 45.72 158.75 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_Horizontal"
+			(at 45.974 161.544 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 45.72 162.56 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor, US symbol"
+			(at 45.72 162.56 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "4cadc85c-b2d5-4c33-9d5e-22fbc7901197")
+		)
+		(pin "2"
+			(uuid "63db7294-747c-4f41-8b92-96dfd045d488")
+		)
+		(instances
+			(project "Output LPF"
+				(path "/007eb1af-0bdc-4199-b14f-f7b02ad55c1c"
+					(reference "R28")
 					(unit 1)
 				)
 			)
@@ -10486,7 +10576,7 @@
 	)
 	(symbol
 		(lib_id "power:+12V")
-		(at 41.91 162.56 0)
+		(at 59.69 162.56 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -10497,7 +10587,7 @@
 		(fields_autoplaced yes)
 		(uuid "73873b7d-edcb-4859-bc0d-c8ec0a8dbee1")
 		(property "Reference" "#PWR020"
-			(at 41.91 166.37 0)
+			(at 59.69 166.37 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10508,7 +10598,7 @@
 			)
 		)
 		(property "Value" "+12V"
-			(at 41.91 157.48 0)
+			(at 59.69 157.48 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -10518,7 +10608,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 41.91 162.56 0)
+			(at 59.69 162.56 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10529,7 +10619,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 41.91 162.56 0)
+			(at 59.69 162.56 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10540,7 +10630,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+12V\""
-			(at 41.91 162.56 0)
+			(at 59.69 162.56 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -15616,7 +15706,7 @@
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
-		(at 41.91 162.56 270)
+		(at 59.69 162.56 270)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -15627,7 +15717,7 @@
 		(fields_autoplaced yes)
 		(uuid "db291ea9-6186-4d35-82df-8a097353cea8")
 		(property "Reference" "#FLG02"
-			(at 43.815 162.56 0)
+			(at 61.595 162.56 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -15638,7 +15728,7 @@
 			)
 		)
 		(property "Value" "PWR_FLAG"
-			(at 45.72 162.5599 90)
+			(at 63.5 162.5599 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -15649,7 +15739,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 41.91 162.56 0)
+			(at 59.69 162.56 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -15660,7 +15750,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 41.91 162.56 0)
+			(at 59.69 162.56 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -15671,7 +15761,7 @@
 			)
 		)
 		(property "Description" "Special symbol for telling ERC where power comes from"
-			(at 41.91 162.56 0)
+			(at 59.69 162.56 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)

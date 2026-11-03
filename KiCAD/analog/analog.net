@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "C:\\Users\\AlAnd\\Git Backed Projects\\xmitter\\KiCAD\\analog\\analog.kicad_sch")
-		(date "2026-11-02T21:23:30")
+		(date "2026-11-03T09:26:23")
 		(tool "Eeschema 10.0.3")
 		(sheet
 			(number "1")
@@ -10352,7 +10352,7 @@
 		)
 		(comp
 			(ref "R7")
-			(value "750R")
+			(value "750R 1W")
 			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
 			(description "1/2W")
 			(fields
@@ -16828,11 +16828,6 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "J2")
-				(pin "8")
-				(pintype "passive")
-			)
-			(node
 				(ref "J7")
 				(pin "1")
 				(pinfunction "Pin_1_1")
@@ -20442,6 +20437,11 @@
 			(code "140")
 			(name "SS_PA_Power")
 			(class "Default")
+			(node
+				(ref "J2")
+				(pin "8")
+				(pintype "passive")
+			)
 			(node
 				(ref "J33")
 				(pin "2")

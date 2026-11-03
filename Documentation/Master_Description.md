@@ -548,13 +548,26 @@ between GND references).
 
 ### Output LPF board (`KiCAD/Output LPF/`)
 
-The output low-pass filter bank. 4-band (10/15/17/20 m) with 40 m
-provisioned. Dual-relay switching per band for proper isolation.
+The output low-pass filter bank. 4 bands (40/20/17/15 m); 10 m
+deliberately not covered. Dual-relay switching per band for proper
+isolation (one DPDT G6K-2P-Y-T1 relay per band, pole 1 switches
+output, pole 2 switches input).
+
+**Relay coil supply:** powered by **SS_PA_Power** from analog J2
+pin 8 — i.e. the switched 13.8 V downstream of K5 (heartbeat relay)
+and K6 (inrush-bypass relay). This rail is **dead at power-up**
+until firmware arms the heartbeat watchdog, which guarantees no
+band-select relay can energize before firmware takes control.
+Because the G6K coils are nominally 12 V but see ~13.8 V on
+SS_PA_Power, a 62 Ω 1 W current-limit resistor **R28** on the LPF
+board drops the coil voltage back into spec.
 
 Connectors:
 - **RF in** (SMA) from ss_pa
 - **RF out** (SMA) to antenna
-- **Band select RJ45** from analog J2
+- **Band select RJ45 J2** from analog J2 (SS_PA_Power on pin 8,
+  4 band selects on pins 2-5, T/R control on pin 1, T/R status on
+  pins 6-7, shield = GND)
 
 Status: schematic complete, 100% footprinted, PCB layout pending.
 

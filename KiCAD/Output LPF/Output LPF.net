@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "C:\\Users\\AlAnd\\Git Backed Projects\\xmitter\\KiCAD\\Output LPF\\Output LPF.kicad_sch")
-		(date "2026-11-02T09:29:20")
+		(date "2026-11-03T09:20:36")
 		(tool "Eeschema 10.0.3")
 		(sheet
 			(number "1")
@@ -5023,6 +5023,60 @@
 			)
 		)
 		(comp
+			(ref "R28")
+			(value "62R 1W")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "Root")
+			)
+			(property
+				(name "Sheetfile")
+				(value "Output LPF.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "0452764f-bd8d-4ff7-acd4-4ad66f343ae4")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
 			(ref "TP3")
 			(value "xTP")
 			(footprint "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical")
@@ -5612,11 +5666,6 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "J2")
-				(pin "8")
-				(pintype "passive")
-			)
-			(node
 				(ref "K1")
 				(pin "1")
 				(pintype "passive")
@@ -5639,6 +5688,11 @@
 			(node
 				(ref "K5")
 				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R28")
+				(pin "2")
 				(pintype "passive")
 			)
 		)
@@ -6382,6 +6436,21 @@
 		)
 		(net
 			(code "25")
+			(name "Net-(J2-Pad8)")
+			(class "Default")
+			(node
+				(ref "J2")
+				(pin "8")
+				(pintype "passive")
+			)
+			(node
+				(ref "R28")
+				(pin "1")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "26")
 			(name "Net-(J3-In)")
 			(class "Default")
 			(node
@@ -6397,7 +6466,7 @@
 			)
 		)
 		(net
-			(code "26")
+			(code "27")
 			(name "Net-(J28-In)")
 			(class "Default")
 			(node
@@ -6434,7 +6503,7 @@
 			)
 		)
 		(net
-			(code "27")
+			(code "28")
 			(name "Net-(K1-Pad2)")
 			(class "Default")
 			(node
@@ -6449,7 +6518,7 @@
 			)
 		)
 		(net
-			(code "28")
+			(code "29")
 			(name "Net-(K1-Pad7)")
 			(class "Default")
 			(node
@@ -6464,7 +6533,7 @@
 			)
 		)
 		(net
-			(code "29")
+			(code "30")
 			(name "Net-(K2-Pad2)")
 			(class "Default")
 			(node
@@ -6479,7 +6548,7 @@
 			)
 		)
 		(net
-			(code "30")
+			(code "31")
 			(name "Net-(K2-Pad7)")
 			(class "Default")
 			(node
@@ -6494,7 +6563,7 @@
 			)
 		)
 		(net
-			(code "31")
+			(code "32")
 			(name "Net-(K3-Pad2)")
 			(class "Default")
 			(node
@@ -6509,7 +6578,7 @@
 			)
 		)
 		(net
-			(code "32")
+			(code "33")
 			(name "Net-(K3-Pad7)")
 			(class "Default")
 			(node
@@ -6524,7 +6593,7 @@
 			)
 		)
 		(net
-			(code "33")
+			(code "34")
 			(name "Net-(K4-Pad2)")
 			(class "Default")
 			(node
@@ -6539,7 +6608,7 @@
 			)
 		)
 		(net
-			(code "34")
+			(code "35")
 			(name "Net-(K4-Pad7)")
 			(class "Default")
 			(node
@@ -6554,7 +6623,7 @@
 			)
 		)
 		(net
-			(code "35")
+			(code "36")
 			(name "Net-(Q1-G)")
 			(class "Default")
 			(node
@@ -6580,7 +6649,7 @@
 			)
 		)
 		(net
-			(code "36")
+			(code "37")
 			(name "Net-(Q5-G)")
 			(class "Default")
 			(node
@@ -6606,7 +6675,7 @@
 			)
 		)
 		(net
-			(code "37")
+			(code "38")
 			(name "Net-(Q6-G)")
 			(class "Default")
 			(node
@@ -6632,7 +6701,7 @@
 			)
 		)
 		(net
-			(code "38")
+			(code "39")
 			(name "Net-(Q8-G)")
 			(class "Default")
 			(node
@@ -6658,7 +6727,7 @@
 			)
 		)
 		(net
-			(code "39")
+			(code "40")
 			(name "Net-(Q10-G)")
 			(class "Default")
 			(node
@@ -6684,7 +6753,7 @@
 			)
 		)
 		(net
-			(code "40")
+			(code "41")
 			(name "RECEIVE_N")
 			(class "Default")
 			(node
@@ -6699,7 +6768,7 @@
 			)
 		)
 		(net
-			(code "41")
+			(code "42")
 			(name "RF_FINAL_OUT")
 			(class "Default")
 			(node
@@ -6729,7 +6798,7 @@
 			)
 		)
 		(net
-			(code "42")
+			(code "43")
 			(name "RLY_15")
 			(class "Default")
 			(node
@@ -6754,7 +6823,7 @@
 			)
 		)
 		(net
-			(code "43")
+			(code "44")
 			(name "RLY_15_DRIVE")
 			(class "Default")
 			(node
@@ -6776,7 +6845,7 @@
 			)
 		)
 		(net
-			(code "44")
+			(code "45")
 			(name "RLY_17")
 			(class "Default")
 			(node
@@ -6801,7 +6870,7 @@
 			)
 		)
 		(net
-			(code "45")
+			(code "46")
 			(name "RLY_17_DRIVE")
 			(class "Default")
 			(node
@@ -6823,7 +6892,7 @@
 			)
 		)
 		(net
-			(code "46")
+			(code "47")
 			(name "RLY_20")
 			(class "Default")
 			(node
@@ -6848,7 +6917,7 @@
 			)
 		)
 		(net
-			(code "47")
+			(code "48")
 			(name "RLY_20_DRIVE")
 			(class "Default")
 			(node
@@ -6870,7 +6939,7 @@
 			)
 		)
 		(net
-			(code "48")
+			(code "49")
 			(name "RLY_40")
 			(class "Default")
 			(node
@@ -6895,7 +6964,7 @@
 			)
 		)
 		(net
-			(code "49")
+			(code "50")
 			(name "RLY_40_DRIVE")
 			(class "Default")
 			(node
@@ -6917,7 +6986,7 @@
 			)
 		)
 		(net
-			(code "50")
+			(code "51")
 			(name "TRANSMIT_N")
 			(class "Default")
 			(node
@@ -6932,7 +7001,7 @@
 			)
 		)
 		(net
-			(code "51")
+			(code "52")
 			(name "T{slash}R RELAY")
 			(class "Default")
 			(node
@@ -6947,7 +7016,7 @@
 			)
 		)
 		(net
-			(code "52")
+			(code "53")
 			(name "T{slash}R_DRIVE")
 			(class "Default")
 			(node

@@ -604,9 +604,16 @@ to tune bias safely without burning IRF510s.
 ## 10. Umbilicals and board boundaries
 
 - **J1** Analog → ss_pa — RF signal (SMA, 50 Ω).
-- **J2** Analog → Output LPF — RJ45 CAT6; carries +12 V coil rail,
-  four band selects (RLY_15/17/20/40), T/R control, T/R status
-  back. Shield = GND.
+- **J2** Analog → Output LPF — RJ45 CAT6; carries **SS_PA_Power**
+  (the switched +13.8 V downstream of K5 heartbeat relay and K6
+  inrush-bypass) for the relay coils, plus four band selects
+  (RLY_15/17/20/40), T/R control, T/R status back. Shield = GND.
+  **Rationale for using SS_PA_Power rather than +12 V:** this rail
+  is dead at power-up (K5 is open until the heartbeat watchdog
+  arms) so no band-select relay can accidentally energize before
+  firmware takes control. A **62 Ω 1 W current-limit resistor
+  (R28)** on the Output LPF board brings the G6K coil current back
+  into spec at the higher 13.8 V rail (G6K is a 12 V coil nominal).
 - **J31** Analog ↔ ss_pa — RJ45 CAT6:
   - Pins 1, 4: `Source_Sense_A_Raw`, `Source_Sense_B_Raw` (10×
     pre-amplified source voltage, ss_pa → analog)

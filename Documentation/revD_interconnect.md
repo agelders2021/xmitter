@@ -48,7 +48,10 @@ Last updated: 2026-10-25.
 **Umbilicals (RJ45 / SMA):**
 
 - **J1** — Analog → ss_pa : RF signal (SMA)  [OK]
-- **J2** — Analog → Output LPF : +12 V coil supply + 4 band-select
+- **J2** — Analog → Output LPF : SS_PA_Power (switched 13.8 V, dead at
+  power-up for safe default-off relay state; a 62 Ω 1 W current-limit
+  resistor R28 on the LPF board compensates for the G6K coils being
+  nominally 12 V) + 4 band-select
   drives + T/R + status sense (RJ45, 8-pin)  [OK]
 - **J4** — Analog → Frontpanel : control umbilical (RJ45)  [OK, see
   `front_panel_interface.md` for details]
@@ -74,8 +77,12 @@ See the dedicated section `Analog ↔ Protoshield harness table` below.
 - ss_pa gets +13.8 V from J33 analog → J2 ss_pa (via heartbeat relay
   K5 and the 24R 10W inrush limiter R42 bypassed by K6). ss_pa has
   no local LDO; it uses only +13.8 V.
-- LPF gets +12 V from J2 analog pin 8 (shared umbilical with band
-  selects)
+- LPF gets **SS_PA_Power** (switched 13.8 V, gated by K5 heartbeat
+  and K6 inrush-bypass) from J2 analog pin 8 (shared umbilical with
+  band selects). Dead at power-up until firmware arms the heartbeat
+  → no band-select relay can energize before firmware takes control.
+  R28 (62 Ω 1 W) on the LPF board compensates for the 12 V G6K
+  coils seeing the higher ~13.8 V supply.
 - Front-panel circuitry (now on analog) uses analog's local
   MCP1700x-330 LDO for +3.3 V from the +5 V analog rail
 
@@ -317,7 +324,12 @@ here on one CAT6-mateable connector.
   - −12 V (LT1054 charge pump, U7) — op-amp negative rail
   - +5 V (LM2940CT-5, U6) — PCF8575, misc logic
   - +3.3 V (MCP1700 LDO, U13) — Metro, I²C bus, logic
-- **LPF board:** only needs +12 V (for relay coils) and GND. Comes
+- **LPF board:** powered by **SS_PA_Power** (switched 13.8 V via K5
+  heartbeat / K6 inrush-bypass on analog) for relay coils, plus GND.
+  R28 (62 Ω 1 W) on LPF compensates for the 12 V G6K coils seeing
+  the 13.8 V rail. (Previously documented as +12 V; swapped to
+  SS_PA_Power so no relay can energize before firmware takes
+  control.) Comes
   in on J2 (TBD — J2 has no power pin currently; may need +12 V
   tap or local regulation on LPF board).
 
