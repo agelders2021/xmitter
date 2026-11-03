@@ -40,7 +40,7 @@ from gen_board_boms import (
 )
 
 
-CART_XLS = Path(r"C:\Users\AlAnd\Downloads\Cart_Nov03_1245PM.xls")
+CART_XLS = Path(r"C:\Users\AlAnd\Downloads\Cart_Nov03_0244PM.xls")
 OUT      = Path(__file__).resolve().parent / "_cart_diff.xlsx"
 
 
@@ -708,7 +708,10 @@ def write_diff(matches, add_rows, remove_rows, overstock_rows):
     ws.append(headers)
     for cell in ws[1]:
         cell.font = Font(bold=True); cell.fill = HEADER_FILL
-    for c in sorted(remove_rows, key=lambda c: c.line):
+    # Sort high→low by cart line number: Mouser renumbers lines after each
+    # delete, so operating top-down from the highest line keeps the lower
+    # line numbers stable while the user works through deletions.
+    for c in sorted(remove_rows, key=lambda c: c.line, reverse=True):
         hint = fp_hint_for(c.mfr)
         reason = "No matching BOM demand"
         if hint:
@@ -716,7 +719,7 @@ def write_diff(matches, add_rows, remove_rows, overstock_rows):
         ws.append([c.line, c.mouser, c.mfr, c.manufacturer, c.desc,
                    c.qty, 0, "REMOVE", reason])
         ws.cell(row=ws.max_row, column=8).fill = (YELLOW_FILL if hint else RED_FILL)
-    for c, used in sorted(overstock_rows, key=lambda t: t[0].line):
+    for c, used in sorted(overstock_rows, key=lambda t: t[0].line, reverse=True):
         excess = c.qty - used
         ws.append([c.line, c.mouser, c.mfr, c.manufacturer, c.desc,
                    c.qty, used, f"REDUCE by {excess}",
