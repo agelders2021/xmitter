@@ -74,3 +74,10 @@ On-board peripherals:
 - **ADC2 channels** are shared with Wi-Fi; readings become unreliable
   while Wi-Fi is active.  Any pin that needs reliable ADC during Wi-Fi
   operation should land on an ADC1 channel (A5 and D2–D10 on this board).
+- **GPIO12 (D12)** carries `GRID_BLOCK_CRASH` (active HIGH, tube-PA
+  fault signal). Analog board has a 100 kΩ external pull-down to GND
+  defining the quiescent LOW state. **DISABLE the internal pull-up and
+  pull-down on D12** when configuring the pin — the ESP32-S3 internal
+  pulls are ~45 kΩ and would fight (and win against) the external 100 kΩ
+  pull-down, masking the fault signal. Use `gpio_pullup_dis()` /
+  `gpio_pulldown_dis()` or set `GPIO_FLOATING` in the IO config.
