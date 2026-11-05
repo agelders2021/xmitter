@@ -26,7 +26,6 @@ BOARDS = [
     ("analog",      r"C:\Users\AlAnd\Git Backed Projects\xmitter\KiCAD\analog\analog.net"),
     ("ss_pa",       r"C:\Users\AlAnd\Git Backed Projects\xmitter\KiCAD\ss_pa\ss_pa.net"),
     ("lpf",         r"C:\Users\AlAnd\Git Backed Projects\xmitter\KiCAD\Output LPF\Output LPF.net"),
-    ("protoshield", r"C:\Users\AlAnd\Git Backed Projects\xmitter\KiCAD\protoshield\protoshield.net"),
 ]
 
 OUT_DIR = Path(r"C:\Users\AlAnd\Git Backed Projects\xmitter\tools")

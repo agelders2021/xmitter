@@ -57,13 +57,13 @@ def build_parts_list():
     cover["A5"] = "  • analog       (KiCAD/analog/analog.net)"
     cover["A6"] = "  • ss_pa        (KiCAD/ss_pa/ss_pa.net)"
     cover["A7"] = "  • lpf (Output) (KiCAD/Output LPF/Output LPF.net)"
-    cover["A8"] = "  • protoshield  (KiCAD/protoshield/protoshield.net)"
+    cover["A8"] = "  (protoshield dropped — passives migrated onto analog)"
     cover["A10"] = "DNP components are excluded.  Quantities are physical placements"
     cover["A11"] = "(so e.g. a 10 kΩ resistor used 24× appears as qty 24)."
     cover["A13"] = "Tabs:"
     cover["A13"].font = Font(bold=True)
-    cover["A14"] = "  • Summary_*  — consolidated by category across all 4 boards"
-    cover["A15"] = "  • analog / ss_pa / lpf / protoshield — per-board detail"
+    cover["A14"] = "  • Summary_*  — consolidated by category across all 3 boards"
+    cover["A15"] = "  • analog / ss_pa / lpf — per-board detail"
     cover.column_dimensions["A"].width = 80
 
     # Per-category consolidated tabs (from _bom_total.xlsx)
@@ -84,7 +84,7 @@ def build_parts_list():
 
     # Per-board tabs — put each board's BOM into one tab (first category tab)
     # by flattening every category into a single sheet.
-    for board in ("analog", "ss_pa", "lpf", "protoshield"):
+    for board in ("analog", "ss_pa", "lpf"):
         src_path = TOOLS / f"_bom_{board}.xlsx"
         if not src_path.exists():
             continue
@@ -146,8 +146,8 @@ def build_cart_diff_copy():
     cover = dst.create_sheet("Overview")
     cover["A1"] = "xmitter Rev D — Mouser Cart vs BOM Diff"
     cover["A1"].font = Font(bold=True, size=16)
-    cover["A2"] = f"Cart file : Cart_Nov03_1245PM.xls"
-    cover["A3"] = f"BOM source: live KiCad netlists (analog, ss_pa, lpf, protoshield)"
+    cover["A2"] = f"Cart file : Cart_Nov04_0836PM.xls"
+    cover["A3"] = f"BOM source: live KiCad netlists (analog, ss_pa, lpf)"
     cover["A4"] = f"Generated : {date.today().isoformat()}"
     cover["A4"].font = Font(italic=True, color="555555")
     cover["A6"] = "Tabs:"

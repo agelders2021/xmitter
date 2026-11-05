@@ -3414,7 +3414,7 @@
 					)
 				)
 			)
-			(property "Footprint" ""
+			(property "Footprint" "xmitter:Metro_ESP32-S3"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -4458,6 +4458,10 @@
 		(uuid "6b3a4bde-d342-4e91-bdfc-772cc68366e7")
 	)
 	(no_connect
+		(at 175.26 86.36)
+		(uuid "74bf10f6-0756-4559-971a-1a45b68e09c5")
+	)
+	(no_connect
 		(at 88.9 76.2)
 		(uuid "7fc22c0a-9577-4f9b-ac3f-838e19a888a8")
 	)
@@ -4472,6 +4476,10 @@
 	(no_connect
 		(at 88.9 71.12)
 		(uuid "b1e203ed-f876-4b78-9ca0-05d2d3bb1ef3")
+	)
+	(no_connect
+		(at 88.9 73.66)
+		(uuid "b5953b33-f3bc-48bb-9c4e-dbc26d4f3876")
 	)
 	(no_connect
 		(at 193.04 60.96)
@@ -4596,16 +4604,6 @@
 			(type default)
 		)
 		(uuid "2107fae0-5558-4ce1-9721-cb5a517995f7")
-	)
-	(wire
-		(pts
-			(xy 161.29 86.36) (xy 161.29 83.82)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "23be5c33-a326-4399-ad9b-3ffa158774d9")
 	)
 	(wire
 		(pts
@@ -4759,16 +4757,6 @@
 	)
 	(wire
 		(pts
-			(xy 175.26 90.17) (xy 175.26 86.36)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "444901f2-3e68-418b-abd4-9523c155b06a")
-	)
-	(wire
-		(pts
 			(xy 82.55 24.13) (xy 82.55 31.75)
 		)
 		(stroke
@@ -4826,16 +4814,6 @@
 			(type default)
 		)
 		(uuid "52a0b515-68a6-41c9-9ae5-b0de77c21f8f")
-	)
-	(wire
-		(pts
-			(xy 161.29 83.82) (xy 175.26 83.82)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "54740ca5-57e4-451f-af52-6bf741f6812b")
 	)
 	(wire
 		(pts
@@ -5146,16 +5124,6 @@
 			(type default)
 		)
 		(uuid "a2100e24-248f-4793-89fc-3462ddf20629")
-	)
-	(wire
-		(pts
-			(xy 85.09 73.66) (xy 88.9 73.66)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a4d849bc-0a89-479e-a67d-da990e903d7e")
 	)
 	(wire
 		(pts
@@ -6416,7 +6384,7 @@
 			)
 		)
 	)
-	(global_label "MBL600_B"
+	(global_label "MBL600_B_CLEAN"
 		(shape input)
 		(at 88.9 88.9 180)
 		(fields_autoplaced yes)
@@ -6428,7 +6396,7 @@
 		)
 		(uuid "8ee41272-c39d-4fc4-901c-4a711139c1fc")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 88.9 88.9 0)
+			(at 69.4654 88.9 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6436,6 +6404,7 @@
 				(font
 					(size 1.27 1.27)
 				)
+				(justify right)
 			)
 		)
 	)
@@ -6559,7 +6528,7 @@
 			)
 		)
 	)
-	(global_label "MBL600_A"
+	(global_label "MBL600_A_CLEAN"
 		(shape input)
 		(at 88.9 86.36 180)
 		(fields_autoplaced yes)
@@ -6571,7 +6540,7 @@
 		)
 		(uuid "b56e5111-c20a-4eec-9dd4-1e8674188e6e")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 88.9 86.36 0)
+			(at 69.6468 86.36 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6579,6 +6548,7 @@
 				(font
 					(size 1.27 1.27)
 				)
+				(justify right)
 			)
 		)
 	)
@@ -6774,7 +6744,7 @@
 	)
 	(global_label "DAC_SHDN_N"
 		(shape output)
-		(at 161.29 86.36 180)
+		(at 175.26 83.82 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -6784,7 +6754,7 @@
 		)
 		(uuid "c7ddeafa-e267-4d46-b222-f4bb9eab3eae")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 146.27 86.36 0)
+			(at 160.24 83.82 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6857,30 +6827,6 @@
 		(uuid "d5495336-0067-40d1-9315-a4224d4fbac1")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 12.4363 93.98 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-	)
-	(global_label "PCF_P5_SPARE"
-		(shape input)
-		(at 175.26 90.17 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "db5251c8-c185-4fab-9259-f18acee7bb45")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 158.2444 90.17 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -14042,183 +13988,6 @@
 		)
 	)
 	(symbol
-		(lib_id "xmitter:Metro_ESP32S3")
-		(at 104.14 83.82 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "d0b65506-61f3-4146-b15b-b601c8d6a9ba")
-		(property "Reference" "U16"
-			(at 104.14 62.23 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "Metro_ESP32S3"
-			(at 104.14 64.77 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 104.14 83.82 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" "https://learn.adafruit.com/adafruit-metro-esp32-s3"
-			(at 104.14 83.82 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Adafruit Metro ESP32-S3, Arduino-compatible module"
-			(at 104.14 83.82 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Manufacturer" "Adafruit Industries"
-			(at 104.14 83.82 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "MPN" "Adafruit #5500"
-			(at 104.14 83.82 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "D6"
-			(uuid "42d3ab17-762e-476e-a73a-d8bfb673af82")
-		)
-		(pin "D12"
-			(uuid "879a8b4d-367f-4485-9d5a-e32d790149a8")
-		)
-		(pin "3V3_L"
-			(uuid "c2494d20-84f2-437b-bc74-14d0b4680c45")
-		)
-		(pin "D2"
-			(uuid "ff9684be-0163-424c-b520-11e563109a08")
-		)
-		(pin "A1"
-			(uuid "d4d44de4-c788-4537-9cbc-8e161b4d2772")
-		)
-		(pin "D5"
-			(uuid "53756d03-9ed0-4cca-a640-13294dcd0929")
-		)
-		(pin "D4"
-			(uuid "b1d29d70-6ae6-45a4-9154-f644159d680a")
-		)
-		(pin "D8"
-			(uuid "ca0edefb-d3be-4f5e-a8dd-e51996d2b7ac")
-		)
-		(pin "A0"
-			(uuid "2755f6b4-7263-42ec-9b7e-c78f7f8c8c6c")
-		)
-		(pin "D9"
-			(uuid "3f593a74-5517-48e5-8617-a93f04fb314b")
-		)
-		(pin "D10"
-			(uuid "439ceada-4940-466a-80c0-19b6eb3a2f5b")
-		)
-		(pin "D7"
-			(uuid "b34ebc61-8918-473d-97eb-b16f270620fa")
-		)
-		(pin "D3"
-			(uuid "e896b59c-7319-4159-8ed0-d4192b50f7c0")
-		)
-		(pin "D11"
-			(uuid "8390513f-d12d-4f36-8ca1-440e51a65fe3")
-		)
-		(pin "D13"
-			(uuid "f5297748-4e81-49c4-b216-7044bfd9cd2e")
-		)
-		(pin "GND_L"
-			(uuid "2842e09c-f1d3-492a-9a60-17ac8d743e6b")
-		)
-		(pin "AREF"
-			(uuid "6dfa387e-c36f-42ef-bddb-db2218e8329e")
-		)
-		(pin "D1"
-			(uuid "b2d2ebe4-b7c0-4a41-83ba-a3bb00fe90e9")
-		)
-		(pin "5V"
-			(uuid "2801714d-a9ac-4f27-9c64-d7a0707138f9")
-		)
-		(pin "A2"
-			(uuid "3067b8ec-2157-451e-99c0-5a6350eab542")
-		)
-		(pin "A3"
-			(uuid "a313bb0a-9d8a-4870-b56a-97b28d11fb55")
-		)
-		(pin "A4"
-			(uuid "e886239c-09a6-42ae-8322-b1f11277ba67")
-		)
-		(pin "A5"
-			(uuid "a5372031-340d-43a1-9f5f-0a7afdd98c4f")
-		)
-		(pin "D0"
-			(uuid "edb4dee4-4944-4758-8a2d-1eab7c3bf7bc")
-		)
-		(pin "RESET"
-			(uuid "603bcd22-a6dd-4608-8b6d-5783668fde10")
-		)
-		(pin "SCL"
-			(uuid "3a9f82c5-c7cb-4319-860e-d0f6d159f127")
-		)
-		(pin "SDA"
-			(uuid "acd93454-8524-411c-8a3f-23ee0f2d5069")
-		)
-		(instances
-			(project "analog"
-				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72"
-					(reference "U16")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:R_US")
 		(at 71.12 76.2 90)
 		(unit 1)
@@ -15030,6 +14799,183 @@
 		)
 	)
 	(symbol
+		(lib_id "xmitter:Metro_ESP32S3")
+		(at 104.14 83.82 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "e3f02f15-e586-46a7-af2f-3b55b448810d")
+		(property "Reference" "U16"
+			(at 104.14 57.15 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "Metro_ESP32S3"
+			(at 104.14 59.69 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "xmitter:Metro_ESP32-S3"
+			(at 104.14 83.82 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "https://learn.adafruit.com/adafruit-metro-esp32-s3"
+			(at 104.14 83.82 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Adafruit Metro ESP32-S3 (xmitter project compact symbol)"
+			(at 104.14 83.82 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Adafruit Industries"
+			(at 104.14 83.82 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "Adafruit #5500"
+			(at 104.14 83.82 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "3V3_L"
+			(uuid "7991dbeb-e985-419c-83f4-82d5685a2402")
+		)
+		(pin "A4"
+			(uuid "7c5caece-3c51-45a9-bd7f-6c31f40678b4")
+		)
+		(pin "D10"
+			(uuid "7edf8230-3351-427e-8571-a40cbbfc99aa")
+		)
+		(pin "D13"
+			(uuid "4320860e-4007-46ba-ab27-bb281d585fc8")
+		)
+		(pin "RESET"
+			(uuid "2fd1ddee-5845-4bd8-925d-08386588ea9f")
+		)
+		(pin "SDA"
+			(uuid "f9853037-bb23-411a-80b9-dd5ba372fe05")
+		)
+		(pin "D6"
+			(uuid "abbc55c3-e90b-4266-b219-a211d2cdccbc")
+		)
+		(pin "D5"
+			(uuid "beb6b06d-e57f-43b0-9290-97af3f693080")
+		)
+		(pin "5V"
+			(uuid "3128be19-ebd6-4550-96b7-307da16fce4d")
+		)
+		(pin "D4"
+			(uuid "0ecf1f88-ecd1-49cf-b7f3-11d57c865e2a")
+		)
+		(pin "A5"
+			(uuid "7dad50c8-141a-4eb3-b893-eb066005d57a")
+		)
+		(pin "A1"
+			(uuid "3921c956-ddb6-4d98-a59e-796fc47f540f")
+		)
+		(pin "A3"
+			(uuid "4349adb8-dc7d-4533-a130-7242d56ea504")
+		)
+		(pin "D0"
+			(uuid "dedb3090-3808-4e63-a129-0affd45cb61f")
+		)
+		(pin "D1"
+			(uuid "386c0593-73a0-4b7c-a064-3fe893489f88")
+		)
+		(pin "D8"
+			(uuid "f0f958bd-229e-41c0-bc31-e20d61494fb8")
+		)
+		(pin "D11"
+			(uuid "b63f5990-24fc-4f89-a46d-a8e10225d2a4")
+		)
+		(pin "D3"
+			(uuid "0c8cd344-3bc9-46d9-99c5-6862b58bd6b6")
+		)
+		(pin "D7"
+			(uuid "e5c4632e-a05d-43ff-92d2-60f2c2798f2c")
+		)
+		(pin "A2"
+			(uuid "8da9eaa6-ed48-4547-a2ec-5334af828e7a")
+		)
+		(pin "A0"
+			(uuid "b35d9a7d-96ec-40f4-af00-3ff526c0439d")
+		)
+		(pin "AREF"
+			(uuid "70fc7e4c-3721-4c28-9896-4953e778667d")
+		)
+		(pin "D2"
+			(uuid "6ea224b9-23dd-40c4-a439-c7b598093f0c")
+		)
+		(pin "D9"
+			(uuid "f671bd0a-dd36-4efd-9ef5-1ff2736b9216")
+		)
+		(pin "D12"
+			(uuid "ed248c40-3315-4a41-8d97-16dc4d60c327")
+		)
+		(pin "GND_L"
+			(uuid "cb6d41d9-3da9-4c5c-b4f2-f3be5ed33383")
+		)
+		(pin "SCL"
+			(uuid "af678446-b744-45c1-b9bb-c56cfbc95d7f")
+		)
+		(instances
+			(project "analog"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72"
+					(reference "U16")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:GND")
 		(at 175.26 60.96 270)
 		(unit 1)
@@ -15659,85 +15605,6 @@
 			(project "analog"
 				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72"
 					(reference "R74")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:+3.3V")
-		(at 85.09 73.66 90)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "f5869af7-023e-4cb5-a2c8-cb17bb7681f2")
-		(property "Reference" "#PWR0178"
-			(at 88.9 73.66 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "+3.3V"
-			(at 81.28 73.6599 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" ""
-			(at 85.09 73.66 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 85.09 73.66 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"+3.3V\""
-			(at 85.09 73.66 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "e3cfa933-2730-4e55-892a-29d0d91021db")
-		)
-		(instances
-			(project "analog"
-				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72"
-					(reference "#PWR0178")
 					(unit 1)
 				)
 			)

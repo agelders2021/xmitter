@@ -40,7 +40,7 @@ from gen_board_boms import (
 )
 
 
-CART_XLS = Path(r"C:\Users\AlAnd\Downloads\Cart_Nov03_0446PM.xls")
+CART_XLS = Path(r"C:\Users\AlAnd\Downloads\Cart_Nov04_0836PM.xls")
 OUT      = Path(__file__).resolve().parent / "_cart_diff.xlsx"
 
 
