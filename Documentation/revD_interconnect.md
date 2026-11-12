@@ -146,18 +146,27 @@ See the dedicated section `Analog ↔ Protoshield harness table` below.
 - **Pin 3 — RLY_17:** analog → LPF, same, 17 m band K2.
 - **Pin 4 — RLY_20:** analog → LPF, same, 20 m band K3.
 - **Pin 5 — RLY_40:** analog → LPF, same, 40 m band K4.
-- **Pin 6 — RECEIVE_N:** LPF → analog, open contact from K5 pole 1
-  pulled LOW when K5 in RX state (de-energized). Metro reads via
-  PCF8575 input (U17) with internal pullup giving HIGH when inactive.
+- **Pin 6 — (spare):** RECEIVE_N signal eliminated 2026-11-12. T/R
+  state is now inferred from the single TRANSMIT_N sense on pin 7
+  (plus the firmware's own T/R command state). Pin left unconnected
+  on both ends.
 - **Pin 7 — TRANSMIT_N:** LPF → analog, open contact from K5 pole 1
   pulled LOW when K5 in TX state (energized). Metro reads via PCF8575
   input, HIGH via internal pullup when inactive.
-- **Pin 8 — +12 V:** analog → LPF, coil supply for all five relays.
+- **Pin 8 — SS_PA_Power:** analog → LPF, coil supply for all five
+  relays. Switched +13.8 V downstream of the K5 heartbeat gate and
+  the K6 inrush-bypass. **Firmware note:** this rail is dead unless
+  K5 or K6 on analog is active, so no LPF relay — band-select or
+  T/R — can energize without analog's power path being up. Before
+  every transmit, firmware should toggle the selected band-select
+  relay and verify the TRANSMIT_N sense responds correctly as a
+  pre-TX self-test.
 - **Shield (SH) — GND**
 
-**Note:** 10 m band deliberately dropped from Rev D. The T/R relay
-sense pair (RECEIVE_N / TRANSMIT_N) replaces what used to be spare
-pins on J2 in earlier revisions — now carrying real signals.
+**Note:** 10 m band deliberately dropped from Rev D. The T/R sense
+pin (TRANSMIT_N) and the formerly-paired RECEIVE_N replaced what
+used to be spare pins on J2 in earlier revisions. RECEIVE_N has
+since been removed (see pin 6 note); TRANSMIT_N is retained.
 
 ---
 

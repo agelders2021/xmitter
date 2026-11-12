@@ -81,3 +81,18 @@ On-board peripherals:
   pulls are ~45 kΩ and would fight (and win against) the external 100 kΩ
   pull-down, masking the fault signal. Use `gpio_pullup_dis()` /
   `gpio_pulldown_dis()` or set `GPIO_FLOATING` in the IO config.
+- **LPF relay power is gated by analog K5 or K6.** The `SS_PA_Power`
+  rail on J2 pin 8 — the coil supply for every LPF relay (band
+  selects K1–K4 and T/R K5-on-LPF) — is dead unless at least one of
+  analog's **K5 (heartbeat gate)** or **K6 (inrush bypass)** is
+  energized. No LPF relay can energize while this analog-side power
+  path is down.
+  **Pre-TX self-test (required on every transmit):** firmware must
+  (a) command the correct band-select relay via the PCF8575,
+  (b) command T/R to TX and read back `TRANSMIT_N` (J2 pin 7) to
+  confirm the relay actually threw, and
+  (c) refuse to key the PA if the sense line does not indicate the
+  expected state. A silent failure here (dead `SS_PA_Power`, stuck
+  relay, miswired band) would route the PA output through an unknown
+  or open filter path at full RF power, which can damage both the PA
+  and the antenna.

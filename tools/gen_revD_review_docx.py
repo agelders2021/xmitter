@@ -186,7 +186,7 @@ def build():
     add_heading(doc, "3. Umbilicals and board boundaries", level=1)
     for s in [
         "J1 — Analog → ss_pa : RF signal (SMA, 50 Ω)",
-        "J2 — Analog → Output LPF : RJ45 CAT6. SS_PA_Power (pin 8), four band selects (pins 2–5), T/R control (pin 1), T/R status back (pins 6, 7), shield = GND. SS_PA_Power is the switched 13.8 V rail — dead at power-up until firmware arms K5, so no band-select relay can accidentally energize before firmware takes control.",
+        "J2 — Analog → Output LPF : RJ45 CAT6. SS_PA_Power (pin 8), four band selects (pins 2–5), T/R control (pin 1), TRANSMIT_N sense back (pin 7), pin 6 spare (formerly RECEIVE_N — eliminated 2026-11-12, T/R state now inferred from TRANSMIT_N alone), shield = GND. SS_PA_Power is the switched 13.8 V rail — dead at power-up until firmware arms K5 or K6, so no band-select relay can accidentally energize before firmware takes control.",
         "J4 — Analog → Frontpanel : RJ45 CAT6. SDA, SCL, MBL_A±, MBL_B±, +5 V, ENC_INT_CLEAN, shield = GND.",
         "J31 — Analog ↔ ss_pa : RJ45 CAT6. Pin 1 Source_Sense_A_Raw (10× pre-amplified); pin 3 +5 V to ss_pa MCP6002; pin 4 Source_Sense_B_Raw; pin 6 DRIVER_BIAS; pins 7/8 PA_Bias_A/B; pins 2/5/shield = GND. FAULT_N does not cross J31.",
         "J33 (analog) → J2 (ss_pa) — dedicated screw terminals carry +13.8 V to the SS PA, gated by K5 (heartbeat) and R42/K6 (inrush/bypass).",
@@ -287,7 +287,17 @@ def build():
         "40 m band: Fc ≈ 8.0 MHz with 7.3 MHz at 0.91·Fc — in-band but tolerance-tight. Confirm the chosen E12 cap values and T50-6 integer turn counts leave enough passband margin that production tolerances won't shift the −3 dB corner down below 7.3 MHz.",
         "G6K-2P-Y-T1 on 13.8 V via R28 (62 Ω 1 W) — confirm the coil current comes out in spec at both the 12 V nominal and the ~13.8 V actual rail, and that R28 dissipation sits comfortably under its 1 W rating even at the high end of 13.8 V supply tolerance.",
         "LPF-board 2N7000 open-drain FET sinks driving the G6K coils — confirm each 2N7000 can sink the full coil current and that any flyback diode is correctly placed across the coil.",
-        "SS_PA_Power as the coil supply — the K5 heartbeat gating means the LPF relays are dead at power-up, which is intentional. But confirm there is no spurious energization path (e.g. leakage through the 2N7000 drain-source) that could latch a band-select before firmware is ready.",
+        "SS_PA_Power as the coil supply — the K5 heartbeat + K6 inrush-bypass gating on analog means the LPF relays are dead at power-up, which is intentional. Confirm there is no spurious energization path (e.g. leakage through the 2N7000 drain-source) that could latch a band-select before firmware is ready.",
+        "T/R sense is now TRANSMIT_N alone (J2 pin 7); the previously-paired RECEIVE_N on pin 6 was eliminated 2026-11-12. Confirm there is no case where the loss of RECEIVE_N creates ambiguity — e.g. a startup window where TRANSMIT_N floats before the PCF8575 input pull-up takes effect and firmware could mis-read the T/R state.",
+    ]:
+        add_bullet(doc, s)
+
+    add_heading(doc, "7.4a Firmware-enforced LPF relay self-test (reviewer: please evaluate the hazard)", level=2)
+    add_para(doc, "LPF relay power (SS_PA_Power on J2 pin 8) is gated by analog's K5 heartbeat relay in parallel with K6 inrush-bypass relay. Either K5 or K6 being closed delivers power to the LPF relay coils; both open = LPF relays dead and no RF path through any band filter. The design relies on firmware to run a pre-TX self-test every transmit: command the correct band-select relay, command T/R to TX, read back TRANSMIT_N (J2 pin 7), and refuse to key the PA if the sense state is wrong. Please comment on:")
+    for s in [
+        "Is a single TRANSMIT_N sense sufficient to catch all plausible failure modes of the LPF relay chain, now that RECEIVE_N has been eliminated? Specifically: a stuck band-select relay would not be detected by the T/R sense alone — the PA would key into whatever filter the last-energized band-select left behind. Is this acceptable given that firmware controls the band select directly and can keep a software-side shadow?",
+        "Is there a hardware interlock that could catch this independently of firmware (e.g. an SWR fault tied into the fault chain)? The current fault chain triggers only on IRF510 source current, not on output-side mismatch.",
+        "Dead SS_PA_Power (K5 and K6 both open) means no relay can throw. In that state TRANSMIT_N would stay in its de-energized state and firmware's self-test would correctly refuse to key — confirm this is the observed behavior and that the pull-up / pull-down convention on TRANSMIT_N preserves it under a dead-rail condition.",
     ]:
         add_bullet(doc, s)
 
