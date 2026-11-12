@@ -29,7 +29,7 @@ Both tolerance ±10 %; final value must be dip-measured after winding and trimme
 
 ### Capacitor sourcing note
 
-NP0 ceramic recommended for all shunt caps — low temperature coefficient, low loss, 50 V / 100 V available.  Values flagged as "non-E12" below need either a direct order for that specific value or a two-cap parallel combination:
+**200 V C0G/NP0** leaded ceramic disc for all filter shunt caps — low temperature coefficient, low loss, generous voltage margin over 10 W QRP output (31.6 V peak nominal, ~63 V peak under 3:1 VSWR).  Footprint `Capacitor_THT:C_Disc_D7.5mm_W2.5mm_P5.00mm` is sized for the 200 V body.  Values flagged as "non-E12" below need either a direct order for that specific value or a two-cap parallel combination:
 
 - 110 pF = 100 pF ∥ 10 pF
 - 200 pF = 100 pF ∥ 100 pF, or 180 pF (−10 %), or 220 pF (+10 %)

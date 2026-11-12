@@ -122,21 +122,90 @@ def build_cart_diff_copy():
     out = DOCS / f"Cart_Diff_{date.today().isoformat()}.xlsx"
 
     # Preserve any "Done" marks the user added to column A of
-    # Remove_Overstock in the prior Documentation file.  Keyed by cart
-    # line number (column B).  Marks for lines that no longer appear
-    # in the new diff are silently dropped.
-    prior_marks: dict[int, str] = {}
-    if out.exists():
+    # Remove_Overstock in the prior Documentation file.
+    #
+    # Lesson from 2026-11-06: an earlier version keyed on cart LINE
+    # NUMBER and only read the file whose name matched TODAY's date.
+    # Both choices lost user marks silently:
+    #   * Mouser renumbers cart lines every time an item is deleted,
+    #     so a line-number key doesn't survive a cart refresh.
+    #   * Running the packager on a new calendar day created a fresh
+    #     dated filename whose prior-same-date lookup found nothing,
+    #     so marks from yesterday's file were dropped without warning.
+    #
+    # Current logic: scan ALL prior Cart_Diff_*.xlsx files in reverse
+    # date order, pick the most recent one that has any marks, and
+    # match by MOUSER # (robust to cart-line renumbering and to
+    # cross-day regens).
+    # Marks on the Remove_Overstock tab key on Mouser # (stable across
+    # cart-line renumbering).  Marks on the Add tab key on
+    # (Kind, Value/MPN, Footprint) because Add rows describe items NOT
+    # in the cart and so have no Mouser #.
+    prior_remove_marks: dict[str, str] = {}       # Mouser#     -> mark
+    prior_add_marks:    dict[tuple, str] = {}     # (K,V,FP)    -> mark
+    prior_src = None
+    candidates = sorted(DOCS.glob("Cart_Diff_*.xlsx"), reverse=True)
+    for cand in candidates:
         try:
-            prior = load_workbook(out)
-            if "Remove_Overstock" in prior.sheetnames:
-                pws = prior["Remove_Overstock"]
-                for row in pws.iter_rows(min_row=2, values_only=True):
-                    if row and row[0] and isinstance(row[1], (int, float)):
-                        prior_marks[int(row[1])] = row[0]
-            prior.close()
+            wb = load_workbook(cand, data_only=True)
         except Exception:
-            pass
+            continue
+
+        # --- Remove_Overstock marks (by Mouser #) ---
+        remove_candidate: dict[str, str] = {}
+        if "Remove_Overstock" in wb.sheetnames:
+            pws = wb["Remove_Overstock"]
+            header = [str(c.value) if c.value is not None else "" for c in pws[1]]
+            try:
+                done_col   = header.index("Done")     + 1
+                mouser_col = header.index("Mouser #") + 1
+                for r in range(2, pws.max_row + 1):
+                    mark = pws.cell(row=r, column=done_col).value
+                    mpn  = pws.cell(row=r, column=mouser_col).value
+                    if mark and str(mark).strip() and mpn and str(mpn).strip():
+                        remove_candidate[str(mpn).strip()] = str(mark).strip()
+            except ValueError:
+                pass
+
+        # --- Add-tab marks (by Kind, Value, Footprint).  Supports both
+        # the legacy no-Done-column format (col A was empty, user inserted
+        # their own) and the new "In stock" column A format. ---
+        add_candidate: dict[tuple, str] = {}
+        if "Add" in wb.sheetnames:
+            aws = wb["Add"]
+            header = [str(c.value) if c.value is not None else "" for c in aws[1]]
+            # Figure out column indices robustly
+            def col_of(names):
+                for n in names:
+                    if n in header:
+                        return header.index(n) + 1
+                return None
+            mark_col = col_of(["In stock", "Done", ""])
+            kind_col = col_of(["Kind"])
+            val_col  = col_of(["Value / MPN", "Value"])
+            fp_col   = col_of(["Footprint"])
+            if mark_col and kind_col and val_col and fp_col:
+                for r in range(2, aws.max_row + 1):
+                    mark = aws.cell(row=r, column=mark_col).value
+                    kind = aws.cell(row=r, column=kind_col).value
+                    val  = aws.cell(row=r, column=val_col).value
+                    fp   = aws.cell(row=r, column=fp_col).value
+                    if mark and str(mark).strip():
+                        key = (str(kind or "").strip(),
+                               str(val  or "").strip(),
+                               str(fp   or "").strip())
+                        add_candidate[key] = str(mark).strip()
+
+        wb.close()
+        if remove_candidate or add_candidate:
+            prior_remove_marks = remove_candidate
+            prior_add_marks    = add_candidate
+            prior_src          = cand.name
+            break
+    if prior_remove_marks or prior_add_marks:
+        print(f"Carrying forward marks from {prior_src}: "
+              f"{len(prior_remove_marks)} Remove_Overstock + "
+              f"{len(prior_add_marks)} Add")
 
     src = load_workbook(TOOLS / "_cart_diff.xlsx")
     dst = Workbook()
@@ -174,13 +243,68 @@ def build_cart_diff_copy():
         for col_letter, dim in src_ws.column_dimensions.items():
             dst_ws.column_dimensions[col_letter].width = dim.width
 
-        # Restore user "Done" marks on Remove_Overstock.  Column B is the
-        # cart line number; column A is the mark.
-        if sn == "Remove_Overstock" and prior_marks:
-            for r in range(2, dst_ws.max_row + 1):
-                ln_cell = dst_ws.cell(row=r, column=2).value
-                if isinstance(ln_cell, (int, float)) and int(ln_cell) in prior_marks:
-                    dst_ws.cell(row=r, column=1, value=prior_marks[int(ln_cell)])
+        # Restore user marks.  Report any that couldn't be matched so a
+        # silent loss can't happen again (the exact failure mode that
+        # motivated this rewrite on 2026-11-06).
+        if sn == "Remove_Overstock" and prior_remove_marks:
+            hdr = [str(c.value) if c.value is not None else "" for c in dst_ws[1]]
+            try:
+                done_col   = hdr.index("Done")     + 1
+                mouser_col = hdr.index("Mouser #") + 1
+            except ValueError:
+                print("WARNING: Remove_Overstock header missing Done or Mouser # "
+                      "— cannot restore prior marks")
+            else:
+                restored = set()
+                for r in range(2, dst_ws.max_row + 1):
+                    mpn = dst_ws.cell(row=r, column=mouser_col).value
+                    if mpn is None:
+                        continue
+                    key = str(mpn).strip()
+                    if key in prior_remove_marks:
+                        dst_ws.cell(row=r, column=done_col,
+                                    value=prior_remove_marks[key])
+                        restored.add(key)
+                missing = set(prior_remove_marks) - restored
+                if missing:
+                    print(f"WARNING: {len(missing)} prior Remove_Overstock mark(s) "
+                          f"could NOT be matched (Mouser # no longer in the diff):")
+                    for m in sorted(missing):
+                        print(f"    {m}  (mark was '{prior_remove_marks[m]}')")
+
+        if sn == "Add" and prior_add_marks:
+            hdr = [str(c.value) if c.value is not None else "" for c in dst_ws[1]]
+            def _col(names):
+                for n in names:
+                    if n in hdr:
+                        return hdr.index(n) + 1
+                return None
+            mark_col = _col(["In stock", "Done"])
+            kind_col = _col(["Kind"])
+            val_col  = _col(["Value / MPN", "Value"])
+            fp_col   = _col(["Footprint"])
+            if not (mark_col and kind_col and val_col and fp_col):
+                print("WARNING: Add tab header missing required columns "
+                      "— cannot restore prior marks")
+            else:
+                restored = set()
+                for r in range(2, dst_ws.max_row + 1):
+                    kind = dst_ws.cell(row=r, column=kind_col).value
+                    val  = dst_ws.cell(row=r, column=val_col).value
+                    fp   = dst_ws.cell(row=r, column=fp_col).value
+                    key = (str(kind or "").strip(),
+                           str(val  or "").strip(),
+                           str(fp   or "").strip())
+                    if key in prior_add_marks:
+                        dst_ws.cell(row=r, column=mark_col,
+                                    value=prior_add_marks[key])
+                        restored.add(key)
+                missing = set(prior_add_marks) - restored
+                if missing:
+                    print(f"WARNING: {len(missing)} prior Add mark(s) could NOT "
+                          f"be matched (no row with same Kind/Value/Footprint):")
+                    for k in sorted(missing):
+                        print(f"    {k}  (mark was '{prior_add_marks[k]}')")
 
     dst.save(out)
     return out

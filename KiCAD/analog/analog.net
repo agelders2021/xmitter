@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "C:\\Users\\AlAnd\\Git Backed Projects\\xmitter\\KiCAD\\analog\\analog.kicad_sch")
-		(date "2026-11-04T19:48:57")
+		(date "2026-11-10T21:17:08")
 		(tool "Eeschema 10.0.3")
 		(sheet
 			(number "1")
@@ -5554,8 +5554,8 @@
 				(names "/DAC Control/")
 				(tstamps "/e880f7dd-82a1-4efe-84f5-e6a9d5641736/")
 			)
-			(tstamps "b1d8130b-d0b6-4b74-a10e-871a7c809ab1" "af477169-0b98-42fd-8df9-11aadfd325d5"
-				"c38f690d-b09c-4ffe-8f5d-d131ba361a10" "b85b3590-907d-467d-b9e4-0e0486726e39"
+			(tstamps "af477169-0b98-42fd-8df9-11aadfd325d5" "b1d8130b-d0b6-4b74-a10e-871a7c809ab1"
+				"b85b3590-907d-467d-b9e4-0e0486726e39" "c38f690d-b09c-4ffe-8f5d-d131ba361a10"
 				"9a4916c5-7225-46d4-8e3f-7fe77f08bbee"
 			)
 			(units
@@ -6025,6 +6025,63 @@
 			)
 		)
 		(comp
+			(ref "J3")
+			(value "Screw_Terminal_01x03")
+			(footprint "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-3_1x03_P5.00mm_Horizontal")
+			(description "Generic screw terminal, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)")
+			(fields
+				(field
+					(name "Footprint") "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-3_1x03_P5.00mm_Horizontal")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Generic screw terminal, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)")
+			)
+			(libsource
+				(lib "Connector")
+				(part "Screw_Terminal_01x03")
+				(description "Generic screw terminal, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)")
+			)
+			(property
+				(name "Sheetname")
+				(value "Front_Panel")
+			)
+			(property
+				(name "Sheetfile")
+				(value "front_panel.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "screw terminal")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "TerminalBlock*:*")
+			)
+			(sheetpath
+				(names "/Front_Panel/")
+				(tstamps "/19629655-940a-4a8c-badf-c4a5b1597dfd/")
+			)
+			(tstamps "4cffa0de-d2a1-4bac-a832-645cc233f6a0")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+					)
+				)
+			)
+		)
+		(comp
 			(ref "J17")
 			(value "Conn_01x05_Pin")
 			(footprint "Connector_PinHeader_2.54mm:PinHeader_1x05_P2.54mm_Vertical")
@@ -6082,66 +6139,6 @@
 						)
 						(pin
 							(num "5")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "J18")
-			(value "Screw_Terminal_01x04")
-			(footprint "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-4_1x04_P5.00mm_Horizontal")
-			(description "Generic screw terminal, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)")
-			(fields
-				(field
-					(name "Footprint") "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-4_1x04_P5.00mm_Horizontal")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "Generic screw terminal, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)")
-			)
-			(libsource
-				(lib "Connector")
-				(part "Screw_Terminal_01x04")
-				(description "Generic screw terminal, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)")
-			)
-			(property
-				(name "Sheetname")
-				(value "Front_Panel")
-			)
-			(property
-				(name "Sheetfile")
-				(value "front_panel.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "screw terminal")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "TerminalBlock*:*")
-			)
-			(sheetpath
-				(names "/Front_Panel/")
-				(tstamps "/19629655-940a-4a8c-badf-c4a5b1597dfd/")
-			)
-			(tstamps "142b090a-2909-4ffd-8cd7-6dca81a2ffc6")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-						(pin
-							(num "3")
-						)
-						(pin
-							(num "4")
 						)
 					)
 				)
@@ -15798,50 +15795,6 @@
 			)
 		)
 		(libpart
-			(lib "Connector")
-			(part "Screw_Terminal_01x04")
-			(description "Generic screw terminal, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)")
-			(footprints
-				(fp "TerminalBlock*:*")
-			)
-			(fields
-				(field
-					(name "Reference") "J")
-				(field
-					(name "Value") "Screw_Terminal_01x04")
-				(field
-					(name "Footprint")
-				)
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "Generic screw terminal, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)")
-			)
-			(pins
-				(pin
-					(num "1")
-					(name "Pin_1")
-					(type "passive")
-				)
-				(pin
-					(num "2")
-					(name "Pin_2")
-					(type "passive")
-				)
-				(pin
-					(num "3")
-					(name "Pin_3")
-					(type "passive")
-				)
-				(pin
-					(num "4")
-					(name "Pin_4")
-					(type "passive")
-				)
-			)
-		)
-		(libpart
 			(lib "Device")
 			(part "C")
 			(description "Unpolarized capacitor")
@@ -18895,27 +18848,21 @@
 			(name "ENC_INT_RAW")
 			(class "Default")
 			(node
-				(ref "J18")
+				(ref "J3")
 				(pin "1")
 				(pinfunction "Pin_1_1")
 				(pintype "passive")
 			)
 			(node
-				(ref "J18")
+				(ref "J3")
 				(pin "2")
 				(pinfunction "Pin_2_2")
 				(pintype "passive")
 			)
 			(node
-				(ref "J18")
+				(ref "J3")
 				(pin "3")
 				(pinfunction "Pin_3_3")
-				(pintype "passive")
-			)
-			(node
-				(ref "J18")
-				(pin "4")
-				(pinfunction "Pin_4_4")
 				(pintype "passive")
 			)
 			(node

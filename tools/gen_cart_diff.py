@@ -318,7 +318,12 @@ def load_bom():
         elif kind == "T":
             key = ("T", value)
         elif kind == "J":
-            key = ("J", value, it["footprint"])
+            # Group connectors by footprint alone — the "value" field on
+            # connector refs is often a wire-intent label ("Filter In",
+            # "To Antenna") rather than a part descriptor, so keying on it
+            # silently splits identical physical parts into separate BOM
+            # rows (SMA bug caught 2026-11-05).
+            key = ("J", it["footprint"])
         elif kind == "SW":
             key = ("SW", value)
         else:
@@ -760,8 +765,11 @@ def write_diff(matches, add_rows, remove_rows, overstock_rows):
 
     # ── Add tab ──
     ws = wb.create_sheet("Add")
-    headers = ["Kind", "Value / MPN", "BOM qty short", "Order qty (10× for 1/4 W)",
-               "Footprint", "Boards : Refs", "Notes"]
+    # Column A is reserved for user "In stock / done" marks ('x', 'y', etc.)
+    # — restored across regenerations by package_bom_deliverables.py keyed
+    # on (Kind, Value/MPN, Footprint).
+    headers = ["In stock", "Kind", "Value / MPN", "BOM qty short",
+               "Order qty (10× for 1/4 W)", "Footprint", "Boards : Refs", "Notes"]
     ws.append(headers)
     for cell in ws[1]:
         cell.font = Font(bold=True); cell.fill = HEADER_FILL
@@ -772,9 +780,9 @@ def write_diff(matches, add_rows, remove_rows, overstock_rows):
             extras_note = f"wattage: {d.extras}"
         pos_note = connector_positions(d)
         combined = "  |  ".join(filter(None, [pos_note, note, extras_note]))
-        row = [d.kind, d.value, short, order_qty, d.footprint, refs_display(d), combined]
+        row = ["", d.kind, d.value, short, order_qty, d.footprint, refs_display(d), combined]
         ws.append(row)
-        ws.cell(row=ws.max_row, column=1).fill = RED_FILL
+        ws.cell(row=ws.max_row, column=2).fill = RED_FILL
 
     # Build a footprint-hint index so cart Mfr#s that appear embedded in a
     # BOM footprint string get flagged as a "may match this BOM item".
