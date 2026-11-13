@@ -1085,7 +1085,7 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "Diode:1N5817"
+		(symbol "Diode:1N5711"
 			(pin_numbers
 				(hide yes)
 			)
@@ -1108,7 +1108,7 @@
 					)
 				)
 			)
-			(property "Value" "1N5817"
+			(property "Value" "1N5711"
 				(at 0 -2.54 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -1118,7 +1118,7 @@
 					)
 				)
 			)
-			(property "Footprint" "Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal"
+			(property "Footprint" "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
 				(at 0 -4.445 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -1129,7 +1129,7 @@
 					)
 				)
 			)
-			(property "Datasheet" "http://www.vishay.com/docs/88525/1n5817.pdf"
+			(property "Datasheet" "https://www.microsemi.com/document-portal/doc_download/8865-lds-0040-datasheet"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -1140,7 +1140,7 @@
 					)
 				)
 			)
-			(property "Description" "20V 1A Schottky Barrier Rectifier Diode, DO-41"
+			(property "Description" "70V 33mA Schottky diode, DO-35"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -1162,7 +1162,7 @@
 					)
 				)
 			)
-			(property "ki_fp_filters" "D*DO?41*"
+			(property "ki_fp_filters" "D*DO?35*"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -1173,7 +1173,7 @@
 					)
 				)
 			)
-			(symbol "1N5817_0_1"
+			(symbol "1N5711_0_1"
 				(polyline
 					(pts
 						(xy -1.905 0.635) (xy -1.905 1.27) (xy -1.27 1.27) (xy -1.27 -1.27) (xy -0.635 -1.27) (xy -0.635 -0.635)
@@ -1211,7 +1211,7 @@
 					)
 				)
 			)
-			(symbol "1N5817_1_1"
+			(symbol "1N5711_1_1"
 				(pin passive line
 					(at -3.81 0 0)
 					(length 2.54)
@@ -2160,6 +2160,12 @@
 		(uuid "67a556dc-6baa-4ca0-beaf-c999d8eba5df")
 	)
 	(junction
+		(at 237.49 93.98)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "6fa69eaa-01b6-47c5-85d4-fc721fc3633f")
+	)
+	(junction
 		(at 142.24 113.03)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -2188,12 +2194,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "abb7205b-7153-4e05-87a8-c729d68c9287")
-	)
-	(junction
-		(at 237.49 93.98)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "ada9c8d5-e1d1-4bfd-a98f-acb56ef71e05")
 	)
 	(junction
 		(at 111.76 165.1)
@@ -2609,16 +2609,6 @@
 	)
 	(wire
 		(pts
-			(xy 248.92 93.98) (xy 237.49 93.98)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "905384ef-b944-41c6-9723-8c63e6f7edc1")
-	)
-	(wire
-		(pts
 			(xy 102.87 132.08) (xy 105.41 132.08)
 		)
 		(stroke
@@ -2679,7 +2669,7 @@
 	)
 	(wire
 		(pts
-			(xy 237.49 93.98) (xy 212.09 93.98)
+			(xy 212.09 93.98) (xy 237.49 93.98)
 		)
 		(stroke
 			(width 0)
@@ -2736,6 +2726,16 @@
 			(type default)
 		)
 		(uuid "bcd2742d-88bb-4266-86b6-092a3f8d217d")
+	)
+	(wire
+		(pts
+			(xy 237.49 93.98) (xy 248.92 93.98)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c62ddc9e-405f-47c8-8f44-1c6d9d2bcabf")
 	)
 	(wire
 		(pts
@@ -3258,88 +3258,6 @@
 					(size 1.27 1.27)
 				)
 				(justify right)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Diode:1N5817")
-		(at 237.49 97.79 270)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "0ada69be-9aae-452c-94e0-2e2a46a96725")
-		(property "Reference" "D8"
-			(at 240.03 96.2024 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "1N5817"
-			(at 240.03 98.7424 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal"
-			(at 233.045 97.79 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" "http://www.vishay.com/docs/88525/1n5817.pdf"
-			(at 237.49 97.79 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "20V 1A Schottky Barrier Rectifier Diode, DO-41"
-			(at 237.49 97.79 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "887b86ab-7d2d-444f-823b-871269f39b58")
-		)
-		(pin "2"
-			(uuid "95718695-e25b-4069-a118-76074a2dbf78")
-		)
-		(instances
-			(project "analog"
-				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/cb42a2a9-2b6a-4974-a000-9571f3c2a59b"
-					(reference "D8")
-					(unit 1)
-				)
 			)
 		)
 	)
@@ -3983,7 +3901,7 @@
 				)
 			)
 		)
-		(property "Value" "15K"
+		(property "Value" "27K"
 			(at 223.012 117.856 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4482,7 +4400,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "160K"
+		(property "Value" "75K"
 			(at 215.138 100.076 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4614,6 +4532,88 @@
 			(project "analog"
 				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/cb42a2a9-2b6a-4974-a000-9571f3c2a59b"
 					(reference "#PWR229")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Diode:1N5711")
+		(at 237.49 97.79 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "52f1609b-6ccf-48ed-a015-637a72a8ef97")
+		(property "Reference" "D9"
+			(at 240.03 96.2024 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "1N5711"
+			(at 240.03 98.7424 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal"
+			(at 233.045 97.79 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "https://www.microsemi.com/document-portal/doc_download/8865-lds-0040-datasheet"
+			(at 237.49 97.79 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "70V 33mA Schottky diode, DO-35"
+			(at 237.49 97.79 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "cbc9a7d4-520a-40ac-9a16-e15506ff951d")
+		)
+		(pin "1"
+			(uuid "0598aa0d-70de-4e91-81b8-526553897582")
+		)
+		(instances
+			(project "analog"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/cb42a2a9-2b6a-4974-a000-9571f3c2a59b"
+					(reference "D9")
 					(unit 1)
 				)
 			)
@@ -6683,7 +6683,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "2.7K"
+		(property "Value" "3.3K"
 			(at 206.502 123.698 0)
 			(show_name no)
 			(do_not_autoplace no)

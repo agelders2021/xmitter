@@ -2903,12 +2903,6 @@
 		(uuid "9a43e938-068d-4115-976b-ced749891c7b")
 	)
 	(junction
-		(at 110.49 58.42)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "b060441c-8f79-4aee-bd3e-83fd614d4948")
-	)
-	(junction
 		(at 115.57 50.8)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -2925,6 +2919,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "c800da2f-c7bc-4aac-94cc-9519c481b7cc")
+	)
+	(junction
+		(at 110.49 58.42)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "c87bc081-9158-40df-b17b-e91ec014aef7")
 	)
 	(junction
 		(at 46.99 63.5)
@@ -3532,6 +3532,30 @@
 			)
 		)
 	)
+	(global_label "FAULT_N"
+		(shape input)
+		(at 118.11 58.42 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "60c8c19d-70c6-488d-8117-36a260501e50")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 128.8967 58.42 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+	)
 	(global_label "DRIVER_BIAS"
 		(shape output)
 		(at 133.35 68.58 0)
@@ -3936,7 +3960,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "1uF"
+		(property "Value" "100nF"
 			(at 94.488 55.372 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5332,7 +5356,7 @@
 	)
 	(symbol
 		(lib_id "Device:R_US")
-		(at 110.49 54.61 0)
+		(at 114.3 58.42 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -5341,31 +5365,29 @@
 		(in_pos_files yes)
 		(dnp no)
 		(fields_autoplaced yes)
-		(uuid "5ad5ebbc-a3a0-46db-b457-9f99d63b4496")
+		(uuid "57f1545b-7ca3-494d-bcf0-736ead8e40df")
 		(property "Reference" "R47"
-			(at 113.03 53.3399 0)
+			(at 114.3 52.07 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
 			)
 		)
-		(property "Value" "10R"
-			(at 113.03 55.8799 0)
+		(property "Value" "1K"
+			(at 114.3 54.61 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
-			(at 111.506 54.864 90)
+		(property "Footprint" ""
+			(at 114.554 57.404 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5376,7 +5398,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 110.49 54.61 0)
+			(at 114.3 58.42 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5387,7 +5409,7 @@
 			)
 		)
 		(property "Description" "Resistor, US symbol"
-			(at 110.49 54.61 0)
+			(at 114.3 58.42 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5397,11 +5419,11 @@
 				)
 			)
 		)
-		(pin "1"
-			(uuid "f79065ba-e7e1-4266-8f48-82f5c66d579c")
-		)
 		(pin "2"
-			(uuid "634e4bf3-7883-4803-84ec-a5d10ad8556e")
+			(uuid "63d62223-ac03-4473-aeba-dd9e7856e06a")
+		)
+		(pin "1"
+			(uuid "5ca025a1-453a-48af-85d2-d56433985998")
 		)
 		(instances
 			(project "analog"
@@ -6349,7 +6371,7 @@
 		(dnp no)
 		(uuid "9b404d1c-3079-4d8c-943b-516e17d8f57c")
 		(property "Reference" "U4"
-			(at 119.126 59.69 0)
+			(at 120.65 60.706 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6359,7 +6381,7 @@
 			)
 		)
 		(property "Value" "MCP4922-EP"
-			(at 119.126 62.23 0)
+			(at 120.65 63.246 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
