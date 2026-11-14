@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "C:\\Users\\AlAnd\\Git Backed Projects\\xmitter\\KiCAD\\analog\\analog.kicad_sch")
-		(date "2026-11-14T10:09:51")
+		(date "2026-11-14T10:15:00")
 		(tool "Eeschema 10.0.3")
 		(sheet
 			(number "1")
@@ -1168,6 +1168,60 @@
 				(tstamps "/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72/")
 			)
 			(tstamps "0653582b-9804-4bee-80db-4d401e77f900")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C57")
+			(value "100nF 50V")
+			(footprint "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P2.50mm")
+			(description "capacitor, US symbol")
+			(fields
+				(field
+					(name "Footprint") "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P2.50mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "capacitor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "C_US")
+				(description "capacitor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "Arduino")
+			)
+			(property
+				(name "Sheetfile")
+				(value "arduino.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "C_*")
+			)
+			(sheetpath
+				(names "/Arduino/")
+				(tstamps "/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72/")
+			)
+			(tstamps "2c458964-611d-4be7-af31-54a7ba87022b")
 			(units
 				(unit
 					(name "A")
@@ -19889,6 +19943,11 @@
 			(name "ENC_INT_FINAL")
 			(class "Default")
 			(node
+				(ref "C57")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
 				(ref "R77")
 				(pin "2")
 				(pintype "passive")
@@ -20404,6 +20463,11 @@
 			)
 			(node
 				(ref "C56")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "C57")
 				(pin "2")
 				(pintype "passive")
 			)
