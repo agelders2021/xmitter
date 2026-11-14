@@ -10,7 +10,7 @@ the netlist so this doc never lags the schematics.
 - `[PARTIAL]` some pins defined, some still TBD
 - `[TBD]`     no pin assignment yet, placeholder only
 
-Last updated: 2026-10-25.
+Last updated: 2026-11-13.
 
 ## Board inventory (Rev D architecture)
 
@@ -53,8 +53,8 @@ Last updated: 2026-10-25.
   resistor R28 on the LPF board compensates for the G6K coils being
   nominally 12 V) + 4 band-select
   drives + T/R + status sense (RJ45, 8-pin)  [OK]
-- **J4** — Analog → Frontpanel : control umbilical (RJ45)  [OK, see
-  `front_panel_interface.md` for details]
+- **J4** — Analog → local speaker : sidetone audio out (2-pin screw
+  terminal, `TerminalBlock_Phoenix_MKDS-1,5-2`)  [OK]
 - **J31** — Analog ↔ ss_pa : bias, sense, fault, DRIVER_BIAS (RJ45)  [OK]
 - **J35** — Analog → (future tube PA) : all tube control signals
   consolidated on one RJ45  [DNP, no destination today]
@@ -170,23 +170,36 @@ since been removed (see pin 6 note); TRANSMIT_N is retained.
 
 ---
 
-## J4 — Analog → Frontpanel (control umbilical, RJ45)  [OK]
+## J4 — Analog → local speaker (sidetone audio, 2-pin)  [OK]
 
-### Pins (as wired 2026-10-25)
+- **Connector type:** `Connector:Screw_Terminal_01x02`, footprint
+  `TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2_1x02_P5.00mm_Horizontal`
+- **Mates with:** small 8 Ω speaker or ¼" headphone jack pigtail
+- **Location:** `sidetone.kicad_sch`
 
-- **Pin 1 — SDA:** I²C data, +5 V HV bus (post Adafruit #757 shifter on analog)
-- **Pin 2 — SCL:** I²C clock, +5 V HV bus
-- **Pin 3 — MBL_A_P:** MBL-600 encoder channel A, differential positive
-- **Pin 4 — +5 V:** power to frontpanel electronics
-- **Pin 5 — ENC_INT_CLEAN:** encoder interrupt (level-shifted to 3.3 V)
-- **Pin 6 — MBL_A_N:** MBL-600 encoder channel A, differential negative
-- **Pin 7 — MBL_B_P:** MBL-600 encoder channel B, differential positive
-- **Pin 8 — MBL_B_N:** MBL-600 encoder channel B, differential negative
-- **Shield (SH) — GND**
+### Pins
 
-Further details in `Documentation/front_panel_interface.md`. Do not
-change pinout without updating `front_panel_interface.md` first — it
-is the authoritative doc for J4.
+- **Pin 1 — SIDETONE_OUT:** AC-coupled audio from LM386 U19 pin 5 via
+  C74 (220 µF 35 V). Roughly 0.3–1 V RMS at 700 Hz when keyed, zero
+  when GATE_2 is at the envelope-low state (clean cutoff via DGFET
+  Q8 G2).
+- **Pin 2 — GND**
+
+### Sidetone subsystem overview
+
+The sidetone chain mirrors the main RF keyer on `vfo_complete.kicad_sch`:
+Metro A1 (GPIO15) emits a 500–1000 Hz LEDC square wave on the `Sidetone`
+net → R84/R86 divider → Q8 (RCA 40673 DGFET) G1 → Q8 drain (R90 150 Ω
+pull-up to +12 V, R89 220 Ω / C67 0.1 µF source self-bias) → R91 47 kΩ
+→ C70 100 nF DC block → LM386 U19 (default gain 20) → C74 → J4.
+**Keying uses the same GATE_2 net** that drives the RF DGFET keyer —
+one envelope DAC strobe gates both the RF VCA and the local tone,
+guaranteeing audible and RF envelopes are time-locked.
+
+**Historical note:** J4 was previously the RJ45 control umbilical to a
+separate frontpanel board. That board was absorbed into the analog
+board as sub-sheets and the RJ45 removed. J4 refdes was freed up and
+reassigned to this speaker terminal on 2026-11-13.
 
 ---
 
@@ -381,7 +394,7 @@ cable to simplify re-plug after service.
 
 ### Analog-only connectors (not harnessed to protoshield)
 
-Umbilicals / RF: J1 (SMA ss_pa), J2 (RJ45 LPF), J4 (RJ45 frontpanel), J31 (RJ45 ss_pa), J35 (RJ45 future tube-PA, DNP). Power: J5 (shack supply in), J13 (power header spare), J33 (SS_PA_Power out). Discrete: J6 (TX LED cathode), J7 and J10 (DNP future tube-PA relay drives), J21/J32/J34 (spare 2-pin terminals).
+Umbilicals / RF: J1 (SMA ss_pa), J2 (RJ45 LPF), J31 (RJ45 ss_pa), J35 (RJ45 future tube-PA, DNP). Local audio: J4 (speaker, 2-pin, sidetone sheet). Power: J5 (shack supply in), J13 (power header spare), J33 (SS_PA_Power out). Discrete: J6 (TX LED cathode), J7 and J10 (DNP future tube-PA relay drives), J21/J32/J34 (spare 2-pin terminals).
 
 **Note on duplicate protoshield connectors.** Protoshield schematic currently has both J3 (4-pin tube signals via conditioning Rs) and J11 (4-pin tube signals direct) — these carry the same signal set. If this is a leftover from an earlier revision, J3 can be deleted. Verify intent before fab.
 
@@ -389,6 +402,13 @@ Umbilicals / RF: J1 (SMA ss_pa), J2 (RJ45 LPF), J4 (RJ45 frontpanel), J31 (RJ45 
 
 ## Change log
 
+- 2026-11-13: Added `sidetone.kicad_sch` sub-sheet on analog
+  (DGFET keyer identical to the RF path, GATE_2-gated, LM386 audio
+  amp into J4 2-pin screw terminal → local 8 Ω speaker). Reassigned
+  **J4** refdes from the now-removed frontpanel RJ45 to the speaker
+  terminal. New net **Sidetone** wired to Metro A1 (GPIO15) on
+  `arduino.kicad_sch`. Firmware generates the audio tone via LEDC
+  PWM at any integer Hz in 500–1000 Hz (default 700 Hz).
 - 2026-10-25: Added analog↔protoshield harness table (6 pairs, all 1:1
   matching). Rewrote J2, J31 pin lists to reflect current wiring
   (T/R and sense signals added on J2, DRIVER_BIAS and PA_Bias on J31).

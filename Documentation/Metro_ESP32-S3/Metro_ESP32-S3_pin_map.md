@@ -22,6 +22,12 @@ for 0.1" square male pin headers).
 
 - Pin 9   A0 — GPIO14 (ADC2_CH3, RTC, FSPIWP, Touch T14)
 - Pin 10  A1 — GPIO15 (ADC2_CH4, RTC, U0RTS, XTAL_32K_P)
+  **— SIDETONE out.** Drives the `Sidetone` net on `sidetone.kicad_sch`
+  (identical DGFET keyer, LM386 audio amp → J4 speaker). Firmware
+  generates the tone via LEDC: ~700 Hz square, 50 % duty,
+  `ledc_set_freq()` any integer Hz in the 500–1000 Hz range. Zero CPU
+  cost once configured. Keying is handled by the shared GATE_2
+  envelope — do NOT also gate the LEDC on/off; let it run continuously.
 - Pin 11  A2 — GPIO16 (ADC2_CH5, RTC, U0CTS, XTAL_32K_N)
 - Pin 12  A3 — GPIO17 (ADC2_CH6, RTC, U1TXD)
 - Pin 13  A4 — GPIO18 (ADC2_CH7, RTC, U1RXD)
