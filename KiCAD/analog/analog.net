@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "C:\\Users\\AlAnd\\Git Backed Projects\\xmitter\\KiCAD\\analog\\analog.kicad_sch")
-		(date "2026-11-15T21:15:55")
+		(date "2026-11-16T08:57:56")
 		(tool "Eeschema 10.0.3")
 		(sheet
 			(number "1")
@@ -9026,11 +9026,11 @@
 		(comp
 			(ref "SW1")
 			(value "SW_Slide_DPDT")
-			(footprint "Button_Switch_THT:SW_CK_JS202011CQN_DPDT_Straight")
+			(footprint "xmitter:SW_CK_JS202011CQN_DPDT_Straight")
 			(description "Slide Switch, dual pole double throw")
 			(fields
 				(field
-					(name "Footprint") "Button_Switch_THT:SW_CK_JS202011CQN_DPDT_Straight")
+					(name "Footprint") "xmitter:SW_CK_JS202011CQN_DPDT_Straight")
 				(field
 					(name "Datasheet")
 				)
@@ -9038,7 +9038,7 @@
 					(name "Description") "Slide Switch, dual pole double throw")
 			)
 			(libsource
-				(lib "Switch")
+				(lib "xmitter")
 				(part "SW_Slide_DPDT")
 				(description "Slide Switch, dual pole double throw")
 			)
@@ -9073,13 +9073,13 @@
 							(num "3")
 						)
 						(pin
-							(num "6")
+							(num "4")
 						)
 						(pin
 							(num "5")
 						)
 						(pin
-							(num "4")
+							(num "6")
 						)
 					)
 				)
@@ -18138,57 +18138,6 @@
 			)
 		)
 		(libpart
-			(lib "Switch")
-			(part "SW_Slide_DPDT")
-			(description "Slide Switch, dual pole double throw")
-			(fields
-				(field
-					(name "Reference") "SW")
-				(field
-					(name "Value") "SW_Slide_DPDT")
-				(field
-					(name "Footprint")
-				)
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "Slide Switch, dual pole double throw")
-			)
-			(pins
-				(pin
-					(num "1")
-					(name "A")
-					(type "passive")
-				)
-				(pin
-					(num "2")
-					(name "B")
-					(type "passive")
-				)
-				(pin
-					(num "3")
-					(name "C")
-					(type "passive")
-				)
-				(pin
-					(num "4")
-					(name "A")
-					(type "passive")
-				)
-				(pin
-					(num "5")
-					(name "B")
-					(type "passive")
-				)
-				(pin
-					(num "6")
-					(name "C")
-					(type "passive")
-				)
-			)
-		)
-		(libpart
 			(lib "Transistor_FET")
 			(part "2N7000")
 			(description "0.2A Id, 200V Vds, N-Channel MOSFET, 2.6V Logic Level, TO-92")
@@ -19650,6 +19599,57 @@
 		)
 		(libpart
 			(lib "xmitter")
+			(part "SW_Slide_DPDT")
+			(description "Slide Switch, dual pole double throw")
+			(fields
+				(field
+					(name "Reference") "SW")
+				(field
+					(name "Value") "SW_Slide_DPDT")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Slide Switch, dual pole double throw")
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "A")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "B")
+					(type "passive")
+				)
+				(pin
+					(num "3")
+					(name "C")
+					(type "passive")
+				)
+				(pin
+					(num "4")
+					(name "A")
+					(type "passive")
+				)
+				(pin
+					(num "5")
+					(name "B")
+					(type "passive")
+				)
+				(pin
+					(num "6")
+					(name "C")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "xmitter")
 			(part "Si5351A_Breakout")
 			(description "Adafruit Si5351A Clock Generator Breakout, 8KHz-160MHz, STEMMA QT, I2C 0x60")
 			(docs "https://learn.adafruit.com/adafruit-si5351-clock-generator-breakout")
@@ -19774,10 +19774,6 @@
 		(library
 			(logical "Regulator_SwitchedCapacitor")
 			(uri "${KICAD10_SYMBOL_DIR}/Regulator_SwitchedCapacitor.kicad_sym")
-		)
-		(library
-			(logical "Switch")
-			(uri "${KICAD10_SYMBOL_DIR}/Switch.kicad_sym")
 		)
 		(library
 			(logical "Transistor_FET")
@@ -24403,8 +24399,8 @@
 			(class "Default")
 			(node
 				(ref "SW1")
-				(pin "6")
-				(pinfunction "C_6")
+				(pin "4")
+				(pinfunction "A_4")
 				(pintype "passive")
 			)
 			(node
@@ -24852,23 +24848,23 @@
 		)
 		(net
 			(code "179")
-			(name "unconnected-(SW1-A-Pad4)")
-			(class "Default")
-			(node
-				(ref "SW1")
-				(pin "4")
-				(pinfunction "A_4")
-				(pintype "passive+no_connect")
-			)
-		)
-		(net
-			(code "180")
 			(name "unconnected-(SW1-C-Pad3)")
 			(class "Default")
 			(node
 				(ref "SW1")
 				(pin "3")
 				(pinfunction "C_3")
+				(pintype "passive+no_connect")
+			)
+		)
+		(net
+			(code "180")
+			(name "unconnected-(SW1-C-Pad6)")
+			(class "Default")
+			(node
+				(ref "SW1")
+				(pin "6")
+				(pinfunction "C_6")
 				(pintype "passive+no_connect")
 			)
 		)
