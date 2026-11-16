@@ -1,0 +1,121 @@
+* xmitter Rev D - soft-keyed sidetone with full key-up mute: three U14 (CD74HC4050E) buffers
+* ngspice netlist (the simulator Qucs-S drives). Run:  ngspice sidetone_soft_hold.cir
+* Results are written to spice4qucs.tr1.plot in the working directory.
+* Part names are the KiCad references in analog.net exported 2026-11-15 20:01.
+* CTONE (optional cap across RV2) is not in that netlist.
+* U14 gates: pins 7->6 key detect, 11->12 hold, 9->10 tone AND.
+* The LM386 output parts here are the intended values (C73 220 uF, C74 47 nF,
+* R96 10 ohm); the 20:01 export has 220 nF and 10 nF.
+
+* ---------------- user parameters ----------------
+.param vz    = 4.8      ; D3 Zener voltage (4.8 realistic, 5.1 nominal)
+.param vdac  = 4.87     ; DAC full scale = FAULT_N high
+.param klev  = 1.0      ; key-down envelope level, fraction of DAC full scale
+.param vth   = 1.65     ; U14 switching point (0.94 / 1.65 / 2.36 corners)
+.param kpot  = 0.10     ; RV2 wiper position, 0 = GND end, 1 = top
+.param ftone = 700      ; sidetone pitch, Hz
+.param rpu   = 100k     ; R91, pull-up on U14 pin 7 (1e12 = not fitted)
+.param tr    = 5m       ; envelope rise and fall time
+.param t1    = 5m       ; key-down instant
+.param t2    = 45m      ; key-up instant
+
+* ---------------- tuning values (see sidetone_tuning.md) ----------
+.param renv  = 2.2k     ; envelope resistor, pin 6 to envelope node
+.param cenv  = 1u       ; envelope capacitor: edge softness
+.param rhold = 150k     ; hold resistor: how long the tone runs after key-up
+.param chold = 100n     ; hold capacitor
+.param rchop = 22k      ; envelope node to audio node
+.param cx    = 1n       ; audio node to ground: brightness, spike removal
+.param r90   = 100k     ; audio node to C70: maximum level
+.param c70   = 10n      ; DC block: low-frequency corner
+.param ctone = 1p       ; optional cap across RV2: mellows the tone (1p = not fitted)
+
+* ---------------- derived values -----------------
+.param vlo   = {-0.901*vz}
+.param vhi   = {1.91*klev*vdac - 0.901*vz}
+.param gcmp  = 200      ; comparator sharpness, 1/V
+
+* ---------------- supplies -----------------------
+V5    p5    0  DC 5
+VTH   nth   0  DC {vth}        ; "negative input": U14 transfer point
+
+* ---------------- GATE_2 envelope (U11 output after R20) -------------
+* raised-cosine key-down at t1 and key-up at t2
+BENV  env   0  V = time < {t1} ? 0 : time < {t1+tr} ? 0.5-0.5*cos(pi*(time-{t1})/{tr}) :
++ time < {t2} ? 1 : time < {t2+tr} ? 0.5+0.5*cos(pi*(time-{t2})/{tr}) : 0
+RENV  env   0  1meg
+BG2   gate2 0  V = {vlo} + ({vhi}-({vlo}))*V(env)
+
+* ---------------- threshold gate: U14 pins 7 -> 6 --------------------
+R89   gate2 n7   100k
+R91   p5    n7   {rpu}
+R86   n7    p6   1meg
+CIN7  n7    0    5p
+BU14A p6i   0    V = 1.65*(1 + tanh({gcmp}*(V(n7)-V(nth))))
+RO6   p6i   p6   50
+
+* ---------------- tone from Metro A1 (LEDC, 3.3 V square) ------------
+VTONE tone  0  PULSE(0 3.3 0 1u 1u {0.5/ftone} {1/ftone})
+
+* ---------------- envelope: RC on the key signal ----------------------
+R93   p6    ekey {renv}
+C67   ekey  0    {cenv}
+
+* ---------------- hold: keeps the tone running through the release ----
+D8    p6    hold D1N5711
+C68   hold  0    {chold}
+R94   hold  0    {rhold}
+R95   p12   hold 10meg
+BU14C p12i  0    V = 1.65*(1 + tanh({gcmp}*(V(hold)-V(nth))))
+RO12  p12i  p12  50
+
+* ---------------- AND gate: tone passes only while hold is high -------
+R84   tone  n9   47k
+D10   n9    p12  D1N5711
+CIN9  n9    0    5p
+BU14B p10i  0    V = 1.65*(1 + tanh({gcmp}*(V(n9)-V(nth))))
+RO10  p10i  p10  50
+
+* ---------------- chopper: gated tone chops the envelope --------------
+R92   ekey  x    {rchop}
+D11   x     p10  D1N5711
+C69   x     0    {cx}
+
+* ---------------- level, DC block, trimmer ---------------------------
+R90   x     c70a {r90}
+C70   c70a  rvtop {c70}
+RV2A  rvtop win  {10k*(1-kpot)+1m}
+RV2B  win   0    {10k*kpot+1m}
+CTONE rvtop 0    {ctone}
+
+* ---------------- LM386 (behavioural: 50k input, gain 20, 12 V rail) -
+RIN   win   0    50k
+BU19  u19o  0    V = 6 + max(min(20*V(win), 4.5), -5)
+RO19  u19o  pin5 0.5
+R96   pin5  zob  10
+C74   zob   0    47n
+C73   pin5  spk  220u
+RSPK  spk   0    8
+
+.model D1N4148 D(Is=2.52n Rs=0.568 N=1.752 Cjo=4p M=0.4 tt=20n Bv=75 Ibv=5u)
+.model D1N5711 D(Is=315n Rs=2.8 N=2.03 Cjo=2p Vj=0.1 M=0.333 Bv=70 Ibv=10u tt=1.44n)
+
+.options reltol=1e-4 method=gear
+.tran 5u 100m 0 5u uic
+
+.control
+set noaskquit
+run
+meas tran g2_on   find v(gate2) when v(p6)=1.65 rise=1
+meas tran g2_off  find v(gate2) when v(p6)=1.65 fall=1
+meas tran n7_mute find v(n7) at=2m
+meas tran win_pk  max v(win) from=25m to=40m
+meas tran win_mn  min v(win) from=25m to=40m
+meas tran win_on  max v(win) from=5m to=15m
+meas tran spk_pk  max v(spk) from=25m to=40m
+meas tran spk_mut max v(spk) from=80m to=98m
+meas tran t_hold when v(p12)=1.65 fall=1
+write spice4qucs.tr1.plot v(gate2) v(n7) v(nth) v(p6) v(tone) v(ekey) v(hold) v(p12) v(n9) v(p10) v(x) v(rvtop) v(win) v(pin5) v(spk)
+exit
+.endc
+.end
