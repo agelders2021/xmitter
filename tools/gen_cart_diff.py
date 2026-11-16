@@ -1,13 +1,20 @@
 """
-Compare the KiCad BOM demand (analog + ss_pa + lpf + protoshield) against
-the Mouser cart export and emit a cart-diff spreadsheet.
+Compare the KiCad BOM demand (analog + ss_pa + lpf) against the Mouser
+cart export and emit a per-board cart-diff spreadsheet.
 
-Outputs tools/_cart_diff.xlsx with three tabs:
-  - Add               : BOM demand not covered (or short) by the cart.
-                        Resistors with 1/4W bodies are rounded UP to the
-                        next multiple of 10 for the Mouser price break.
-  - Remove_Overstock  : cart lines with no BOM demand or with excess qty.
-  - Matched           : all pairs we were able to pair up (sanity check).
+Outputs tools/_cart_diff.xlsx with one Add + one Remove tab per board,
+plus a Matched sanity tab:
+  - <board>_Add     : that board's BOM demand not covered (or short) by
+                      the cart (matcher runs independently per board, so
+                      the cart is treated as a pool available to each
+                      board — accurate when ordering one board at a time).
+                      Resistors with 1/4W bodies are rounded UP to the
+                      next multiple of 10 for the Mouser price break.
+  - <board>_Remove  : cart lines not needed by THIS board, with a
+                      cross-board hint column listing which other boards
+                      consume the line (so the user can decide whether
+                      to remove now or keep for later board orders).
+  - Matched         : union of all pairs across all boards (sanity).
 
 Matching strategy:
   - Resistors  : normalize both sides to ohms ("6K8" → 6800, "0.22R" → 0.22).
@@ -40,8 +47,9 @@ from gen_board_boms import (
 )
 
 
-CART_XLS = Path(r"C:\Users\AlAnd\Downloads\Cart_Nov14_1144AM.xls")
+CART_XLS = Path(r"C:\Users\AlAnd\Downloads\Cart_Nov16_0903AM.xls")
 OUT      = Path(__file__).resolve().parent / "_cart_diff.xlsx"
+BOARD_ORDER = ["analog", "ss_pa", "lpf"]
 
 
 # ── Value normalization ────────────────────────────────────────────────────
@@ -254,10 +262,11 @@ def kind_of(ref: str) -> str:
     return "X"
 
 
-def load_bom():
-    """Return list[Demand], grouped by (kind, normalized key)."""
+def _collect_items(board_filter: str | None = None):
     all_items = []
     for board, netfile in BOARDS:
+        if board_filter is not None and board != board_filter:
+            continue
         if not Path(netfile).exists():
             continue
         comps = parse_netlist(netfile)
@@ -274,8 +283,11 @@ def load_bom():
                 "description": c["description"],
                 "sheet": sheet_map.get(c["ref"], "?"),
             })
+    return all_items
 
-    # Group by (kind, canonical key)
+
+def _group_items(all_items):
+    """Group a list of BOM items by (kind, canonical key) → Demand."""
     groups: dict[tuple, Demand] = {}
     for it in all_items:
         kind = kind_of(it["ref"])
@@ -341,6 +353,17 @@ def load_bom():
                 d.value = value
         groups[key].board_refs.append((it["board"], it["ref"]))
     return groups
+
+
+def load_bom_per_board() -> dict[str, dict[tuple, Demand]]:
+    """Return {board_name: {group_key: Demand}} — one demand dict per board."""
+    out = {}
+    for board, _ in BOARDS:
+        items = _collect_items(board_filter=board)
+        if not items:
+            continue
+        out[board] = _group_items(items)
+    return out
 
 
 # ── Cart loader ────────────────────────────────────────────────────────────
@@ -823,20 +846,14 @@ def _voltage_bump_hints(add_rows):
     return hints
 
 
-def write_diff(matches, add_rows, remove_rows, overstock_rows):
-    wb = Workbook()
-    wb.remove(wb.active)
-
-    kind_order = {"R":0,"RV":1,"C":2,"L":3,"D":5,"Q":6,"K":7,"U":8,
-                  "F":9,"SW":10,"J":11,"T":12,"TP":99,"X":100}
-
-    bump_hints = _voltage_bump_hints(add_rows)
-
-    # ── Add tab ──
-    ws = wb.create_sheet("Add")
+def _write_add_tab(wb, sheet_name, add_rows, kind_order):
+    """Write one per-board Add tab."""
+    ws = wb.create_sheet(sheet_name)
     # Column A is reserved for user "In stock / done" marks ('x', 'y', etc.)
     # — restored across regenerations by package_bom_deliverables.py keyed
-    # on (Kind, Value/MPN, Footprint).
+    # on (Kind, Value/MPN, Footprint).  The key is board-independent, so a
+    # single "in stock" mark propagates to every per-board tab that has
+    # the same row.
     headers = ["In stock", "Kind", "Value / MPN", "Voltage", "BOM qty short",
                "Order qty (BOM+2 economy)",
                "Order qty (10× for 1/4 W)", "Footprint",
@@ -844,12 +861,12 @@ def write_diff(matches, add_rows, remove_rows, overstock_rows):
     ws.append(headers)
     for cell in ws[1]:
         cell.font = Font(bold=True); cell.fill = HEADER_FILL
-    for d, short, note in sorted(add_rows, key=lambda t: (kind_order.get(t[0].kind, 50), t[0].value or "")):
+
+    bump_hints = _voltage_bump_hints(add_rows)
+    for d, short, note in sorted(add_rows,
+            key=lambda t: (kind_order.get(t[0].kind, 50), t[0].value or "")):
         qty10 = round_up_10(short) if is_quarter_watt_resistor(d) else short
-        qty_economy = short + 2 if short >= 1 else short  # at least 2 extra
-        # For the specialty high-wattage resistors and non-passives,
-        # BOM+2 may be unnecessarily high — but "2 extra" is the floor
-        # the user asked for.
+        qty_economy = short + 2 if short >= 1 else short
         voltage = _cap_voltage_from_value(d.value) if d.kind == "C" else ""
         extras_note = ""
         if d.kind == "R" and d.extras:
@@ -863,21 +880,95 @@ def write_diff(matches, add_rows, remove_rows, overstock_rows):
         ws.cell(row=ws.max_row, column=2).fill = RED_FILL
         if bump_note:
             ws.cell(row=ws.max_row, column=len(headers)).fill = YELLOW_FILL
+    return ws
 
-    # Build a footprint-hint index so cart Mfr#s that appear embedded in a
-    # BOM footprint string get flagged as a "may match this BOM item".
+
+def _write_remove_tab(wb, sheet_name, board, remove_rows, overstock_rows,
+                      cross_board_use, fp_hint_for):
+    """Write one per-board Remove tab.
+
+    cross_board_use: dict[cart_line] -> {other_board_name: qty_consumed_there}
+    The hint column tells the user whether a 'REMOVE' row is truly orphaned
+    or is just not-wanted-by-this-board but still wanted by another one.
+    """
+    ws = wb.create_sheet(sheet_name)
+    headers = ["Done", "Line", "Mouser #", "Mfr #", "Manufacturer",
+               "Description", "Cart qty", f"{board} need",
+               "Action", "Reason / cross-board use"]
+    ws.append(headers)
+    for cell in ws[1]:
+        cell.font = Font(bold=True); cell.fill = HEADER_FILL
+
+    def _cross_note(line_num):
+        others = cross_board_use.get(line_num, {})
+        if not others:
+            return ""
+        parts = [f"{b}:{q}" for b, q in sorted(others.items())]
+        return f"needed by: {', '.join(parts)}"
+
+    combined = [("REMOVE", c, 0) for c in remove_rows] + \
+               [("REDUCE", c, used) for c, used in overstock_rows]
+    combined.sort(key=lambda t: t[1].line, reverse=True)
+    for action, c, used in combined:
+        cross = _cross_note(c.line)
+        if action == "REMOVE":
+            hint = fp_hint_for(c.mfr)
+            reason_parts = ["No matching BOM demand for " + board]
+            if cross:
+                reason_parts.append(cross)
+            if hint:
+                reason_parts.append(f"may match: {hint} — verify before removing")
+            reason = "  |  ".join(reason_parts)
+            ws.append(["", c.line, c.mouser, c.mfr, c.manufacturer, c.desc,
+                       c.qty, 0, "REMOVE", reason])
+            ws.cell(row=ws.max_row, column=9).fill = (
+                YELLOW_FILL if (hint or cross) else RED_FILL)
+        else:  # REDUCE
+            excess = c.qty - used
+            reason_parts = [f"Only {used} needed by {board}, {excess} overstock"]
+            if cross:
+                reason_parts.append(cross)
+            reason = "  |  ".join(reason_parts)
+            ws.append(["", c.line, c.mouser, c.mfr, c.manufacturer, c.desc,
+                       c.qty, used, f"REDUCE by {excess}", reason])
+            ws.cell(row=ws.max_row, column=9).fill = YELLOW_FILL
+    return ws
+
+
+def write_diff(per_board_results, cart_lines):
+    """Write _cart_diff.xlsx with per-board Add + Remove tabs.
+
+    per_board_results: dict[board] = (matches, add_rows, remove_rows, overstock_rows)
+    """
+    wb = Workbook()
+    wb.remove(wb.active)
+
+    kind_order = {"R":0,"RV":1,"C":2,"L":3,"D":5,"Q":6,"K":7,"U":8,
+                  "F":9,"SW":10,"J":11,"T":12,"TP":99,"X":100}
+
+    # Cross-board consumption map (line# -> {other_board: qty}) for
+    # the Remove-tab annotation.
+    all_consumption = defaultdict(lambda: defaultdict(int))
+    all_matches = []
+    for board, (matches, _add, _remove, _over) in per_board_results.items():
+        for m in matches:
+            if m["qty_used"] > 0:
+                all_consumption[m["cart"].line][board] += m["qty_used"]
+        all_matches.extend((board, m) for m in matches)
+
+    # Footprint-hint index spans every board's Add rows so a "may match"
+    # catches hints even across board boundaries.
     fp_hint_map = []
-    for d, _, _ in add_rows:
-        fp = (d.footprint or "")
-        if fp:
-            fp_hint_map.append((fp, d))
+    for board, (_m, add_rows, _r, _o) in per_board_results.items():
+        for d, _, _ in add_rows:
+            fp = (d.footprint or "")
+            if fp:
+                fp_hint_map.append((fp, d))
 
     def fp_hint_for(cart_mfr: str) -> str:
-        """Return a 'may match' hint if any digit-bearing alphanumeric chunk
-        of cart_mfr (length ≥ 3) appears literally in an un-matched BOM
-        footprint string."""
         mfr_up = (cart_mfr or "").upper()
-        tokens = [t for t in re.findall(r"[A-Z0-9]{3,}", mfr_up) if re.search(r"\d", t)]
+        tokens = [t for t in re.findall(r"[A-Z0-9]{3,}", mfr_up)
+                  if re.search(r"\d", t)]
         for fp, d in fp_hint_map:
             fp_up = fp.upper()
             for tok in tokens:
@@ -885,63 +976,54 @@ def write_diff(matches, add_rows, remove_rows, overstock_rows):
                     return f"BOM {d.value} ({fp})"
         return ""
 
-    # ── Remove / Overstock tab ──
-    ws = wb.create_sheet("Remove_Overstock")
-    # Column A is reserved for the user to mark progress ("x", "done", etc.)
-    # — leave it blank here so reruns don't trample those marks.  The
-    # packager (package_bom_deliverables.py) migrates values from the prior
-    # Documentation file into this column keyed by cart line number.
-    headers = ["Done", "Line", "Mouser #", "Mfr #", "Manufacturer",
-               "Description", "Cart qty", "BOM need", "Action", "Reason"]
-    ws.append(headers)
-    for cell in ws[1]:
-        cell.font = Font(bold=True); cell.fill = HEADER_FILL
-    # Single pass, primary sort: cart line number descending.  Mouser
-    # renumbers lines after each delete, so operating top-down from the
-    # highest line keeps the lower line numbers stable while the user
-    # works through deletions.  REMOVE and REDUCE rows are interleaved
-    # so the user walks the cart in one consistent top-down order.
-    combined = [("REMOVE", c, 0) for c in remove_rows] + \
-               [("REDUCE", c, used) for c, used in overstock_rows]
-    combined.sort(key=lambda t: t[1].line, reverse=True)
-    for action, c, used in combined:
-        if action == "REMOVE":
-            hint = fp_hint_for(c.mfr)
-            reason = "No matching BOM demand"
-            if hint:
-                reason += f"  (may match: {hint} — verify before removing)"
-            ws.append(["", c.line, c.mouser, c.mfr, c.manufacturer, c.desc,
-                       c.qty, 0, "REMOVE", reason])
-            ws.cell(row=ws.max_row, column=9).fill = (
-                YELLOW_FILL if hint else RED_FILL)
-        else:  # REDUCE
-            excess = c.qty - used
-            ws.append(["", c.line, c.mouser, c.mfr, c.manufacturer, c.desc,
-                       c.qty, used, f"REDUCE by {excess}",
-                       f"Only {used} needed by BOM, {excess} overstock"])
-            ws.cell(row=ws.max_row, column=9).fill = YELLOW_FILL
+    # Per-board tabs
+    board_order_present = [b for b in BOARD_ORDER if b in per_board_results]
+    for board in board_order_present:
+        matches, add_rows, remove_rows, overstock_rows = per_board_results[board]
+        # On the Remove tab for THIS board, cross_board_use filters the
+        # consumption map down to other boards only.
+        cross_for_board = {}
+        for line, by_board in all_consumption.items():
+            others = {b: q for b, q in by_board.items() if b != board}
+            if others:
+                cross_for_board[line] = others
+        _write_add_tab(wb, f"{board}_Add", add_rows, kind_order)
+        _write_remove_tab(wb, f"{board}_Remove", board,
+                          remove_rows, overstock_rows,
+                          cross_for_board, fp_hint_for)
 
-    # ── Matched (sanity) tab ──
+    # Matched (sanity) — union of all per-board matches
     ws = wb.create_sheet("Matched")
-    headers = ["Kind", "BOM value", "BOM qty total", "Qty used from cart",
-               "Cart line", "Cart Mouser #", "Cart Mfr #", "Cart qty",
-               "Cart desc", "Note"]
+    headers = ["Board", "Kind", "BOM value", "BOM qty total",
+               "Qty used from cart", "Cart line", "Cart Mouser #",
+               "Cart Mfr #", "Cart qty", "Cart desc", "Note"]
     ws.append(headers)
     for cell in ws[1]:
         cell.font = Font(bold=True); cell.fill = HEADER_FILL
-    for m in sorted(matches, key=lambda m: (kind_order.get(m["demand"].kind, 50), m["demand"].value or "")):
+    for board, m in sorted(all_matches,
+            key=lambda bm: (BOARD_ORDER.index(bm[0]) if bm[0] in BOARD_ORDER else 99,
+                            kind_order.get(bm[1]["demand"].kind, 50),
+                            bm[1]["demand"].value or "")):
         d = m["demand"]; c = m["cart"]
-        ws.append([d.kind, d.value, d.qty, m["qty_used"], c.line, c.mouser,
-                   c.mfr, c.qty, c.desc, m["note"]])
+        ws.append([board, d.kind, d.value, d.qty, m["qty_used"], c.line,
+                   c.mouser, c.mfr, c.qty, c.desc, m["note"]])
         if m["note"]:
-            ws.cell(row=ws.max_row, column=10).fill = YELLOW_FILL
+            ws.cell(row=ws.max_row, column=11).fill = YELLOW_FILL
 
     widths = {
-        "Add":              [8, 6, 22, 9, 14, 20, 20, 50, 50, 60],
-        "Remove_Overstock": [6, 6, 22, 24, 20, 60, 8, 8, 16, 40],
-        "Matched":          [6, 22, 14, 14, 6, 22, 22, 8, 60, 40],
+        "_Add":     [8, 6, 22, 9, 14, 20, 20, 50, 50, 60],
+        "_Remove":  [6, 6, 22, 24, 20, 60, 8, 8, 16, 60],
+        "Matched":  [8, 6, 22, 14, 14, 6, 22, 22, 8, 60, 40],
     }
-    for sn, ws_widths in widths.items():
+    for sn in wb.sheetnames:
+        if sn == "Matched":
+            ws_widths = widths["Matched"]
+        elif sn.endswith("_Add"):
+            ws_widths = widths["_Add"]
+        elif sn.endswith("_Remove"):
+            ws_widths = widths["_Remove"]
+        else:
+            continue
         ws = wb[sn]
         for col, w in enumerate(ws_widths, start=1):
             ws.column_dimensions[chr(ord("A") + col - 1)].width = w
@@ -951,23 +1033,26 @@ def write_diff(matches, add_rows, remove_rows, overstock_rows):
 
 
 def main():
-    print("Loading BOM demand...")
-    demand_groups = load_bom()
-    print(f"  {len(demand_groups)} grouped demand entries")
+    print("Loading BOM demand (per board)...")
+    per_board_demand = load_bom_per_board()
+    for board, groups in per_board_demand.items():
+        print(f"  {board}: {len(groups)} grouped demand entries")
 
     print("Loading Mouser cart...")
     cart = load_cart()
     print(f"  {len(cart)} cart lines")
 
-    print("Matching...")
-    matches, add_rows, remove_rows, overstock_rows = \
-        match_cart_to_demand(demand_groups, cart)
-    print(f"  matched demand pairings : {len(matches)}")
-    print(f"  add rows (short/missing): {len(add_rows)}")
-    print(f"  cart lines to remove    : {len(remove_rows)}")
-    print(f"  cart lines overstock    : {len(overstock_rows)}")
+    print("Matching per board (cart is treated as a pool available to each "
+          "board — accurate when ordering one board at a time)...")
+    per_board_results = {}
+    for board, demand_groups in per_board_demand.items():
+        matches, add_rows, remove_rows, overstock_rows = \
+            match_cart_to_demand(demand_groups, cart)
+        per_board_results[board] = (matches, add_rows, remove_rows, overstock_rows)
+        print(f"  {board}: matched={len(matches)}  add={len(add_rows)}  "
+              f"remove={len(remove_rows)}  overstock={len(overstock_rows)}")
 
-    out = write_diff(matches, add_rows, remove_rows, overstock_rows)
+    out = write_diff(per_board_results, cart)
     print(f"\nWrote {out}")
 
 
