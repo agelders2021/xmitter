@@ -2700,129 +2700,6 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "xmitter:xTP"
-			(pin_numbers
-				(hide yes)
-			)
-			(pin_names
-				(offset 0.762)
-				(hide yes)
-			)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(in_pos_files yes)
-			(duplicate_pin_numbers_are_jumpers no)
-			(property "Reference" "TP"
-				(at 0 6.858 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Value" "xTP"
-				(at 0 5.08 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
-				(at 5.08 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Datasheet" ""
-				(at 5.08 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Description" "xmitter project test point on broken-off 0.1 inch square pin header; put signal name in Value field so it becomes silk on the PCB"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "ki_keywords" "test point tp"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "ki_fp_filters" "Pin* Test*"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(symbol "xTP_0_1"
-				(circle
-					(center 0 3.302)
-					(radius 0.762)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-			)
-			(symbol "xTP_1_1"
-				(pin passive line
-					(at 0 0 90)
-					(length 2.54)
-					(name "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
 	)
 	(junction
 		(at 128.27 100.33)
@@ -2873,12 +2750,6 @@
 		(uuid "5d9c10ee-86c0-4e48-8df1-16d23f98f5c7")
 	)
 	(junction
-		(at 165.1 119.38)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "67426967-c396-48f6-9d4c-6fe95bccbc30")
-	)
-	(junction
 		(at 92.71 78.74)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -2907,12 +2778,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "bcea1778-d665-4922-b64b-e7e8e16d71d7")
-	)
-	(junction
-		(at 128.27 68.58)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "c09d2d1a-5357-439a-be7c-b325d984878e")
 	)
 	(junction
 		(at 46.99 109.22)
@@ -2950,7 +2815,7 @@
 	)
 	(wire
 		(pts
-			(xy 133.35 68.58) (xy 128.27 68.58)
+			(xy 123.19 68.58) (xy 133.35 68.58)
 		)
 		(stroke
 			(width 0)
@@ -3467,16 +3332,6 @@
 			(type default)
 		)
 		(uuid "ec7ccbde-054a-4fc3-a983-d12f8650a512")
-	)
-	(wire
-		(pts
-			(xy 128.27 68.58) (xy 123.19 68.58)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "ed06ee23-e2ee-4b71-a30d-a2d1c09dcbcc")
 	)
 	(wire
 		(pts
@@ -6555,85 +6410,6 @@
 		)
 	)
 	(symbol
-		(lib_id "xmitter:xTP")
-		(at 165.1 119.38 180)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "a4227c0a-8ded-4ff8-8a51-83f6bf8f93a8")
-		(property "Reference" "TP20"
-			(at 167.64 121.4119 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Value" "xTP"
-			(at 167.64 123.9519 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
-			(at 160.02 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 160.02 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "xmitter project test point on broken-off 0.1 inch square pin header; put signal name in Value field so it becomes silk on the PCB"
-			(at 165.1 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "a39fa84c-ebd0-42d9-8647-984a98459728")
-		)
-		(instances
-			(project "analog"
-				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/e880f7dd-82a1-4efe-84f5-e6a9d5641736"
-					(reference "TP20")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "power:GND")
 		(at 55.88 115.57 270)
 		(unit 1)
@@ -7753,85 +7529,6 @@
 				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/e880f7dd-82a1-4efe-84f5-e6a9d5641736"
 					(reference "U9")
 					(unit 4)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "xmitter:xTP")
-		(at 128.27 68.58 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "c5c4850a-7c3c-4c48-bc87-836dd9019860")
-		(property "Reference" "TP15"
-			(at 130.81 64.0079 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "xTP"
-			(at 130.81 66.5479 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
-			(at 133.35 68.58 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 133.35 68.58 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "xmitter project test point on broken-off 0.1 inch square pin header; put signal name in Value field so it becomes silk on the PCB"
-			(at 128.27 68.58 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "e3f89f7e-7e77-42f0-b520-a79af9993be0")
-		)
-		(instances
-			(project "analog"
-				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/e880f7dd-82a1-4efe-84f5-e6a9d5641736"
-					(reference "TP15")
-					(unit 1)
 				)
 			)
 		)

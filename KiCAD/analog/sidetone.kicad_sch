@@ -2442,16 +2442,16 @@
 		(uuid "105ec74a-f38a-40d8-9d1e-3ecca76a1d55")
 	)
 	(junction
+		(at 120.65 90.17)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "140e3396-12c0-471c-8d3c-eab5b749bf48")
+	)
+	(junction
 		(at 100.33 46.99)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "21173a78-d6e2-4c3a-9b9b-ac9e931e2011")
-	)
-	(junction
-		(at 172.72 96.52)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "27e0d5cf-79e3-435b-8037-f36c7e19e7a8")
 	)
 	(junction
 		(at 83.82 46.99)
@@ -2488,12 +2488,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "c01b3b59-6b8c-4b3f-b5ad-043fbcc19982")
-	)
-	(junction
-		(at 180.34 96.52)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "cf998dae-10b7-4db3-be73-5c05d6a4e2d1")
 	)
 	(junction
 		(at 68.58 33.02)
@@ -2577,16 +2571,6 @@
 	)
 	(wire
 		(pts
-			(xy 181.61 96.52) (xy 180.34 96.52)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "39f2b4c4-4d88-4490-9a71-2b58b12ef6d1")
-	)
-	(wire
-		(pts
 			(xy 146.05 77.47) (xy 149.86 77.47)
 		)
 		(stroke
@@ -2617,16 +2601,6 @@
 	)
 	(wire
 		(pts
-			(xy 173.99 96.52) (xy 172.72 96.52)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "4d3502b2-dfcb-448d-b620-a82c94ae548b")
-	)
-	(wire
-		(pts
 			(xy 100.33 46.99) (xy 95.25 46.99)
 		)
 		(stroke
@@ -2654,6 +2628,26 @@
 			(type default)
 		)
 		(uuid "638d8219-e81f-4e15-b8e3-1f5df73c3d13")
+	)
+	(wire
+		(pts
+			(xy 120.65 82.55) (xy 120.65 90.17)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "72af881f-e2db-4801-a8f1-c82f86151a76")
+	)
+	(wire
+		(pts
+			(xy 181.61 96.52) (xy 185.42 96.52)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "79695469-b05e-4990-beb1-69698d15577e")
 	)
 	(wire
 		(pts
@@ -2847,7 +2841,7 @@
 	)
 	(wire
 		(pts
-			(xy 172.72 96.52) (xy 165.1 96.52)
+			(xy 165.1 96.52) (xy 173.99 96.52)
 		)
 		(stroke
 			(width 0)
@@ -2980,6 +2974,88 @@
 			(project "analog"
 				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/0c2ca40b-fca7-41b5-b78d-fa269185cc48"
 					(reference "C67")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 120.65 78.74 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "09f1617e-1609-41b4-bd49-513fe04f9f5b")
+		(property "Reference" "C76"
+			(at 124.46 77.4699 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "1nF 50V"
+			(at 124.46 80.0099 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 121.6152 82.55 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 120.65 78.74 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Unpolarized capacitor"
+			(at 120.65 78.74 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "075f1c32-ef91-46de-bb03-d7b241750f67")
+		)
+		(pin "2"
+			(uuid "4d3a4d65-e323-477a-9acb-1e61d4cad7b4")
+		)
+		(instances
+			(project "analog"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/0c2ca40b-fca7-41b5-b78d-fa269185cc48"
+					(reference "C76")
 					(unit 1)
 				)
 			)
@@ -3497,7 +3573,7 @@
 	)
 	(symbol
 		(lib_id "Device:C_Polarized")
-		(at 176.53 96.52 90)
+		(at 177.8 96.52 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -3508,7 +3584,7 @@
 		(fields_autoplaced yes)
 		(uuid "222984af-fb7a-4e75-9976-ca8042c67ca1")
 		(property "Reference" "C73"
-			(at 175.641 88.9 90)
+			(at 176.911 88.9 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3518,7 +3594,7 @@
 			)
 		)
 		(property "Value" "220uF 35V"
-			(at 175.641 91.44 90)
+			(at 176.911 91.44 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3528,7 +3604,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm"
-			(at 180.34 95.5548 0)
+			(at 181.61 95.5548 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3539,7 +3615,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 176.53 96.52 0)
+			(at 177.8 96.52 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3550,7 +3626,7 @@
 			)
 		)
 		(property "Description" "Polarized capacitor"
-			(at 176.53 96.52 0)
+			(at 177.8 96.52 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4866,6 +4942,84 @@
 		)
 	)
 	(symbol
+		(lib_id "power:GND")
+		(at 120.65 74.93 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "7ddf13dc-ef22-4368-a3be-c80f5ef529ac")
+		(property "Reference" "#PWR0151"
+			(at 120.65 68.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 120.65 69.85 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 120.65 74.93 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 120.65 74.93 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 120.65 74.93 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "aa2bba14-ef26-4063-886d-144c0e069f08")
+		)
+		(instances
+			(project "analog"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/0c2ca40b-fca7-41b5-b78d-fa269185cc48"
+					(reference "#PWR0151")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R_Potentiometer_US")
 		(at 130.81 93.98 0)
 		(unit 1)
@@ -5620,7 +5774,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 180.34 99.06 0)
+		(at 185.42 99.06 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -5631,7 +5785,7 @@
 		(fields_autoplaced yes)
 		(uuid "c35a078f-3ebc-4ded-9e03-bc45a285be9f")
 		(property "Reference" "#PWR0191"
-			(at 180.34 105.41 0)
+			(at 185.42 105.41 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5642,7 +5796,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 180.34 104.14 0)
+			(at 185.42 104.14 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5652,7 +5806,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 180.34 99.06 0)
+			(at 185.42 99.06 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5663,7 +5817,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 180.34 99.06 0)
+			(at 185.42 99.06 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5674,7 +5828,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 180.34 99.06 0)
+			(at 185.42 99.06 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5938,7 +6092,7 @@
 	)
 	(symbol
 		(lib_id "Connector:Screw_Terminal_01x02")
-		(at 185.42 96.52 0)
+		(at 190.5 96.52 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -5949,7 +6103,7 @@
 		(fields_autoplaced yes)
 		(uuid "fd3b1239-bf34-4368-ac4a-e2265daf92ce")
 		(property "Reference" "J4"
-			(at 187.96 96.5199 0)
+			(at 193.04 96.5199 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5960,7 +6114,7 @@
 			)
 		)
 		(property "Value" "Speaker"
-			(at 187.96 99.0599 0)
+			(at 193.04 99.0599 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5971,7 +6125,7 @@
 			)
 		)
 		(property "Footprint" "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2_1x02_P5.00mm_Horizontal"
-			(at 185.42 96.52 0)
+			(at 190.5 96.52 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5982,7 +6136,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 185.42 96.52 0)
+			(at 190.5 96.52 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5993,7 +6147,7 @@
 			)
 		)
 		(property "Description" "Generic screw terminal, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 185.42 96.52 0)
+			(at 190.5 96.52 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
