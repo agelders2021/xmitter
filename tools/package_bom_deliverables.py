@@ -215,19 +215,22 @@ def build_cart_diff_copy():
     cover = dst.create_sheet("Overview")
     cover["A1"] = "xmitter Rev D — Mouser Cart vs BOM Diff"
     cover["A1"].font = Font(bold=True, size=16)
-    cover["A2"] = f"Cart file : Cart_Nov04_0836PM.xls"
+    cover["A2"] = f"Cart file : Cart_Nov14_1144AM.xls"
     cover["A3"] = f"BOM source: live KiCad netlists (analog, ss_pa, lpf)"
     cover["A4"] = f"Generated : {date.today().isoformat()}"
     cover["A4"].font = Font(italic=True, color="555555")
     cover["A6"] = "Tabs:"
     cover["A6"].font = Font(bold=True)
     cover["A7"] = "  • Add              — BOM items missing from cart (or short)."
-    cover["A8"] = "                        1/4 W resistor qty is rounded UP to the next 10"
-    cover["A9"] = "                        for the Mouser price break."
-    cover["A10"] = "  • Remove_Overstock — cart lines not needed by the BOM, or over-ordered."
-    cover["A11"] = "                        Yellow fill = may match a BOM item by footprint hint;"
-    cover["A12"] = "                        verify before removing."
-    cover["A13"] = "  • Matched          — pairings the matcher found (sanity check)."
+    cover["A8"] = "                        Two order-qty columns:"
+    cover["A9"] = "                          - 'BOM+2 economy' = demand + 2 spares"
+    cover["A10"] = "                          - '10× for 1/4 W' = rounded up to Mouser break"
+    cover["A11"] = "                        Voltage column populated for caps; yellow Notes"
+    cover["A12"] = "                        cell flags a possible voltage-consolidation savings."
+    cover["A13"] = "  • Remove_Overstock — cart lines not needed by the BOM, or over-ordered."
+    cover["A14"] = "                        Yellow fill = may match a BOM item by footprint hint;"
+    cover["A15"] = "                        verify before removing."
+    cover["A16"] = "  • Matched          — pairings the matcher found (sanity check)."
     cover.column_dimensions["A"].width = 90
 
     for sn in src.sheetnames:

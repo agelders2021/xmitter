@@ -40,7 +40,7 @@ from gen_board_boms import (
 )
 
 
-CART_XLS = Path(r"C:\Users\AlAnd\Downloads\Cart_Nov04_0836PM.xls")
+CART_XLS = Path(r"C:\Users\AlAnd\Downloads\Cart_Nov14_1144AM.xls")
 OUT      = Path(__file__).resolve().parent / "_cart_diff.xlsx"
 
 
@@ -756,6 +756,73 @@ def refs_display(d: Demand) -> str:
     return "  |  ".join(parts)
 
 
+def _cap_voltage_from_value(value: str) -> str | None:
+    """Extract '35V', '100V', etc. from a BOM Value string, or None."""
+    if not value:
+        return None
+    m = re.search(r"\b(\d+(?:\.\d+)?)\s*V\b", value)
+    return f"{m.group(1)}V" if m else None
+
+
+def _voltage_bump_hints(add_rows):
+    """For each cap row, return a hint dict keyed by id(demand).
+
+    Hint fires when another row in add_rows has the same capacitance (pF) but
+    a different voltage rating AND a compatible package family (so a
+    higher-voltage line could in principle substitute for the lower one).
+    Point of the hint: user may be able to consolidate orders onto one
+    voltage tier for a quantity discount, instead of ordering two separate
+    Mouser parts.
+    """
+    hints = {}
+    caps = [(d, short) for d, short, _ in add_rows
+            if d.kind == "C" and d.farads_pf is not None]
+    for d, _ in caps:
+        v = _cap_voltage_from_value(d.value)
+        fp_low = (d.footprint or "").lower()
+        if "cp_radial" in fp_low or "cp_axial" in fp_low or "cp " in fp_low:
+            fam = "elec"
+        elif "0805" in fp_low:
+            fam = "0805"
+        elif "0603" in fp_low:
+            fam = "0603"
+        elif "c_disc" in fp_low:
+            fam = "disc"
+        elif "c_rect" in fp_low or "c_axial" in fp_low:
+            fam = "film"
+        else:
+            fam = "other"
+        d._cap_meta = (v, fam, d.farads_pf)
+
+    # Second pass: find peer rows with same capacitance + compatible family
+    for d, short in caps:
+        v, fam, pf = getattr(d, "_cap_meta", (None, None, None))
+        if v is None:
+            continue
+        v_val = float(v.rstrip("V"))
+        peers = []
+        for d2, short2 in caps:
+            if d2 is d:
+                continue
+            v2, fam2, pf2 = getattr(d2, "_cap_meta", (None, None, None))
+            if pf2 != pf or fam2 != fam or v2 is None:
+                continue
+            v2_val = float(v2.rstrip("V"))
+            if v2_val == v_val:
+                continue
+            peers.append((v2_val, d2.value, short2))
+        if peers:
+            peers.sort()
+            # Note each peer; sum the qty that would move if we consolidate
+            parts = [f"{val}V ×{q}" for val, _label, q in peers]
+            total_peer_qty = sum(q for _, _, q in peers)
+            hint = (f"same value at other voltages: {', '.join(parts)} "
+                    f"(combined qty {short + total_peer_qty} on one highest-V line "
+                    f"may hit a cheaper price break)")
+            hints[id(d)] = hint
+    return hints
+
+
 def write_diff(matches, add_rows, remove_rows, overstock_rows):
     wb = Workbook()
     wb.remove(wb.active)
@@ -763,26 +830,39 @@ def write_diff(matches, add_rows, remove_rows, overstock_rows):
     kind_order = {"R":0,"RV":1,"C":2,"L":3,"D":5,"Q":6,"K":7,"U":8,
                   "F":9,"SW":10,"J":11,"T":12,"TP":99,"X":100}
 
+    bump_hints = _voltage_bump_hints(add_rows)
+
     # ── Add tab ──
     ws = wb.create_sheet("Add")
     # Column A is reserved for user "In stock / done" marks ('x', 'y', etc.)
     # — restored across regenerations by package_bom_deliverables.py keyed
     # on (Kind, Value/MPN, Footprint).
-    headers = ["In stock", "Kind", "Value / MPN", "BOM qty short",
-               "Order qty (10× for 1/4 W)", "Footprint", "Boards : Refs", "Notes"]
+    headers = ["In stock", "Kind", "Value / MPN", "Voltage", "BOM qty short",
+               "Order qty (BOM+2 economy)",
+               "Order qty (10× for 1/4 W)", "Footprint",
+               "Boards : Refs", "Notes"]
     ws.append(headers)
     for cell in ws[1]:
         cell.font = Font(bold=True); cell.fill = HEADER_FILL
     for d, short, note in sorted(add_rows, key=lambda t: (kind_order.get(t[0].kind, 50), t[0].value or "")):
-        order_qty = round_up_10(short) if is_quarter_watt_resistor(d) else short
+        qty10 = round_up_10(short) if is_quarter_watt_resistor(d) else short
+        qty_economy = short + 2 if short >= 1 else short  # at least 2 extra
+        # For the specialty high-wattage resistors and non-passives,
+        # BOM+2 may be unnecessarily high — but "2 extra" is the floor
+        # the user asked for.
+        voltage = _cap_voltage_from_value(d.value) if d.kind == "C" else ""
         extras_note = ""
         if d.kind == "R" and d.extras:
             extras_note = f"wattage: {d.extras}"
         pos_note = connector_positions(d)
-        combined = "  |  ".join(filter(None, [pos_note, note, extras_note]))
-        row = ["", d.kind, d.value, short, order_qty, d.footprint, refs_display(d), combined]
+        bump_note = bump_hints.get(id(d), "")
+        combined = "  |  ".join(filter(None, [pos_note, note, extras_note, bump_note]))
+        row = ["", d.kind, d.value, voltage or "", short, qty_economy, qty10,
+               d.footprint, refs_display(d), combined]
         ws.append(row)
         ws.cell(row=ws.max_row, column=2).fill = RED_FILL
+        if bump_note:
+            ws.cell(row=ws.max_row, column=len(headers)).fill = YELLOW_FILL
 
     # Build a footprint-hint index so cart Mfr#s that appear embedded in a
     # BOM footprint string get flagged as a "may match this BOM item".
@@ -857,7 +937,7 @@ def write_diff(matches, add_rows, remove_rows, overstock_rows):
             ws.cell(row=ws.max_row, column=10).fill = YELLOW_FILL
 
     widths = {
-        "Add":              [6, 22, 14, 18, 50, 50, 50],
+        "Add":              [8, 6, 22, 9, 14, 20, 20, 50, 50, 60],
         "Remove_Overstock": [6, 6, 22, 24, 20, 60, 8, 8, 16, 40],
         "Matched":          [6, 22, 14, 14, 6, 22, 22, 8, 60, 40],
     }

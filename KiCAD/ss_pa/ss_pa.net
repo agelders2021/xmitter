@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "C:\\Users\\AlAnd\\Git Backed Projects\\xmitter\\KiCAD\\ss_pa\\ss_pa.kicad_sch")
-		(date "2026-11-13T20:40:01")
+		(date "2026-11-15T11:47:05")
 		(tool "Eeschema 10.0.3")
 		(sheet
 			(number "1")
@@ -1853,7 +1853,7 @@
 		)
 		(comp
 			(ref "L3")
-			(value "1uH")
+			(value "10uH")
 			(footprint "Inductor_THT:L_Axial_L5.3mm_D2.2mm_P2.54mm_Vertical_Vishay_IM-1")
 			(description "Inductor")
 			(fields
@@ -1907,7 +1907,7 @@
 		)
 		(comp
 			(ref "L4")
-			(value "1uH")
+			(value "10uH")
 			(footprint "Inductor_THT:L_Axial_L5.3mm_D2.2mm_P2.54mm_Vertical_Vishay_IM-1")
 			(description "Inductor")
 			(fields
@@ -3562,6 +3562,60 @@
 			)
 		)
 		(comp
+			(ref "R22")
+			(value "100K")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "PA_Stage")
+			)
+			(property
+				(name "Sheetfile")
+				(value "pa_stage.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/PA_Stage/")
+				(tstamps "/6995ca2b-35a4-4871-8cf2-3a0067e62105/")
+			)
+			(tstamps "d5c1af20-a005-4e51-a789-441ff420636a")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
 			(ref "T201")
 			(value "BN61-2402")
 			(footprint "xmitter:BN61-2402_Vertical_HandWound_SecondaryCT")
@@ -4238,7 +4292,7 @@
 				(names "/PA_Stage/")
 				(tstamps "/6995ca2b-35a4-4871-8cf2-3a0067e62105/")
 			)
-			(tstamps "982c043a-044b-43f9-9892-fe82033ab589" "93c44cf3-1fbb-4369-b873-a384a7728ef4"
+			(tstamps "93c44cf3-1fbb-4369-b873-a384a7728ef4" "982c043a-044b-43f9-9892-fe82033ab589"
 				"1578669a-0f19-485e-8254-385f62e503b6"
 			)
 			(units
@@ -5178,6 +5232,11 @@
 				(pintype "passive")
 			)
 			(node
+				(ref "R22")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
 				(ref "T201")
 				(pin "4")
 				(pinfunction "SC_4")
@@ -5358,6 +5417,11 @@
 			)
 			(node
 				(ref "R2")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "R22")
 				(pin "2")
 				(pintype "passive")
 			)

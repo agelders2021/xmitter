@@ -5013,6 +5013,12 @@
 		(uuid "17f101d3-6ea6-4b5b-b2c9-402aa31f252a")
 	)
 	(junction
+		(at 45.72 92.71)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "19a0963e-0112-4290-8d8f-ac26a0e23a53")
+	)
+	(junction
 		(at 245.11 85.09)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -5778,7 +5784,7 @@
 	)
 	(wire
 		(pts
-			(xy 43.18 92.71) (xy 50.8 92.71)
+			(xy 43.18 92.71) (xy 45.72 92.71)
 		)
 		(stroke
 			(width 0)
@@ -6368,6 +6374,16 @@
 	)
 	(wire
 		(pts
+			(xy 45.72 109.22) (xy 45.72 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b68c8a36-1b1d-48f7-9f9c-6af0228be079")
+	)
+	(wire
+		(pts
 			(xy 118.11 105.41) (xy 118.11 109.22)
 		)
 		(stroke
@@ -6665,6 +6681,16 @@
 			(type default)
 		)
 		(uuid "f4e7aa6c-0570-4f8a-835c-47006e3cb42d")
+	)
+	(wire
+		(pts
+			(xy 45.72 92.71) (xy 50.8 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f8085513-1999-496f-aa15-3dba40aa85c8")
 	)
 	(wire
 		(pts
@@ -14797,6 +14823,84 @@
 		)
 	)
 	(symbol
+		(lib_id "power:GND")
+		(at 45.72 116.84 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "d35df1b2-0e67-4243-a5de-975ce1d26158")
+		(property "Reference" "#PWR023"
+			(at 45.72 123.19 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 45.72 121.92 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 45.72 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 45.72 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 45.72 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "b987c4eb-0c6b-44f7-a5e9-939ce6303bf8")
+		)
+		(instances
+			(project "ss_pa"
+				(path "/7b9fe991-54d6-43c4-a637-0ed9ee982c42/6995ca2b-35a4-4871-8cf2-3a0067e62105"
+					(reference "#PWR023")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:Transformer_1P_1S")
 		(at 234.95 90.17 0)
 		(unit 1)
@@ -14965,6 +15069,88 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:R_US")
+		(at 45.72 113.03 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "d5c1af20-a005-4e51-a789-441ff420636a")
+		(property "Reference" "R22"
+			(at 48.26 111.7599 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "100K"
+			(at 48.26 114.2999 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 46.736 113.284 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 45.72 113.03 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor, US symbol"
+			(at 45.72 113.03 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "50804e82-ecf1-45d6-831f-abbc602eebb0")
+		)
+		(pin "2"
+			(uuid "e845c9a1-b58f-416c-9c45-6f3470a3046e")
+		)
+		(instances
+			(project "ss_pa"
+				(path "/7b9fe991-54d6-43c4-a637-0ed9ee982c42/6995ca2b-35a4-4871-8cf2-3a0067e62105"
+					(reference "R22")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "xmitter:IRF510")
 		(at 158.75 109.22 0)
 		(mirror x)
@@ -15095,7 +15281,7 @@
 				)
 			)
 		)
-		(property "Value" "1uH"
+		(property "Value" "10uH"
 			(at 142.748 98.044 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -16375,7 +16561,7 @@
 				)
 			)
 		)
-		(property "Value" "1uH"
+		(property "Value" "10uH"
 			(at 142.748 84.836 90)
 			(show_name no)
 			(do_not_autoplace no)
