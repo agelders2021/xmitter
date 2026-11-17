@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "C:\\Users\\AlAnd\\Git Backed Projects\\xmitter\\KiCAD\\analog\\analog.kicad_sch")
-		(date "2026-11-17T01:58:35")
+		(date "2026-11-17T02:08:53")
 		(tool "Eeschema 10.0.3")
 		(sheet
 			(number "1")
@@ -390,54 +390,6 @@
 		)
 		(sheet
 			(number "9")
-			(name "/Interface/")
-			(tstamps "/5c3f4a2b-7d1e-4f8b-9c6d-0e8a1b2c3d4e/")
-			(title_block
-				(title)
-				(company)
-				(rev)
-				(date)
-				(source "interface.kicad_sch")
-				(comment
-					(number "1")
-					(value "")
-				)
-				(comment
-					(number "2")
-					(value "")
-				)
-				(comment
-					(number "3")
-					(value "")
-				)
-				(comment
-					(number "4")
-					(value "")
-				)
-				(comment
-					(number "5")
-					(value "")
-				)
-				(comment
-					(number "6")
-					(value "")
-				)
-				(comment
-					(number "7")
-					(value "")
-				)
-				(comment
-					(number "8")
-					(value "")
-				)
-				(comment
-					(number "9")
-					(value "")
-				)
-			)
-		)
-		(sheet
-			(number "10")
 			(name "/Fault_Shutdown/")
 			(tstamps "/cb42a2a9-2b6a-4974-a000-9571f3c2a59b/")
 			(title_block
@@ -5638,6 +5590,60 @@
 			)
 		)
 		(comp
+			(ref "C32")
+			(value "0.1uF 50V")
+			(footprint "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm")
+			(description "Unpolarized capacitor")
+			(fields
+				(field
+					(name "Footprint") "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Unpolarized capacitor")
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "Sheetname")
+				(value "Front_Panel")
+			)
+			(property
+				(name "Sheetfile")
+				(value "front_panel.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "C_*")
+			)
+			(sheetpath
+				(names "/Front_Panel/")
+				(tstamps "/19629655-940a-4a8c-badf-c4a5b1597dfd/")
+			)
+			(tstamps "11aeda36-64c0-4775-8bfb-2d9086f37330")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
 			(ref "C33")
 			(value "100nF 50V")
 			(footprint "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm")
@@ -5677,6 +5683,114 @@
 				(tstamps "/19629655-940a-4a8c-badf-c4a5b1597dfd/")
 			)
 			(tstamps "0e4c9d51-7d8e-453c-80ef-9489bdf60749")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C34")
+			(value "100nF 50V")
+			(footprint "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm")
+			(description "Unpolarized capacitor")
+			(fields
+				(field
+					(name "Footprint") "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Unpolarized capacitor")
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "Sheetname")
+				(value "Front_Panel")
+			)
+			(property
+				(name "Sheetfile")
+				(value "front_panel.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "C_*")
+			)
+			(sheetpath
+				(names "/Front_Panel/")
+				(tstamps "/19629655-940a-4a8c-badf-c4a5b1597dfd/")
+			)
+			(tstamps "f04dde45-a0b5-46f8-82c3-716040ca6dd2")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C35")
+			(value "10uF 35V")
+			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
+			(description "Polarized capacitor")
+			(fields
+				(field
+					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Polarized capacitor")
+			)
+			(libsource
+				(lib "Device")
+				(part "C_Polarized")
+				(description "Polarized capacitor")
+			)
+			(property
+				(name "Sheetname")
+				(value "Front_Panel")
+			)
+			(property
+				(name "Sheetfile")
+				(value "front_panel.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "CP_*")
+			)
+			(sheetpath
+				(names "/Front_Panel/")
+				(tstamps "/19629655-940a-4a8c-badf-c4a5b1597dfd/")
+			)
+			(tstamps "f28f2805-f483-4b8c-b079-cc139174ce12")
 			(units
 				(unit
 					(name "A")
@@ -5956,6 +6070,188 @@
 						)
 						(pin
 							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C58")
+			(value "100nF 50V")
+			(footprint "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm")
+			(description "Unpolarized capacitor")
+			(fields
+				(field
+					(name "Footprint") "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Unpolarized capacitor")
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "Sheetname")
+				(value "Front_Panel")
+			)
+			(property
+				(name "Sheetfile")
+				(value "front_panel.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "C_*")
+			)
+			(sheetpath
+				(names "/Front_Panel/")
+				(tstamps "/19629655-940a-4a8c-badf-c4a5b1597dfd/")
+			)
+			(tstamps "c3662cf7-e354-46bd-9b65-f3585010b384")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C59")
+			(value "10uF 35V")
+			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
+			(description "Polarized capacitor")
+			(fields
+				(field
+					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Polarized capacitor")
+			)
+			(libsource
+				(lib "Device")
+				(part "C_Polarized")
+				(description "Polarized capacitor")
+			)
+			(property
+				(name "Sheetname")
+				(value "Front_Panel")
+			)
+			(property
+				(name "Sheetfile")
+				(value "front_panel.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "CP_*")
+			)
+			(sheetpath
+				(names "/Front_Panel/")
+				(tstamps "/19629655-940a-4a8c-badf-c4a5b1597dfd/")
+			)
+			(tstamps "0314b3c2-71d1-4272-bdf5-fa7853932f13")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "ENC5")
+			(value "Encoder_5734")
+			(footprint "Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical")
+			(datasheet "https://www.adafruit.com/product/5734")
+			(description "MBL600-100P-5L rotary encoder (Adafruit #5734), 100 PPR, 5V supply, AM26LS31 line-driver differential output, panel-mount, no switch. Terminals per datasheet: 1=A, 2=B, 3=0V, 4=Vcc, 5=A-, 6=B-.")
+			(fields
+				(field
+					(name "Manufacturer") "Adafruit Industries")
+				(field
+					(name "MPN") "Adafruit #5734")
+				(field
+					(name "Footprint") "Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical")
+				(field
+					(name "Datasheet") "https://www.adafruit.com/product/5734")
+				(field
+					(name "Description") "MBL600-100P-5L rotary encoder (Adafruit #5734), 100 PPR, 5V supply, AM26LS31 line-driver differential output, panel-mount, no switch. Terminals per datasheet: 1=A, 2=B, 3=0V, 4=Vcc, 5=A-, 6=B-.")
+			)
+			(libsource
+				(lib "xmitter")
+				(part "Encoder_5734")
+				(description "MBL600-100P-5L rotary encoder (Adafruit #5734), 100 PPR, 5V supply, AM26LS31 line-driver differential output, panel-mount, no switch. Terminals per datasheet: 1=A, 2=B, 3=0V, 4=Vcc, 5=A-, 6=B-.")
+			)
+			(property
+				(name "Manufacturer")
+				(value "Adafruit Industries")
+			)
+			(property
+				(name "MPN")
+				(value "Adafruit #5734")
+			)
+			(property
+				(name "Sheetname")
+				(value "Front_Panel")
+			)
+			(property
+				(name "Sheetfile")
+				(value "front_panel.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "rotary encoder quadrature 100PPR panel mount RS422 differential line driver AM26LS31 MBL600")
+			)
+			(sheetpath
+				(names "/Front_Panel/")
+				(tstamps "/19629655-940a-4a8c-badf-c4a5b1597dfd/")
+			)
+			(tstamps "726d73a3-8419-4573-9680-a1b93e8ceca6")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "4")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "5")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "6")
 						)
 					)
 				)
@@ -6432,6 +6728,456 @@
 			)
 		)
 		(comp
+			(ref "R26")
+			(value "2.2K")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "Front_Panel")
+			)
+			(property
+				(name "Sheetfile")
+				(value "front_panel.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/Front_Panel/")
+				(tstamps "/19629655-940a-4a8c-badf-c4a5b1597dfd/")
+			)
+			(tstamps "d1a4873d-c2cc-4fa2-87b3-447d59a28e16")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R27")
+			(value "2.2K")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "Front_Panel")
+			)
+			(property
+				(name "Sheetfile")
+				(value "front_panel.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/Front_Panel/")
+				(tstamps "/19629655-940a-4a8c-badf-c4a5b1597dfd/")
+			)
+			(tstamps "25d27c24-d11e-49c5-b7c0-369bd71920e2")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R28")
+			(value "10K")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "Front_Panel")
+			)
+			(property
+				(name "Sheetfile")
+				(value "front_panel.kicad_sch")
+			)
+			(property
+				(name "dnp")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/Front_Panel/")
+				(tstamps "/19629655-940a-4a8c-badf-c4a5b1597dfd/")
+			)
+			(tstamps "65ff023e-8d0b-4a7d-8deb-b5d471976ab9")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R29")
+			(value "10K")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "Front_Panel")
+			)
+			(property
+				(name "Sheetfile")
+				(value "front_panel.kicad_sch")
+			)
+			(property
+				(name "dnp")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/Front_Panel/")
+				(tstamps "/19629655-940a-4a8c-badf-c4a5b1597dfd/")
+			)
+			(tstamps "40a2e97b-f283-41fe-9f57-4b374f283d06")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R32")
+			(value "10K")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "Front_Panel")
+			)
+			(property
+				(name "Sheetfile")
+				(value "front_panel.kicad_sch")
+			)
+			(property
+				(name "dnp")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/Front_Panel/")
+				(tstamps "/19629655-940a-4a8c-badf-c4a5b1597dfd/")
+			)
+			(tstamps "3fd05d89-7cc8-42f7-9cdc-84a465105bde")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R38")
+			(value "10K")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "Front_Panel")
+			)
+			(property
+				(name "Sheetfile")
+				(value "front_panel.kicad_sch")
+			)
+			(property
+				(name "dnp")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/Front_Panel/")
+				(tstamps "/19629655-940a-4a8c-badf-c4a5b1597dfd/")
+			)
+			(tstamps "dcfcd6b4-2ef8-4153-80e2-34a79f779a05")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R39")
+			(value "10K")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "Front_Panel")
+			)
+			(property
+				(name "Sheetfile")
+				(value "front_panel.kicad_sch")
+			)
+			(property
+				(name "dnp")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/Front_Panel/")
+				(tstamps "/19629655-940a-4a8c-badf-c4a5b1597dfd/")
+			)
+			(tstamps "63444a6a-b48b-4271-9bbf-ffd4ae33c0d1")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R40")
+			(value "10K")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "Front_Panel")
+			)
+			(property
+				(name "Sheetfile")
+				(value "front_panel.kicad_sch")
+			)
+			(property
+				(name "dnp")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/Front_Panel/")
+				(tstamps "/19629655-940a-4a8c-badf-c4a5b1597dfd/")
+			)
+			(tstamps "9fc46a13-824b-4cd8-8d96-35e088b72078")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
 			(ref "R49")
 			(value "0R")
 			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
@@ -6873,6 +7619,114 @@
 			)
 		)
 		(comp
+			(ref "R57")
+			(value "120R")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "Front_Panel")
+			)
+			(property
+				(name "Sheetfile")
+				(value "front_panel.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/Front_Panel/")
+				(tstamps "/19629655-940a-4a8c-badf-c4a5b1597dfd/")
+			)
+			(tstamps "421a5819-3957-4144-98cc-86ef584a3575")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R58")
+			(value "120R")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "Front_Panel")
+			)
+			(property
+				(name "Sheetfile")
+				(value "front_panel.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/Front_Panel/")
+				(tstamps "/19629655-940a-4a8c-badf-c4a5b1597dfd/")
+			)
+			(tstamps "f20f4e73-9b14-4c90-9543-060128fe0f8f")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
 			(ref "U10")
 			(value "Adafruit_PCF8575_Breakout")
 			(footprint "xmitter:Adafruit_PCF8575_Breakout")
@@ -6995,6 +7849,232 @@
 						)
 						(pin
 							(num "P8")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "U12")
+			(value "AM26LS32ACN")
+			(footprint "Package_DIP:DIP-16_W7.62mm")
+			(datasheet "https://www.ti.com/lit/ds/symlink/am26ls32ac.pdf")
+			(description "Quad Differential Line Receiver, RS-422/RS-423, DIP-16, TTL outputs, VCC=5V")
+			(fields
+				(field
+					(name "Manufacturer") "Texas Instruments")
+				(field
+					(name "MPN") "AM26LS32ACN")
+				(field
+					(name "Footprint") "Package_DIP:DIP-16_W7.62mm")
+				(field
+					(name "Datasheet") "https://www.ti.com/lit/ds/symlink/am26ls32ac.pdf")
+				(field
+					(name "Description") "Quad Differential Line Receiver, RS-422/RS-423, DIP-16, TTL outputs, VCC=5V")
+			)
+			(libsource
+				(lib "xmitter")
+				(part "AM26LS32ACN")
+				(description "Quad Differential Line Receiver, RS-422/RS-423, DIP-16, TTL outputs, VCC=5V")
+			)
+			(property
+				(name "Manufacturer")
+				(value "Texas Instruments")
+			)
+			(property
+				(name "MPN")
+				(value "AM26LS32ACN")
+			)
+			(property
+				(name "Sheetname")
+				(value "Front_Panel")
+			)
+			(property
+				(name "Sheetfile")
+				(value "front_panel.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "RS-422 RS-485 differential line receiver quad AM26LS32")
+			)
+			(sheetpath
+				(names "/Front_Panel/")
+				(tstamps "/19629655-940a-4a8c-badf-c4a5b1597dfd/")
+			)
+			(tstamps "e717efbd-aec9-49e6-acbf-7a5a82b49267")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "6")
+						)
+						(pin
+							(num "7")
+						)
+						(pin
+							(num "10")
+						)
+						(pin
+							(num "9")
+						)
+						(pin
+							(num "14")
+						)
+						(pin
+							(num "15")
+						)
+						(pin
+							(num "4")
+						)
+						(pin
+							(num "12")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "5")
+						)
+						(pin
+							(num "11")
+						)
+						(pin
+							(num "13")
+						)
+						(pin
+							(num "16")
+						)
+						(pin
+							(num "8")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "U14")
+			(value "CD74HC4050E")
+			(footprint "xmitter:DIP-16_W7.62mm")
+			(datasheet "https://www.ti.com/lit/ds/symlink/cd74hc4050.pdf")
+			(description "Hex non-inverting buffer, HC family (CMOS), 5V tolerant inputs on 3.3V V_DD. Use for logic buffering / level translation / high-impedance isolation.")
+			(fields
+				(field
+					(name "Footprint") "xmitter:DIP-16_W7.62mm")
+				(field
+					(name "Datasheet") "https://www.ti.com/lit/ds/symlink/cd74hc4050.pdf")
+				(field
+					(name "Description") "Hex non-inverting buffer, HC family (CMOS), 5V tolerant inputs on 3.3V V_DD. Use for logic buffering / level translation / high-impedance isolation.")
+			)
+			(libsource
+				(lib "xmitter")
+				(part "CD74HC4050E")
+				(description "Hex non-inverting buffer, HC family (CMOS), 5V tolerant inputs on 3.3V V_DD. Use for logic buffering / level translation / high-impedance isolation.")
+			)
+			(property
+				(name "Sheetname")
+				(value "Front_Panel")
+			)
+			(property
+				(name "Sheetfile")
+				(value "front_panel.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "HC buffer non-inverting hex 4050 CMOS level-shifter")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "DIP?16*")
+			)
+			(sheetpath
+				(names "/Front_Panel/")
+				(tstamps "/19629655-940a-4a8c-badf-c4a5b1597dfd/")
+			)
+			(tstamps "f03853aa-6bcd-458f-8474-106d1050c9fb" "be5c47aa-b5dd-43e8-b348-0b6a53ed65c2"
+				"9e431661-8777-4a9a-8f51-4884ebcaead7" "663a3285-f456-4e11-8389-0ddd1379a099"
+			)
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+				(unit
+					(name "B")
+					(pins
+						(pin
+							(num "5")
+						)
+						(pin
+							(num "4")
+						)
+					)
+				)
+				(unit
+					(name "C")
+					(pins
+						(pin
+							(num "7")
+						)
+						(pin
+							(num "6")
+						)
+					)
+				)
+				(unit
+					(name "D")
+					(pins
+						(pin
+							(num "9")
+						)
+						(pin
+							(num "10")
+						)
+					)
+				)
+				(unit
+					(name "E")
+					(pins
+						(pin
+							(num "11")
+						)
+						(pin
+							(num "12")
+						)
+					)
+				)
+				(unit
+					(name "F")
+					(pins
+						(pin
+							(num "14")
+						)
+						(pin
+							(num "15")
+						)
+					)
+				)
+				(unit
+					(name "G")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "8")
 						)
 					)
 				)
@@ -12609,128 +13689,6 @@
 			)
 		)
 		(comp
-			(ref "U14")
-			(value "CD74HC4050E")
-			(footprint "xmitter:DIP-16_W7.62mm")
-			(datasheet "https://www.ti.com/lit/ds/symlink/cd74hc4050.pdf")
-			(description "Hex non-inverting buffer, HC family (CMOS), 5V tolerant inputs on 3.3V V_DD. Use for logic buffering / level translation / high-impedance isolation.")
-			(fields
-				(field
-					(name "Footprint") "xmitter:DIP-16_W7.62mm")
-				(field
-					(name "Datasheet") "https://www.ti.com/lit/ds/symlink/cd74hc4050.pdf")
-				(field
-					(name "Description") "Hex non-inverting buffer, HC family (CMOS), 5V tolerant inputs on 3.3V V_DD. Use for logic buffering / level translation / high-impedance isolation.")
-			)
-			(libsource
-				(lib "xmitter")
-				(part "CD74HC4050E")
-				(description "Hex non-inverting buffer, HC family (CMOS), 5V tolerant inputs on 3.3V V_DD. Use for logic buffering / level translation / high-impedance isolation.")
-			)
-			(property
-				(name "Sheetname")
-				(value "Sidetone")
-			)
-			(property
-				(name "Sheetfile")
-				(value "sidetone.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "HC buffer non-inverting hex 4050 CMOS level-shifter")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "DIP?16*")
-			)
-			(sheetpath
-				(names "/Sidetone/")
-				(tstamps "/0c2ca40b-fca7-41b5-b78d-fa269185cc48/")
-			)
-			(tstamps "b8fdd84c-65d3-4232-a0aa-169c63e5a403" "a60298d6-b93c-42c2-a854-f0fd54a56319"
-				"12e6b270-2497-46ac-a7e8-b549bd324b3e"
-			)
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "3")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-				(unit
-					(name "B")
-					(pins
-						(pin
-							(num "5")
-						)
-						(pin
-							(num "4")
-						)
-					)
-				)
-				(unit
-					(name "C")
-					(pins
-						(pin
-							(num "7")
-						)
-						(pin
-							(num "6")
-						)
-					)
-				)
-				(unit
-					(name "D")
-					(pins
-						(pin
-							(num "9")
-						)
-						(pin
-							(num "10")
-						)
-					)
-				)
-				(unit
-					(name "E")
-					(pins
-						(pin
-							(num "11")
-						)
-						(pin
-							(num "12")
-						)
-					)
-				)
-				(unit
-					(name "F")
-					(pins
-						(pin
-							(num "14")
-						)
-						(pin
-							(num "15")
-						)
-					)
-				)
-				(unit
-					(name "G")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "8")
-						)
-					)
-				)
-			)
-		)
-		(comp
 			(ref "U19")
 			(value "LM386")
 			(footprint "Package_DIP:DIP-8_W7.62mm")
@@ -14027,1012 +14985,6 @@
 					(pins
 						(pin
 							(num "1")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "C32")
-			(value "0.1uF 50V")
-			(footprint "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm")
-			(description "Unpolarized capacitor")
-			(fields
-				(field
-					(name "Footprint") "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "Unpolarized capacitor")
-			)
-			(libsource
-				(lib "Device")
-				(part "C")
-				(description "Unpolarized capacitor")
-			)
-			(property
-				(name "Sheetname")
-				(value "Interface")
-			)
-			(property
-				(name "Sheetfile")
-				(value "interface.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "cap capacitor")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "C_*")
-			)
-			(sheetpath
-				(names "/Interface/")
-				(tstamps "/5c3f4a2b-7d1e-4f8b-9c6d-0e8a1b2c3d4e/")
-			)
-			(tstamps "07f2365a-6d6f-40c0-b785-31a8024db6cc")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "C34")
-			(value "100nF 50V")
-			(footprint "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm")
-			(description "Unpolarized capacitor")
-			(fields
-				(field
-					(name "Footprint") "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "Unpolarized capacitor")
-			)
-			(libsource
-				(lib "Device")
-				(part "C")
-				(description "Unpolarized capacitor")
-			)
-			(property
-				(name "Sheetname")
-				(value "Interface")
-			)
-			(property
-				(name "Sheetfile")
-				(value "interface.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "cap capacitor")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "C_*")
-			)
-			(sheetpath
-				(names "/Interface/")
-				(tstamps "/5c3f4a2b-7d1e-4f8b-9c6d-0e8a1b2c3d4e/")
-			)
-			(tstamps "982b4ae8-f1e1-4266-b055-db9c8fedc68a")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "C35")
-			(value "10uF 35V")
-			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
-			(description "Polarized capacitor")
-			(fields
-				(field
-					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "Polarized capacitor")
-			)
-			(libsource
-				(lib "Device")
-				(part "C_Polarized")
-				(description "Polarized capacitor")
-			)
-			(property
-				(name "Sheetname")
-				(value "Interface")
-			)
-			(property
-				(name "Sheetfile")
-				(value "interface.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "cap capacitor")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "CP_*")
-			)
-			(sheetpath
-				(names "/Interface/")
-				(tstamps "/5c3f4a2b-7d1e-4f8b-9c6d-0e8a1b2c3d4e/")
-			)
-			(tstamps "979ef849-33e1-495a-a39b-966f6040565e")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "C58")
-			(value "100nF 50V")
-			(footprint "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm")
-			(description "Unpolarized capacitor")
-			(fields
-				(field
-					(name "Footprint") "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "Unpolarized capacitor")
-			)
-			(libsource
-				(lib "Device")
-				(part "C")
-				(description "Unpolarized capacitor")
-			)
-			(property
-				(name "Sheetname")
-				(value "Interface")
-			)
-			(property
-				(name "Sheetfile")
-				(value "interface.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "cap capacitor")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "C_*")
-			)
-			(sheetpath
-				(names "/Interface/")
-				(tstamps "/5c3f4a2b-7d1e-4f8b-9c6d-0e8a1b2c3d4e/")
-			)
-			(tstamps "9fc1bd53-8ea3-413b-a25b-dce39d5c7254")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "C59")
-			(value "10uF 35V")
-			(footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
-			(description "Polarized capacitor")
-			(fields
-				(field
-					(name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "Polarized capacitor")
-			)
-			(libsource
-				(lib "Device")
-				(part "C_Polarized")
-				(description "Polarized capacitor")
-			)
-			(property
-				(name "Sheetname")
-				(value "Interface")
-			)
-			(property
-				(name "Sheetfile")
-				(value "interface.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "cap capacitor")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "CP_*")
-			)
-			(sheetpath
-				(names "/Interface/")
-				(tstamps "/5c3f4a2b-7d1e-4f8b-9c6d-0e8a1b2c3d4e/")
-			)
-			(tstamps "835b6409-d15d-4402-be3a-14986f1e9d35")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "ENC5")
-			(value "Encoder_5734")
-			(footprint "Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical")
-			(datasheet "https://www.adafruit.com/product/5734")
-			(description "MBL600-100P-5L rotary encoder (Adafruit #5734), 100 PPR, 5V supply, AM26LS31 line-driver differential output, panel-mount, no switch. Terminals per datasheet: 1=A, 2=B, 3=0V, 4=Vcc, 5=A-, 6=B-.")
-			(fields
-				(field
-					(name "Manufacturer") "Adafruit Industries")
-				(field
-					(name "MPN") "Adafruit #5734")
-				(field
-					(name "Footprint") "Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical")
-				(field
-					(name "Datasheet") "https://www.adafruit.com/product/5734")
-				(field
-					(name "Description") "MBL600-100P-5L rotary encoder (Adafruit #5734), 100 PPR, 5V supply, AM26LS31 line-driver differential output, panel-mount, no switch. Terminals per datasheet: 1=A, 2=B, 3=0V, 4=Vcc, 5=A-, 6=B-.")
-			)
-			(libsource
-				(lib "xmitter")
-				(part "Encoder_5734")
-				(description "MBL600-100P-5L rotary encoder (Adafruit #5734), 100 PPR, 5V supply, AM26LS31 line-driver differential output, panel-mount, no switch. Terminals per datasheet: 1=A, 2=B, 3=0V, 4=Vcc, 5=A-, 6=B-.")
-			)
-			(property
-				(name "Manufacturer")
-				(value "Adafruit Industries")
-			)
-			(property
-				(name "MPN")
-				(value "Adafruit #5734")
-			)
-			(property
-				(name "Sheetname")
-				(value "Interface")
-			)
-			(property
-				(name "Sheetfile")
-				(value "interface.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "rotary encoder quadrature 100PPR panel mount RS422 differential line driver AM26LS31 MBL600")
-			)
-			(sheetpath
-				(names "/Interface/")
-				(tstamps "/5c3f4a2b-7d1e-4f8b-9c6d-0e8a1b2c3d4e/")
-			)
-			(tstamps "344b912d-0052-4910-842e-a069d2cfc3dc")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "4")
-						)
-						(pin
-							(num "3")
-						)
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "5")
-						)
-						(pin
-							(num "2")
-						)
-						(pin
-							(num "6")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "R26")
-			(value "2.2K")
-			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
-			(description "Resistor, US symbol")
-			(fields
-				(field
-					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "Resistor, US symbol")
-			)
-			(libsource
-				(lib "Device")
-				(part "R_US")
-				(description "Resistor, US symbol")
-			)
-			(property
-				(name "Sheetname")
-				(value "Interface")
-			)
-			(property
-				(name "Sheetfile")
-				(value "interface.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "R res resistor")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "R_*")
-			)
-			(sheetpath
-				(names "/Interface/")
-				(tstamps "/5c3f4a2b-7d1e-4f8b-9c6d-0e8a1b2c3d4e/")
-			)
-			(tstamps "27549ca5-c7a2-4350-9c7e-eec5ef5e7f85")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "R27")
-			(value "2.2K")
-			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
-			(description "Resistor, US symbol")
-			(fields
-				(field
-					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "Resistor, US symbol")
-			)
-			(libsource
-				(lib "Device")
-				(part "R_US")
-				(description "Resistor, US symbol")
-			)
-			(property
-				(name "Sheetname")
-				(value "Interface")
-			)
-			(property
-				(name "Sheetfile")
-				(value "interface.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "R res resistor")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "R_*")
-			)
-			(sheetpath
-				(names "/Interface/")
-				(tstamps "/5c3f4a2b-7d1e-4f8b-9c6d-0e8a1b2c3d4e/")
-			)
-			(tstamps "2a55f95d-7733-4327-8513-821993453a4d")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "R28")
-			(value "10K")
-			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
-			(description "Resistor, US symbol")
-			(fields
-				(field
-					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "Resistor, US symbol")
-			)
-			(libsource
-				(lib "Device")
-				(part "R_US")
-				(description "Resistor, US symbol")
-			)
-			(property
-				(name "Sheetname")
-				(value "Interface")
-			)
-			(property
-				(name "Sheetfile")
-				(value "interface.kicad_sch")
-			)
-			(property
-				(name "dnp")
-			)
-			(property
-				(name "ki_keywords")
-				(value "R res resistor")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "R_*")
-			)
-			(sheetpath
-				(names "/Interface/")
-				(tstamps "/5c3f4a2b-7d1e-4f8b-9c6d-0e8a1b2c3d4e/")
-			)
-			(tstamps "c53d5350-bc2a-4a00-aee4-f95bc69571dc")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "R29")
-			(value "10K")
-			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
-			(description "Resistor, US symbol")
-			(fields
-				(field
-					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "Resistor, US symbol")
-			)
-			(libsource
-				(lib "Device")
-				(part "R_US")
-				(description "Resistor, US symbol")
-			)
-			(property
-				(name "Sheetname")
-				(value "Interface")
-			)
-			(property
-				(name "Sheetfile")
-				(value "interface.kicad_sch")
-			)
-			(property
-				(name "dnp")
-			)
-			(property
-				(name "ki_keywords")
-				(value "R res resistor")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "R_*")
-			)
-			(sheetpath
-				(names "/Interface/")
-				(tstamps "/5c3f4a2b-7d1e-4f8b-9c6d-0e8a1b2c3d4e/")
-			)
-			(tstamps "58a6313a-e7e7-48c3-9682-49b76e8671cb")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "R32")
-			(value "10K")
-			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
-			(description "Resistor, US symbol")
-			(fields
-				(field
-					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "Resistor, US symbol")
-			)
-			(libsource
-				(lib "Device")
-				(part "R_US")
-				(description "Resistor, US symbol")
-			)
-			(property
-				(name "Sheetname")
-				(value "Interface")
-			)
-			(property
-				(name "Sheetfile")
-				(value "interface.kicad_sch")
-			)
-			(property
-				(name "dnp")
-			)
-			(property
-				(name "ki_keywords")
-				(value "R res resistor")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "R_*")
-			)
-			(sheetpath
-				(names "/Interface/")
-				(tstamps "/5c3f4a2b-7d1e-4f8b-9c6d-0e8a1b2c3d4e/")
-			)
-			(tstamps "18b2e167-a588-479a-95bf-a722027755f7")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "R38")
-			(value "10K")
-			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
-			(description "Resistor, US symbol")
-			(fields
-				(field
-					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "Resistor, US symbol")
-			)
-			(libsource
-				(lib "Device")
-				(part "R_US")
-				(description "Resistor, US symbol")
-			)
-			(property
-				(name "Sheetname")
-				(value "Interface")
-			)
-			(property
-				(name "Sheetfile")
-				(value "interface.kicad_sch")
-			)
-			(property
-				(name "dnp")
-			)
-			(property
-				(name "ki_keywords")
-				(value "R res resistor")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "R_*")
-			)
-			(sheetpath
-				(names "/Interface/")
-				(tstamps "/5c3f4a2b-7d1e-4f8b-9c6d-0e8a1b2c3d4e/")
-			)
-			(tstamps "9ee0a237-ea89-40ec-966f-0205c8d392a0")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "R39")
-			(value "10K")
-			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
-			(description "Resistor, US symbol")
-			(fields
-				(field
-					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "Resistor, US symbol")
-			)
-			(libsource
-				(lib "Device")
-				(part "R_US")
-				(description "Resistor, US symbol")
-			)
-			(property
-				(name "Sheetname")
-				(value "Interface")
-			)
-			(property
-				(name "Sheetfile")
-				(value "interface.kicad_sch")
-			)
-			(property
-				(name "dnp")
-			)
-			(property
-				(name "ki_keywords")
-				(value "R res resistor")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "R_*")
-			)
-			(sheetpath
-				(names "/Interface/")
-				(tstamps "/5c3f4a2b-7d1e-4f8b-9c6d-0e8a1b2c3d4e/")
-			)
-			(tstamps "cb284113-7c46-4b43-a831-2fa473b0b0af")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "R40")
-			(value "10K")
-			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
-			(description "Resistor, US symbol")
-			(fields
-				(field
-					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "Resistor, US symbol")
-			)
-			(libsource
-				(lib "Device")
-				(part "R_US")
-				(description "Resistor, US symbol")
-			)
-			(property
-				(name "Sheetname")
-				(value "Interface")
-			)
-			(property
-				(name "Sheetfile")
-				(value "interface.kicad_sch")
-			)
-			(property
-				(name "dnp")
-			)
-			(property
-				(name "ki_keywords")
-				(value "R res resistor")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "R_*")
-			)
-			(sheetpath
-				(names "/Interface/")
-				(tstamps "/5c3f4a2b-7d1e-4f8b-9c6d-0e8a1b2c3d4e/")
-			)
-			(tstamps "c3f8bd6a-1b8c-4d33-8903-4330b6bf1b86")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "R57")
-			(value "120R")
-			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
-			(description "Resistor, US symbol")
-			(fields
-				(field
-					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "Resistor, US symbol")
-			)
-			(libsource
-				(lib "Device")
-				(part "R_US")
-				(description "Resistor, US symbol")
-			)
-			(property
-				(name "Sheetname")
-				(value "Interface")
-			)
-			(property
-				(name "Sheetfile")
-				(value "interface.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "R res resistor")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "R_*")
-			)
-			(sheetpath
-				(names "/Interface/")
-				(tstamps "/5c3f4a2b-7d1e-4f8b-9c6d-0e8a1b2c3d4e/")
-			)
-			(tstamps "28e306f0-ec88-438b-985f-a933ebe2bb76")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "R58")
-			(value "120R")
-			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
-			(description "Resistor, US symbol")
-			(fields
-				(field
-					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "Resistor, US symbol")
-			)
-			(libsource
-				(lib "Device")
-				(part "R_US")
-				(description "Resistor, US symbol")
-			)
-			(property
-				(name "Sheetname")
-				(value "Interface")
-			)
-			(property
-				(name "Sheetfile")
-				(value "interface.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "R res resistor")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "R_*")
-			)
-			(sheetpath
-				(names "/Interface/")
-				(tstamps "/5c3f4a2b-7d1e-4f8b-9c6d-0e8a1b2c3d4e/")
-			)
-			(tstamps "c225a031-0976-4f32-a33b-a52a035cf10f")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "U12")
-			(value "AM26LS32ACN")
-			(footprint "Package_DIP:DIP-16_W7.62mm")
-			(datasheet "https://www.ti.com/lit/ds/symlink/am26ls32ac.pdf")
-			(description "Quad Differential Line Receiver, RS-422/RS-423, DIP-16, TTL outputs, VCC=5V")
-			(fields
-				(field
-					(name "Manufacturer") "Texas Instruments")
-				(field
-					(name "MPN") "AM26LS32ACN")
-				(field
-					(name "Footprint") "Package_DIP:DIP-16_W7.62mm")
-				(field
-					(name "Datasheet") "https://www.ti.com/lit/ds/symlink/am26ls32ac.pdf")
-				(field
-					(name "Description") "Quad Differential Line Receiver, RS-422/RS-423, DIP-16, TTL outputs, VCC=5V")
-			)
-			(libsource
-				(lib "xmitter")
-				(part "AM26LS32ACN")
-				(description "Quad Differential Line Receiver, RS-422/RS-423, DIP-16, TTL outputs, VCC=5V")
-			)
-			(property
-				(name "Manufacturer")
-				(value "Texas Instruments")
-			)
-			(property
-				(name "MPN")
-				(value "AM26LS32ACN")
-			)
-			(property
-				(name "Sheetname")
-				(value "Interface")
-			)
-			(property
-				(name "Sheetfile")
-				(value "interface.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "RS-422 RS-485 differential line receiver quad AM26LS32")
-			)
-			(sheetpath
-				(names "/Interface/")
-				(tstamps "/5c3f4a2b-7d1e-4f8b-9c6d-0e8a1b2c3d4e/")
-			)
-			(tstamps "e986fe68-318d-4d87-83e8-0e2ae3b2213e")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "2")
-						)
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "6")
-						)
-						(pin
-							(num "7")
-						)
-						(pin
-							(num "10")
-						)
-						(pin
-							(num "9")
-						)
-						(pin
-							(num "14")
-						)
-						(pin
-							(num "15")
-						)
-						(pin
-							(num "4")
-						)
-						(pin
-							(num "12")
-						)
-						(pin
-							(num "3")
-						)
-						(pin
-							(num "5")
-						)
-						(pin
-							(num "11")
-						)
-						(pin
-							(num "13")
-						)
-						(pin
-							(num "16")
-						)
-						(pin
-							(num "8")
 						)
 					)
 				)
