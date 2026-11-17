@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "C:\\Users\\AlAnd\\Git Backed Projects\\xmitter\\KiCAD\\analog\\analog.kicad_sch")
-		(date "2026-11-17T02:24:51")
+		(date "2026-11-17T13:59:50")
 		(tool "Eeschema 10.0.3")
 		(sheet
 			(number "1")
@@ -1411,6 +1411,60 @@
 			)
 		)
 		(comp
+			(ref "C78")
+			(value "100nF")
+			(description "Unpolarized capacitor")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Unpolarized capacitor")
+			)
+			(libsource
+				(lib "Device")
+				(part "C")
+				(description "Unpolarized capacitor")
+			)
+			(property
+				(name "Sheetname")
+				(value "Arduino")
+			)
+			(property
+				(name "Sheetfile")
+				(value "arduino.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "cap capacitor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "C_*")
+			)
+			(sheetpath
+				(names "/Arduino/")
+				(tstamps "/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72/")
+			)
+			(tstamps "88f0a7f2-3f78-4e5c-82cd-ea1d60a2acd6")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
 			(ref "J2")
 			(value "8P8C_Shielded")
 			(footprint "xmitter:Amphenol_RJE1D-188_Horizontal_Shielded")
@@ -1876,6 +1930,60 @@
 						)
 						(pin
 							(num "5")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "J24")
+			(value "Screw_Terminal_01x02")
+			(footprint "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2_1x02_P5.00mm_Horizontal")
+			(description "Generic screw terminal, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)")
+			(fields
+				(field
+					(name "Footprint") "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2_1x02_P5.00mm_Horizontal")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Generic screw terminal, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)")
+			)
+			(libsource
+				(lib "Connector")
+				(part "Screw_Terminal_01x02")
+				(description "Generic screw terminal, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)")
+			)
+			(property
+				(name "Sheetname")
+				(value "Arduino")
+			)
+			(property
+				(name "Sheetfile")
+				(value "arduino.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "screw terminal")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "TerminalBlock*:*")
+			)
+			(sheetpath
+				(names "/Arduino/")
+				(tstamps "/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72/")
+			)
+			(tstamps "01b4dfe2-a0a1-4d7d-995b-6ae05381dcd6")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
 						)
 					)
 				)
@@ -3394,6 +3502,114 @@
 				(tstamps "/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72/")
 			)
 			(tstamps "05491d3a-7a4d-4feb-a2e4-42862972b18a")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R98")
+			(value "10K")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "Arduino")
+			)
+			(property
+				(name "Sheetfile")
+				(value "arduino.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/Arduino/")
+				(tstamps "/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72/")
+			)
+			(tstamps "a756ca9c-d1cb-421d-a028-a6d7607f35c8")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R105")
+			(value "1K")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "Arduino")
+			)
+			(property
+				(name "Sheetfile")
+				(value "arduino.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/Arduino/")
+				(tstamps "/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72/")
+			)
+			(tstamps "99273018-a095-4540-bab7-6b48f0224dfc")
 			(units
 				(unit
 					(name "A")
@@ -5302,8 +5518,8 @@
 				(names "/DAC Control/")
 				(tstamps "/e880f7dd-82a1-4efe-84f5-e6a9d5641736/")
 			)
-			(tstamps "af477169-0b98-42fd-8df9-11aadfd325d5" "b85b3590-907d-467d-b9e4-0e0486726e39"
-				"b1d8130b-d0b6-4b74-a10e-871a7c809ab1" "c38f690d-b09c-4ffe-8f5d-d131ba361a10"
+			(tstamps "b1d8130b-d0b6-4b74-a10e-871a7c809ab1" "c38f690d-b09c-4ffe-8f5d-d131ba361a10"
+				"af477169-0b98-42fd-8df9-11aadfd325d5" "b85b3590-907d-467d-b9e4-0e0486726e39"
 				"9a4916c5-7225-46d4-8e3f-7fe77f08bbee"
 			)
 			(units
@@ -12003,6 +12219,276 @@
 				(tstamps "/9d33972e-4f39-4043-b71d-952850d73035/")
 			)
 			(tstamps "42a72d28-c4c2-4910-b82e-b34751037c20")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R100")
+			(value "1K")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "Power")
+			)
+			(property
+				(name "Sheetfile")
+				(value "power.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/Power/")
+				(tstamps "/9d33972e-4f39-4043-b71d-952850d73035/")
+			)
+			(tstamps "be0eac15-f42d-4894-ac78-d956c7debbb4")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R101")
+			(value "1K")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "Power")
+			)
+			(property
+				(name "Sheetfile")
+				(value "power.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/Power/")
+				(tstamps "/9d33972e-4f39-4043-b71d-952850d73035/")
+			)
+			(tstamps "99f8b897-dd3e-4dd6-b646-86692e8b4b6d")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R102")
+			(value "1K")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "Power")
+			)
+			(property
+				(name "Sheetfile")
+				(value "power.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/Power/")
+				(tstamps "/9d33972e-4f39-4043-b71d-952850d73035/")
+			)
+			(tstamps "48f94662-2e66-4645-8a57-3aab3c70bc7e")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R103")
+			(value "1K")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "Power")
+			)
+			(property
+				(name "Sheetfile")
+				(value "power.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/Power/")
+				(tstamps "/9d33972e-4f39-4043-b71d-952850d73035/")
+			)
+			(tstamps "33ef93ff-a90a-41c7-892a-454985ffc6ab")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R104")
+			(value "1K")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "Power")
+			)
+			(property
+				(name "Sheetfile")
+				(value "power.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/Power/")
+				(tstamps "/9d33972e-4f39-4043-b71d-952850d73035/")
+			)
+			(tstamps "8928c9ac-558b-43e6-b3a8-b032168e18a8")
 			(units
 				(unit
 					(name "A")
@@ -19520,9 +20006,8 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "J12")
-				(pin "3")
-				(pinfunction "Pin_3_3")
+				(ref "R103")
+				(pin "1")
 				(pintype "passive")
 			)
 			(node
@@ -19715,12 +20200,6 @@
 				(pintype "power_in")
 			)
 			(node
-				(ref "J12")
-				(pin "4")
-				(pinfunction "Pin_4_4")
-				(pintype "passive")
-			)
-			(node
 				(ref "J17")
 				(pin "2")
 				(pinfunction "Pin_2_2")
@@ -19746,6 +20225,11 @@
 			(node
 				(ref "R10")
 				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "R102")
+				(pin "1")
 				(pintype "passive")
 			)
 			(node
@@ -19821,6 +20305,11 @@
 			(node
 				(ref "R91")
 				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R98")
+				(pin "2")
 				(pintype "passive")
 			)
 			(node
@@ -19970,15 +20459,14 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "J12")
-				(pin "5")
-				(pinfunction "Pin_5_5")
-				(pintype "passive")
-			)
-			(node
 				(ref "J7")
 				(pin "1")
 				(pinfunction "Pin_1_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R101")
+				(pin "1")
 				(pintype "passive")
 			)
 			(node
@@ -20065,12 +20553,6 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "J12")
-				(pin "6")
-				(pinfunction "Pin_6_6")
-				(pintype "passive")
-			)
-			(node
 				(ref "K5")
 				(pin "1")
 				(pinfunction "coil+_1")
@@ -20086,6 +20568,11 @@
 				(ref "K6")
 				(pin "4")
 				(pinfunction "COM_4")
+				(pintype "passive")
+			)
+			(node
+				(ref "R100")
+				(pin "1")
 				(pintype "passive")
 			)
 			(node
@@ -20125,9 +20612,8 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "J12")
-				(pin "2")
-				(pinfunction "Pin_2_2")
+				(ref "R104")
+				(pin "1")
 				(pintype "passive")
 			)
 			(node
@@ -21079,6 +21565,11 @@
 				(pintype "passive")
 			)
 			(node
+				(ref "C78")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
 				(ref "C8")
 				(pin "1")
 				(pintype "passive")
@@ -21214,6 +21705,12 @@
 			)
 			(node
 				(ref "J23")
+				(pin "1")
+				(pinfunction "Pin_1_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "J24")
 				(pin "1")
 				(pinfunction "Pin_1_1")
 				(pintype "passive")
@@ -22852,6 +23349,86 @@
 		)
 		(net
 			(code "86")
+			(name "Net-(J12-Pin_2)")
+			(class "Default")
+			(node
+				(ref "J12")
+				(pin "2")
+				(pinfunction "Pin_2_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "R104")
+				(pin "2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "87")
+			(name "Net-(J12-Pin_3)")
+			(class "Default")
+			(node
+				(ref "J12")
+				(pin "3")
+				(pinfunction "Pin_3_3")
+				(pintype "passive")
+			)
+			(node
+				(ref "R103")
+				(pin "2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "88")
+			(name "Net-(J12-Pin_4)")
+			(class "Default")
+			(node
+				(ref "J12")
+				(pin "4")
+				(pinfunction "Pin_4_4")
+				(pintype "passive")
+			)
+			(node
+				(ref "R102")
+				(pin "2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "89")
+			(name "Net-(J12-Pin_5)")
+			(class "Default")
+			(node
+				(ref "J12")
+				(pin "5")
+				(pinfunction "Pin_5_5")
+				(pintype "passive")
+			)
+			(node
+				(ref "R101")
+				(pin "2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "90")
+			(name "Net-(J12-Pin_6)")
+			(class "Default")
+			(node
+				(ref "J12")
+				(pin "6")
+				(pinfunction "Pin_6_6")
+				(pintype "passive")
+			)
+			(node
+				(ref "R100")
+				(pin "2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "91")
 			(name "Net-(J17-Pin_3)")
 			(class "Default")
 			(node
@@ -22867,7 +23444,7 @@
 			)
 		)
 		(net
-			(code "87")
+			(code "92")
 			(name "Net-(J17-Pin_4)")
 			(class "Default")
 			(node
@@ -22883,7 +23460,7 @@
 			)
 		)
 		(net
-			(code "88")
+			(code "93")
 			(name "Net-(J17-Pin_5)")
 			(class "Default")
 			(node
@@ -22899,7 +23476,7 @@
 			)
 		)
 		(net
-			(code "89")
+			(code "94")
 			(name "Net-(J19-Pin_2)")
 			(class "Default")
 			(node
@@ -22925,7 +23502,7 @@
 			)
 		)
 		(net
-			(code "90")
+			(code "95")
 			(name "Net-(J19-Pin_3)")
 			(class "Default")
 			(node
@@ -22951,7 +23528,7 @@
 			)
 		)
 		(net
-			(code "91")
+			(code "96")
 			(name "Net-(J21-Pin_2)")
 			(class "Default")
 			(node
@@ -22967,7 +23544,23 @@
 			)
 		)
 		(net
-			(code "92")
+			(code "97")
+			(name "Net-(J24-Pin_2)")
+			(class "Default")
+			(node
+				(ref "J24")
+				(pin "2")
+				(pinfunction "Pin_2_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "R105")
+				(pin "1")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "98")
 			(name "Net-(J32-Pin_1)")
 			(class "Default")
 			(node
@@ -22984,7 +23577,7 @@
 			)
 		)
 		(net
-			(code "93")
+			(code "99")
 			(name "Net-(J32-Pin_2)")
 			(class "Default")
 			(node
@@ -23000,7 +23593,7 @@
 			)
 		)
 		(net
-			(code "94")
+			(code "100")
 			(name "Net-(J34-Pin_2)")
 			(class "Default")
 			(node
@@ -23016,7 +23609,7 @@
 			)
 		)
 		(net
-			(code "95")
+			(code "101")
 			(name "Net-(K5-NC)")
 			(class "Default")
 			(node
@@ -23032,7 +23625,7 @@
 			)
 		)
 		(net
-			(code "96")
+			(code "102")
 			(name "Net-(L208-Pad1)")
 			(class "Default")
 			(node
@@ -23053,7 +23646,7 @@
 			)
 		)
 		(net
-			(code "97")
+			(code "103")
 			(name "Net-(L209-Pad1)")
 			(class "Default")
 			(node
@@ -23074,7 +23667,7 @@
 			)
 		)
 		(net
-			(code "98")
+			(code "104")
 			(name "Net-(LCD1-B)")
 			(class "Default")
 			(node
@@ -23090,7 +23683,7 @@
 			)
 		)
 		(net
-			(code "99")
+			(code "105")
 			(name "Net-(LCD1-G)")
 			(class "Default")
 			(node
@@ -23106,7 +23699,7 @@
 			)
 		)
 		(net
-			(code "100")
+			(code "106")
 			(name "Net-(LCD1-R)")
 			(class "Default")
 			(node
@@ -23122,7 +23715,7 @@
 			)
 		)
 		(net
-			(code "101")
+			(code "107")
 			(name "Net-(LCD1-RS)")
 			(class "Default")
 			(node
@@ -23139,7 +23732,7 @@
 			)
 		)
 		(net
-			(code "102")
+			(code "108")
 			(name "Net-(Q1-D)")
 			(class "Default")
 			(node
@@ -23155,7 +23748,7 @@
 			)
 		)
 		(net
-			(code "103")
+			(code "109")
 			(name "Net-(Q2-S)")
 			(class "Default")
 			(node
@@ -23176,7 +23769,7 @@
 			)
 		)
 		(net
-			(code "104")
+			(code "110")
 			(name "Net-(Q3-D)")
 			(class "Default")
 			(node
@@ -23192,7 +23785,7 @@
 			)
 		)
 		(net
-			(code "105")
+			(code "111")
 			(name "Net-(Q4-D)")
 			(class "Default")
 			(node
@@ -23208,7 +23801,7 @@
 			)
 		)
 		(net
-			(code "106")
+			(code "112")
 			(name "Net-(Q5-S)")
 			(class "Default")
 			(node
@@ -23231,7 +23824,7 @@
 			)
 		)
 		(net
-			(code "107")
+			(code "113")
 			(name "Net-(Q10-G)")
 			(class "Default")
 			(node
@@ -23248,7 +23841,7 @@
 			)
 		)
 		(net
-			(code "108")
+			(code "114")
 			(name "Net-(R17-Pad2)")
 			(class "Default")
 			(node
@@ -23264,7 +23857,7 @@
 			)
 		)
 		(net
-			(code "109")
+			(code "115")
 			(name "Net-(R26-Pad2)")
 			(class "Default")
 			(node
@@ -23294,7 +23887,7 @@
 			)
 		)
 		(net
-			(code "110")
+			(code "116")
 			(name "Net-(R27-Pad2)")
 			(class "Default")
 			(node
@@ -23324,7 +23917,7 @@
 			)
 		)
 		(net
-			(code "111")
+			(code "117")
 			(name "Net-(R41-Pad1)")
 			(class "Default")
 			(node
@@ -23340,7 +23933,7 @@
 			)
 		)
 		(net
-			(code "112")
+			(code "118")
 			(name "Net-(R49-Pad1)")
 			(class "Default")
 			(node
@@ -23356,7 +23949,7 @@
 			)
 		)
 		(net
-			(code "113")
+			(code "119")
 			(name "Net-(R50-Pad1)")
 			(class "Default")
 			(node
@@ -23372,7 +23965,7 @@
 			)
 		)
 		(net
-			(code "114")
+			(code "120")
 			(name "Net-(R51-Pad1)")
 			(class "Default")
 			(node
@@ -23388,7 +23981,7 @@
 			)
 		)
 		(net
-			(code "115")
+			(code "121")
 			(name "Net-(R59-Pad1)")
 			(class "Default")
 			(node
@@ -23404,7 +23997,7 @@
 			)
 		)
 		(net
-			(code "116")
+			(code "122")
 			(name "Net-(R76-Pad2)")
 			(class "Default")
 			(node
@@ -23420,7 +24013,7 @@
 			)
 		)
 		(net
-			(code "117")
+			(code "123")
 			(name "Net-(R86-Pad1)")
 			(class "Default")
 			(node
@@ -23445,7 +24038,7 @@
 			)
 		)
 		(net
-			(code "118")
+			(code "124")
 			(name "Net-(SW1-B-Pad2)")
 			(class "Default")
 			(node
@@ -23462,7 +24055,7 @@
 			)
 		)
 		(net
-			(code "119")
+			(code "125")
 			(name "Net-(SW1-B-Pad5)")
 			(class "Default")
 			(node
@@ -23479,7 +24072,7 @@
 			)
 		)
 		(net
-			(code "120")
+			(code "126")
 			(name "Net-(U1--)")
 			(class "Default")
 			(node
@@ -23505,7 +24098,7 @@
 			)
 		)
 		(net
-			(code "121")
+			(code "127")
 			(name "Net-(U4-SCK)")
 			(class "Default")
 			(node
@@ -23521,7 +24114,7 @@
 			)
 		)
 		(net
-			(code "122")
+			(code "128")
 			(name "Net-(U4-SDI)")
 			(class "Default")
 			(node
@@ -23537,7 +24130,7 @@
 			)
 		)
 		(net
-			(code "123")
+			(code "129")
 			(name "Net-(U4-VoutB)")
 			(class "Default")
 			(node
@@ -23553,7 +24146,7 @@
 			)
 		)
 		(net
-			(code "124")
+			(code "130")
 			(name "Net-(U4-VrefA)")
 			(class "Default")
 			(node
@@ -23580,7 +24173,7 @@
 			)
 		)
 		(net
-			(code "125")
+			(code "131")
 			(name "Net-(U4-~{CS})")
 			(class "Default")
 			(node
@@ -23596,7 +24189,7 @@
 			)
 		)
 		(net
-			(code "126")
+			(code "132")
 			(name "Net-(U4-~{LDAC})")
 			(class "Default")
 			(node
@@ -23612,7 +24205,7 @@
 			)
 		)
 		(net
-			(code "127")
+			(code "133")
 			(name "Net-(U6-VI)")
 			(class "Default")
 			(node
@@ -23638,7 +24231,7 @@
 			)
 		)
 		(net
-			(code "128")
+			(code "134")
 			(name "Net-(U7-CAP+)")
 			(class "Default")
 			(node
@@ -23654,7 +24247,7 @@
 			)
 		)
 		(net
-			(code "129")
+			(code "135")
 			(name "Net-(U7-CAP-)")
 			(class "Default")
 			(node
@@ -23670,7 +24263,7 @@
 			)
 		)
 		(net
-			(code "130")
+			(code "136")
 			(name "Net-(U11--)")
 			(class "Default")
 			(node
@@ -23691,7 +24284,7 @@
 			)
 		)
 		(net
-			(code "131")
+			(code "137")
 			(name "Net-(U12-1Y)")
 			(class "Default")
 			(node
@@ -23707,7 +24300,7 @@
 			)
 		)
 		(net
-			(code "132")
+			(code "138")
 			(name "Net-(U12-2Y)")
 			(class "Default")
 			(node
@@ -23723,7 +24316,7 @@
 			)
 		)
 		(net
-			(code "133")
+			(code "139")
 			(name "Net-(U16-D7{slash}ADC1)")
 			(class "Default")
 			(node
@@ -23744,7 +24337,7 @@
 			)
 		)
 		(net
-			(code "134")
+			(code "140")
 			(name "Net-(U16-D8{slash}ADC1)")
 			(class "Default")
 			(node
@@ -23765,7 +24358,7 @@
 			)
 		)
 		(net
-			(code "135")
+			(code "141")
 			(name "Net-(U18-C_A)")
 			(class "Default")
 			(node
@@ -23781,7 +24374,7 @@
 			)
 		)
 		(net
-			(code "136")
+			(code "142")
 			(name "Net-(U18-C_B)")
 			(class "Default")
 			(node
@@ -23797,7 +24390,7 @@
 			)
 		)
 		(net
-			(code "137")
+			(code "143")
 			(name "Net-(U18-RC_A)")
 			(class "Default")
 			(node
@@ -23818,7 +24411,7 @@
 			)
 		)
 		(net
-			(code "138")
+			(code "144")
 			(name "Net-(U18-RC_B)")
 			(class "Default")
 			(node
@@ -23839,7 +24432,7 @@
 			)
 		)
 		(net
-			(code "139")
+			(code "145")
 			(name "Net-(U18-~{RST}_A)")
 			(class "Default")
 			(node
@@ -23860,7 +24453,7 @@
 			)
 		)
 		(net
-			(code "140")
+			(code "146")
 			(name "Net-(U18-~{RST}_B)")
 			(class "Default")
 			(node
@@ -23881,7 +24474,7 @@
 			)
 		)
 		(net
-			(code "141")
+			(code "147")
 			(name "Net-(U19-+)")
 			(class "Default")
 			(node
@@ -23898,7 +24491,7 @@
 			)
 		)
 		(net
-			(code "142")
+			(code "148")
 			(name "Net-(U201A--)")
 			(class "Default")
 			(node
@@ -23919,7 +24512,7 @@
 			)
 		)
 		(net
-			(code "143")
+			(code "149")
 			(name "Net-(U201B--)")
 			(class "Default")
 			(node
@@ -23940,7 +24533,7 @@
 			)
 		)
 		(net
-			(code "144")
+			(code "150")
 			(name "PADDLE_A")
 			(class "Default")
 			(node
@@ -23956,7 +24549,7 @@
 			)
 		)
 		(net
-			(code "145")
+			(code "151")
 			(name "PADDLE_B")
 			(class "Default")
 			(node
@@ -23972,7 +24565,7 @@
 			)
 		)
 		(net
-			(code "146")
+			(code "152")
 			(name "PA_Bias_A")
 			(class "Default")
 			(node
@@ -23999,7 +24592,7 @@
 			)
 		)
 		(net
-			(code "147")
+			(code "153")
 			(name "PA_Bias_A_Raw")
 			(class "Default")
 			(node
@@ -24016,7 +24609,7 @@
 			)
 		)
 		(net
-			(code "148")
+			(code "154")
 			(name "PA_Bias_B")
 			(class "Default")
 			(node
@@ -24043,7 +24636,7 @@
 			)
 		)
 		(net
-			(code "149")
+			(code "155")
 			(name "PA_Bias_B_Raw")
 			(class "Default")
 			(node
@@ -24060,7 +24653,7 @@
 			)
 		)
 		(net
-			(code "150")
+			(code "156")
 			(name "Q2 Drain")
 			(class "Default")
 			(node
@@ -24087,7 +24680,7 @@
 			)
 		)
 		(net
-			(code "151")
+			(code "157")
 			(name "Q2 Out")
 			(class "Default")
 			(node
@@ -24108,7 +24701,7 @@
 			)
 		)
 		(net
-			(code "152")
+			(code "158")
 			(name "Q2 Pin 3")
 			(class "Default")
 			(node
@@ -24140,7 +24733,7 @@
 			)
 		)
 		(net
-			(code "153")
+			(code "159")
 			(name "RESET_N")
 			(class "Default")
 			(node
@@ -24161,7 +24754,7 @@
 			)
 		)
 		(net
-			(code "154")
+			(code "160")
 			(name "RLY_15")
 			(class "Default")
 			(node
@@ -24177,7 +24770,7 @@
 			)
 		)
 		(net
-			(code "155")
+			(code "161")
 			(name "RLY_17")
 			(class "Default")
 			(node
@@ -24193,7 +24786,7 @@
 			)
 		)
 		(net
-			(code "156")
+			(code "162")
 			(name "RLY_20")
 			(class "Default")
 			(node
@@ -24209,7 +24802,7 @@
 			)
 		)
 		(net
-			(code "157")
+			(code "163")
 			(name "RLY_40")
 			(class "Default")
 			(node
@@ -24225,7 +24818,7 @@
 			)
 		)
 		(net
-			(code "158")
+			(code "164")
 			(name "SCK")
 			(class "Default")
 			(node
@@ -24246,7 +24839,7 @@
 			)
 		)
 		(net
-			(code "159")
+			(code "165")
 			(name "SCL")
 			(class "Default")
 			(node
@@ -24293,7 +24886,7 @@
 			)
 		)
 		(net
-			(code "160")
+			(code "166")
 			(name "SCL_IN")
 			(class "Default")
 			(node
@@ -24316,7 +24909,7 @@
 			)
 		)
 		(net
-			(code "161")
+			(code "167")
 			(name "SDA")
 			(class "Default")
 			(node
@@ -24363,7 +24956,7 @@
 			)
 		)
 		(net
-			(code "162")
+			(code "168")
 			(name "SDA_IN")
 			(class "Default")
 			(node
@@ -24386,7 +24979,7 @@
 			)
 		)
 		(net
-			(code "163")
+			(code "169")
 			(name "SS_PA_CTL")
 			(class "Default")
 			(node
@@ -24409,7 +25002,7 @@
 			)
 		)
 		(net
-			(code "164")
+			(code "170")
 			(name "SS_PA_INRUSH_CTL")
 			(class "Default")
 			(node
@@ -24432,7 +25025,7 @@
 			)
 		)
 		(net
-			(code "165")
+			(code "171")
 			(name "SS_PA_Inrush")
 			(class "Default")
 			(node
@@ -24454,7 +25047,7 @@
 			)
 		)
 		(net
-			(code "166")
+			(code "172")
 			(name "SS_PA_Power")
 			(class "Default")
 			(node
@@ -24476,7 +25069,7 @@
 			)
 		)
 		(net
-			(code "167")
+			(code "173")
 			(name "SS_PWR_PRE")
 			(class "Default")
 			(node
@@ -24503,7 +25096,7 @@
 			)
 		)
 		(net
-			(code "168")
+			(code "174")
 			(name "SS_PWR_RLY")
 			(class "Default")
 			(node
@@ -24525,7 +25118,33 @@
 			)
 		)
 		(net
-			(code "169")
+			(code "175")
+			(name "STANDBY")
+			(class "Default")
+			(node
+				(ref "C78")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R105")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "R98")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "U17")
+				(pin "P7")
+				(pinfunction "P7_P7")
+				(pintype "bidirectional")
+			)
+		)
+		(net
+			(code "176")
 			(name "Si5351 Out")
 			(class "Default")
 			(node
@@ -24547,7 +25166,7 @@
 			)
 		)
 		(net
-			(code "170")
+			(code "177")
 			(name "Sidetone")
 			(class "Default")
 			(node
@@ -24563,7 +25182,7 @@
 			)
 		)
 		(net
-			(code "171")
+			(code "178")
 			(name "Source_Sense_A")
 			(class "Default")
 			(node
@@ -24600,7 +25219,7 @@
 			)
 		)
 		(net
-			(code "172")
+			(code "179")
 			(name "Source_Sense_A_Raw")
 			(class "Default")
 			(node
@@ -24615,7 +25234,7 @@
 			)
 		)
 		(net
-			(code "173")
+			(code "180")
 			(name "Source_Sense_B")
 			(class "Default")
 			(node
@@ -24652,7 +25271,7 @@
 			)
 		)
 		(net
-			(code "174")
+			(code "181")
 			(name "Source_Sense_B_Raw")
 			(class "Default")
 			(node
@@ -24667,7 +25286,7 @@
 			)
 		)
 		(net
-			(code "175")
+			(code "182")
 			(name "TRANSMIT_N")
 			(class "Default")
 			(node
@@ -24689,7 +25308,7 @@
 			)
 		)
 		(net
-			(code "176")
+			(code "183")
 			(name "T{slash}R")
 			(class "Default")
 			(node
@@ -24705,7 +25324,7 @@
 			)
 		)
 		(net
-			(code "177")
+			(code "184")
 			(name "VOUT_B")
 			(class "Default")
 			(node
@@ -24727,7 +25346,7 @@
 			)
 		)
 		(net
-			(code "178")
+			(code "185")
 			(name "V_REF")
 			(class "Default")
 			(node
@@ -24766,7 +25385,7 @@
 			)
 		)
 		(net
-			(code "179")
+			(code "186")
 			(name "unconnected-(K6-NC-Pad2)")
 			(class "Default")
 			(node
@@ -24777,7 +25396,7 @@
 			)
 		)
 		(net
-			(code "180")
+			(code "187")
 			(name "unconnected-(SW1-C-Pad3)")
 			(class "Default")
 			(node
@@ -24788,7 +25407,7 @@
 			)
 		)
 		(net
-			(code "181")
+			(code "188")
 			(name "unconnected-(SW1-C-Pad6)")
 			(class "Default")
 			(node
@@ -24799,7 +25418,7 @@
 			)
 		)
 		(net
-			(code "182")
+			(code "189")
 			(name "unconnected-(U1-NC-Pad1)")
 			(class "Default")
 			(node
@@ -24810,7 +25429,7 @@
 			)
 		)
 		(net
-			(code "183")
+			(code "190")
 			(name "unconnected-(U1-NC-Pad5)")
 			(class "Default")
 			(node
@@ -24821,7 +25440,7 @@
 			)
 		)
 		(net
-			(code "184")
+			(code "191")
 			(name "unconnected-(U1-NC-Pad8)")
 			(class "Default")
 			(node
@@ -24832,7 +25451,7 @@
 			)
 		)
 		(net
-			(code "185")
+			(code "192")
 			(name "unconnected-(U2-HV4-Pad12)")
 			(class "Default")
 			(node
@@ -24843,7 +25462,7 @@
 			)
 		)
 		(net
-			(code "186")
+			(code "193")
 			(name "unconnected-(U2-LV4-Pad6)")
 			(class "Default")
 			(node
@@ -24854,7 +25473,7 @@
 			)
 		)
 		(net
-			(code "187")
+			(code "194")
 			(name "unconnected-(U3-RDY-Pad6)")
 			(class "Default")
 			(node
@@ -24865,7 +25484,7 @@
 			)
 		)
 		(net
-			(code "188")
+			(code "195")
 			(name "unconnected-(U4-NC-Pad2)")
 			(class "Default")
 			(node
@@ -24876,7 +25495,7 @@
 			)
 		)
 		(net
-			(code "189")
+			(code "196")
 			(name "unconnected-(U4-NC-Pad6)")
 			(class "Default")
 			(node
@@ -24887,7 +25506,7 @@
 			)
 		)
 		(net
-			(code "190")
+			(code "197")
 			(name "unconnected-(U4-NC-Pad7)")
 			(class "Default")
 			(node
@@ -24898,7 +25517,7 @@
 			)
 		)
 		(net
-			(code "191")
+			(code "198")
 			(name "unconnected-(U5-PadCLK0)")
 			(class "Default")
 			(node
@@ -24909,7 +25528,7 @@
 			)
 		)
 		(net
-			(code "192")
+			(code "199")
 			(name "unconnected-(U5-PadCLK1)")
 			(class "Default")
 			(node
@@ -24920,7 +25539,7 @@
 			)
 		)
 		(net
-			(code "193")
+			(code "200")
 			(name "unconnected-(U7-FB{slash}SHDN-Pad1)")
 			(class "Default")
 			(node
@@ -24931,7 +25550,7 @@
 			)
 		)
 		(net
-			(code "194")
+			(code "201")
 			(name "unconnected-(U7-OSC-Pad7)")
 			(class "Default")
 			(node
@@ -24942,7 +25561,7 @@
 			)
 		)
 		(net
-			(code "195")
+			(code "202")
 			(name "unconnected-(U7-VREF-Pad6)")
 			(class "Default")
 			(node
@@ -24953,7 +25572,7 @@
 			)
 		)
 		(net
-			(code "196")
+			(code "203")
 			(name "unconnected-(U10-PadA1)")
 			(class "Default")
 			(node
@@ -24964,7 +25583,7 @@
 			)
 		)
 		(net
-			(code "197")
+			(code "204")
 			(name "unconnected-(U10-PadA2)")
 			(class "Default")
 			(node
@@ -24975,7 +25594,7 @@
 			)
 		)
 		(net
-			(code "198")
+			(code "205")
 			(name "unconnected-(U10-PadIRQ)")
 			(class "Default")
 			(node
@@ -24986,7 +25605,7 @@
 			)
 		)
 		(net
-			(code "199")
+			(code "206")
 			(name "unconnected-(U11-NC-Pad1)")
 			(class "Default")
 			(node
@@ -24997,7 +25616,7 @@
 			)
 		)
 		(net
-			(code "200")
+			(code "207")
 			(name "unconnected-(U11-NC-Pad5)")
 			(class "Default")
 			(node
@@ -25008,7 +25627,7 @@
 			)
 		)
 		(net
-			(code "201")
+			(code "208")
 			(name "unconnected-(U11-NC-Pad8)")
 			(class "Default")
 			(node
@@ -25019,7 +25638,7 @@
 			)
 		)
 		(net
-			(code "202")
+			(code "209")
 			(name "unconnected-(U12-3A-Pad10)")
 			(class "Default")
 			(node
@@ -25030,7 +25649,7 @@
 			)
 		)
 		(net
-			(code "203")
+			(code "210")
 			(name "unconnected-(U12-3B-Pad9)")
 			(class "Default")
 			(node
@@ -25041,7 +25660,7 @@
 			)
 		)
 		(net
-			(code "204")
+			(code "211")
 			(name "unconnected-(U12-3Y-Pad11)")
 			(class "Default")
 			(node
@@ -25052,7 +25671,7 @@
 			)
 		)
 		(net
-			(code "205")
+			(code "212")
 			(name "unconnected-(U12-4A-Pad14)")
 			(class "Default")
 			(node
@@ -25063,7 +25682,7 @@
 			)
 		)
 		(net
-			(code "206")
+			(code "213")
 			(name "unconnected-(U12-4B-Pad15)")
 			(class "Default")
 			(node
@@ -25074,7 +25693,7 @@
 			)
 		)
 		(net
-			(code "207")
+			(code "214")
 			(name "unconnected-(U12-4Y-Pad13)")
 			(class "Default")
 			(node
@@ -25085,7 +25704,7 @@
 			)
 		)
 		(net
-			(code "208")
+			(code "215")
 			(name "unconnected-(U14-Pad15)")
 			(class "Default")
 			(node
@@ -25095,7 +25714,7 @@
 			)
 		)
 		(net
-			(code "209")
+			(code "216")
 			(name "unconnected-(U15-A0-Pad5)")
 			(class "Default")
 			(node
@@ -25106,7 +25725,7 @@
 			)
 		)
 		(net
-			(code "210")
+			(code "217")
 			(name "unconnected-(U16-3V3-Pad3V3_L)")
 			(class "Default")
 			(node
@@ -25117,7 +25736,7 @@
 			)
 		)
 		(net
-			(code "211")
+			(code "218")
 			(name "unconnected-(U16-A0{slash}ADC2-PadA0)")
 			(class "Default")
 			(node
@@ -25128,7 +25747,7 @@
 			)
 		)
 		(net
-			(code "212")
+			(code "219")
 			(name "unconnected-(U16-D0{slash}RX-PadD0)")
 			(class "Default")
 			(node
@@ -25139,7 +25758,7 @@
 			)
 		)
 		(net
-			(code "213")
+			(code "220")
 			(name "unconnected-(U16-D1{slash}TX-PadD1)")
 			(class "Default")
 			(node
@@ -25150,7 +25769,7 @@
 			)
 		)
 		(net
-			(code "214")
+			(code "221")
 			(name "unconnected-(U16-Pad5V)")
 			(class "Default")
 			(node
@@ -25161,7 +25780,7 @@
 			)
 		)
 		(net
-			(code "215")
+			(code "222")
 			(name "unconnected-(U16-PadAREF)")
 			(class "Default")
 			(node
@@ -25172,7 +25791,7 @@
 			)
 		)
 		(net
-			(code "216")
+			(code "223")
 			(name "unconnected-(U17-PadA0)")
 			(class "Default")
 			(node
@@ -25183,7 +25802,7 @@
 			)
 		)
 		(net
-			(code "217")
+			(code "224")
 			(name "unconnected-(U17-PadA1)")
 			(class "Default")
 			(node
@@ -25194,7 +25813,7 @@
 			)
 		)
 		(net
-			(code "218")
+			(code "225")
 			(name "unconnected-(U17-PadA2)")
 			(class "Default")
 			(node
@@ -25205,7 +25824,7 @@
 			)
 		)
 		(net
-			(code "219")
+			(code "226")
 			(name "unconnected-(U17-PadIRQ)")
 			(class "Default")
 			(node
@@ -25216,7 +25835,7 @@
 			)
 		)
 		(net
-			(code "220")
+			(code "227")
 			(name "unconnected-(U17-PadP0)")
 			(class "Default")
 			(node
@@ -25227,18 +25846,7 @@
 			)
 		)
 		(net
-			(code "221")
-			(name "unconnected-(U17-PadP7)")
-			(class "Default")
-			(node
-				(ref "U17")
-				(pin "P7")
-				(pinfunction "P7_P7")
-				(pintype "bidirectional+no_connect")
-			)
-		)
-		(net
-			(code "222")
+			(code "228")
 			(name "unconnected-(U17-PadP8)")
 			(class "Default")
 			(node
@@ -25249,7 +25857,7 @@
 			)
 		)
 		(net
-			(code "223")
+			(code "229")
 			(name "unconnected-(U17-PadP9)")
 			(class "Default")
 			(node
@@ -25260,7 +25868,7 @@
 			)
 		)
 		(net
-			(code "224")
+			(code "230")
 			(name "unconnected-(U18-Q_B-Pad10)")
 			(class "Default")
 			(node
@@ -25271,7 +25879,7 @@
 			)
 		)
 		(net
-			(code "225")
+			(code "231")
 			(name "unconnected-(U19-BYPASS-Pad7)")
 			(class "Default")
 			(node
@@ -25282,7 +25890,7 @@
 			)
 		)
 		(net
-			(code "226")
+			(code "232")
 			(name "unconnected-(U19-GAIN-Pad1)")
 			(class "Default")
 			(node
@@ -25293,7 +25901,7 @@
 			)
 		)
 		(net
-			(code "227")
+			(code "233")
 			(name "unconnected-(U19-GAIN-Pad8)")
 			(class "Default")
 			(node
