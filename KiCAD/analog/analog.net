@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "C:\\Users\\AlAnd\\Git Backed Projects\\xmitter\\KiCAD\\analog\\analog.kicad_sch")
-		(date "2026-11-17T01:38:49")
+		(date "2026-11-17T01:58:35")
 		(tool "Eeschema 10.0.3")
 		(sheet
 			(number "1")
@@ -390,54 +390,6 @@
 		)
 		(sheet
 			(number "9")
-			(name "/SS_PA Interface/")
-			(tstamps "/203aa1e5-8766-46b8-8e43-ae43bbf53254/")
-			(title_block
-				(title)
-				(company)
-				(rev)
-				(date)
-				(source "ss_PA_Interface.sch.kicad_sch")
-				(comment
-					(number "1")
-					(value "")
-				)
-				(comment
-					(number "2")
-					(value "")
-				)
-				(comment
-					(number "3")
-					(value "")
-				)
-				(comment
-					(number "4")
-					(value "")
-				)
-				(comment
-					(number "5")
-					(value "")
-				)
-				(comment
-					(number "6")
-					(value "")
-				)
-				(comment
-					(number "7")
-					(value "")
-				)
-				(comment
-					(number "8")
-					(value "")
-				)
-				(comment
-					(number "9")
-					(value "")
-				)
-			)
-		)
-		(sheet
-			(number "10")
 			(name "/Interface/")
 			(tstamps "/5c3f4a2b-7d1e-4f8b-9c6d-0e8a1b2c3d4e/")
 			(title_block
@@ -485,7 +437,7 @@
 			)
 		)
 		(sheet
-			(number "11")
+			(number "10")
 			(name "/Fault_Shutdown/")
 			(tstamps "/cb42a2a9-2b6a-4974-a000-9571f3c2a59b/")
 			(title_block
@@ -1501,6 +1453,81 @@
 						)
 						(pin
 							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "J2")
+			(value "8P8C_Shielded")
+			(footprint "xmitter:Amphenol_RJE1D-188_Horizontal_Shielded")
+			(description "RJ connector, 8P8C (8 positions 8 connected), RJ31/RJ32/RJ33/RJ34/RJ35/RJ41/RJ45/RJ49/RJ61, Shielded")
+			(fields
+				(field
+					(name "Footprint") "xmitter:Amphenol_RJE1D-188_Horizontal_Shielded")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "RJ connector, 8P8C (8 positions 8 connected), RJ31/RJ32/RJ33/RJ34/RJ35/RJ41/RJ45/RJ49/RJ61, Shielded")
+			)
+			(libsource
+				(lib "Connector")
+				(part "8P8C_Shielded")
+				(description "RJ connector, 8P8C (8 positions 8 connected), RJ31/RJ32/RJ33/RJ34/RJ35/RJ41/RJ45/RJ49/RJ61, Shielded")
+			)
+			(property
+				(name "Sheetname")
+				(value "Arduino")
+			)
+			(property
+				(name "Sheetfile")
+				(value "arduino.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "8P8C RJ socket connector")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "8P8C* RJ31* RJ32* RJ33* RJ34* RJ35* RJ41* RJ45* RJ49* RJ61*")
+			)
+			(sheetpath
+				(names "/Arduino/")
+				(tstamps "/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72/")
+			)
+			(tstamps "5402f417-6c0c-4a0f-aed4-1c762e3d249d")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "SH")
+						)
+						(pin
+							(num "8")
+						)
+						(pin
+							(num "7")
+						)
+						(pin
+							(num "6")
+						)
+						(pin
+							(num "5")
+						)
+						(pin
+							(num "4")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "1")
 						)
 					)
 				)
@@ -3361,210 +3388,6 @@
 						)
 						(pin
 							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "TP1")
-			(value "xTP")
-			(footprint "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical")
-			(description "xmitter project test point on broken-off 0.1 inch square pin header; put signal name in Value field so it becomes silk on the PCB")
-			(fields
-				(field
-					(name "Footprint") "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "xmitter project test point on broken-off 0.1 inch square pin header; put signal name in Value field so it becomes silk on the PCB")
-			)
-			(libsource
-				(lib "xmitter")
-				(part "xTP")
-				(description "xmitter project test point on broken-off 0.1 inch square pin header; put signal name in Value field so it becomes silk on the PCB")
-			)
-			(property
-				(name "Sheetname")
-				(value "Arduino")
-			)
-			(property
-				(name "Sheetfile")
-				(value "arduino.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "test point tp")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "Pin* Test*")
-			)
-			(sheetpath
-				(names "/Arduino/")
-				(tstamps "/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72/")
-			)
-			(tstamps "29dfa58e-3b28-48a2-8619-207d6bf02cf0")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "TP2")
-			(value "xTP")
-			(footprint "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical")
-			(description "xmitter project test point on broken-off 0.1 inch square pin header; put signal name in Value field so it becomes silk on the PCB")
-			(fields
-				(field
-					(name "Footprint") "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "xmitter project test point on broken-off 0.1 inch square pin header; put signal name in Value field so it becomes silk on the PCB")
-			)
-			(libsource
-				(lib "xmitter")
-				(part "xTP")
-				(description "xmitter project test point on broken-off 0.1 inch square pin header; put signal name in Value field so it becomes silk on the PCB")
-			)
-			(property
-				(name "Sheetname")
-				(value "Arduino")
-			)
-			(property
-				(name "Sheetfile")
-				(value "arduino.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "test point tp")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "Pin* Test*")
-			)
-			(sheetpath
-				(names "/Arduino/")
-				(tstamps "/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72/")
-			)
-			(tstamps "0283f65b-8f0e-4c34-9740-5f10f6aa00be")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "TP3")
-			(value "xTP")
-			(footprint "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical")
-			(description "xmitter project test point on broken-off 0.1 inch square pin header; put signal name in Value field so it becomes silk on the PCB")
-			(fields
-				(field
-					(name "Footprint") "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "xmitter project test point on broken-off 0.1 inch square pin header; put signal name in Value field so it becomes silk on the PCB")
-			)
-			(libsource
-				(lib "xmitter")
-				(part "xTP")
-				(description "xmitter project test point on broken-off 0.1 inch square pin header; put signal name in Value field so it becomes silk on the PCB")
-			)
-			(property
-				(name "Sheetname")
-				(value "Arduino")
-			)
-			(property
-				(name "Sheetfile")
-				(value "arduino.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "test point tp")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "Pin* Test*")
-			)
-			(sheetpath
-				(names "/Arduino/")
-				(tstamps "/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72/")
-			)
-			(tstamps "f66250ea-4eaf-47ab-ba65-653729324728")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "TP4")
-			(value "xTP")
-			(footprint "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical")
-			(description "xmitter project test point on broken-off 0.1 inch square pin header; put signal name in Value field so it becomes silk on the PCB")
-			(fields
-				(field
-					(name "Footprint") "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "xmitter project test point on broken-off 0.1 inch square pin header; put signal name in Value field so it becomes silk on the PCB")
-			)
-			(libsource
-				(lib "xmitter")
-				(part "xTP")
-				(description "xmitter project test point on broken-off 0.1 inch square pin header; put signal name in Value field so it becomes silk on the PCB")
-			)
-			(property
-				(name "Sheetname")
-				(value "Arduino")
-			)
-			(property
-				(name "Sheetfile")
-				(value "arduino.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "test point tp")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "Pin* Test*")
-			)
-			(sheetpath
-				(names "/Arduino/")
-				(tstamps "/2d83d0b5-86d4-4ced-ab68-6465e3dc2d72/")
-			)
-			(tstamps "cba4c0c1-3cc1-41f1-b3b1-ad84fa844ec1")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
 						)
 					)
 				)
@@ -13517,6 +13340,75 @@
 			)
 		)
 		(comp
+			(ref "J20")
+			(value "Conn_01x06_Pin")
+			(description "Generic connector, single row, 01x06, script generated")
+			(fields
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Generic connector, single row, 01x06, script generated")
+			)
+			(libsource
+				(lib "Connector")
+				(part "Conn_01x06_Pin")
+				(description "Generic connector, single row, 01x06, script generated")
+			)
+			(property
+				(name "Sheetname")
+				(value "Tube PA Interface")
+			)
+			(property
+				(name "Sheetfile")
+				(value "Tube_PA.sch.kicad_sch")
+			)
+			(property
+				(name "dnp")
+			)
+			(property
+				(name "ki_keywords")
+				(value "connector")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "Connector*:*_1x??_*")
+			)
+			(sheetpath
+				(names "/Tube PA Interface/")
+				(tstamps "/8578250b-faeb-4438-9b87-c9fdf0b36709/")
+			)
+			(tstamps "e696fcd0-c527-4382-bed5-3340b6de1d94")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "4")
+						)
+						(pin
+							(num "5")
+						)
+						(pin
+							(num "6")
+						)
+					)
+				)
+			)
+		)
+		(comp
 			(ref "J35")
 			(value "8P8C_Shielded")
 			(footprint "xmitter:Amphenol_RJE1D-188_Horizontal_Shielded")
@@ -14133,81 +14025,6 @@
 				(unit
 					(name "A")
 					(pins
-						(pin
-							(num "1")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "J2")
-			(value "8P8C_Shielded")
-			(footprint "xmitter:Amphenol_RJE1D-188_Horizontal_Shielded")
-			(description "RJ connector, 8P8C (8 positions 8 connected), RJ31/RJ32/RJ33/RJ34/RJ35/RJ41/RJ45/RJ49/RJ61, Shielded")
-			(fields
-				(field
-					(name "Footprint") "xmitter:Amphenol_RJE1D-188_Horizontal_Shielded")
-				(field
-					(name "Datasheet")
-				)
-				(field
-					(name "Description") "RJ connector, 8P8C (8 positions 8 connected), RJ31/RJ32/RJ33/RJ34/RJ35/RJ41/RJ45/RJ49/RJ61, Shielded")
-			)
-			(libsource
-				(lib "Connector")
-				(part "8P8C_Shielded")
-				(description "RJ connector, 8P8C (8 positions 8 connected), RJ31/RJ32/RJ33/RJ34/RJ35/RJ41/RJ45/RJ49/RJ61, Shielded")
-			)
-			(property
-				(name "Sheetname")
-				(value "SS_PA Interface")
-			)
-			(property
-				(name "Sheetfile")
-				(value "ss_PA_Interface.sch.kicad_sch")
-			)
-			(property
-				(name "ki_keywords")
-				(value "8P8C RJ socket connector")
-			)
-			(property
-				(name "ki_fp_filters")
-				(value "8P8C* RJ31* RJ32* RJ33* RJ34* RJ35* RJ41* RJ45* RJ49* RJ61*")
-			)
-			(sheetpath
-				(names "/SS_PA Interface/")
-				(tstamps "/203aa1e5-8766-46b8-8e43-ae43bbf53254/")
-			)
-			(tstamps "390d6773-9db8-4b79-99e2-c1b5f3b88d4e")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "SH")
-						)
-						(pin
-							(num "8")
-						)
-						(pin
-							(num "7")
-						)
-						(pin
-							(num "6")
-						)
-						(pin
-							(num "5")
-						)
-						(pin
-							(num "4")
-						)
-						(pin
-							(num "3")
-						)
-						(pin
-							(num "2")
-						)
 						(pin
 							(num "1")
 						)
@@ -21749,6 +21566,12 @@
 				(pintype "passive")
 			)
 			(node
+				(ref "J20")
+				(pin "1")
+				(pinfunction "Pin_1_1")
+				(pintype "passive")
+			)
+			(node
 				(ref "J21")
 				(pin "1")
 				(pinfunction "Pin_1_1")
@@ -22184,6 +22007,12 @@
 			(name "GRID_BLOCK_CRASH")
 			(class "Default")
 			(node
+				(ref "J20")
+				(pin "6")
+				(pinfunction "Pin_6_6")
+				(pintype "passive")
+			)
+			(node
 				(ref "R82")
 				(pin "1")
 				(pintype "passive")
@@ -22200,14 +22029,14 @@
 			(name "GRID_CTL_A")
 			(class "Default")
 			(node
-				(ref "J35")
-				(pin "4")
+				(ref "J20")
+				(pin "3")
+				(pinfunction "Pin_3_3")
 				(pintype "passive")
 			)
 			(node
-				(ref "TP2")
-				(pin "1")
-				(pinfunction "1_1")
+				(ref "J35")
+				(pin "4")
 				(pintype "passive")
 			)
 			(node
@@ -22222,14 +22051,14 @@
 			(name "GRID_CTL_B")
 			(class "Default")
 			(node
-				(ref "J35")
-				(pin "5")
+				(ref "J20")
+				(pin "2")
+				(pinfunction "Pin_2_2")
 				(pintype "passive")
 			)
 			(node
-				(ref "TP1")
-				(pin "1")
-				(pinfunction "1_1")
+				(ref "J35")
+				(pin "5")
 				(pintype "passive")
 			)
 			(node
@@ -22252,6 +22081,12 @@
 				(ref "D2")
 				(pin "1")
 				(pinfunction "K_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "J20")
+				(pin "5")
+				(pinfunction "Pin_5_5")
 				(pintype "passive")
 			)
 			(node
@@ -22279,6 +22114,12 @@
 				(ref "D4")
 				(pin "1")
 				(pinfunction "K_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "J20")
+				(pin "4")
+				(pinfunction "Pin_4_4")
 				(pintype "passive")
 			)
 			(node
@@ -24591,12 +24432,6 @@
 			(name "PA_Bias_A_Raw")
 			(class "Default")
 			(node
-				(ref "TP4")
-				(pin "1")
-				(pinfunction "1_1")
-				(pintype "passive")
-			)
-			(node
 				(ref "U202")
 				(pin "1")
 				(pinfunction "1Y_1")
@@ -24640,12 +24475,6 @@
 			(code "151")
 			(name "PA_Bias_B_Raw")
 			(class "Default")
-			(node
-				(ref "TP3")
-				(pin "1")
-				(pinfunction "1_1")
-				(pintype "passive")
-			)
 			(node
 				(ref "U202")
 				(pin "4")
