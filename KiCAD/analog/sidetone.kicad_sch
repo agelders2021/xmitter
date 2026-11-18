@@ -1866,121 +1866,6 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "power:GND"
-			(power global)
-			(pin_numbers
-				(hide yes)
-			)
-			(pin_names
-				(offset 0)
-				(hide yes)
-			)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(in_pos_files yes)
-			(duplicate_pin_numbers_are_jumpers no)
-			(property "Reference" "#PWR"
-				(at 0 -6.35 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Value" "GND"
-				(at 0 -3.81 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" ""
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Datasheet" ""
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "ki_keywords" "global power"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(symbol "GND_0_1"
-				(polyline
-					(pts
-						(xy 0 0) (xy 0 -1.27) (xy 1.27 -1.27) (xy 0 -2.54) (xy -1.27 -1.27) (xy 0 -1.27)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-			)
-			(symbol "GND_1_1"
-				(pin power_in line
-					(at 0 0 270)
-					(length 0)
-					(name ""
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
 		(symbol "xmitter:CD74HC4050E"
 			(pin_names
 				(offset 1.016)
@@ -2418,6 +2303,122 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "xmitter:GND"
+			(power global)
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "#PWR"
+				(at 0 -6.35 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "GND"
+				(at 0 -3.81 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Project-local GND with hidden Value text (see xmitter.kicad_sym)"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "global power"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "GND_0_1"
+				(polyline
+					(pts
+						(xy 0 0) (xy 0 -1.27) (xy 1.27 -1.27) (xy 0 -2.54) (xy -1.27 -1.27) (xy 0 -1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "GND_1_1"
+				(pin power_in line
+					(at 0 0 270)
+					(length 0)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 	)
 	(text "Remaining gates of U14 are on Interface sheet"
 		(exclude_from_sim no)
@@ -2442,12 +2443,6 @@
 		(uuid "105ec74a-f38a-40d8-9d1e-3ecca76a1d55")
 	)
 	(junction
-		(at 120.65 90.17)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "140e3396-12c0-471c-8d3c-eab5b749bf48")
-	)
-	(junction
 		(at 100.33 46.99)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -2464,6 +2459,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "5edc0dce-b7f3-4580-8253-e041842859b7")
+	)
+	(junction
+		(at 130.81 90.17)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "6368ab47-de8a-4c88-a617-9b302c9356b4")
 	)
 	(junction
 		(at 110.49 90.17)
@@ -2484,7 +2485,13 @@
 		(uuid "9b2df4f3-fdf4-4019-87dc-e63d40a71c3e")
 	)
 	(junction
-		(at 146.05 77.47)
+		(at 149.86 74.93)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "ba04f162-7a13-4d93-9dc3-6e82479cb457")
+	)
+	(junction
+		(at 146.05 67.31)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "c01b3b59-6b8c-4b3f-b5ad-043fbcc19982")
@@ -2514,10 +2521,6 @@
 	(no_connect
 		(at 151.13 104.14)
 		(uuid "30bdcf15-c6e1-4aa7-a028-e95920b475f0")
-	)
-	(no_connect
-		(at 148.59 88.9)
-		(uuid "e1259eb1-d1d5-4f44-ad11-f5529bfaadbf")
 	)
 	(wire
 		(pts
@@ -2571,7 +2574,7 @@
 	)
 	(wire
 		(pts
-			(xy 146.05 77.47) (xy 149.86 77.47)
+			(xy 146.05 67.31) (xy 149.86 67.31)
 		)
 		(stroke
 			(width 0)
@@ -2581,7 +2584,7 @@
 	)
 	(wire
 		(pts
-			(xy 146.05 76.2) (xy 146.05 77.47)
+			(xy 146.05 66.04) (xy 146.05 67.31)
 		)
 		(stroke
 			(width 0)
@@ -2631,13 +2634,13 @@
 	)
 	(wire
 		(pts
-			(xy 120.65 82.55) (xy 120.65 90.17)
+			(xy 148.59 74.93) (xy 149.86 74.93)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "72af881f-e2db-4801-a8f1-c82f86151a76")
+		(uuid "785d385e-fd84-4eb2-910b-da7082d1c20b")
 	)
 	(wire
 		(pts
@@ -2648,6 +2651,16 @@
 			(type default)
 		)
 		(uuid "79695469-b05e-4990-beb1-69698d15577e")
+	)
+	(wire
+		(pts
+			(xy 148.59 81.28) (xy 148.59 74.93)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "85377fc1-d92e-48ab-8d10-a3c195d2f594")
 	)
 	(wire
 		(pts
@@ -2708,6 +2721,16 @@
 			(type default)
 		)
 		(uuid "b0503ba0-9eea-41e8-b226-0a97f13aaed1")
+	)
+	(wire
+		(pts
+			(xy 130.81 82.55) (xy 130.81 90.17)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bd278349-be9c-462f-9e68-0fa15bb2c606")
 	)
 	(wire
 		(pts
@@ -2791,7 +2814,7 @@
 	)
 	(wire
 		(pts
-			(xy 146.05 77.47) (xy 146.05 88.9)
+			(xy 146.05 67.31) (xy 146.05 88.9)
 		)
 		(stroke
 			(width 0)
@@ -2980,90 +3003,8 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:C")
-		(at 120.65 78.74 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "09f1617e-1609-41b4-bd49-513fe04f9f5b")
-		(property "Reference" "C76"
-			(at 124.46 77.4699 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "1nF 50V"
-			(at 124.46 80.0099 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
-			(at 121.6152 82.55 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 120.65 78.74 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Unpolarized capacitor"
-			(at 120.65 78.74 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "075f1c32-ef91-46de-bb03-d7b241750f67")
-		)
-		(pin "2"
-			(uuid "4d3a4d65-e323-477a-9acb-1e61d4cad7b4")
-		)
-		(instances
-			(project "analog"
-				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/0c2ca40b-fca7-41b5-b78d-fa269185cc48"
-					(reference "C76")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "power:+12V")
-		(at 146.05 76.2 0)
+		(at 146.05 66.04 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -3074,7 +3015,7 @@
 		(fields_autoplaced yes)
 		(uuid "0d3b25a9-9aa3-40cf-9e9c-993415df67f2")
 		(property "Reference" "#PWR0189"
-			(at 146.05 80.01 0)
+			(at 146.05 69.85 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3085,7 +3026,7 @@
 			)
 		)
 		(property "Value" "+12V"
-			(at 146.05 71.12 0)
+			(at 146.05 60.96 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3095,7 +3036,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 146.05 76.2 0)
+			(at 146.05 66.04 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3106,7 +3047,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 146.05 76.2 0)
+			(at 146.05 66.04 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3117,7 +3058,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+12V\""
-			(at 146.05 76.2 0)
+			(at 146.05 66.04 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3256,7 +3197,7 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
+		(lib_id "xmitter:GND")
 		(at 146.05 104.14 0)
 		(unit 1)
 		(body_style 1)
@@ -3280,6 +3221,7 @@
 		)
 		(property "Value" "GND"
 			(at 146.05 109.22 0)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3414,7 +3356,7 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
+		(lib_id "xmitter:GND")
 		(at 59.69 71.12 0)
 		(unit 1)
 		(body_style 1)
@@ -3438,6 +3380,7 @@
 		)
 		(property "Value" "GND"
 			(at 59.69 76.2 0)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3970,7 +3913,7 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
+		(lib_id "xmitter:GND")
 		(at 130.81 97.79 0)
 		(unit 1)
 		(body_style 1)
@@ -3994,6 +3937,7 @@
 		)
 		(property "Value" "GND"
 			(at 130.81 102.87 0)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4048,7 +3992,7 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
+		(lib_id "xmitter:GND")
 		(at 110.49 97.79 0)
 		(unit 1)
 		(body_style 1)
@@ -4072,6 +4016,7 @@
 		)
 		(property "Value" "GND"
 			(at 110.49 102.87 0)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4126,7 +4071,7 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
+		(lib_id "xmitter:GND")
 		(at 54.61 71.12 0)
 		(unit 1)
 		(body_style 1)
@@ -4150,6 +4095,7 @@
 		)
 		(property "Value" "GND"
 			(at 54.61 76.2 0)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4382,7 +4328,7 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
+		(lib_id "xmitter:GND")
 		(at 115.57 54.61 0)
 		(unit 1)
 		(body_style 1)
@@ -4406,6 +4352,7 @@
 		)
 		(property "Value" "GND"
 			(at 115.57 59.69 0)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4784,7 +4731,7 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
+		(lib_id "xmitter:GND")
 		(at 140.97 99.06 0)
 		(unit 1)
 		(body_style 1)
@@ -4808,6 +4755,7 @@
 		)
 		(property "Value" "GND"
 			(at 140.97 104.14 0)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4936,84 +4884,6 @@
 			(project "analog"
 				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/0c2ca40b-fca7-41b5-b78d-fa269185cc48"
 					(reference "D11")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 120.65 74.93 180)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "7ddf13dc-ef22-4368-a3be-c80f5ef529ac")
-		(property "Reference" "#PWR0151"
-			(at 120.65 68.58 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 120.65 69.85 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 120.65 74.93 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 120.65 74.93 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 120.65 74.93 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "aa2bba14-ef26-4063-886d-144c0e069f08")
-		)
-		(instances
-			(project "analog"
-				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/0c2ca40b-fca7-41b5-b78d-fa269185cc48"
-					(reference "#PWR0151")
 					(unit 1)
 				)
 			)
@@ -5221,7 +5091,7 @@
 	)
 	(symbol
 		(lib_id "Device:C_Polarized_US")
-		(at 149.86 81.28 0)
+		(at 149.86 71.12 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -5232,7 +5102,7 @@
 		(fields_autoplaced yes)
 		(uuid "9dc0cc64-a731-41db-9bf0-2e234e331011")
 		(property "Reference" "C75"
-			(at 153.67 79.3749 0)
+			(at 153.67 69.2149 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5243,7 +5113,7 @@
 			)
 		)
 		(property "Value" "100uF 35V"
-			(at 153.67 81.9149 0)
+			(at 153.67 71.7549 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5254,7 +5124,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_THT:CP_Radial_D8.0mm_P3.80mm"
-			(at 149.86 81.28 0)
+			(at 149.86 71.12 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5265,7 +5135,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 149.86 81.28 0)
+			(at 149.86 71.12 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5276,7 +5146,7 @@
 			)
 		)
 		(property "Description" "Polarized capacitor, US symbol"
-			(at 149.86 81.28 0)
+			(at 149.86 71.12 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5296,6 +5166,88 @@
 			(project "analog"
 				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/0c2ca40b-fca7-41b5-b78d-fa269185cc48"
 					(reference "C75")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C_Polarized_US")
+		(at 148.59 85.09 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "a42140b4-1edc-4fe0-a6a1-6695c7aff6f6")
+		(property "Reference" "C79"
+			(at 152.4 84.4549 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "10uF"
+			(at 152.4 86.9949 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm"
+			(at 148.59 85.09 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 148.59 85.09 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Polarized capacitor, US symbol"
+			(at 148.59 85.09 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "5f5d516c-8568-4a9d-a9ff-9e594becfc0e")
+		)
+		(pin "1"
+			(uuid "003b5141-7336-44bc-a248-61aef7497d21")
+		)
+		(instances
+			(project "analog"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/0c2ca40b-fca7-41b5-b78d-fa269185cc48"
+					(reference "C79")
 					(unit 1)
 				)
 			)
@@ -5500,8 +5452,8 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
-		(at 149.86 85.09 0)
+		(lib_id "xmitter:GND")
+		(at 149.86 74.93 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -5511,7 +5463,7 @@
 		(dnp no)
 		(uuid "a7d077b6-f6df-440b-b061-31f2887f063e")
 		(property "Reference" "#PWR0190"
-			(at 149.86 91.44 0)
+			(at 156.21 74.93 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5522,7 +5474,8 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 152.654 88.392 0)
+			(at 153.162 72.136 0)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5532,7 +5485,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 149.86 85.09 0)
+			(at 149.86 74.93 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5543,7 +5496,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 149.86 85.09 0)
+			(at 149.86 74.93 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5554,7 +5507,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 149.86 85.09 0)
+			(at 149.86 74.93 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5773,7 +5726,7 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
+		(lib_id "xmitter:GND")
 		(at 185.42 99.06 0)
 		(unit 1)
 		(body_style 1)
@@ -5797,6 +5750,7 @@
 		)
 		(property "Value" "GND"
 			(at 185.42 104.14 0)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5933,7 +5887,7 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
+		(lib_id "xmitter:GND")
 		(at 165.1 111.76 0)
 		(unit 1)
 		(body_style 1)
@@ -5957,6 +5911,7 @@
 		)
 		(property "Value" "GND"
 			(at 165.1 116.84 0)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6085,6 +6040,167 @@
 			(project "analog"
 				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/0c2ca40b-fca7-41b5-b78d-fa269185cc48"
 					(reference "R90")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "xmitter:GND")
+		(at 130.81 74.93 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "f472f718-e50e-4978-969d-91bbfa29b690")
+		(property "Reference" "#PWR0151"
+			(at 130.81 68.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 130.81 69.85 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 130.81 74.93 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 130.81 74.93 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 130.81 74.93 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "60a5cc17-317d-414c-ba6b-a8317d090429")
+		)
+		(instances
+			(project "analog"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/0c2ca40b-fca7-41b5-b78d-fa269185cc48"
+					(reference "#PWR0151")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 130.81 78.74 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "fb9e96c2-7056-4434-b53c-32633c8bb77c")
+		(property "Reference" "C76"
+			(at 134.62 77.4699 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "22nF 50V"
+			(at 134.62 80.0099 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+			(at 131.7752 82.55 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 130.81 78.74 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Unpolarized capacitor"
+			(at 130.81 78.74 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "b66e6417-b9ee-4d57-84ef-cb5569fad467")
+		)
+		(pin "2"
+			(uuid "c2451182-3512-4f47-9ff3-702e236f3bea")
+		)
+		(instances
+			(project "analog"
+				(path "/d3de40b8-856b-4fbd-829c-f45ffcd55742/0c2ca40b-fca7-41b5-b78d-fa269185cc48"
+					(reference "C76")
 					(unit 1)
 				)
 			)

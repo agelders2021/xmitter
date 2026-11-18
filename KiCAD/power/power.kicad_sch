@@ -996,7 +996,7 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "power:GND"
+		(symbol "xmitter:GND"
 			(power global)
 			(pin_numbers
 				(hide yes)
@@ -1025,6 +1025,7 @@
 				(at 0 -3.81 0)
 				(show_name no)
 				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -1053,7 +1054,7 @@
 					)
 				)
 			)
-			(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(property "Description" "Project-local GND with hidden Value text (see xmitter.kicad_sym)"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -1107,7 +1108,7 @@
 							)
 						)
 					)
-				)
+			)
 			)
 			(embedded_fonts no)
 		)
@@ -1349,7 +1350,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
 			(at 159.004 112.014 90)
 			(hide yes)
 			(show_name no)
@@ -1398,7 +1399,7 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
+		(lib_id "xmitter:GND")
 		(at 154.94 120.65 0)
 		(unit 1)
 		(body_style 1)
@@ -1422,6 +1423,7 @@
 		)
 		(property "Value" "GND"
 			(at 154.94 125.73 0)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -1753,7 +1755,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
 			(at 155.956 117.094 90)
 			(hide yes)
 			(show_name no)
@@ -1962,7 +1964,7 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
+		(lib_id "xmitter:GND")
 		(at 140.97 111.76 0)
 		(unit 1)
 		(body_style 1)
@@ -1986,6 +1988,7 @@
 		)
 		(property "Value" "GND"
 			(at 140.97 116.84 0)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects

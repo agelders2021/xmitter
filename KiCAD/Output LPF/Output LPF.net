@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "C:\\Users\\AlAnd\\Git Backed Projects\\xmitter\\KiCAD\\Output LPF\\Output LPF.kicad_sch")
-		(date "2026-11-16T08:08:50")
+		(date "2026-11-17T20:28:24")
 		(tool "Eeschema 10.0.3")
 		(sheet
 			(number "1")
@@ -5077,6 +5077,60 @@
 			)
 		)
 		(comp
+			(ref "R29")
+			(value "1M")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
+			(description "Resistor, US symbol")
+			(fields
+				(field
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Resistor, US symbol")
+			)
+			(libsource
+				(lib "Device")
+				(part "R_US")
+				(description "Resistor, US symbol")
+			)
+			(property
+				(name "Sheetname")
+				(value "Root")
+			)
+			(property
+				(name "Sheetfile")
+				(value "Output LPF.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "863b2578-beba-4328-9d95-47445d708832")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
 			(ref "TP3")
 			(value "xTP")
 			(footprint "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical")
@@ -5951,6 +6005,11 @@
 				(pintype "passive")
 			)
 			(node
+				(ref "R29")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
 				(ref "R3")
 				(pin "2")
 				(pintype "passive")
@@ -6376,6 +6435,11 @@
 			(node
 				(ref "K5")
 				(pin "6")
+				(pintype "passive")
+			)
+			(node
+				(ref "R29")
+				(pin "1")
 				(pintype "passive")
 			)
 		)

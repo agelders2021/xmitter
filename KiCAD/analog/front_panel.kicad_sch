@@ -2026,121 +2026,6 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "power:GND"
-			(power global)
-			(pin_numbers
-				(hide yes)
-			)
-			(pin_names
-				(offset 0)
-				(hide yes)
-			)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(in_pos_files yes)
-			(duplicate_pin_numbers_are_jumpers no)
-			(property "Reference" "#PWR"
-				(at 0 -6.35 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Value" "GND"
-				(at 0 -3.81 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" ""
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Datasheet" ""
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "ki_keywords" "global power"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(symbol "GND_0_1"
-				(polyline
-					(pts
-						(xy 0 0) (xy 0 -1.27) (xy 1.27 -1.27) (xy 0 -2.54) (xy -1.27 -1.27) (xy 0 -1.27)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-			)
-			(symbol "GND_1_1"
-				(pin power_in line
-					(at 0 0 270)
-					(length 0)
-					(name ""
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
 		(symbol "xmitter:AM26LS32ACN"
 			(pin_names
 				(offset 0.762)
@@ -3732,6 +3617,122 @@
 						)
 					)
 					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "xmitter:GND"
+			(power global)
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "#PWR"
+				(at 0 -6.35 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "GND"
+				(at 0 -3.81 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Project-local GND with hidden Value text (see xmitter.kicad_sym)"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "global power"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "GND_0_1"
+				(polyline
+					(pts
+						(xy 0 0) (xy 0 -1.27) (xy 1.27 -1.27) (xy 0 -2.54) (xy -1.27 -1.27) (xy 0 -1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "GND_1_1"
+				(pin power_in line
+					(at 0 0 270)
+					(length 0)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -6500,7 +6501,7 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
+		(lib_id "xmitter:GND")
 		(at 82.55 63.5 270)
 		(unit 1)
 		(body_style 1)
@@ -6524,6 +6525,7 @@
 		)
 		(property "Value" "GND"
 			(at 78.74 63.4999 90)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6659,7 +6661,7 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
+		(lib_id "xmitter:GND")
 		(at 48.26 148.59 0)
 		(unit 1)
 		(body_style 1)
@@ -6683,6 +6685,7 @@
 		)
 		(property "Value" "GND"
 			(at 48.26 153.67 0)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -7315,7 +7318,7 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
+		(lib_id "xmitter:GND")
 		(at 25.4 66.04 0)
 		(unit 1)
 		(body_style 1)
@@ -7339,6 +7342,7 @@
 		)
 		(property "Value" "GND"
 			(at 25.4 71.12 0)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -7726,7 +7730,7 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
+		(lib_id "xmitter:GND")
 		(at 27.94 146.05 270)
 		(unit 1)
 		(body_style 1)
@@ -7750,6 +7754,7 @@
 		)
 		(property "Value" "GND"
 			(at 24.13 146.0499 90)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8407,7 +8412,7 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
+		(lib_id "xmitter:GND")
 		(at 27.94 148.59 270)
 		(unit 1)
 		(body_style 1)
@@ -8431,6 +8436,7 @@
 		)
 		(property "Value" "GND"
 			(at 24.13 148.5899 90)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8925,7 +8931,7 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
+		(lib_id "xmitter:GND")
 		(at 195.58 132.08 0)
 		(unit 1)
 		(body_style 1)
@@ -8949,6 +8955,7 @@
 		)
 		(property "Value" "GND"
 			(at 195.58 137.16 0)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -9003,7 +9010,7 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
+		(lib_id "xmitter:GND")
 		(at 68.58 153.67 0)
 		(unit 1)
 		(body_style 1)
@@ -9027,6 +9034,7 @@
 		)
 		(property "Value" "GND"
 			(at 68.58 158.75 0)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -9081,7 +9089,7 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
+		(lib_id "xmitter:GND")
 		(at 135.89 53.34 270)
 		(unit 1)
 		(body_style 1)
@@ -9105,6 +9113,7 @@
 		)
 		(property "Value" "GND"
 			(at 132.08 53.3399 90)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -9276,7 +9285,7 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
+		(lib_id "xmitter:GND")
 		(at 210.82 140.97 90)
 		(unit 1)
 		(body_style 1)
@@ -9300,6 +9309,7 @@
 		)
 		(property "Value" "GND"
 			(at 214.63 140.9699 90)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -9355,7 +9365,7 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
+		(lib_id "xmitter:GND")
 		(at 90.17 107.95 0)
 		(unit 1)
 		(body_style 1)
@@ -9379,6 +9389,7 @@
 		)
 		(property "Value" "GND"
 			(at 90.17 113.03 0)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -9433,7 +9444,7 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
+		(lib_id "xmitter:GND")
 		(at 67.31 40.64 270)
 		(unit 1)
 		(body_style 1)
@@ -9457,6 +9468,7 @@
 		)
 		(property "Value" "GND"
 			(at 63.5 40.6399 90)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -9512,7 +9524,7 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
+		(lib_id "xmitter:GND")
 		(at 124.46 96.52 0)
 		(unit 1)
 		(body_style 1)
@@ -9536,6 +9548,7 @@
 		)
 		(property "Value" "GND"
 			(at 124.46 101.6 0)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -9825,7 +9838,7 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
+		(lib_id "xmitter:GND")
 		(at 46.99 45.72 0)
 		(unit 1)
 		(body_style 1)
@@ -9849,6 +9862,7 @@
 		)
 		(property "Value" "GND"
 			(at 46.99 50.8 0)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -9903,7 +9917,7 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
+		(lib_id "xmitter:GND")
 		(at 107.95 104.14 0)
 		(unit 1)
 		(body_style 1)
@@ -9927,6 +9941,7 @@
 		)
 		(property "Value" "GND"
 			(at 107.95 109.22 0)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -9981,7 +9996,7 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
+		(lib_id "xmitter:GND")
 		(at 154.94 105.41 0)
 		(unit 1)
 		(body_style 1)
@@ -10005,6 +10020,7 @@
 		)
 		(property "Value" "GND"
 			(at 154.94 110.49 0)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -10059,7 +10075,7 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
+		(lib_id "xmitter:GND")
 		(at 99.06 153.67 0)
 		(unit 1)
 		(body_style 1)
@@ -10083,6 +10099,7 @@
 		)
 		(property "Value" "GND"
 			(at 99.06 158.75 0)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -10410,7 +10427,7 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
+		(lib_id "xmitter:GND")
 		(at 50.8 60.96 270)
 		(unit 1)
 		(body_style 1)
@@ -10434,6 +10451,7 @@
 		)
 		(property "Value" "GND"
 			(at 46.99 60.9599 90)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -10899,7 +10917,7 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
+		(lib_id "xmitter:GND")
 		(at 58.42 153.67 0)
 		(unit 1)
 		(body_style 1)
@@ -10923,6 +10941,7 @@
 		)
 		(property "Value" "GND"
 			(at 58.42 158.75 0)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11055,7 +11074,7 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
+		(lib_id "xmitter:GND")
 		(at 72.39 146.05 270)
 		(unit 1)
 		(body_style 1)
@@ -11079,6 +11098,7 @@
 		)
 		(property "Value" "GND"
 			(at 68.58 146.0499 90)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11658,7 +11678,7 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
+		(lib_id "xmitter:GND")
 		(at 158.75 45.72 0)
 		(unit 1)
 		(body_style 1)
@@ -11682,6 +11702,7 @@
 		)
 		(property "Value" "GND"
 			(at 158.75 50.8 0)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11898,7 +11919,7 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
+		(lib_id "xmitter:GND")
 		(at 71.12 118.11 180)
 		(unit 1)
 		(body_style 1)
@@ -11922,6 +11943,7 @@
 		)
 		(property "Value" "GND"
 			(at 71.12 113.03 0)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -12523,7 +12545,7 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
+		(lib_id "xmitter:GND")
 		(at 68.58 166.37 270)
 		(unit 1)
 		(body_style 1)
@@ -12547,6 +12569,7 @@
 		)
 		(property "Value" "GND"
 			(at 64.77 166.3699 90)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -12684,7 +12707,7 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
+		(lib_id "xmitter:GND")
 		(at 135.89 43.18 270)
 		(unit 1)
 		(body_style 1)
@@ -12707,6 +12730,7 @@
 		)
 		(property "Value" "GND"
 			(at 135.382 40.64 90)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -13125,7 +13149,7 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
+		(lib_id "xmitter:GND")
 		(at 76.2 191.77 0)
 		(unit 1)
 		(body_style 1)
@@ -13149,6 +13173,7 @@
 		)
 		(property "Value" "GND"
 			(at 76.2 196.85 0)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
