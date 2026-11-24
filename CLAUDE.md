@@ -30,7 +30,7 @@ otherwise have nowhere natural to live.
 | Directory | What's in it |
 |---|---|
 | `xmitter_prj/` | QUCS-S schematics (`.sch`) and SPICE libraries (`.lib`) |
-| `KiCAD/` | KiCad PCB design files. **Active:** `analog/` (Rev A fabricated 2026-07-14 — MC1496 keyer stage failed; Rev C branch replaced it with DGFET keyer plus RJ45 umbilical to the ss_pa board, awaiting fab), `ss_pa/` (SS PA board — pa_stage + fault_shutdown populated and ERC-clean, lpf sheet pending LPF migration from analog), `frontpanel/` (in development), `protoshield/` (Metro-mounted proto-shield). **Reserved for potential tube-PA upgrade:** `bias/` (OPA454 grid bias generator), `power/` (HV rectifier + filter) — not currently being fabricated. Shared `xmitter.pretty/` footprints and `xmitter.kicad_sym` at `KiCAD/` root, referenced by each project via `${KIPRJMOD}/../`. Reversal recipe in `KiCAD/MULTIBOARD_REVERT.md`. |
+| `KiCAD/` | KiCad PCB design files. **Active:** `analog/` (Rev A fabricated 2026-07-14 — MC1496 keyer stage failed; Rev D branch replaced it with DGFET keyer plus RJ45 umbilical to the ss_pa board, awaiting fab, now also hosts the front-panel circuitry as the `front_panel.kicad_sch` sub-sheet), `ss_pa/` (SS PA board), `Output LPF/` (4-band LPF bank, own PCB), `protoshield/` (Metro-mounted proto-shield). **Historical / absorbed:** `frontpanel/` (standalone board absorbed into analog as the `front_panel.kicad_sch` sub-sheet; directory kept on disk but not fabricated). **Reserved for potential tube-PA upgrade:** `bias/` (OPA454 grid bias generator), `power/` (HV rectifier + filter) — not currently being fabricated. Shared `xmitter.pretty/` footprints and `xmitter.kicad_sym` at `KiCAD/` root, referenced by each project via `${KIPRJMOD}/../`. Reversal recipe in `KiCAD/MULTIBOARD_REVERT.md`. |
 | `Documentation/` | Design docs, generated PDFs, sourcing spreadsheets, datasheets |
 | `tools/` | Python scripts: sweep_param, gen_*_pdf, gen_parts_list, etc. |
 | `firmware/` | ESP-IDF firmware (not yet scaffolded — first task this phase) |
@@ -78,8 +78,11 @@ Current sub-sheets: `analog.kicad_sch` root, `vfo_complete.kicad_sch`
 (Si5351 → DGFET → Chebyshev LPF → op-amp follower → LM7171 PP
 inv/non-inv), `arduino.kicad_sch` (Metro carrier, MCP4728 I²C DAC,
 MCP4922 SPI DAC, control relays, heartbeat monostable, RJ45 J31 to
-ss_pa), `interface.kicad_sch` (frontpanel I²C/RS-422/PCF8575 circuitry,
-now on the analog board after frontpanel absorption),
+ss_pa), `front_panel.kicad_sch` (front-panel I²C / RS-422 MBL-600
+receiver / PCF8575 expander / LCD interface / local +3.3 V LDO —
+all on the analog board now; the previous separate `frontpanel/`
+project is historical and `interface.kicad_sch` is orphaned on
+disk after its circuitry was absorbed here),
 `dac.kicad_sch` (DAC + U10 LM7171 offset-mute op-amp),
 `power.kicad_sch` (regulators and supply chain),
 `sidetone.kicad_sch` (local audio sidetone — identical DGFET keyer to
@@ -102,10 +105,15 @@ self-latching V_REF, CD74HC4066 series-pass bias switch, startup cap
 + diode for power-on auto-reset, RJ45 J7 umbilical), `lpf.kicad_sch`
 (skeleton; LPF bank migration from analog pending). ERC clean.
 
-**Frontpanel (`KiCAD/frontpanel/`):** In development. Other end of the
-analog→frontpanel RJ45 umbilical (J4 on analog ↔ J1 on frontpanel).
-Design carries forward unchanged from the tube-era plan (topology
-pivot only affects the RF chain, not the control umbilical).
+**Frontpanel (`KiCAD/frontpanel/`): HISTORICAL.** The front-panel
+circuitry — PCF8575 I/O expander, AM26LS32 RS-422 receiver for
+MBL-600, LCD interface, encoder sockets, local +3.3 V LDO, button
+matrix, LED indicators — was absorbed into the analog board as the
+`front_panel.kicad_sch` sub-sheet. The standalone `KiCAD/frontpanel/`
+directory and its `.kicad_pro` / `.kicad_sch` are kept on disk but
+are **not part of the Rev D fab set**. Do not include it in
+project-wide audits, netclass sweeps, label normalization, or
+GND-migration runs.
 
 **Protoshield (`KiCAD/protoshield/`):** Metro-mounted Adafruit Proto
 Shield (PID 2077) or Proto Screw Shield. Holds Metro GPIO
@@ -135,9 +143,6 @@ Next likely work items:
   `KiCAD/ss_pa/lpf.kicad_sch` (so high-current RF stays on the SS PA
   board rather than passing through the analog↔ss_pa umbilical)
 - Fab ss_pa board (schematic complete; needs PCB layout)
-- Complete schematic + PCB for `KiCAD/frontpanel/` — start from the
-  umbilical pin map in `Documentation/front_panel_interface.md`,
-  mirror the PCF8575 / RS-422 receiver pair on the front-panel side
 - Scaffold `firmware/` (ESP-IDF project) around the DGFET envelope
   chain — see `Documentation/cw_envelope_keyer.md` for the
   envelope-generation logic (topology-agnostic parts still apply;

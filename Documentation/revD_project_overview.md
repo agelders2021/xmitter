@@ -131,10 +131,24 @@ The analog board hosts:
 - **Power sequencing hardware**:
     - 3 A slow-blow fuse (F2) + 1N5822 Schottky (D1) at the shack
       input (J5)
-    - **24 Ω 10 W inrush resistor** (R42) in series with the SS PA
-      power feed, bypassed in normal operation by relay K6
-    - **K5 and K6** (G6RL-1-DC12) — K5 gated by the CD14538B
-      heartbeat; K6 bypasses the inrush resistor
+    - **24 Ω 10 W inrush resistor** (R42) between SS_PWR_PRE and
+      SS_PA_POWER, bypassed in normal operation by relay K5
+    - **K5 and K6** (G6RL-1-DC12): **K6 is the master +13.8 V enable**
+      for SS_PWR_PRE (K6 common = SS_PWR_PRE, K6 NO = +13.8 V — closed
+      = rail live, open = SS_PWR_PRE floats). **K5 is the inrush
+      bypass** across R42 (K5 contact in parallel with the inrush
+      resistor between SS_PWR_PRE and SS_PA_POWER). **Both K5 and K6
+      coil-sink paths are gated by Q7**, a 2N7000 cascode whose gate
+      is driven by the CD14538B heartbeat monostable Q_A output
+      (`HEARTBEAT_CTL`). Q5 (K5 driver) and Q6 (K6 driver) share a
+      common source node (`Net-(Q5-S)`) that connects to Q7's drain;
+      Q7's source is GND. If the heartbeat is not running, Q7 is OFF
+      and neither K5 nor K6 can energize regardless of the PCF8575
+      drive state. This also means the LPF band-select rail
+      (`SS_PWR_PRE`, carried out on J2 pin 8) is dead at power-up until
+      firmware (a) starts the heartbeat and (b) asserts P13
+      (SS_PA_INRUSH_CTL) HIGH, so LPF coil relays cannot accidentally
+      energize before firmware takes control.
 - **BSS138 I²C level shifter** (Adafruit #757 breakout) at the Metro
   I²C entry so the Metro's 3.3 V I²C talks to the +5 V bus
 - **74HCT125** quad buffer for level-shifting SPI 3.3 → 5 V to the
@@ -604,16 +618,18 @@ to tune bias safely without burning IRF510s.
 ## 10. Umbilicals and board boundaries
 
 - **J1** Analog → ss_pa — RF signal (SMA, 50 Ω).
-- **J2** Analog → Output LPF — RJ45 CAT6; carries **SS_PA_Power**
-  (the switched +13.8 V downstream of K5 heartbeat relay and K6
-  inrush-bypass) for the relay coils, plus four band selects
-  (RLY_15/17/20/40), T/R control, T/R status back. Shield = GND.
-  **Rationale for using SS_PA_Power rather than +12 V:** this rail
-  is dead at power-up (K5 is open until the heartbeat watchdog
-  arms) so no band-select relay can accidentally energize before
-  firmware takes control. A **62 Ω 1 W current-limit resistor
-  (R28)** on the Output LPF board brings the G6K coil current back
-  into spec at the higher 13.8 V rail (G6K is a 12 V coil nominal).
+- **J2** Analog → Output LPF — RJ45 CAT6; carries **SS_PWR_PRE** on
+  pin 8 (the +13.8 V node after K6 — see §3.1 — and in parallel with
+  the R42 inrush path to SS_PA_POWER) for the relay coils, plus four
+  band selects (RLY_15/17/20/40), T/R control, T/R status back.
+  Shield = GND. **Rationale for using SS_PWR_PRE rather than +12 V:**
+  this rail is dead at power-up because both K5 and K6 are gated by
+  the Q7 heartbeat cascode (see §3.1), so no band-select relay can
+  accidentally energize before firmware (a) starts the heartbeat and
+  (b) sets P13 (SS_PA_INRUSH_CTL) HIGH to close K6. A **62 Ω 1 W
+  current-limit resistor (R28)** on the Output LPF board brings the
+  G6K coil current back into spec at the higher 13.8 V rail (G6K is
+  a 12 V coil nominal).
 - **J31** Analog ↔ ss_pa — RJ45 CAT6:
   - Pins 1, 4: `Source_Sense_A_Raw`, `Source_Sense_B_Raw` (10×
     pre-amplified source voltage, ss_pa → analog)
@@ -626,8 +642,9 @@ to tune bias safely without burning IRF510s.
   signal and its latch live entirely on analog. The +13.8 V main
   supply for the ss_pa RF stages goes through dedicated screw
   terminals (J33 on analog → J2 on ss_pa) gated upstream by the
-  inrush limiter R42 (24 Ω 10 W, bypassed by K6) and the heartbeat
-  relay K5.
+  K6 master enable relay and then through the K5/R42 pair
+  (K5 bypasses the 24 Ω 10 W inrush resistor R42 when closed). Both
+  K5 and K6 share the Q7 heartbeat-cascode enable — see §3.1.
 - **Analog ↔ protoshield** — multiple screw-terminal headers along
   the shared board edge (no RJ45, no ribbon cable).
 - **J35** Analog → (future tube PA) — RJ45 provisioned on analog
@@ -637,19 +654,26 @@ to tune bias safely without burning IRF510s.
 
 ## 11. Bringup power sequencing
 
-- **24 Ω 10 W inrush limiter** (R42) is in series with the +13.8 V
-  feed to ss_pa during initial bringup. Limits ss_pa draw to
-  roughly 500 mA worst-case for the first validation session,
-  enough current to verify DAC bias control, source-sense ADC
-  path, and fault-chain latching without risking an IRF510 if bias
-  is set wrong.
-- After bringup validation, **K6** (bypass relay, G6RL-1-DC12)
-  shorts out the inrush resistor and ss_pa sees the full +13.8 V
-  rail through **K5** (heartbeat watchdog relay, also G6RL-1-DC12).
-- The heartbeat watchdog is driven by **U18A** (first half of the
-  CD14538B dual monostable); the Metro periodically retriggers the
-  monostable, and if firmware hangs the monostable times out and
-  K5 drops, cutting the SS PA rail.
+- **K6** (G6RL-1-DC12, master +13.8 V enable) is the first relay in
+  the chain. Its contact is between +13.8 V and SS_PWR_PRE. K6 is
+  energized by Q6 (2N7000) on net SS_PA_INRUSH_CTL from PCF8575 P13,
+  with the coil-sink path gated by the Q7 heartbeat cascode. Until
+  firmware both (a) starts the heartbeat monostable and (b) asserts
+  P13 HIGH, SS_PWR_PRE is isolated from +13.8 V.
+- **24 Ω 10 W inrush limiter** (R42) sits between SS_PWR_PRE and
+  SS_PA_POWER. During initial bringup, K5 is open and ss_pa is fed
+  through R42, limiting ss_pa draw to roughly 500 mA worst-case
+  while verifying DAC bias control, source-sense ADC path, and
+  fault-chain latching.
+- After bringup validation, **K5** (G6RL-1-DC12, inrush bypass)
+  closes under firmware control (PCF8575 P14 → Q5 → K5 coil, gated
+  by the Q7 heartbeat cascode) to short R42. ss_pa then sees the
+  full +13.8 V rail at SS_PA_POWER.
+- **Heartbeat watchdog** — U18A (first half of the CD14538B dual
+  monostable) drives HEARTBEAT_CTL. Firmware periodically retriggers
+  it; if firmware hangs, the monostable times out, HEARTBEAT_CTL
+  goes LOW, Q7 opens, and the Q5/Q6 common source floats — both K5
+  and K6 drop, cutting the SS PA rail in one event rather than two.
 
 ## 12. Physical-part verification pending (reviewer, please pay attention)
 
