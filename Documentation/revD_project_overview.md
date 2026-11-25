@@ -490,19 +490,34 @@ residual RF riding on the DC source-current voltage:
 **V_REF generator (self-latching via negative reference):**
 
 The latch mechanism makes V_REF go **negative** when FAULT_N
-drops. Values:
+drops. Values (as of 2026-11-24 QUCS-S sim validation, see
+`xmitter_prj/test_vref/test.sch`):
 
 - **R16 = 100 kΩ** — hysteresis coupling from FAULT_N to V_REF
-- **R17 = 160 kΩ** — V_REF to NODEX
+- **R17 = 100 kΩ** — V_REF to NODEX
 - **R41 = 2.7 kΩ** — NODEX to GND
 - **R59 = 15 kΩ** — NODEX to −12 V
 - **RV1 = 10 kΩ** — Bourns 3296W-103LF top-adjust trimmer in series
   between R17 and R41, with the wiper tapped to R59. Rotating RV1
   shifts the −12 V tap along the R17–R41 chain, giving an
-  **operator-adjustable trip current of approximately
-  1.6 A to 4.3 A per FET** (verified in QUCS-S simulation mirroring
-  the fault-chain topology including the 5× effective gain seen at
-  the LM393 input — see §5.9b for signal conditioning details).
+  **operator-adjustable trip current of approximately 1.3 A to
+  3.5 A per FET** (QUCS-S simulated; mirrors the fault-chain
+  topology including the 5× effective gain seen at the LM393 input —
+  see §5.9b for signal conditioning details).
+
+**⚠ Design is touchy — build-time tuning expected.** The ratio of
+R17/R59/RV1 strongly affects both the center and span of the trip
+range, and small resistor changes can push V_REF negative (immediate
+latch at power-up) or above the max V_SS reach (no trip possible).
+The values above were reached after iterating against several R
+combinations in QUCS-S. Final trip-range tuning on the built board
+is planned at the Source_Sense signal-conditioning stage (§5.9b)
+rather than here — R65/R68 on channel A and R66/R67 on channel B
+are the 2:1 attenuator pairs where the actual trip point will be
+trimmed. **R66 and R67 are marked DNP in the Rev D schematic** as a
+physical reminder to measure the live signal first and pick divider
+ratios (which can be asymmetric — e.g., 10K/4.7K for 3:1 — instead
+of the drawn symmetric 10K/10K default) before populating them.
 
 In the no-fault state, FAULT_N is near +5 V (via R46), V_REF is
 positive (a few hundred mV, settable by RV1), and the LM393 output
