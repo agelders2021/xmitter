@@ -64,9 +64,14 @@ Chebyshev LPFs selected by band-select relay drives from a PCF8575
 I/O expander. **10 m is deliberately not covered** by this design.
 The retained bands are:
 
-- **40 m** (7.000–7.300 MHz) — LPF Fc ≈ 8.0 MHz
-  *(7.3 MHz sits at 0.91·Fc — in-band but tolerance margin is tight;
-  component tolerances could shift the passband edge toward 7.3 MHz)*
+- **40 m** (7.000–7.300 MHz) — LPF Fc ≈ **8.5 MHz**
+  *(Fc raised from 8.0 to 8.5 MHz to give adequate band-edge margin
+  — 7.3 MHz now at 0.86·Fc with ~1.1 dB attenuation at the edge
+  under nominal cap/L tolerance. 2nd harmonic at 14.6 MHz still sees
+  ~47 dB rejection, comfortably above the FCC Part 97 43 dBc floor.
+  Caps CF4/CF26 = 430 pF 200V C0G and CF6/CF8 = 750 pF 200V C0G
+  (both E24). Inductors L18/L20 = 18 T on T50-6 (1296 nH),
+  L19 = 19 T on T50-6 (1444 nH).)*
 - **20 m** (14.000–14.350 MHz) — LPF Fc ≈ 17.09 MHz
 - **17 m** (18.068–18.168 MHz) — LPF Fc ≈ 20.90 MHz
 - **15 m** (21.000–21.450 MHz) — LPF Fc ≈ 25.07 MHz
