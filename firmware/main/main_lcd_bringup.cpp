@@ -43,8 +43,12 @@
 #include "driver/gpio.h"
 
 #include "pin_map.h"
-#include "pcf8575.h"
-#include "lcd_hd44780.h"
+#if defined(LCD_BACKPACK)
+# include "lcd_backpack.h"
+#else
+# include "pcf8575.h"
+# include "lcd_hd44780.h"
+#endif
 #include "vfo_si5351.h"
 #include "mcp4728.h"
 #include "i2c_scan.h"
@@ -57,7 +61,7 @@ constexpr char TAG[] = "bringup";
 
 // Bring-up firmware revision.  BUMP THIS on every code change so we can
 // tell which build is running on the bench without reading the serial log.
-constexpr int FW_REV = 21;
+constexpr int FW_REV = 22;
 
 // I2C addresses
 constexpr uint8_t  MCP4725_ADDR             = 0x62;
@@ -65,6 +69,13 @@ constexpr uint8_t  ENCODER_ADDR             = 0x37;
 constexpr uint8_t  MCP4728_ADDR_FACTORY     = 0x60;   // also Si5351's address
 constexpr uint8_t  MCP4728_ADDR_TARGET      = 0x67;
 
+#if defined(LCD_BACKPACK)
+// Standard PCF8574 "I2C LCD" backpack: 16x2, on-board trim-pot contrast,
+// single on/off backlight.  No MCP4725 / BAM / RGB.
+constexpr int LCD_COLS  = 16;
+constexpr int LCD_ROWS  = 2;
+constexpr int FREQ_ROW  = 0;    // overwrites the "Rev N" splash
+#else
 // LCD contrast -- bench-tuned; written once at startup.
 constexpr uint16_t MCP4725_CODE_FIXED = 493;    // ~0.6 V at 5 V Vref
 
@@ -75,6 +86,11 @@ constexpr int PWM_UNIT_US   = 500;
 
 // Backlight duty -- fixed for this build.
 constexpr uint8_t BACKLIGHT_DUTY = 17;          // 17/31 = 55 %
+
+constexpr int LCD_COLS  = 20;
+constexpr int LCD_ROWS  = 4;
+constexpr int FREQ_ROW  = 2;
+#endif
 
 // Frequency limits (20 m CW band).
 constexpr uint32_t FREQ_MIN_HZ    = 14000000;
@@ -89,15 +105,18 @@ constexpr int ENCODER_COUNTS_PER_DETENT = 4;
 //  Shared state
 // --------------------------------------------------------------------------
 i2c_master_bus_handle_t s_bus         = nullptr;
+#if defined(LCD_BACKPACK)
+lcd_backpack::Device    s_lcd;
+#else
 pcf8575::Device         s_pcf;
 lcd::HD44780            s_lcd;
-SemaphoreHandle_t       s_pcf_mutex   = nullptr;
 esp_timer_handle_t      s_pwm_timer   = nullptr;
-bool                    s_display_ok  = false;   // set true once PCF8575+LCD both up
+uint8_t                 s_bit_idx     = 0;
+#endif
+SemaphoreHandle_t       s_pcf_mutex   = nullptr;   // also guards backpack LCD writes
+bool                    s_display_ok  = false;
 
 volatile uint32_t s_freq_hz = FREQ_START_HZ;
-
-uint8_t s_bit_idx = 0;
 
 // True once the PWM timer + task are running; before that, LCD writes need
 // no locking because app_main is the only writer.
@@ -117,6 +136,7 @@ esp_err_t i2c_bus_init() {
     return i2c_new_master_bus(&cfg, &s_bus);
 }
 
+#if !defined(LCD_BACKPACK)
 esp_err_t mcp4725_set(uint8_t addr, uint16_t code_12bit) {
     if (code_12bit > 0x0FFF) code_12bit = 0x0FFF;
     i2c_device_config_t cfg = {};
@@ -136,6 +156,7 @@ esp_err_t mcp4725_set(uint8_t addr, uint16_t code_12bit) {
     i2c_master_bus_rm_device(dev);
     return e;
 }
+#endif
 
 // --------------------------------------------------------------------------
 //  Minimal Adafruit seesaw driver -- SW reset + read encoder delta only.
@@ -199,36 +220,44 @@ void lcd_write_at(uint8_t row, uint8_t col, const char *s) {
     if (s_locking_active) xSemaphoreGive(s_pcf_mutex);
 }
 
-// Row 1 is the boot-status / running-state line.  20 char field, always
-// padded so the whole row updates atomically (no leftover characters).
+// Row 1 is the boot-status / running-state line.  Padded to LCD_COLS so
+// the whole row updates atomically (no leftover characters).
 void render_status(const char *msg) {
-    char buf[21];
-    std::snprintf(buf, sizeof(buf), "%-20.20s", msg);
+    char buf[24];
+    std::snprintf(buf, sizeof(buf), "%-*.*s", LCD_COLS, LCD_COLS, msg);
     lcd_write_at(1, 0, buf);
 }
 
 void render_header_and_footer() {
     if (!s_display_ok) return;
-    char buf[21];
+    char buf[24];
     if (s_locking_active) xSemaphoreTake(s_pcf_mutex, portMAX_DELAY);
     s_lcd.clear();
     s_lcd.set_cursor(0, 0);
-    std::snprintf(buf, sizeof(buf), " Rev %-15d", FW_REV);
+    std::snprintf(buf, sizeof(buf), " Rev %-*d", LCD_COLS - 5, FW_REV);
     s_lcd.print(buf);
-    s_lcd.set_cursor(3, 0);
-    s_lcd.print(" Step: 1 kHz        ");
+    if (LCD_ROWS >= 4) {
+        s_lcd.set_cursor(3, 0);
+        std::snprintf(buf, sizeof(buf), "%-*.*s",
+                      LCD_COLS, LCD_COLS, " Step: 1 kHz");
+        s_lcd.print(buf);
+    }
     if (s_locking_active) xSemaphoreGive(s_pcf_mutex);
 }
 
 void render_freq(uint32_t hz) {
     char raw[32];
-    std::snprintf(raw, sizeof(raw), "   %u,%03u,%03u Hz",
+    // "14,200,000 Hz" = 13 chars; fits 16-col (pad 1 left, 2 right) and
+    // 20-col (pad 3 left, 4 right).
+    const int pad_left = (LCD_COLS >= 20) ? 3 : 1;
+    std::snprintf(raw, sizeof(raw), "%*s%u,%03u,%03u Hz",
+                  pad_left, "",
                   (unsigned)(hz / 1000000u),
                   (unsigned)((hz / 1000u) % 1000u),
                   (unsigned)(hz % 1000u));
-    char buf[21];
-    std::snprintf(buf, sizeof(buf), "%-20.20s", raw);
-    lcd_write_at(2, 0, buf);
+    char buf[24];
+    std::snprintf(buf, sizeof(buf), "%-*.*s", LCD_COLS, LCD_COLS, raw);
+    lcd_write_at(FREQ_ROW, 0, buf);
 }
 
 // --------------------------------------------------------------------------
@@ -312,6 +341,7 @@ const char *mcp4728_check_and_reprogram() {
     return " Reprog xfer FAIL   ";
 }
 
+#if !defined(LCD_BACKPACK)
 // --------------------------------------------------------------------------
 //  PWM timer callback -- one BAM sub-frame per firing.
 // --------------------------------------------------------------------------
@@ -331,6 +361,7 @@ void pwm_timer_cb(void *) {
     s_bit_idx = (bit + 1) % PWM_BITS;
     esp_timer_start_once(s_pwm_timer, slot_us);
 }
+#endif
 
 // --------------------------------------------------------------------------
 //  Bring-up task -- encoder poll + freq refresh + VFO retune
@@ -369,24 +400,23 @@ void bringup_task(void *) {
                 i2c_master_bus_reset(s_bus);
                 vTaskDelay(pdMS_TO_TICKS(100));   // let seesaw ATTINY re-init
 
-                // PCF8575 output register reset to 0xFFFF on power-cycle / reset;
-                // re-apply our shadow so backlight + LCD pins return to last
-                // known state.
-                if (xSemaphoreTake(s_pcf_mutex, pdMS_TO_TICKS(200)) == pdTRUE) {
-                    s_pcf.apply();
-                    xSemaphoreGive(s_pcf_mutex);
-                }
-
-                // Re-init the HD44780: the bus glitch may have clocked in a
+                // Re-init the LCD: the bus glitch may have clocked in a
                 // partial nibble, leaving the controller in an unknown state.
                 if (s_display_ok) {
                     if (xSemaphoreTake(s_pcf_mutex, pdMS_TO_TICKS(200)) == pdTRUE) {
+#if defined(LCD_BACKPACK)
+                        s_lcd.begin(s_bus, s_lcd.addr(), LCD_ROWS);
+#else
+                        // PCF8575 output register reset to 0xFFFF on
+                        // power-cycle; re-apply our shadow first.
+                        s_pcf.apply();
                         s_lcd.begin(&s_pcf);   // full init sequence
+#endif
                         xSemaphoreGive(s_pcf_mutex);
                     }
                     render_header_and_footer();
                     render_freq(s_freq_hz);
-                    render_status(" Running            ");
+                    render_status(" Running");
                 }
             }
         } else {
@@ -467,6 +497,7 @@ extern "C" void app_main() {
     esp_log_level_set("vfo",        ESP_LOG_WARN);
     esp_log_level_set("pcf8575",    ESP_LOG_WARN);
     esp_log_level_set("lcd",        ESP_LOG_WARN);
+    esp_log_level_set("lcd_bp",     ESP_LOG_WARN);
     // mcp4728 stays at INFO so we can see the reprogram byte log and any
     // per-attempt failure messages during bring-up.
 
@@ -487,6 +518,14 @@ extern "C" void app_main() {
     //  PCF8575 or LCD isn't reachable, s_display_ok stays false and every
     //  render_*/lcd_write_at call becomes a no-op; rely on serial for
     //  status.
+#if defined(LCD_BACKPACK)
+    if (esp_err_t e = s_lcd.begin(s_bus, 0, LCD_ROWS); e != ESP_OK) {
+        ESP_LOGW(TAG, "I2C LCD backpack not found at 0x27 or 0x3F (%s) -- "
+                      "no LCD status this boot", esp_err_to_name(e));
+    } else {
+        s_display_ok = true;
+    }
+#else
     if (esp_err_t e = s_pcf.begin(s_bus, pins::I2C_ADDR_PCF8575_PANEL); e != ESP_OK) {
         ESP_LOGW(TAG, "PCF8575 at 0x%02X missing (%s) -- no LCD status this boot",
                  pins::I2C_ADDR_PCF8575_PANEL, esp_err_to_name(e));
@@ -501,11 +540,16 @@ extern "C" void app_main() {
         ESP_LOGW(TAG, "MCP4725 (contrast) missing at 0x%02X (%s)",
                  MCP4725_ADDR, esp_err_to_name(e));
     }
+#endif
 
     if (s_display_ok) {
+#if defined(LCD_BACKPACK)
+        s_lcd.backlight(true);
+#else
         s_lcd.backlight_rgb(true, true, true);
+#endif
         render_header_and_footer();
-        render_status(" Booting Rev 15     ");
+        render_status(" Booting");
         render_freq(FREQ_START_HZ);
     }
     ESP_LOGI(TAG, "display %s", s_display_ok ? "up" : "SKIPPED (front-panel off)");
@@ -558,15 +602,17 @@ extern "C" void app_main() {
     }
     s_locking_active = true;
 
+#if !defined(LCD_BACKPACK)
     esp_timer_create_args_t timer_args = {};
     timer_args.callback        = &pwm_timer_cb;
     timer_args.dispatch_method = ESP_TIMER_TASK;
     timer_args.name            = "backlight_bam";
     ESP_ERROR_CHECK(esp_timer_create(&timer_args, &s_pwm_timer));
     ESP_ERROR_CHECK(esp_timer_start_once(s_pwm_timer, PWM_UNIT_US));
+#endif
 
-    render_status(encoder_ok ? " Running            "
-                             : " Running, no knob   ");
+    render_status(encoder_ok ? " Running"
+                             : " Running, no knob");
 
     xTaskCreatePinnedToCore(bringup_task, "lcd_bringup", 4096, nullptr,
                             3, nullptr, pins::CORE_MONITOR);

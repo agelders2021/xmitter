@@ -12,11 +12,17 @@
 # LDAC_SCOPE_ONLY replaces the LCD bring-up app_main with a diagnostic
 # that toggles GPIO 7 at 100 Hz forever.  Requires LCD_BRINGUP.
 #     idf.py -DLCD_BRINGUP=ON -DLDAC_SCOPE_ONLY=ON build flash monitor
+#
+# LCD_BACKPACK swaps the PCF8575 + WH2004A display driver for the standard
+# "I2C LCD" PCF8574 backpack (16x2) on 0x27 / 0x3F.  Rev A bench testing.
+# Requires LCD_BRINGUP.
+#     idf.py -DLCD_BRINGUP=ON -DLCD_BACKPACK=ON build flash monitor
 # --------------------------------------------------------------------------
 
 option(LCD_BRINGUP        "Build the front-panel LCD bring-up test entry point" OFF)
 option(LDAC_SCOPE_ONLY    "LDAC continuity diagnostic (no MCP4728/Si5351 init)" OFF)
 option(REPROGRAM_ONLY     "Isolated legacy-driver MCP4728 reprogram build"      OFF)
+option(LCD_BACKPACK       "Use PCF8574 I2C backpack (16x2) instead of WH2004A"  OFF)
 
 if(REPROGRAM_ONLY)
     # Absolute minimum: just the one file.  Nothing else compiles or links,
@@ -41,6 +47,7 @@ else()
         "vfo_knob.cpp"
         "pcf8575.cpp"
         "lcd_hd44780.cpp"
+        "lcd_backpack.cpp"
         "display.cpp"
     )
 endif()
@@ -77,4 +84,7 @@ if(LDAC_SCOPE_ONLY)
 endif()
 if(REPROGRAM_ONLY)
     target_compile_definitions(${COMPONENT_LIB} PRIVATE REPROGRAM_ONLY=1)
+endif()
+if(LCD_BACKPACK)
+    target_compile_definitions(${COMPONENT_LIB} PRIVATE LCD_BACKPACK=1)
 endif()
