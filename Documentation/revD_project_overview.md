@@ -353,11 +353,29 @@ source current from the ADC reading:
 float I_source_amps = adc_voltage_volts / (5.0f * 0.11f);  // = V / 0.55
 ```
 
-So an ADC reading of 2.3 V corresponds to ~4.2 A per FET (the top
-of the RV1-adjustable trip range). The 5× scaling keeps all
-sensible operating currents comfortably within the ESP32's 3.3 V
-ADC range while giving ~5× better LSB resolution than reading the
-raw 0.11 Ω voltage directly.
+With the current V_REF generator values (§6.6), the actual RV1-
+adjustable trip range is roughly **1.3 A to 3.5 A per FET**, which
+maps to channel-A ADC readings of **0.80 V to 2.0 V**. That span
+lives squarely inside the ESP32-S3 SAR ADC's reliable "sweet spot"
+of approximately **150 mV to 2450 mV** (with 11 dB attenuation and
+`esp_adc_cal` eFuse calibration enabled, uncalibrated INL is
+±30-50 mV in this band; calibrated, ±10-20 mV). Below ~150 mV the
+ADC compresses toward 0 and noise dominates; above ~2.45 V the INL
+grows and the response eventually saturates. The 5× scaling was
+originally sized against an older 4.2 A trip ceiling; with the
+tighter trip range the signal never approaches the saturation end,
+so **no additional attenuator on Source_Sense is needed** on
+channel A.
+
+**Channel B caveat.** R66/R67 (the channel-B 2:1 attenuator pair)
+are marked DNP in Rev D — see §6.6. Until those are populated,
+channel B's ADC sees the un-divided Source_Sense_B_Raw, so its
+reading at the same FET current is 2× channel A's. At the drawn
+3.5 A trip ceiling that would be ~3.85 V, saturating the ADC.
+When tuning R66/R67 at bringup, pick divider values that keep the
+B-channel ADC reading ≤ 2.4 V across the full expected current
+range — the simplest choice is R66 = R67 = 10 kΩ to match channel
+A, unless the measured signal dictates a different ratio.
 
 ### 6.2 I²C bus
 
@@ -689,6 +707,25 @@ to tune bias safely without burning IRF510s.
   it; if firmware hangs, the monostable times out, HEARTBEAT_CTL
   goes LOW, Q7 opens, and the Q5/Q6 common source floats — both K5
   and K6 drop, cutting the SS PA rail in one event rather than two.
+
+**Why R42 is 24 Ω and not smaller (e.g. 10 Ω):** the primary job of
+R42 is inrush-limiting into the ~4700 µF filter cap on ss_pa when
+K6 first closes — at 24 Ω the peak charge current is 575 mA,
+τ = R·C = 113 ms, cap-energy of ~0.45 J dissipated as ~4 W average
+for ~100 ms (comfortably inside a 10 W wirewound's thermal
+envelope). A smaller R42 (e.g. 10 Ω) would still charge the cap
+fine but would allow 1.4 A of steady current into a downstream
+dead-short — enough to smoke the resistor long before any external
+breaker reacts if, for some reason, the LM393 fault-latch path has
+also failed. **The 24 Ω value is deliberately chosen to survive
+indefinitely against an ss_pa short when the hardware fault chain
+isn't covering it.** The trade-off: during bringup (K5 open), ss_pa
+is limited to ~500 mA before the R42 voltage drop collapses the
+rail below LM7171 / MCP6002 dropout. This restricts bringup
+validation to quiescent-current operation (DAC bias control,
+source-sense ADC path, fault-chain latching) rather than
+live-RF validation — which is fine, since real RF validation
+needs K5 closed anyway.
 
 ## 12. Physical-part verification pending (reviewer, please pay attention)
 
