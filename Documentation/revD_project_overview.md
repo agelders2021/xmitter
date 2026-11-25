@@ -40,8 +40,8 @@ filter bank selects the correct harmonic-suppression filter for the
 active band. The RF chain is: **Si5351A** clock → **40673 dual-gate
 MOSFET keyer** (G1 = RF, G2 = envelope voltage from an SPI DAC via an
 offset-mute op-amp, giving raised-cosine CW shaping and ~10⁹ on/off
-contrast) → RC snubber → **LM7171 unity-gain buffer** (build-time
-gain hedge available) → short coax to the SS PA board → **BS170
+contrast) → LC post-drain LPF → **LM7171 gain-of-4 non-inverting
+buffer** → short coax to the SS PA board → **BS170
 push-pull pre-driver** → interstage transformer → **IRF510 push-pull
 final** → output transformer → short coax to the LPF board →
 **4-band Chebyshev LPF** → antenna. The MCU is an **Adafruit Metro
@@ -101,11 +101,12 @@ The analog board hosts:
 - **DGFET keyer** — Q2 40673 dual-gate MOSFET; G1 receives RF from
   Si5351 through a 100 nF AC coupling cap; G2 receives the envelope
   voltage
-- **RC snubber** on the DGFET drain (50 Ω + 100 pF, single-pole
-  ~32 MHz LPF to tame Si5351 CMOS edges)
-- **LM7171 output buffer** (U1), non-inverting, build-time gain
-  hedge via a stuffing option on the R_g resistor to GND (default
-  R_g unpopulated → unity gain; populate R_g = 1 kΩ → gain = 4)
+- **Post-drain 2-pole LC lowpass** (R1 49.9 Ω + L1 270 nH series,
+  C1 120 pF shunt at the LM7171 input, fc ≈ 28 MHz) — tames Si5351
+  CMOS edges and drain-switching harmonics before the op-amp.
+- **LM7171 gain-of-4.2 non-inverting amp** (U1) with R8 = 1.5 kΩ
+  feedback and R5 = 470 Ω to GND; C23 = 2 pF across R8 compensates
+  the feedback above ~53 MHz for stability margin. See §5.4.
 - **MCP4728** (U3) — I²C 4-channel DAC on the +5 V rail, drives
   bias setpoints
 - **MCP4922** (U4) — SPI 2-channel DAC on the +5 V rail, drives the
@@ -259,7 +260,21 @@ umbilical signals keep the same net name on both ends.
 
 1. **Si5351A** output pin drives Q2 (40673 DGFET) **Gate 1** through
    a 100 nF AC coupling cap. G1 is DC-biased to roughly +2.45 V by
-   a 39 kΩ / 10 kΩ divider from +12 V. R21 = 1 MΩ gate return.
+   a 39 kΩ / 10 kΩ divider from +12 V. R21 = 100 kΩ gate return. An
+   input RC filter (R97 = 150 Ω series + C77 = 33 pF shunt to GND)
+   sits immediately in front of G1, forming a single-pole ~32 MHz
+   LPF to shave Si5351's sub-nanosecond CMOS edges before they hit
+   the DGFET.
+   ⚠ **Probing caveat at J9 pin 3 (Q2_PIN_3 test point):** J9.3 is
+   electrically on the G1 node, which means it sits across C77.
+   A standard passive scope probe (~15 pF tip capacitance) adds
+   significantly to the 33 pF of C77 and shifts the filter corner
+   down by roughly 30 %. Measurements at J9.3 are "circuit-
+   perturbing" — useful for sanity-checking that the input path is
+   alive during bringup, but not quantitatively representative of
+   the un-probed signal. Prefer a FET / active probe (sub-pF tip)
+   at J9.3, or measure further upstream at J9.1 (SI5351_OUT,
+   source Z ~50 Ω — tolerant of passive-probe loading).
 2. **Gate 2 of Q2** receives the envelope voltage. MCP4922 (U4) ch
    **B** (VoutB, pin 10) outputs 0 V…+5 V; this feeds **U11
    (TL071CP)** configured as an offset-mute op-amp whose transfer
@@ -272,14 +287,26 @@ umbilical signals keep the same net name on both ends.
    V_D ≈ +5.9 V). **There is no separate KEY_UP GPIO.** Firmware
    controls RF on/off entirely by what it writes to the envelope DAC
    channel.
-3. **DGFET drain** → **R1 (50 Ω) + C1 (100 pF) snubber** → single-
-   pole ~32 MHz LPF to tame Si5351's sub-nanosecond CMOS edges.
-4. **U1 LM7171** non-inverting amp with **build-time gain hedge**:
-    - R_f = 3 kΩ installed in the feedback path
-    - R_g to GND left **unpopulated by default** → unity gain
-    - Populate R_g = 1 kΩ → gain = 4, ~2 Vpp drive to the PA
-   The build-time choice lets the operator pick between class-AB
-   (R_g open, gentle drive) and class-C (R_g = 1 kΩ, hard drive).
+3. **DGFET drain → LC LPF → LM7171 input.** The drain signal passes
+   through **C9 = 10 nF C0G** (AC coupling, DC-blocks the ~5.9 V drain
+   rest voltage), then **R1 = 49.9 Ω series** (Thevenin source 50 Ω),
+   then **L1 = 270 nH series**, then arrives at the LM7171 (+) input
+   with **C1 = 120 pF shunt to GND**. This is a 2-pole L-C lowpass
+   with fc ≈ `1/(2π·√(L1·C1)) = 28 MHz` — passes 15 m (21 MHz) with
+   <0.5 dB loss, rolls off Si5351 edge content and drain-switching
+   harmonics above fc.
+4. **U1 LM7171 non-inverting amp, fixed gain = 4.2.** As-built:
+    - **R8 = 1.5 kΩ** in the feedback path (pin 6 → pin 2)
+    - **R5 = 470 Ω** from pin 2 to GND
+    - Gain = `1 + R8/R5 = 4.19`
+    - **C23 = 2 pF** across R8 adds a feedback compensation zero;
+      gain rolls off above `1/(2π·R8·C23) = 53 MHz`, well outside
+      the HF bands but inside the LM7171's 200 MHz GBW so it stabilises
+      the amplifier against VHF oscillation
+   Produces ~2 Vpp drive to the PA chain given a typical ~500 mVpp
+   signal at the LM7171 input. (Earlier builds used a "stuff R_g at
+   build time" hedge between unity gain and gain-of-4; Rev D commits
+   to the gain-of-4 configuration — R_g = R5 is always populated.)
 5. **R2 (50 Ω) series back-match** into coax, SMA J1 on analog →
    short RG316 → SMA J3 on ss_pa.
 6. **ss_pa T201** (BN61-2402) input transformer, 2-turn primary,
@@ -287,10 +314,23 @@ umbilical signals keep the same net name on both ends.
    center-tap. Phase-splits single-ended RF into push-pull drive for
    the BS170 pair.
 7. **BS170 PP pre-driver** (Q2, Q6). Each gate driven from one end
-   of T201 secondary via 220 Ω series. Each source grounded through
-   **2.2 Ω, 1/4 W** for source degeneration (no bypass cap — the
-   ~1.7 dB gain cost is accepted to buy stability and matched
-   behavior against FET-to-FET β spread).
+   of T201 secondary via **47 Ω series (R17, R18) + mix-43 ferrite
+   bead (Fair-Rite / Amidon FB-43-2401, hand-assembled: slip the
+   bead over one lead of the 47 Ω resistor before soldering, no
+   PCB footprint needed)**. The hybrid stopper gives roughly
+   120 Ω of effective impedance at 21 MHz (most of it from the R)
+   but climbs to ~280 Ω at 100 MHz and ~500 Ω at 500 MHz where
+   BS170 self-oscillation lives. Compared to a flat 220 Ω
+   resistor (previous design), this recovers ~1 dB of drive at
+   the operating frequency while improving VHF damping. Each
+   source grounded through **R15/R16 = 2.2 Ω, 1 W** (axial,
+   `R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_Horizontal`) for
+   source degeneration (no bypass cap — the ~1.7 dB gain cost
+   is accepted to buy stability and matched behavior against
+   FET-to-FET β spread). The 1 W rating is a 3–6× margin over
+   worst-case class-C hard-drive dissipation (~140 mW in the
+   resistor), well inside the de-rating curve for a DIN0411
+   axial carbon- or metal-film part running on this PCB.
 8. **ss_pa T202** (BN61-2402) interstage transformer. 3-pin bifilar
    primary (CT fed from +12 V through an L18 ferrite choke; outer
    pins to the two BS170 drains); 2-pin secondary (5 T) drives the
@@ -598,9 +638,14 @@ Known non-1/4 W resistors in Rev D:
 
 - **ss_pa R1–R4** — 0.22 Ω, 2 W (Yageo RSF200JT-73-0R22). Source
   sense + thermal degeneration on the IRF510 pair. In parallel,
-  0.11 Ω per final.
+  0.11 Ω per final. Footprint: `R_Axial_DIN0516_L15.5mm_D5.0mm_P20.32mm_Horizontal`.
+- **ss_pa R15, R16** — 2.2 Ω, 1 W. BS170 source degeneration (one
+  per BS170). Upsized from the original 1/4 W after a thermal
+  review showed worst-case class-C hard-drive dissipation at ~140
+  mW, which left no derating margin on 1/4 W.  Footprint:
+  `R_Axial_DIN0411_L9.9mm_D3.6mm_P12.70mm_Horizontal`.
 - **analog R42** — 24 Ω, 10 W. Bringup inrush limiter (bypassed by
-  K6 in normal operation).
+  K5 in normal operation; see §11 for why 24 Ω and not smaller).
 - **analog R44** — 15 Ω, 5 W. Current limit on the +12 V primary
   rail.
 
@@ -632,21 +677,23 @@ sensibly from the Chebyshev prototype
 
 ## 9. Operating classes (both will be explored in firmware)
 
-The design is deliberately set up so the operator can run the
-IRF510 PA in **either class-AB or class-C** without any hardware
-changes other than optionally populating R_g on U1 (the LM7171
-output buffer).
+The design is set up so the operator can run the IRF510 PA in
+**either class-AB or class-C** with no hardware changes between
+modes — only the PA_Bias_A/B DAC setpoint moves. The LM7171 is
+hard-wired to gain = 4.2 (see §5.4); there is no build-time
+gain-stuffing option in Rev D.
 
-- **Class-AB (default build):**
+- **Class-AB:**
     - PA_Bias_A/B set to ~3.8 V by MCP4728 — each IRF510 conducts
       slightly above threshold at idle
-    - U1 at unity gain (R_g unpopulated) → ~500 mVpp drive
-    - Approximate efficiency 50 %, output ~5 W
-- **Class-C (alternate build):**
+    - LM7171 gain = 4.2 delivers ~2 Vpp at the BS170 driver input;
+      the PA runs lean at this drive, producing ~5 W out at ~50 %
+      efficiency
+- **Class-C:**
     - PA_Bias_A/B dropped to ~1–2 V by MCP4728 — IRF510s off at
       idle; only strong signal peaks drive them above threshold
-    - R_g populated at 1 kΩ on U1 → gain = 4 → ~2 Vpp drive
-    - Approximate efficiency 75–80 %, output ~10 W
+    - Same ~2 Vpp drive but with low Q-point, the PA hard-switches
+      into class-C → ~10 W out at ~75-80 % efficiency
     - Harmonic content is worse but caught by the output LPF
 
 The firmware's PA monitoring is therefore not optional — the
@@ -664,10 +711,23 @@ to tune bias safely without burning IRF510s.
   this rail is dead at power-up because both K5 and K6 are gated by
   the Q7 heartbeat cascode (see §3.1), so no band-select relay can
   accidentally energize before firmware (a) starts the heartbeat and
-  (b) sets P13 (SS_PA_INRUSH_CTL) HIGH to close K6. A **62 Ω 1 W
+  (b) sets P13 (SS_PA_INRUSH_CTL) HIGH to close K6. A **62 Ω 1/2 W
   current-limit resistor (R28)** on the Output LPF board brings the
   G6K coil current back into spec at the higher 13.8 V rail (G6K is
-  a 12 V coil nominal).
+  a 12 V coil nominal). R28 downsized from 1 W to 1/2 W after a
+  dissipation review — steady-state power is only ~17 mW with one
+  band + T/R energized (~3.4 % of a 1/2 W rating); worst-case
+  simultaneous energize of all 5 relays during the brief boot
+  transient is ~104 mW (~21 % of 1/2 W). Footprint:
+  `R_Axial_DIN0309_L9.0mm_D3.2mm_P12.70mm_Horizontal`.
+  **Cosmetic note:** the downstream relay-coil rail on the LPF
+  board is labeled `+12V` in the LPF schematic. This label collides
+  with the analog board's actual regulated +12 V (LM2940CT-12
+  output) — they are **different nets** that happen to share a
+  name. Treat the LPF-local `+12V` as a renamed instance of
+  "SS_PWR_PRE after R28 drop" (typically ~12.8 V with one band
+  relay energized). A future cleanup pass should rename the LPF
+  net to `LPF_COIL_PWR` or similar to avoid the collision.
 - **J31** Analog ↔ ss_pa — RJ45 CAT6:
   - Pins 1, 4: `Source_Sense_A_Raw`, `Source_Sense_B_Raw` (10×
     pre-amplified source voltage, ss_pa → analog)

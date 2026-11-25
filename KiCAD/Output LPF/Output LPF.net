@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "C:\\Users\\AlAnd\\Git Backed Projects\\xmitter\\KiCAD\\Output LPF\\Output LPF.kicad_sch")
-		(date "2026-11-17T20:28:24")
+		(date "2026-11-24T20:21:11")
 		(tool "Eeschema 10.0.3")
 		(sheet
 			(number "1")
@@ -608,7 +608,7 @@
 		)
 		(comp
 			(ref "CF4")
-			(value "470pF 200V C0G")
+			(value "430pF 200V C0G")
 			(footprint "Capacitor_THT:C_Disc_D7.5mm_W2.5mm_P5.00mm")
 			(description "Unpolarized capacitor")
 			(fields
@@ -740,7 +740,7 @@
 		)
 		(comp
 			(ref "CF6")
-			(value "820pF 200V C0G")
+			(value "750pF 200V C0G")
 			(footprint "Capacitor_THT:C_Disc_D7.5mm_W2.5mm_P5.00mm")
 			(description "Unpolarized capacitor")
 			(fields
@@ -872,7 +872,7 @@
 		)
 		(comp
 			(ref "CF8")
-			(value "820pF 200V C0G")
+			(value "750pF 200V C0G")
 			(footprint "Capacitor_THT:C_Disc_D7.5mm_W2.5mm_P5.00mm")
 			(description "Unpolarized capacitor")
 			(fields
@@ -1532,7 +1532,7 @@
 		)
 		(comp
 			(ref "CF26")
-			(value "470pF 200V C0G")
+			(value "430pF 200V C0G")
 			(footprint "Capacitor_THT:C_Disc_D7.5mm_W2.5mm_P5.00mm")
 			(description "Unpolarized capacitor")
 			(fields
@@ -3119,7 +3119,7 @@
 		)
 		(comp
 			(ref "L18")
-			(value "1416/1444nH, 19T")
+			(value "1333/1296nH, 18T")
 			(footprint "xmitter:T50-6_Vertical_HandWound")
 			(datasheet "kitsandparts.com/toroids.php")
 			(description "T50-6 toroid")
@@ -3173,7 +3173,7 @@
 		)
 		(comp
 			(ref "L19")
-			(value "1565/1600nH, 20T")
+			(value "1474/1444nH, 19T")
 			(footprint "xmitter:T50-6_Flat_HandWound")
 			(description "T50-6")
 			(fields
@@ -3227,7 +3227,7 @@
 		)
 		(comp
 			(ref "L20")
-			(value "1416/1444nH 19T")
+			(value "1333/1296nH, 18T")
 			(footprint "xmitter:T50-6_Vertical_HandWound")
 			(datasheet "kitsandparts.com/toroids.php")
 			(description "T50-6 toroid")
@@ -6824,7 +6824,7 @@
 		(net
 			(code "41")
 			(name "RF_FINAL_OUT")
-			(class "Default")
+			(class "RF")
 			(node
 				(ref "K1")
 				(pin "4")
@@ -7056,21 +7056,6 @@
 		)
 		(net
 			(code "51")
-			(name "T{slash}R RELAY")
-			(class "Default")
-			(node
-				(ref "J2")
-				(pin "1")
-				(pintype "passive")
-			)
-			(node
-				(ref "R17")
-				(pin "1")
-				(pintype "passive")
-			)
-		)
-		(net
-			(code "52")
 			(name "T{slash}R_DRIVE")
 			(class "Default")
 			(node
@@ -7088,6 +7073,21 @@
 				(ref "Q6")
 				(pin "3")
 				(pinfunction "D_3")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "52")
+			(name "T{slash}R_RELAY")
+			(class "Default")
+			(node
+				(ref "J2")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R17")
+				(pin "1")
 				(pintype "passive")
 			)
 		)
