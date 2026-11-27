@@ -5068,12 +5068,6 @@
 		(uuid "465d3feb-a4d8-447f-8136-e2706369e8ff")
 	)
 	(junction
-		(at 157.48 92.71)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "4914aa89-04eb-4e94-addf-53f150c0de23")
-	)
-	(junction
 		(at 118.11 109.22)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -5156,6 +5150,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "6cccf593-a2a2-4c08-9e0b-c4bba82a4238")
+	)
+	(junction
+		(at 157.48 92.71)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "6eca8753-1c81-485b-95f7-86f294ebf5ce")
 	)
 	(junction
 		(at 172.72 78.74)
@@ -8012,6 +8012,87 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:R_US")
+		(at 161.29 86.36 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "0df7548b-35d5-4366-8a1d-7a830da6eb14")
+		(property "Reference" "R4"
+			(at 162.814 84.582 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "0.2R 15W"
+			(at 163.83 87.6299 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Package_TO_SOT_THT:TO-126-2_Vertical"
+			(at 162.306 86.614 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 161.29 86.36 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor, US symbol"
+			(at 161.29 86.36 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "aad2d528-4558-4839-acd6-f68f6376ff1a")
+		)
+		(pin "2"
+			(uuid "976de8d9-02b4-4775-a5f0-a2f2b97ebb30")
+		)
+		(instances
+			(project "ss_pa"
+				(path "/7b9fe991-54d6-43c4-a637-0ed9ee982c42/6995ca2b-35a4-4871-8cf2-3a0067e62105"
+					(reference "R4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "xmitter:+13.8V")
 		(at 199.39 128.27 90)
 		(unit 1)
@@ -9973,87 +10054,6 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:R_US")
-		(at 157.48 96.52 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "3b843b01-547c-4239-b28d-d8994fd357bd")
-		(property "Reference" "R4"
-			(at 153.162 99.314 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "0.22R 2W"
-			(at 153.162 101.854 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0516_L15.5mm_D5.0mm_P20.32mm_Horizontal"
-			(at 158.496 96.774 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 157.48 96.52 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Resistor, US symbol"
-			(at 157.48 96.52 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "7d422d39-a608-48aa-be3e-6f7b220a9f08")
-		)
-		(pin "2"
-			(uuid "95f5a4f6-b892-4a55-97b9-da2caa4cfa5c")
-		)
-		(instances
-			(project "ss_pa"
-				(path "/7b9fe991-54d6-43c4-a637-0ed9ee982c42/6995ca2b-35a4-4871-8cf2-3a0067e62105"
-					(reference "R4")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:C")
 		(at 161.29 123.19 180)
 		(unit 1)
@@ -11369,7 +11369,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "0.22R 2W"
+		(property "Value" "0.2R 15W"
 			(at 163.83 97.7899 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11380,7 +11380,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0516_L15.5mm_D5.0mm_P20.32mm_Horizontal"
+		(property "Footprint" "Package_TO_SOT_THT:TO-126-2_Vertical"
 			(at 162.306 96.774 90)
 			(hide yes)
 			(show_name no)
@@ -12479,6 +12479,87 @@
 	)
 	(symbol
 		(lib_id "Device:R_US")
+		(at 157.48 96.52 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "8593c2e7-d3a9-4f0a-9f6a-d25f608269cd")
+		(property "Reference" "R25"
+			(at 152.4 89.408 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "0.2R 15W"
+			(at 152.4 91.948 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Package_TO_SOT_THT:TO-126-2_Vertical"
+			(at 158.496 96.774 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 157.48 96.52 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor, US symbol"
+			(at 157.48 96.52 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "16e58ac4-2de5-4309-96fd-32610e5d78db")
+		)
+		(pin "2"
+			(uuid "b05bd56a-ed2a-49a5-a9ab-6fe9c4177f13")
+		)
+		(instances
+			(project "ss_pa"
+				(path "/7b9fe991-54d6-43c4-a637-0ed9ee982c42/6995ca2b-35a4-4871-8cf2-3a0067e62105"
+					(reference "R25")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_US")
 		(at 146.05 168.91 90)
 		(unit 1)
 		(body_style 1)
@@ -12793,88 +12874,6 @@
 			(project "ss_pa"
 				(path "/7b9fe991-54d6-43c4-a637-0ed9ee982c42/6995ca2b-35a4-4871-8cf2-3a0067e62105"
 					(reference "C13")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R_US")
-		(at 161.29 86.36 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "8b957522-832f-4498-a152-d87971f102f4")
-		(property "Reference" "R1"
-			(at 163.83 85.0899 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "0.22R 2W"
-			(at 163.83 87.6299 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0516_L15.5mm_D5.0mm_P20.32mm_Horizontal"
-			(at 162.306 86.614 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 161.29 86.36 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Resistor, US symbol"
-			(at 161.29 86.36 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "d00bd3de-b913-421f-9157-df55d7c84583")
-		)
-		(pin "2"
-			(uuid "41ffbc09-0496-4ce4-8ce4-414dda2a3f27")
-		)
-		(instances
-			(project "ss_pa"
-				(path "/7b9fe991-54d6-43c4-a637-0ed9ee982c42/6995ca2b-35a4-4871-8cf2-3a0067e62105"
-					(reference "R1")
 					(unit 1)
 				)
 			)
@@ -14543,6 +14542,87 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:R_US")
+		(at 157.48 86.36 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "b2ac8f46-85cd-47f3-9b8c-77604bc9aa57")
+		(property "Reference" "R24"
+			(at 157.226 79.502 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "0.2R 15W"
+			(at 156.21 81.5341 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Package_TO_SOT_THT:TO-126-2_Vertical"
+			(at 158.496 86.614 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 157.48 86.36 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor, US symbol"
+			(at 157.48 86.36 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "3178dd92-4572-4673-8800-19bc68a506e9")
+		)
+		(pin "2"
+			(uuid "de12253d-14c4-4af5-95bc-fa5ac50d8905")
+		)
+		(instances
+			(project "ss_pa"
+				(path "/7b9fe991-54d6-43c4-a637-0ed9ee982c42/6995ca2b-35a4-4871-8cf2-3a0067e62105"
+					(reference "R24")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "xmitter:GND")
 		(at 209.55 118.11 0)
 		(unit 1)
@@ -14862,87 +14942,6 @@
 			(project "ss_pa"
 				(path "/7b9fe991-54d6-43c4-a637-0ed9ee982c42/6995ca2b-35a4-4871-8cf2-3a0067e62105"
 					(reference "#PWR017")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R_US")
-		(at 157.48 86.36 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "c4a68f7f-2c34-4ae4-b435-ec67823550cf")
-		(property "Reference" "R2"
-			(at 151.384 85.852 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "0.22R 2W"
-			(at 151.384 88.392 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0516_L15.5mm_D5.0mm_P20.32mm_Horizontal"
-			(at 158.496 86.614 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 157.48 86.36 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Resistor, US symbol"
-			(at 157.48 86.36 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "2f1d63e2-5a47-435a-a8f9-9591be248d07")
-		)
-		(pin "2"
-			(uuid "ea295fa2-5235-415c-a0bc-67402dfa35f8")
-		)
-		(instances
-			(project "ss_pa"
-				(path "/7b9fe991-54d6-43c4-a637-0ed9ee982c42/6995ca2b-35a4-4871-8cf2-3a0067e62105"
-					(reference "R2")
 					(unit 1)
 				)
 			)
